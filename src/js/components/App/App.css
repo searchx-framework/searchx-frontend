@@ -1,0 +1,6 @@
+@import url('../../../../node_modules/normalize.css/normalize.css');
+@import url('../variables.css');
+
+body {
+    color: $text-color;
+}

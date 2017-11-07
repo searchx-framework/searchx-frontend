@@ -1,0 +1,15 @@
+@import '../variables.css';
+
+.Logo {
+    height: 80px;
+    background: url('/img/searchx_logo.png') center center;
+    background-size: contain;
+    background-repeat: no-repeat;
+   
+}
+
+p {
+    padding-right: 0px;
+    color: #545454;
+    font-size: 85%;
+}

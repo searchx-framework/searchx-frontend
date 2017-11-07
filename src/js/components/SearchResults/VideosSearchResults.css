@@ -1,0 +1,12 @@
+@import '../variables.css';
+
+.VideosSearchResults {
+
+    &-result {
+        float: left;
+        margin-left: 10px;
+        margin-bottom: 10px;
+    }
+}
+
+
