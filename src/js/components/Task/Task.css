@@ -1,0 +1,18 @@
+@import url('../variables.css');
+
+.Task {
+    padding: 10px;
+    height: 100px;
+    margin-right: -10px;
+
+    background-color: #ffffff;
+
+    -webkit-box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.04);
+    -moz-box-shadow:    0px 0px 10px 0px rgba(50, 50, 50, 0.04);
+    box-shadow:         0px 0px 10px 0px rgba(50, 50, 50, 0.04);
+
+    &-title {
+        font-weight: 700;
+        font-size: 1.3em;
+    }
+}

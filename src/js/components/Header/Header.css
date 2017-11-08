@@ -8,15 +8,10 @@
     border-bottom: 1px solid $border-color;
 
     height: 130px;
-    padding-top: 5px;
-    padding-bottom: 0px;
+    padding: 15px 10px 0px 10px;
 
     &-logo {
         padding: 0px;
         width: 160px;
-    }
-
-    .search-bar {
-        margin: 10px;
     }
 }
