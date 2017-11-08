@@ -14,10 +14,10 @@ export default class Header extends React.Component {
                 <div className="col-sm-12 col-sm-1 text-center Header-logo">
                     <Logo />
                 </div>
-                <div className="col-sm-12 col-sm-6">
+                <div className="col-sm-12 col-sm-5">
                     <Search />
                 </div>
-                <div className="col-sm-12 col-sm-4 pull-right">
+                <div className="col-sm-12 col-sm-5 pull-right">
                     <Task />
                 </div>
                 
