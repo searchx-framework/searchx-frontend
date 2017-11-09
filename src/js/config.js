@@ -1,5 +1,5 @@
 module.exports = {
-    taskFileLocation: '/task/task1.json',
+    taskFileLocation: '/task/tasks.json',
     surveyUrl: 'https://google.com',
 
     forumSnippetLength: 100, /* number of characters at which '...' replaces further content in forum bodies */

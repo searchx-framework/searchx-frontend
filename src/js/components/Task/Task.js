@@ -6,23 +6,26 @@ import CountDown from './CountDown';
 var configuration = require('../../config');
 
 class Task extends React.Component {    
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
+            userId: this.props.userId,
             surveyUrl: configuration.surveyUrl
         };
-        this.setTaskData();
+
+        this.setTaskData(this.props.taskId);
     }
 
-    setTaskData() {
+    setTaskData(taskId) {
         fetch(configuration.taskFileLocation)
             .then(res => res.json())
             .then(data => {
+                let task = data[taskId];
                 this.setState({
-                    id: data.id,
-                    title: data.title,
-                    instruction: data.instruction,
-                    duration: data.minutes
+                    taskId: taskId,
+                    title: task.title,
+                    instruction: task.instruction,
+                    duration: task.minutes
                 })
             })
     }
