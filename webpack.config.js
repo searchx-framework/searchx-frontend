@@ -59,7 +59,7 @@ module.exports = {
             serverUrl: "https://searchx.ewi.tudelft.nl:443",
             logTimeInterval: 5000
         } : {
-            serverUrl: "https://localhost:4443",
+            serverUrl: "https://52.58.223.73:4443",
             logTimeInterval: 5000,
             redirectSearchBox: {
                 "SBD101X": "https://edge.edx.org/courses/course-v1:DelftX+SBD101X+2017_T2/aa17b838d481463489e6d2f16c99b2b4/",
