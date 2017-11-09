@@ -1,10 +1,11 @@
 import './Header.css';
 
 import React from 'react';
-
 import Logo from './Logo';
 import Search from './Search';
 import Task from '../Task/Task';
+
+import account from '../../stores/AccountStore';
 
 
 export default class Header extends React.Component {
@@ -15,12 +16,11 @@ export default class Header extends React.Component {
                     <Logo />
                 </div>
                 <div className="col-sm-12 col-sm-5">
-                    <Search />
+                    <Search userId={account.getId()} courseId={account.getCourseId()} aOrB={account.getAorB()} />
                 </div>
                 <div className="col-sm-12 col-sm-5 pull-right">
-                    <Task />
+                    <Task userId={account.getId()} taskId={account.getTaskId()} />
                 </div>
-                
             </div>
         )
     }
