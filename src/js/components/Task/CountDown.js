@@ -69,8 +69,10 @@ class CountDown extends React.Component {
     /* ---- */
 
     render () {
-        return(
-            <div className="countdown">
+        let classes = this.state.seconds <= 0 ? "invisible" : "";
+
+        return (
+            <div className={"countdown " + classes}>
                 {this.padZero(this.state.time.m)}:{this.padZero(this.state.time.s)}
             </div>
         )
