@@ -21,12 +21,22 @@ class Task extends React.Component {
             .then(res => res.json())
             .then(data => {
                 let task = data[taskId];
-                this.setState({
-                    taskId: taskId,
-                    title: task.title,
-                    instruction: task.instruction,
-                    duration: task.minutes
-                })
+
+                if (task === undefined) {
+                    this.setState({
+                        taskId: taskId,
+                        title: "Task Not Found",
+                        instruction: "Invalid task id.",
+                        duration: 0
+                    })
+                } else {
+                    this.setState({
+                        taskId: taskId,
+                        title: task.title,
+                        instruction: task.instruction,
+                        duration: task.minutes
+                    })
+                }
             })
     }
 

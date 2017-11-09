@@ -5,7 +5,8 @@ class CountDown extends React.Component {
         super(props);
         this.state = {
             time: {},
-            url: ""
+            url: "",
+            seconds: this.props.minutes * 60
         }
 
         this.countDown = this.countDown.bind(this);
@@ -42,8 +43,9 @@ class CountDown extends React.Component {
     }
 
     padZero(num) {
-        if (num < 10) {
-            return '0' + num
+        console.log(num);
+        if (num < 10 && num > 0) {
+            return '0' + num;
         };
 
         return num;
@@ -57,10 +59,10 @@ class CountDown extends React.Component {
             seconds: seconds,
         });
         
-        if (seconds == 0) { 
+        if (seconds <= 0) { 
             clearInterval(this.timer);
             
-            if (this.state.url !== "") {
+            if (seconds == 0 && this.state.url !== "") {
                 window.location.href = this.state.url;
             }
         }
@@ -69,10 +71,10 @@ class CountDown extends React.Component {
     /* ---- */
 
     render () {
-        let classes = this.state.seconds <= 0 ? "invisible" : "";
+        let classes = this.state.seconds <= 0 ? " invisible" : "";
 
         return (
-            <div className={"countdown " + classes}>
+            <div className={"countdown" + classes}>
                 {this.padZero(this.state.time.m)}:{this.padZero(this.state.time.s)}
             </div>
         )
