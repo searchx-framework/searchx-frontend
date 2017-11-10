@@ -1,12 +1,11 @@
 import React from 'react';
 
-class CountDown extends React.Component {    
+class Counter extends React.Component {    
     constructor(props) {
         super(props);
         this.state = {
             time: {},
-            url: "",
-            seconds: this.props.minutes * 60
+            url: ""
         }
 
         this.countDown = this.countDown.bind(this);
@@ -18,9 +17,30 @@ class CountDown extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        let prevUser = localStorage.getItem("count-user");
+        let prevTask = localStorage.getItem("count-task");
+        let prevSecs = localStorage.getItem("count-seconds");
+
+        if (prevUser !== null && prevTask !== null && prevSecs !== null) {
+            if (prevUser == nextProps.userId && prevTask == nextProps.taskId) {
+                this.setState({
+                    task: nextProps.taskId,
+                    duration: nextProps.minutes * 60,
+                    seconds: prevSecs
+                });
+
+                return;
+            }
+        }
+
         this.setState({
-            seconds: nextProps.minutes * 60
+            task: nextProps.taskId,
+            seconds: nextProps.minutes * 60,
+            duration: nextProps.minutes * 60
         });
+
+        localStorage.setItem("count-user", nextProps.userId)
+        localStorage.setItem("count-task", nextProps.taskId)
     }
 
     /* ---- */
@@ -43,8 +63,7 @@ class CountDown extends React.Component {
     }
 
     padZero(num) {
-        console.log(num);
-        if (num < 10 && num > 0) {
+        if (num < 10 && num >= 0) {
             return '0' + num;
         };
 
@@ -53,9 +72,11 @@ class CountDown extends React.Component {
 
     countDown() {
         let seconds = this.state.seconds - 1;
+        let displaySeconds = this.state.duration - seconds;
+        localStorage.setItem("count-seconds", seconds);
 
         this.setState({
-            time: this.secondsToTime(seconds),
+            time: this.secondsToTime(displaySeconds),
             seconds: seconds,
         });
         
@@ -74,11 +95,11 @@ class CountDown extends React.Component {
         let classes = this.state.seconds <= 0 ? " invisible" : "";
 
         return (
-            <div className={"countdown" + classes}>
+            <div className={"counter" + classes}>
                 {this.padZero(this.state.time.m)}:{this.padZero(this.state.time.s)}
             </div>
         )
     }
 }
 
-export default CountDown;
+export default Counter;
