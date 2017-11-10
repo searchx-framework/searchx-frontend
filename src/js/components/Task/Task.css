@@ -16,11 +16,20 @@
 
     &-info {
         text-align: left;
+        width: auto;
+        height: 100%;
+        overflow-y: scroll;
+
+        &-title {
+            font-weight: 700;
+            font-size: 1.2em;
+        }
     }
 
-    &-title {
-        font-weight: 700;
-        font-size: 1.2em;
+    &-submit {
+        width: 80px;
+        float: right;
+        margin-left: 10px;
     }
 
     .countdown {
