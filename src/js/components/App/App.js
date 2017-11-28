@@ -19,16 +19,16 @@ import AppActions from '../../actions/AppActions';
 import {flush,log} from '../../logger/Logger';
 
 import Template from './AppTemplate';
-import SiteSearch from '../SiteSearch/SiteSearch';
+import PreTest from './PreTest';
+import PostTest from './PostTest';
 
 import About from './About';
 
+import Welcome from './Welcome';
 
 var config = require('config');
 
 import AccountStore from '../../stores/AccountStore';
-
-
 
 
 export class App extends React.Component {
@@ -46,12 +46,13 @@ export class App extends React.Component {
     };
 
         render() {
-        
         return (
-            <Router history={history}>
+            <Router>
                 <div>
-                    <Route exact path="/" component={Template}/>
-                    <Route path="/site-search" component={SiteSearch}/>
+                    <Route exact path="/" component={Welcome}/>
+                    <Route path="/search" component={Template}/>
+                    <Route path="/pretest" component={PreTest}/>
+                    <Route path="/posttest" component={PostTest}/>
                     <Route path="/about" component={About}/>
                 </div>
             </Router>

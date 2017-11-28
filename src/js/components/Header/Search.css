@@ -2,18 +2,19 @@
 
 .Search {
     &-box {
-        max-width: 650px;
-        height: 60px;
+        width: 632px;
+        height: 50px;
 
         margin-top: 5px;
         margin-bottom: 15px;
-        padding-top: 10px;
-        padding-bottom: 10px;
+        padding-top: 0;
+        padding-bottom: 0px;
 
         input {
             border-radius: 0px;
-            box-shadow: none;
+            box-shadow: #000;
             color: #000;
+            height: 44px;
         }
 
 
@@ -21,8 +22,8 @@
             color: #fff;
             background-color: $primary-color;
 
-            width: 40px;
-            height: 40px;
+            width: 47px;
+            height: 44px;
 
             &:hover, &:focus {
                 color: #fff;
@@ -33,7 +34,7 @@
     }
 
     &-verticals {
-        padding-top: 20px;
+        padding-top: 5px;
 
         ul {
             float:left;

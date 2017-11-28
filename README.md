@@ -1,6 +1,6 @@
-# Pienapple installation instructions
+# SearchX installation instructions
 
-Set Pienapple backend API:
+Set SearchX backend API:
 In webpack.config.js set in externals the host of the production or development:
 ```
     externals: {

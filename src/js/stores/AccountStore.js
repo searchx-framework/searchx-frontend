@@ -38,28 +38,16 @@ var courseId = function() {
     return "outer";
 }
 
-var taskId = function() {
+var getTaskId = function() {
     return 1;
 }
-
-var getAorB = function(userId){
-    var num = 1;
-    for (let i = 0 ; i < userId.length; i++ ){
-        num += userId.charCodeAt(i);
-    }
-
-    return ( (num % 2) == 0);
-}
-
 
 /*****************************/
 
 
 var state = {
     userId: getParameterByName('anonId') || '',
-    taskId: taskId(),
-    courseId: courseId(),
-    AorB: getAorB(getParameterByName('anonId')||'')
+    taskId: "10"
 };
 
 const AccountStore = Object.assign(EventEmitter.prototype, {
@@ -87,6 +75,10 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
 
     getTaskId() {
         return state.taskId;
+    },
+
+    setTaskId(tid) {
+        state.taskId = tid;
     },
 
     getCourseId() {

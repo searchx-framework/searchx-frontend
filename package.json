@@ -5,7 +5,7 @@
   "main": "gulpfile.js",
   "scripts": {
     "postinstall": "webpack --config webpack.config.js --progress --colors",
-    "start": "webpack-dev-server --https",
+    "start": "webpack-dev-server",
     "test": "jest"
   },
   "dependencies": {
@@ -39,6 +39,8 @@
     "request": "^2.83.0",
     "style-loader": "^0.13.2",
     "superagent": "^1.8.5",
+    "survey-react": "^0.96.3",
+    "underscore": "^1.8.3",
     "webpack": "^2.7.0",
     "webpack-dev-server": "^2.9.3"
   },
