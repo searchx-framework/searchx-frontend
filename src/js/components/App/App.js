@@ -33,7 +33,7 @@ import AccountStore from '../../stores/AccountStore';
 
 export class App extends React.Component {
     componentWillMount(){
-        var courseId = AccountStore.getCourseId();
+        var taskId = AccountStore.getTaskId();
         
         setInterval( flush, config.logTimeInterval);
 

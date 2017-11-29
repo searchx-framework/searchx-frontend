@@ -8,7 +8,6 @@ import request from 'superagent';
 
 
 const CHANGE_EVENT = 'change_account';
-var courseList = ["CTB3365STx", "CTB3365DWx","SBD101X"];
 
 var getParameterByName = function (name, url) {
     if (!url) url = window.location.href;
@@ -23,22 +22,8 @@ var getParameterByName = function (name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 };
 
-var courseId = function() {
-    var url = (window.location != window.parent.location)
-            ? document.referrer
-            : document.location.href;
-
-    for (let i = 0; i < courseList.length; i++) {
-        var re = new RegExp(courseList[i]);
-        if (re.test(url)){
-            return courseList[i];
-        }
-    }
-
-    return "outer";
-}
-
 var getTaskId = function() {
+    // TODO : properly set task id
     return 1;
 }
 
@@ -79,10 +64,6 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
 
     setTaskId(tid) {
         state.taskId = tid;
-    },
-
-    getCourseId() {
-        return state.courseId;
     },
     
     getAorB(){

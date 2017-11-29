@@ -18,7 +18,7 @@ export default class SearchVerticals extends React.Component {
             }
             return (
                 <li key={index} className={cn} onClick={this.props.changeHandler.bind(this, vertical)}>
-                    {vertical == "Forums" ? "Course discussion" : vertical}
+                    {vertical}
                 </li>
             )
         });

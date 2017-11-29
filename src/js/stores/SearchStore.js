@@ -18,7 +18,6 @@ var _getURLParameter = (name) => {
 };
 
 
-
 var state = {
     query: _getURLParameter('q') || '',
     vertical: _getURLParameter('v') || 'web',
@@ -32,87 +31,6 @@ var state = {
     serp_id: '',
     resultsNotFound: false
 };
-
-
-/* turn to standard javascript */
-/* this functionality enables the display of edx discussion forum entries when pienapple is deployed in an iframe within edx.org */
-/* it makes use of the window.postMessage API */
-/* note that this functionality requires a counterpart snippet to accept and process the messages on edx.org */ 
-window.addEventListener('message', function (event) {
-    
-    //are we receiving events from the right source?
-    if (event.origin != configuration.edxDomain)
-        return;
-
-    var json = JSON.parse(event.data);
-
-
-    var entries = json.discussion_data.length;
-    var numberOfMatches = json.num_pages *20;
-    if (json.num_pages == 1) {
-        numberOfMatches = entries;
-    }
-    state.matches = entries;
-    state.results = [];
-    var forums_results = [];
-    for (let i = 0; i < entries; i++) {
-        var t = json.discussion_data[i].title;
-        var b = json.discussion_data[i].body;
-        var limit = configuration.forumSnippetLength;
-        if (b.length > limit) {
-            b = b.substring(0, limit) + "...";
-        }
-
-        //FIX: not thoroughly tested, may only work for top-level discussion items!
-        var u = event.origin + "/courses/" + json.discussion_data[i].course_id + "/discussion/forum/" + json.discussion_data[i].commentable_id + "/threads/" + json.discussion_data[i].id;
-
-        //instead of a URL (as in other searches), we display the topic the 
-        //post was made in
-        var v = json.discussion_data[i].courseware_title;
-
-        //update the state of the forum results
-        forums_results.push({
-            url: u,
-            name: t,
-            displayUrl: v,
-            snippet: b,
-            position: i
-        })
-    }
-    
-    var date = new Date();
-    request
-        .post(Config.serverUrl + '/v1/search/forums/?query='+state.query + '&page=' + state.pageNumber + '&courseId=' + AccountStore.getCourseId())
-        .send({
-            results: forums_results,
-            date: date,
-            matches: numberOfMatches
-        })
-        .end((err, res) => {
-            //console.log(res.body);
-        });
-    
-    state.results = forums_results;
-    state.elapsedTime = (new Date().getTime()) - state.elapsedTime;
-    state.finished = true;
-    state.serp_id = state.query + "_forums_" + state.pageNumber + "_" + date.getTime();
-    state.matches = numberOfMatches; 
-    var metaInfo = {
-        query: state.query,
-        page: state.pageNumber,
-        vertical: state.vertical,
-        serp_id: state.serp_id,
-        elapsedTime: state.elapsedTime
-    }
-    log(LoggerEventTypes.SEARCHRESULT_ELAPSEDTIME, metaInfo);
-
-    if (state.results.length == 0) {
-        state.resultsNotFound = true;
-    }
-    SearchStore.emitChange();
-
-}, false);
-
 
 
 var _search = (query,pageNumber) => {   
@@ -133,7 +51,7 @@ var _search = (query,pageNumber) => {
 
     request
         .get(Config.serverUrl + '/v1/search/'+state.vertical+'/?query='+state.query+ '&page=' 
-            + pageNumber + '&userId=' + AccountStore.getId() + '&courseId=' + AccountStore.getCourseId())
+            + pageNumber + '&userId=' + AccountStore.getId())
         .end((err, res) => {
             if (!res.body.error) {
 
@@ -200,8 +118,7 @@ var _rating = function(url,vertical,serpId, discount,signal){
         discount: discount,
         vertical: vertical,
         url: url,
-        serpId: serpId,
-        courseId: AccountStore.getCourseId()
+        serpId: serpId
     })
     .end((err, res) => {
         //console.log(res.body);
@@ -224,8 +141,6 @@ var _changeQuery = (query) => {
 };
 
 const SearchStore = Object.assign(EventEmitter.prototype, {
-
-    
 
     emitChange() {
         this.emit(CHANGE_EVENT);

@@ -17,7 +17,7 @@ export default class Header extends React.Component {
                     <Logo />
                 </div>
                 <div className="col-sm-12 col-sm-4">
-                    <Search userId={account.getId()} courseId={account.getCourseId()} aOrB={account.getAorB()} />
+                    <Search userId={account.getId()} taskId={account.getTaskId()} aOrB={account.getAorB()} />
                 </div>
                 <div className="col-sm-12 col-sm-5 pull-right">
                     <Task userId={account.getId()} taskId={account.getTaskId()} />

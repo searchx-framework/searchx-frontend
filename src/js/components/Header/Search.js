@@ -47,7 +47,7 @@ class Search extends React.Component {
         super(props);
         this.state = Object.assign(getSearchState(), {
             userId: this.props.userId,
-            courseId: this.props.courseId,
+            taskId: this.props.taskId,
             aOrB: this.props.aOrB
         });
 
@@ -95,7 +95,7 @@ class Search extends React.Component {
         });
 
         request
-        .get(config.serverUrl + '/v1/users/'+ this.state.userId + '/profile/?courseId=' + this.state.courseId)
+        .get(config.serverUrl + '/v1/users/'+ this.state.userId + '/profile/?taskId=' + this.state.taskId)
         .end((err, res) => {
             console.log()
             if (!res.body.found) {
