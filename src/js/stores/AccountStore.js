@@ -27,7 +27,11 @@ var getParameterByName = function (name, url) {
 
 
 var state = {
-    userId: getParameterByName('anonId') || ''
+
+    userId: localStorage.getItem("userId") || '' ,
+    taskType : localStorage.getItem("taskType") || '',
+    taskDuration: localStorage.getItem("taskDuration")|| '',
+    topicId: localStorage.getItem('topicId') || ''
 };
 
 const AccountStore = Object.assign(EventEmitter.prototype, {
@@ -53,11 +57,11 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
         return state.userId;
     },
 
-    getAorB(){
-        return state.AorB;
+    setId(userId) {
+        localStorage.setItem("userId", userId);
+        state.userId = userId
+        return state.userId;
     },
-
-    ////
 
     getTopicId() {
         return state.topicId;
@@ -72,6 +76,10 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
     },
 
     setTask(topicId, type, minutes) {
+        localStorage.setItem("topicId", topicId)
+        localStorage.setItem("taskType", type)
+        localStorage.setItem("taskDuration", minutes)
+
         state.topicId = topicId;
         state.taskType = type;
         state.taskDuration = minutes;

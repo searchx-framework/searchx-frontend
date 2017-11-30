@@ -2064,10 +2064,7 @@ var getParameterByName = function getParameterByName(name, url) {
 /*****************************/
 
 var state = {
-    userId: getParameterByName('anonId') || '',
-    topicId: getParameterByName('topic') || '',
-    taskType: getParameterByName('type') || '',
-    taskDuration: getParameterByName('duration') || ''
+    userId: getParameterByName('anonId') || ''
 };
 
 var AccountStore = Object.assign(_events2.default.prototype, {
@@ -8656,7 +8653,6 @@ var TaskStore = Object.assign(_events2.default.prototype, {
     ////
 
     getPreTest: function getPreTest() {
-        console.log(_topics2.default);
         var sampledTopics = sample(Object.keys(_topics2.default), 5);
         var pages = [];
         var elements = [];
@@ -39137,10 +39133,10 @@ var Header = function (_React$Component) {
                     { className: 'col-sm-12 col-sm-4' },
                     _react2.default.createElement(_SearchBar2.default, { userId: _AccountStore2.default.getId(), topicId: topicId, aOrB: _AccountStore2.default.getAorB() })
                 ),
-                topicId != '' && _react2.default.createElement(
+                topicId && _react2.default.createElement(
                     'div',
                     { className: 'col-sm-12 col-sm-5 pull-right' },
-                    _react2.default.createElement(_Task2.default, { userId: _AccountStore2.default.getId(), topicId: topicId })
+                    _react2.default.createElement(_Task2.default, { userId: _AccountStore2.default.getId(), topicId: topicId, duration: _AccountStore2.default.getTaskDuration() })
                 )
             );
         }
@@ -40807,7 +40803,10 @@ var Counter = function (_React$Component) {
 
         _this.state = {
             time: {},
-            url: ""
+            url: "",
+            topic: props.topicId,
+            duration: props.minutes * 60,
+            seconds: _this.getSeconds(props)
         };
 
         _this.countDown = _this.countDown.bind(_this);
@@ -40820,32 +40819,22 @@ var Counter = function (_React$Component) {
     }
 
     _createClass(Counter, [{
-        key: "componentWillReceiveProps",
-        value: function componentWillReceiveProps(nextProps) {
+        key: "getSeconds",
+        value: function getSeconds(nextProps) {
             var prevUser = localStorage.getItem("count-user");
             var prevTopic = localStorage.getItem("count-topic");
             var prevSecs = localStorage.getItem("count-seconds");
 
             if (prevUser !== null && prevTopic !== null && prevSecs !== null) {
-                if (prevUser == nextProps.userId && prevTopic == nextProps.topicId) {
-                    this.setState({
-                        topic: nextProps.topicId,
-                        duration: nextProps.minutes * 60,
-                        seconds: prevSecs
-                    });
-
-                    return;
+                if (prevUser == nextProps.userId && prevTopic == nextProps.topicId && !isNaN(prevSecs)) {
+                    return prevSecs;
                 }
             }
 
-            this.setState({
-                topic: nextProps.topicId,
-                seconds: nextProps.minutes * 60,
-                duration: nextProps.minutes * 60
-            });
-
             localStorage.setItem("count-user", nextProps.userId);
             localStorage.setItem("count-topic", nextProps.topicId);
+
+            return nextProps.minutes * 60;
         }
 
         /* ---- */
@@ -40880,7 +40869,7 @@ var Counter = function (_React$Component) {
     }, {
         key: "countDown",
         value: function countDown() {
-            var seconds = this.state.seconds - 1;
+            var seconds = this.state.seconds - 10;
             var displaySeconds = this.state.duration - seconds;
             localStorage.setItem("count-seconds", seconds);
 
@@ -40892,7 +40881,7 @@ var Counter = function (_React$Component) {
             if (seconds <= 0) {
                 clearInterval(this.timer);
 
-                if (seconds == 0 && this.state.url !== "") {
+                if (this.state.url !== "") {
                     window.location.href = this.state.url;
                 }
             }
@@ -40903,7 +40892,7 @@ var Counter = function (_React$Component) {
     }, {
         key: "render",
         value: function render() {
-            var classes = this.state.seconds <= 0 ? " invisible" : "";
+            var classes = !this.state.seconds || this.state.seconds <= 0 ? " invisible" : "";
 
             return _react2.default.createElement(
                 "div",
@@ -41061,7 +41050,7 @@ var PreTest = function (_React$Component) {
                 //TODO send result.data to server
 
                 //TODO set task details properly
-                var topicId = taskStore.getTopicFromResults(result.data);
+                var topicId = _TaskStore2.default.getTopicFromResults(result.data);
                 var type = 'search';
                 var minutes = 5;
                 _AccountStore2.default.setTask(topicId, type, minutes);
@@ -41128,7 +41117,8 @@ var Task = function (_React$Component) {
         _this.state = {
             userId: _this.props.userId,
             topicId: _this.props.topicId,
-            duration: _this.props.duration
+            //duration: this.props.duration
+            duration: 10
         };
         return _this;
     }
@@ -41142,12 +41132,12 @@ var Task = function (_React$Component) {
                 _react2.default.createElement(
                     'div',
                     { className: 'Task-submit no-padding' },
-                    _react2.default.createElement(_Counter2.default, { userId: this.state.userId, topicId: this.state.topicId, minutes: this.state.duration, href: '/posttest' }),
                     _react2.default.createElement(
                         'a',
                         { className: 'btn btn-primary', href: '/posttest', role: 'button' },
                         'I\'m done learning!'
-                    )
+                    ),
+                    this.state.duration > 0 && _react2.default.createElement(_Counter2.default, { userId: this.state.userId, topicId: this.state.topicId, minutes: this.state.duration, href: '/posttest' })
                 ),
                 _react2.default.createElement(
                     'div',

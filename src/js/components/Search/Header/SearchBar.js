@@ -36,7 +36,7 @@ var getParameterByName = function (name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 };
 
-var intro = introJs().setOptions({'doneLabel':  "Ok!",  'showStepNumbers': false, 'showBullets': false});
+// var intro = introJs().setOptions({'doneLabel':  "Ok!",  'showStepNumbers': false, 'showBullets': false});
 
 
 /*****************************/
@@ -85,6 +85,7 @@ class Search extends React.Component {
     }
 
     componentDidMount(){   
+        /*
         intro.onchange(function(targetElement) {  
             var name = targetElement.getAttribute("class") ;
             if ("Search" === name) {
@@ -101,7 +102,7 @@ class Search extends React.Component {
             if (!res.body.found) {
                 intro.start();
             }
-        });
+        });*/
     }
     
     componentWillUnmount() {

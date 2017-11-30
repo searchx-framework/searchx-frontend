@@ -76,11 +76,6 @@ class WebSearchResult extends React.Component {
                     />
                   
                     <div onMouseEnter={hoverEnterSummary} onMouseLeave={hoverLeaveSummary} >
-                        
-                        <Rating rating={this.props.result.rating}  upPressed={this.props.result.upPressed}
-                            downPressed={this.props.result.downPressed}
-                            onUpRating={handleUpRating} onDownRating={handleDownRating}/>
-                        
           
                         
                         <h2>

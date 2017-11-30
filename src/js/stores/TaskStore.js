@@ -5,11 +5,10 @@ import request from 'superagent';
 import underscore from 'underscore';
 
 import topics from '../../../dist/data/topics.json';
+import codes from '../../../dist/data/codes.json';
 import AccountStore from './AccountStore';
 
 const CHANGE_EVENT = 'change_task';
-
-////
 
 var choices = [
     {value: 1, text: "I don't remember having seen this term/phrase before." }, 
@@ -43,7 +42,17 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
         return topics[topicId]["title"];
     },
 
+    getUserIdFromResults(results) {
+
+        for (var result in results){
+            if (result == "userId") {
+                return results[result];
+            }
+        }
+    },
+
     getTopicFromResults(results) {
+
         var topicResults = {};
         for (var result in results){
             var v = result.split("-");
@@ -74,18 +83,12 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
     ////
 
     getPreTest() {
-        var sampledTopics = sample(Object.keys(topics), 5);
+        var sampledTopics = sample(Object.keys(topics), 3);
         var pages = [];
         var elements = [];
 
         elements.push(
-            { name : "crowdflowerId", type :"text", inputType:"text", width: 500,
-            title: "Your CrowdFlower Id", isRequired: true
-           }
-        );
-
-        elements.push(
-            { name : "code", type :"text", inputType:"text", width: 500, 
+            { name : "userId", type :"text", inputType:"text", width: 500, 
             title: "Your Code Here", isRequired: true
            }
         );
@@ -96,7 +99,7 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
                 name: "degree",
                 choices: [{value: 0, text:  "High School"}, { value:1 , text: "Bachelor"}, 
                         {value :2, text: "Master"}, {value: 3 , text:  "Doctorate"}],
-                title: "Highest degree so far"
+                title: "Your highest degree so far"
             }
         );
 
@@ -113,25 +116,24 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
             var elements = [];
             elements.push(
                 { type: "html", name: "topic",
-                    html:" <h2>Diagonistic Test</h2><h4>This is a multiple-choice question test to find out what you already know." 
-                    + "Please answer honestly." 
-                    + "Your payment is not be affected by the number of correct or incorrect answers.</h4>"
+                    html:" <h2>Diagonistic Test</h2><h3> Let's find out what you already know. </h3>" 
                     + "<h3>Answer the questions about <b>" + topics[tid]["title"] + "</b>:</h3>"
                 });
             for (var idx in topics[tid]["terms"]) {
                 var term = topics[tid]["terms"][idx];
+                var name = "Q-"+tid+"-"+idx
                 elements.push(
                     {
                         type: "radiogroup",
                         isRequired: true,
-                        name: "Q-"+tid+"-"+idx,
+                        name: name,
                         choices: choices,
                         title: "How much do you know about " + term + "?"
                       }
                 )
                 elements.push(
                     { name : "meaning-"+tid+"-"+idx, type :"text", inputType:"text", width: 500, isRequired: true,
-                     title: "In your own words, what do you think the meaning is?", "visibleIf": "{" + tid+"-"+idx+ "} > 2" 
+                     title: "In your own words, what do you think the meaning is?", "visibleIf": "{" +name+"} > 2" 
                     }
                 )
             }
@@ -144,38 +146,37 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
         }
     },
 
-    getPostTest(topicId) {
+    getPostTest(userId, topicId) {
         var pages = [];
         var elements = [];
 
         elements.push(
             { type: "html", name: "topic",
-                html:" <h2>Final Test</h2><h4>This is another multiple-choice question test to see how much you've learned." 
-                + "Please answer honestly." 
-                + "Your payment is not be affected by the number of correct or incorrect answers.</h4>"
+                html:" <h2>Final Test</h2><h4>Let's see how much you've learned." 
                 + "<h3>Answer the questions about <b>" + topics[topicId]["title"] + "</b>:</h3>"
             });
 
         for (var idx in topics[topicId]["terms"]) {
             var term = topics[topicId]["terms"][idx];
+            var name = "Q-"+topicId + "-" +idx;
             elements.push(
                 {
                     type: "radiogroup",
                     isRequired: true,
-                    name: topicId + "-" +idx,
+                    name: name,
                     choices: choices,
-                    title: "How much do you know about " + term + "?"
+                    title: "How much do  you know about " + term + "?"
                 }
             )
             elements.push(
                 { name : "meaning-"+topicId+ "-" + idx, type :"text", inputType:"text", width: 500, isRequired: true,
-                    title: "In your own words, what do you think the meaning is?", "visibleIf": "{" + topicId+"-"+idx + "} > 2" 
+                    title: "In your own words, what do you think the meaning is?", "visibleIf": "{" +name + "} > 2" 
                 }
             )
         }
         pages.push({elements:  elements});
             
-        return {pages: pages, "showQuestionNumbers": "off", completedHtml: "<h2>Thanks!</h2> <h3> Your code is: </h3>"}
+        return {pages: pages, "showQuestionNumbers": "off", completedHtml: "<h2>Thanks!</h2> <h3> Please, copy and paste this code: " +codes[userId]+ "</h3>"}
     }
 });
 
