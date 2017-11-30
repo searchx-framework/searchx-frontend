@@ -11,7 +11,7 @@ export default class PostTest extends React.Component {
     }
 
     render() {  
-        var data = TaskStore.getPostTest(AccountStore.getTaskId());
+        var data = TaskStore.getPostTest(AccountStore.getTopicId());
         var survey = new Survey.Model(data);
 
         survey.onComplete.add( function(result){

@@ -1,1 +1,152 @@
-{"1": {"title": "Glycolysis", "terms": ["krebs cycle", "phosphoglyceraldehyde", "pyruvate", "pyruvic acid", "electron transport chain", "investment phase", "carbon backbone", "citric acid cycle", "isomer", "cellular respiration"]}, "2": {"title": "Religions", "terms": ["dharma", "moksha", "bat mitzvah", "recitation", "compendium", "polytheistic", "willpower", "reverence", "commandment", "pilgrimage"]}, "3": {"title": "Depression", "terms": ["norepinephrine", "circadian", "hippocampal", "electroconvulsive therapy", "transcranial", "serotonin", "dopamine", "neurotransmitter", "thyroid", "cholestero"]}, "4": {"title": "Anesthesia", "terms": ["sevoflurane", "hemlock", "aconite", "propofol", "diethyl ether", "fentanyl", "inhalational", "mandrake", "electrical barricade", "opium poppy"]}, "5": {"title": "Sedimentary rocks", "terms": ["feldspars", "terrigenous sediments", "subsidence", "carbonate sediments", "mud flats", "meandering", "water column", "sedimentary system", "biological grains", "sedimentary rocks"]}, "6": {"title": "Urban water cycle", "terms": ["Lesoto Highlands", "eutrophication", "Endocrine disrupting compounds", "typhoid fever", "coagulation", "acivated carbon filtration", "membrane filtration", "cholera", "Legionella bacteria", "recontamination"]}, "7": {"title": "Water quality aspects", "terms": ["trihalomethanes", "coliforms", "colloidal particles", "protozoa", "bacteriophages", "nitrate", "epidemiological studies", "endocrine disruptors", "chloramine", "blue baby syndrome"]}, "8": {"title": "Radioactive decay", "terms": ["Auger electron", "Coulomb barrier", "beta-plus emission", "isomeric transition", "K-shell electron", "isobaric process", "beta-minus decay", "conversion electron", "antimatter", "electron capture decay"]}, "9": {"title": "Majoranas", "terms": ["4\u03c0 Josephson effect", "Majorana zero mode", "Cooper pair", "particle-hole symmetry", "broken time-reversal symmetry", "adiabatically", "Majorana resonances", "topological superconductivity", "resonant conduction", "topological superconductor"]}, "10": {"title": "Qubit", "terms": ["Ket", "Bra", "conjugate transpose", "qubits", "superposition", "ground state", "standard basis", "excited state", "quantum cryptography", "quantum information"]}}
+{
+    "1": {
+        "title": "Glycolysis",
+        "terms": [
+            "krebs cycle",
+            "phosphoglyceraldehyde",
+            "pyruvate",
+            "pyruvic acid",
+            "electron transport chain",
+            "investment phase",
+            "carbon backbone",
+            "citric acid cycle",
+            "isomer",
+            "cellular respiration"
+        ]
+    },
+    "2": {
+        "title": "Religions",
+        "terms": [
+            "dharma",
+            "moksha",
+            "bat mitzvah",
+            "recitation",
+            "compendium",
+            "polytheistic",
+            "willpower",
+            "reverence",
+            "commandment",
+            "pilgrimage"
+        ]
+    },
+    "3": {
+        "title": "Depression",
+        "terms": [
+            "norepinephrine",
+            "circadian",
+            "hippocampal",
+            "electroconvulsive therapy",
+            "transcranial",
+            "serotonin",
+            "dopamine",
+            "neurotransmitter",
+            "thyroid",
+            "cholestero"
+        ]
+    },
+    "4": {
+        "title": "Anesthesia",
+        "terms": [
+            "sevoflurane",
+            "hemlock",
+            "aconite",
+            "propofol",
+            "diethyl ether",
+            "fentanyl",
+            "inhalational",
+            "mandrake",
+            "electrical barricade",
+            "opium poppy"
+        ]
+    },
+    "5": {
+        "title": "Sedimentary rocks",
+        "terms": [
+            "feldspars",
+            "terrigenous sediments",
+            "subsidence",
+            "carbonate sediments",
+            "mud flats",
+            "meandering",
+            "water column",
+            "sedimentary system",
+            "biological grains",
+            "sedimentary rocks"
+        ]
+    },
+    "6": {
+        "title": "Urban water cycle",
+        "terms": [
+            "Lesoto Highlands",
+            "eutrophication",
+            "Endocrine disrupting compounds",
+            "typhoid fever",
+            "coagulation",
+            "acivated carbon filtration",
+            "membrane filtration",
+            "cholera",
+            "Legionella bacteria",
+            "recontamination"
+        ]
+    },
+    "7": {
+        "title": "Water quality aspects",
+        "terms": [
+            "trihalomethanes",
+            "coliforms",
+            "colloidal particles",
+            "protozoa",
+            "bacteriophages",
+            "nitrate",
+            "epidemiological studies",
+            "endocrine disruptors",
+            "chloramine",
+            "blue baby syndrome"
+        ]
+    },
+    "8": {
+        "title": "Radioactive decay",
+        "terms": [
+            "Auger electron",
+            "Coulomb barrier",
+            "beta-plus emission",
+            "isomeric transition",
+            "K-shell electron",
+            "isobaric process",
+            "beta-minus decay",
+            "conversion electron",
+            "antimatter",
+            "electron capture decay"
+        ]
+    },
+    "9": {
+        "title": "Majoranas",
+        "terms": [
+            "4π Josephson effect",
+            "Majorana zero mode",
+            "Cooper pair",
+            "particle-hole symmetry",
+            "broken time-reversal symmetry",
+            "adiabatically",
+            "Majorana resonances",
+            "topological superconductivity",
+            "resonant conduction",
+            "topological superconductor"
+        ]
+    },
+    "10": {
+        "title": "Qubit",
+        "terms": [
+            "Ket",
+            "Bra",
+            "conjugate transpose",
+            "qubits",
+            "superposition",
+            "ground state",
+            "standard basis",
+            "excited state",
+            "quantum cryptography",
+            "quantum information"
+        ]
+    }
+}

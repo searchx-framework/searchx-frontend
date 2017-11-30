@@ -25,8 +25,6 @@ import AccountStore from '../stores/AccountStore';
 
 export class App extends React.Component {
     componentWillMount(){
-        var taskId = AccountStore.getTaskId();
-        
         setInterval( flush, config.logTimeInterval);
 
         window.onbeforeunload = function (e) {

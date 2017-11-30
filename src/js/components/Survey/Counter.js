@@ -5,7 +5,10 @@ class Counter extends React.Component {
         super(props);
         this.state = {
             time: {},
-            url: ""
+            url: "",
+            topic: props.topicId,
+            duration: props.minutes * 60,
+            seconds: this.getSeconds(props)
         }
 
         this.countDown = this.countDown.bind(this);
@@ -16,31 +19,21 @@ class Counter extends React.Component {
         }
     }
 
-    componentWillReceiveProps(nextProps) {
+    getSeconds(nextProps) {
         let prevUser = localStorage.getItem("count-user");
-        let prevTask = localStorage.getItem("count-task");
+        let prevTopic = localStorage.getItem("count-topic");
         let prevSecs = localStorage.getItem("count-seconds");
 
-        if (prevUser !== null && prevTask !== null && prevSecs !== null) {
-            if (prevUser == nextProps.userId && prevTask == nextProps.taskId) {
-                this.setState({
-                    task: nextProps.taskId,
-                    duration: nextProps.minutes * 60,
-                    seconds: prevSecs
-                });
-
-                return;
+        if (prevUser !== null && prevTopic !== null && prevSecs !== null) {
+            if (prevUser == nextProps.userId && prevTopic == nextProps.topicId && !isNaN(prevSecs)) {
+                return prevSecs
             }
         }
 
-        this.setState({
-            task: nextProps.taskId,
-            seconds: nextProps.minutes * 60,
-            duration: nextProps.minutes * 60
-        });
+        localStorage.setItem("count-user", nextProps.userId);
+        localStorage.setItem("count-topic", nextProps.topicId);
 
-        localStorage.setItem("count-user", nextProps.userId)
-        localStorage.setItem("count-task", nextProps.taskId)
+        return nextProps.minutes * 60;
     }
 
     /* ---- */
@@ -71,7 +64,7 @@ class Counter extends React.Component {
     }
 
     countDown() {
-        let seconds = this.state.seconds - 1;
+        let seconds = this.state.seconds - 10;
         let displaySeconds = this.state.duration - seconds;
         localStorage.setItem("count-seconds", seconds);
 
@@ -83,7 +76,7 @@ class Counter extends React.Component {
         if (seconds <= 0) { 
             clearInterval(this.timer);
             
-            if (seconds == 0 && this.state.url !== "") {
+            if (this.state.url !== "") {
                 window.location.href = this.state.url;
             }
         }
@@ -92,7 +85,7 @@ class Counter extends React.Component {
     /* ---- */
 
     render () {
-        let classes = this.state.seconds <= 0 ? " invisible" : "";
+        let classes = !this.state.seconds || this.state.seconds <= 0 ? " invisible" : "";
 
         return (
             <div className={"counter" + classes}>

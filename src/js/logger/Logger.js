@@ -6,12 +6,16 @@ var eventQueue = []
 
 export function log(event, meta) {
     eventQueue.push({
-                userId: AccountStore.getId() || '',
-                taskId: AccountStore.getTaskId() || '',
-                event: event || '',
-                meta: meta || {},
-                date: new Date()
-            });
+        userId: AccountStore.getId() || '',
+        date: new Date(),
+        event: event || '',
+        meta: meta || {},
+        task: {
+            topicId: AccountStore.getTopicId() || '',
+            type: AccountStore.getTaskType() || '',
+            duration: AccountStore.getTaskDuration() || '',
+        }
+    });
 }
 
 export function flush() {

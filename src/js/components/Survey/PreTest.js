@@ -16,8 +16,12 @@ export default class PreTest extends React.Component {
         
         survey.onComplete.add( function(result){
             //TODO send result.data to server
-            var topicId = taskStore.getTopicFromResults(result.data);
-            AccountStore.setTaskId(topicId);
+
+            //TODO set task details properly
+            var topicId = TaskStore.getTopicFromResults(result.data);
+            var type = 'search';
+            var minutes = 5;
+            AccountStore.setTask(topicId, type, minutes);
         });
         
         return (

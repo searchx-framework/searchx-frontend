@@ -5,19 +5,24 @@ import request from 'superagent';
 import underscore from 'underscore';
 
 import topics from '../../../dist/data/topics.json';
-
 import AccountStore from './AccountStore';
 
-var choices = [{ value: 1, text: "I don't remember having seen this term/phrase before." }, 
-{value: 2, text: "I have seen this term/phrase before, but I don't think I know what it means."}, 
-{value: 3 , text : "I have seen this term/phrase before, and I think I know what it means."},
-{value : 4, text: "I know this term/phrase."}]
-
 const CHANGE_EVENT = 'change_task';
+
+////
+
+var choices = [
+    {value: 1, text: "I don't remember having seen this term/phrase before." }, 
+    {value: 2, text: "I have seen this term/phrase before, but I don't think I know what it means."}, 
+    {value: 3, text: "I have seen this term/phrase before, and I think I know what it means."},
+    {value: 4, text: "I know this term/phrase."}
+]
 
 function sample(a, n) {
     return underscore.take(underscore.shuffle(a), n);
 }
+
+////
 
 const TaskStore = Object.assign(EventEmitter.prototype, {
     emitChange() {
@@ -32,6 +37,8 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
         this.on(CHANGE_EVENT, callback)
     },
 
+    ////
+
     getTopicTitle(topicId) {
         return topics[topicId]["title"];
     },
@@ -45,7 +52,6 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
             }
         }
         
-
         for (var result in results){
             var v = result.split("-");
             if (v[0] == "Q") {
@@ -65,15 +71,17 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
         return items[0][0];
     },
 
+    ////
+
     getPreTest() {
         var sampledTopics = sample(Object.keys(topics), 5);
         var pages = [];
-        elements = [];
+        var elements = [];
+
         elements.push(
             { name : "crowdflowerId", type :"text", inputType:"text", width: 500,
             title: "Your CrowdFlower Id", isRequired: true
            }
-
         );
 
         elements.push(
@@ -81,7 +89,6 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
             title: "Your Code Here", isRequired: true
            }
         );
-
 
         elements.push( {
             type: "radiogroup",
@@ -129,9 +136,8 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
                 )
             }
             pages.push({elements:  elements});
-            
-
         }
+
         return {pages: pages, "showProgressBar": "top","showQuestionNumbers": "off",
                 completedHtml: "<h2>Thanks!</h2> <h3> Now, go to the learning phase. </h3>" +
                 "<a href=\"/search\" class=\"btn btn-primary btn-lg\" role=\"button\">Start!</a></div>"
@@ -140,9 +146,7 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
 
     getPostTest(topicId) {
         var pages = [];
-
         var elements = [];
-
 
         elements.push(
             { type: "html", name: "topic",
@@ -171,9 +175,8 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
         }
         pages.push({elements:  elements});
             
-        return {pages: pages, "showQuestionNumbers": "off",   completedHtml: "<h2>Thanks!</h2> <h3> Your code is: </h3>"}
+        return {pages: pages, "showQuestionNumbers": "off", completedHtml: "<h2>Thanks!</h2> <h3> Your code is: </h3>"}
     }
-    }
-);
+});
 
 export default TaskStore;

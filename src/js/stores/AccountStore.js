@@ -22,17 +22,12 @@ var getParameterByName = function (name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 };
 
-var getTaskId = function() {
-    // TODO : properly set task id
-    return 1;
-}
 
 /*****************************/
 
 
 var state = {
-    userId: getParameterByName('anonId') || '',
-    taskId: "10"
+    userId: getParameterByName('anonId') || ''
 };
 
 const AccountStore = Object.assign(EventEmitter.prototype, {
@@ -58,16 +53,28 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
         return state.userId;
     },
 
-    getTaskId() {
-        return state.taskId;
-    },
-
-    setTaskId(tid) {
-        state.taskId = tid;
-    },
-    
     getAorB(){
         return state.AorB;
+    },
+
+    ////
+
+    getTopicId() {
+        return state.topicId;
+    },
+
+    getTaskType() {
+        return state.taskType;
+    },
+
+    getTaskDuration() {
+        return state.taskDuration;
+    },
+
+    setTask(topicId, type, minutes) {
+        state.topicId = topicId;
+        state.taskType = type;
+        state.taskDuration = minutes;
     }
 });
 
