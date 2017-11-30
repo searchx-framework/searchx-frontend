@@ -42,12 +42,12 @@ var intro = introJs().setOptions({'doneLabel':  "Ok!",  'showStepNumbers': false
 /*****************************/
 
 
-class Search extends React.Component {
+class SearchBar extends React.Component {
     constructor(props) {
         super(props);
         this.state = Object.assign(getSearchState(), {
             userId: this.props.userId,
-            topicId: this.props.topicId,
+            task: this.props.task,
             aOrB: this.props.aOrB
         });
 
@@ -84,24 +84,27 @@ class Search extends React.Component {
         }
     }
 
-    componentDidMount(){   
-        intro.onchange(function(targetElement) {  
-            var name = targetElement.getAttribute("class") ;
-            if ("Search" === name) {
-                if (!this.state.aOrB) {
-                    intro._introItems.pop()
-                }
-            }
-        });
+    componentDidMount(){
+        // intro.onchange(function(targetElement) {  
+        //     var name = targetElement.getAttribute("class") ;
+        //     if ("Search" === name) {
+        //         if (!this.state.aOrB) {
+        //             intro._introItems.pop()
+        //         }
+        //     }
+        // });
 
-        request
-        .get(config.serverUrl + '/v1/users/'+ this.state.userId + '/task/?topicId=' + this.state.topicId)
-        .end((err, res) => {
-            console.log()
-            if (!res.body.found) {
-                intro.start();
-            }
-        });
+        var task = this.state.task;
+
+        if (task.topicId) {
+            request
+            .get(config.serverUrl + '/v1/users/'+ this.state.userId + '/task/?topicId=' + task.topicId + '&type=' + task.type + '&duration=' + task.duration)
+            .end((err, res) => {
+                if (!res.body.found) {
+                    //intro.start();
+                }
+            });
+        }
     }
     
     componentWillUnmount() {
@@ -165,4 +168,4 @@ class Search extends React.Component {
     }
 }
 
-export default Search;
+export default SearchBar;

@@ -11,7 +11,11 @@ import account from '../../../stores/AccountStore';
 
 export default class Header extends React.Component {
     render() {
-        var topicId = account.getTopicId();
+        var task = {
+            topicId: account.getTopicId(),
+            type: account.getTaskType(),
+            duration: account.getTaskDuration()
+        }
 
         return (
             <div className="row Header">
@@ -19,11 +23,11 @@ export default class Header extends React.Component {
                     <Logo />
                 </div>
                 <div className="col-sm-12 col-sm-4">
-                    <Search userId={account.getId()} topicId={topicId} aOrB={account.getAorB()} />
+                    <Search userId={account.getId()} task={task} aOrB={account.getAorB()} />
                 </div>
-                {topicId &&
+                {task.topicId &&
                     <div className="col-sm-12 col-sm-5 pull-right">
-                        <Task userId={account.getId()} topicId={topicId} duration={account.getTaskDuration()} />
+                        <Task userId={account.getId()} task={task} />
                     </div>
                 }
             </div>
