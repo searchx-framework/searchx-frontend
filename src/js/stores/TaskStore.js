@@ -120,7 +120,7 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
         ////
 
         for (var topic in sampledTopics) {
-            var topicId = sampledTopics[topic];
+            var tid = sampledTopics[topic];
             var elements = [];
             elements.push(
                 { type: "html", name: "topic",
