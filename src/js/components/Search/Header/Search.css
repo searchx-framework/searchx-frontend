@@ -1,0 +1,61 @@
+@import url('../../variables.css');
+
+.Search {
+    &-box {
+        width: 632px;
+        height: 50px;
+
+        margin-top: 5px;
+        margin-bottom: 15px;
+        padding-top: 0;
+        padding-bottom: 0px;
+
+        input {
+            border-radius: 0px;
+            box-shadow: #000;
+            color: #000;
+            height: 44px;
+        }
+
+
+        button {
+            color: #fff;
+            background-color: $primary-color;
+
+            width: 47px;
+            height: 44px;
+
+            &:hover, &:focus {
+                color: #fff;
+                text-decoration: none;
+            }
+
+        }
+    }
+
+    &-verticals {
+        padding-top: 5px;
+
+        ul {
+            float:left;
+            list-style: none;
+            width:100%;
+            padding-left:0px;
+            margin-bottom: 0px;
+        }
+    }
+
+    &-vertical {
+        float:left;
+        padding-left: 15px;
+        padding-right: 15px;
+        cursor: pointer;
+
+        &--active {
+            font-weight: 700;
+            color: $primary-color;
+            padding-bottom: 10px;
+            border-bottom: 4px solid $primary-color;
+        }
+    }
+}
