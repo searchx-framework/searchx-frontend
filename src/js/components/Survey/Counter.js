@@ -1,58 +1,36 @@
 import React from 'react';
+import {log} from '../../logger/Logger';
+import {LoggerEventTypes} from '../../constants/LoggerEventTypes';
 
 class Counter extends React.Component {    
-    constructor(props) {
+
+
+    constructor(props){
+
+        // This is called before our render function. The object that is 
+        // returned is assigned to this.state, so we can use it later.
+        // get from localstorage
+
         super(props);
+        
         this.state = {
-            time: {},
-            url: "",
-            topic: props.topicId,
-            duration: props.minutes * 60,
-            seconds: this.getSeconds(props)
-        }
-
-        this.countDown = this.countDown.bind(this);
-        this.timer = setInterval(this.countDown, 1000);
-
-        if (this.props.href !== undefined) {
-            this.state.url = this.props.href;
-        }
-    }
-
-    getSeconds(nextProps) {
-        let prevUser = localStorage.getItem("count-user");
-        let prevTopic = localStorage.getItem("count-topic");
-        let prevSecs = localStorage.getItem("count-seconds");
-
-        if (prevUser !== null && prevTopic !== null && prevSecs !== null) {
-            if (prevUser == nextProps.userId && prevTopic == nextProps.topicId && !isNaN(prevSecs)) {
-                return prevSecs
-            }
-        }
-
-        localStorage.setItem("count-user", nextProps.userId);
-        localStorage.setItem("count-topic", nextProps.topicId);
-
-        return nextProps.minutes * 60;
-    }
-
-    /* ---- */
-
-    secondsToTime(secs) {
-        let hours = Math.floor(secs / (60 * 60));
-    
-        let divisor_for_minutes = secs % (60 * 60);
-        let minutes = Math.floor(divisor_for_minutes / 60);
-    
-        let divisor_for_seconds = divisor_for_minutes % 60;
-        let seconds = Math.ceil(divisor_for_seconds);
-    
-        let time = {
-            "m": minutes + hours*60,
-            "s": seconds
+            elapsed: localStorage.getItem("elapsed") || 0,
         };
 
-        return time;
+        this.tick = this.tick.bind(this);
+    }
+
+    componentDidMount() {
+        this.timer = setInterval(this.tick, 1000);
+    }
+
+    componentWillUnmount () {
+        localStorage.setItem("elapsed", this.state.elapsed);
+        clearInterval(this.timer);
+    }
+
+    tick(){
+        this.setState({elapsed: new Date() - this.props.start});
     }
 
     padZero(num) {
@@ -63,33 +41,30 @@ class Counter extends React.Component {
         return num;
     }
 
-    countDown() {
-        let seconds = this.state.seconds - 10;
-        let displaySeconds = this.state.duration - seconds;
-        localStorage.setItem("count-seconds", seconds);
-
-        this.setState({
-            time: this.secondsToTime(displaySeconds),
-            seconds: seconds,
-        });
-        
-        if (seconds <= 0) { 
-            clearInterval(this.timer);
-            
-            if (this.state.url !== "") {
-                window.location.href = this.state.url;
-            }
+    clickHandler(){
+        var metaInfo = {
+            elapsedTime: Math.round(this.state.elapsed / 1000)
         }
+        log(LoggerEventTypes.SEARCHRESULT_DONE, metaInfo)
     }
 
-    /* ---- */
-
     render () {
-        let classes = !this.state.seconds || this.state.seconds <= 0 ? " invisible" : "";
+
+        var elapsed = Math.round(this.state.elapsed / 1000);
+
+        // This will give a number with one digit after the decimal dot (xx.x):
+                        // Although we return an entire <p> element, react will smartly update
+        // only the changed parts, which contain the seconds variable.
+       
+
+        var minutes = Math.floor(elapsed/60);
+ 
+        var seconds =  elapsed-(minutes*60);
 
         return (
-            <div className={"counter" + classes}>
-                {this.padZero(this.state.time.m)}:{this.padZero(this.state.time.s)}
+            <div className={"counter"}>
+                {minutes > this.props.taskDuration ? <a className="btn btn-primary" href="/posttest" role="button" onClick={this.clickHandler()}>I'm done learning!</a> : ""}
+                {minutes}:{this.padZero(seconds)}
             </div>
         )
     }

@@ -18,7 +18,6 @@ export default class Header extends React.Component {
         }
 
         var topicId = account.getTopicId();
-        console.log(account.getTopicId())
         return (
             <div className="row Header">
                 <div className="col-sm-12 col-sm-1 text-center Header-logo">

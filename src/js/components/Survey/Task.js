@@ -18,13 +18,12 @@ class Task extends React.Component {
     }
 
     render () {
+        var start = localStorage.getItem("counter-start") || Date.now();
+        localStorage.setItem("counter-start", start);
         return(
             <div className="Task row" id={this.state.task.topicId}>
                 <div className="Task-submit no-padding">
-                    <a className="btn btn-primary" href="/posttest" role="button">I'm done learning!</a>
-                    {this.state.duration > 0 &&
-                        <Counter userId={this.state.userId} topicId={this.state.task.topicId} minutes={this.state.task.duration} href="/posttest"/>
-                    }
+                    <Counter start={start} taskDuration={this.state.task.taskDuration}/>  
                 </div>
                 <div className="Task-info no-padding">
                     <div className="Task-info-instruction">You are provided with a custom search system that will help you learn about the subject. Please use it to find and read documents about:</div>
