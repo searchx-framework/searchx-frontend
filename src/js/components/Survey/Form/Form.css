@@ -1,0 +1,18 @@
+@import '../../variables.css';
+
+.Survey {
+    background-color: $primary-color;
+
+    &-form {
+        background-color: #ffffff;
+
+        max-width: 720px;
+        min-height: 100vh;
+        float: none;
+        margin: 0 auto;
+    }
+}
+
+.container-fluid {
+    padding: 0;
+}

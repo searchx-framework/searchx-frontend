@@ -78,68 +78,103 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
         var pages = [];
         var elements = [];
 
-        elements.push(
-            { name : "crowdflowerId", type :"text", inputType:"text", width: 500,
-            title: "Your CrowdFlower Id", isRequired: true
+        ////
+
+        elements.push({
+            title: "Your CrowdFlower Id", 
+            name: "crowdflowerId", 
+            type:"text", 
+            inputType:"text", 
+            width: 500,
+            isRequired: true
+        });
+
+        elements.push({ 
+            title: "Your User Code",
+            name : "code",
+            type :"text", 
+            inputType:"text", 
+            width: 500,
+            isRequired: true
            }
         );
 
-        elements.push(
-            { name : "code", type :"text", inputType:"text", width: 500, 
-            title: "Your Code Here", isRequired: true
-           }
-        );
-
-        elements.push( {
+        elements.push({
+            title: "Highest Academic Degree so far",
+            name: "degree",
             type: "radiogroup",
-                isRequired: true,
-                name: "degree",
-                choices: [{value: 0, text:  "High School"}, { value:1 , text: "Bachelor"}, 
-                        {value :2, text: "Master"}, {value: 3 , text:  "Doctorate"}],
-                title: "Highest degree so far"
-            }
-        );
+            isRequired: true,
+            choices: [
+                {value: 0, text: "High School"}, 
+                {value: 1, text: "Bachelor"}, 
+                {value: 2, text: "Master"}, 
+                {value: 3, text: "Doctorate"}
+            ]
+        });
 
-        elements.push(
-            { name : "background", type :"text", inputType:"text", width: 500, isRequired: true,
-            title: "University degree(s) in which subject areas", "visibleIf": "{degree} > 0"  
-           }
-        );
+        elements.push({ 
+            title: "University degree(s) in which subject areas",
+            visibleIf: "{degree} > 0",
+            name : "background", 
+            type :"text", 
+            inputType:"text", 
+            width: 500, 
+            isRequired: true
+        });
 
         pages.push({elements:  elements}) 
 
-        for (var topic in sampledTopics){
-            var tid = sampledTopics[topic];
+        ////
+
+        for (var topic in sampledTopics) {
+            var topicId = sampledTopics[topic];
             var elements = [];
-            elements.push(
-                { type: "html", name: "topic",
-                    html:" <h2>Diagonistic Test</h2><h4>This is a multiple-choice question test to find out what you already know." 
-                    + "Please answer honestly." 
-                    + "Your payment is not be affected by the number of correct or incorrect answers.</h4>"
-                    + "<h3>Answer the questions about <b>" + topics[tid]["title"] + "</b>:</h3>"
+
+            elements.push({ 
+                type: "html", 
+                name: "topic",
+                html: "<h2>Diagnostic Test</h2>"
+                + "<h4>This is another multiple-choice question test to see how much you've learned. Please answer honestly. " 
+                + "Your payment is not be affected by the number of correct or incorrect answers.</h4>"
+                + "<h3>Answer these questions about <b>" + topics[topicId]["title"] + "</b>:</h3>"
+            });
+
+            for (var idx in topics[topicId]["terms"]) {
+                var term = topics[topicId]["terms"][idx];
+
+                elements.push({
+                    type: "html",
+                    html: "<hr/>"
                 });
-            for (var idx in topics[tid]["terms"]) {
-                var term = topics[tid]["terms"][idx];
-                elements.push(
-                    {
-                        type: "radiogroup",
-                        isRequired: true,
-                        name: "Q-"+tid+"-"+idx,
-                        choices: choices,
-                        title: "How much do you know about " + term + "?"
-                      }
-                )
-                elements.push(
-                    { name : "meaning-"+tid+"-"+idx, type :"text", inputType:"text", width: 500, isRequired: true,
-                     title: "In your own words, what do you think the meaning is?", "visibleIf": "{" + tid+"-"+idx+ "} > 2" 
-                    }
-                )
+
+                elements.push({
+                    title: "How much do you know about \"" + term + "\"?",
+                    type: "radiogroup",
+                    isRequired: true,
+                    name: "Q-"+topicId+"-"+idx,
+                    choices: choices
+                });
+
+                elements.push({
+                    title: "In your own words, what do you think the meaning is?",
+                    visibleIf: "{"+ topicId +"-"+ idx +"} > 2",
+                    name : "meaning-"+topicId+"-"+idx, 
+                    type :"text", 
+                    inputType:"text", 
+                    width: 500, 
+                    isRequired: true
+                });
             }
             pages.push({elements:  elements});
         }
 
-        return {pages: pages, "showProgressBar": "top","showQuestionNumbers": "off",
-                completedHtml: "<h2>Thanks!</h2> <h3> Now, go to the learning phase. </h3>" +
+        ////
+
+        return {
+            pages: pages, 
+            showProgressBar: "top",
+            showQuestionNumbers: "off",
+            completedHtml: "<h2>Thanks!</h2> <h3> Now, go to the learning phase. </h3>" +
                 "<a href=\"/search\" class=\"btn btn-primary btn-lg\" role=\"button\">Start!</a></div>"
         }
     },
@@ -148,34 +183,50 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
         var pages = [];
         var elements = [];
 
-        elements.push(
-            { type: "html", name: "topic",
-                html:" <h2>Final Test</h2><h4>This is another multiple-choice question test to see how much you've learned." 
-                + "Please answer honestly." 
+        elements.push({
+            type: "html", 
+            name: "topic",
+            html: "<h2>Final Test</h2>"
+                + "<h4>This is another multiple-choice question test to see how much you've learned. Please answer honestly. " 
                 + "Your payment is not be affected by the number of correct or incorrect answers.</h4>"
-                + "<h3>Answer the questions about <b>" + topics[topicId]["title"] + "</b>:</h3>"
-            });
+                + "<h3>Answer these questions about <b>" + topics[topicId]["title"] + "</b>:</h3>"
+        });
 
         for (var idx in topics[topicId]["terms"]) {
             var term = topics[topicId]["terms"][idx];
-            elements.push(
-                {
-                    type: "radiogroup",
-                    isRequired: true,
-                    name: topicId + "-" +idx,
-                    choices: choices,
-                    title: "How much do you know about " + term + "?"
-                }
-            )
-            elements.push(
-                { name : "meaning-"+topicId+ "-" + idx, type :"text", inputType:"text", width: 500, isRequired: true,
-                    title: "In your own words, what do you think the meaning is?", "visibleIf": "{" + topicId+"-"+idx + "} > 2" 
-                }
-            )
+
+            elements.push({
+                type: "html",
+                html: "<hr/>"
+            });
+
+            elements.push({
+                title: "How much do you know about \"" + term + "\"?",
+                type: "radiogroup",
+                isRequired: true,
+                name: topicId + "-" +idx,
+                choices: choices
+            });
+
+            elements.push({ 
+                title: "In your own words, what do you think the meaning is?", 
+                visibleIf: "{"+ topicId +"-"+ idx +"} > 2",
+                name : "meaning-"+topicId+ "-" + idx, 
+                type :"text", 
+                inputType:"text", 
+                width: 500, 
+                isRequired: true
+            });
         }
         pages.push({elements:  elements});
+
+        ////
             
-        return {pages: pages, "showQuestionNumbers": "off", completedHtml: "<h2>Thanks!</h2> <h3> Your code is: </h3>"}
+        return {
+            pages: pages, 
+            showQuestionNumbers: "off", 
+            completedHtml: "<h2>Thanks!</h2> <h3> Your code is: </h3>"
+        }
     }
 });
 
