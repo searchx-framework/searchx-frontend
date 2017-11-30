@@ -14,8 +14,8 @@ import {flush,log} from '../logger/Logger';
 
 import About from './Pages/About';
 import Search from './Search/Search';
-import PreTest from './Survey/PreTest';
-import PostTest from './Survey/PostTest';
+import PreTest from './Survey/Form/PreTest';
+import PostTest from './Survey/Form/PostTest';
 import Welcome from './Survey/Welcome';
 
 var config = require('config');

@@ -93,7 +93,9 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
            }
         );
 
-        elements.push( {
+        elements.push({
+            title: "Highest Academic Degree so far",
+            name: "degree",
             type: "radiogroup",
                 isRequired: true,
                 name: "degree",
@@ -103,16 +105,22 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
             }
         );
 
-        elements.push(
-            { name : "background", type :"text", inputType:"text", width: 500, isRequired: true,
-            title: "University degree(s) in which subject areas", "visibleIf": "{degree} > 0"  
-           }
-        );
+        elements.push({ 
+            title: "University degree(s) in which subject areas",
+            visibleIf: "{degree} > 0",
+            name : "background", 
+            type :"text", 
+            inputType:"text", 
+            width: 500, 
+            isRequired: true
+        });
 
         pages.push({elements:  elements}) 
 
-        for (var topic in sampledTopics){
-            var tid = sampledTopics[topic];
+        ////
+
+        for (var topic in sampledTopics) {
+            var topicId = sampledTopics[topic];
             var elements = [];
             elements.push(
                 { type: "html", name: "topic",
@@ -140,9 +148,17 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
             pages.push({elements:  elements});
         }
 
-        return {pages: pages, "showProgressBar": "top","showQuestionNumbers": "off",
-                completedHtml: "<h2>Thanks!</h2> <h3> Now, go to the learning phase. </h3>" +
-                "<a href=\"/search\" class=\"btn btn-primary btn-lg\" role=\"button\">Start!</a></div>"
+        ////
+
+        return {
+            pages: pages, 
+            showProgressBar: "top",
+            showQuestionNumbers: "off",
+            completedHtml: 
+                "<div class='Survey-complete'>" +
+                    "<h2>Thanks!</h2> <h3> Now, go to the learning phase. </h3>" +
+                    "<a href=\"/search\" class=\"btn btn-primary btn-lg\" role=\"button\">Start!</a></div>" +
+                "</div>"
         }
     },
 
@@ -175,6 +191,8 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
             )
         }
         pages.push({elements:  elements});
+
+        ////
             
         return {pages: pages, "showQuestionNumbers": "off", completedHtml: "<h2>Thanks!</h2> <h3> Please, copy and paste this code: " +codes[userId]+ "</h3>"}
     }

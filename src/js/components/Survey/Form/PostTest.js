@@ -1,11 +1,13 @@
+import './Form.css'
+
 import React from 'react';
 import * as Survey from 'survey-react';
 
-import TaskStore from '../../stores/TaskStore';
-import AccountStore from '../../stores/AccountStore';
+import TaskStore from '../../../stores/TaskStore';
+import AccountStore from '../../../stores/AccountStore';
 
-import {log} from '../../logger/Logger';
-import {LoggerEventTypes} from '../../constants/LoggerEventTypes';
+import {log} from '../../../logger/Logger';
+import {LoggerEventTypes} from '../../../constants/LoggerEventTypes';
 
 export default class PostTest extends React.Component {
     componentWillMount() {    
@@ -27,8 +29,10 @@ export default class PostTest extends React.Component {
         });
 
         return (
-            <div> 
-                <Survey.Survey model={survey}/>
+            <div className="Survey">
+                <div className="Survey-form">
+                    <Survey.Survey model={survey}/>
+                </div>
             </div>            
         );
     }

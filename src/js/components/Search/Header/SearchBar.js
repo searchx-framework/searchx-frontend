@@ -42,12 +42,12 @@ var getParameterByName = function (name, url) {
 /*****************************/
 
 
-class Search extends React.Component {
+class SearchBar extends React.Component {
     constructor(props) {
         super(props);
         this.state = Object.assign(getSearchState(), {
             userId: this.props.userId,
-            topicId: this.props.topicId,
+            task: this.props.task,
             aOrB: this.props.aOrB
         });
 
@@ -166,4 +166,4 @@ class Search extends React.Component {
     }
 }
 
-export default Search;
+export default SearchBar;
