@@ -174,8 +174,11 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
             pages: pages, 
             showProgressBar: "top",
             showQuestionNumbers: "off",
-            completedHtml: "<h2>Thanks!</h2> <h3> Now, go to the learning phase. </h3>" +
-                "<a href=\"/search\" class=\"btn btn-primary btn-lg\" role=\"button\">Start!</a></div>"
+            completedHtml: 
+                "<div class='Survey-complete'>" +
+                    "<h2>Thanks!</h2> <h3> Now, go to the learning phase. </h3>" +
+                    "<a href=\"/search\" class=\"btn btn-primary btn-lg\" role=\"button\">Start!</a></div>" +
+                "</div>"
         }
     },
 
@@ -224,8 +227,12 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
             
         return {
             pages: pages, 
-            showQuestionNumbers: "off", 
-            completedHtml: "<h2>Thanks!</h2> <h3> Your code is: </h3>"
+            showQuestionNumbers: "off",
+            completedHtml: 
+                "<div class='Survey-complete'>" +
+                    "<h2>Thanks! </h2>" +
+                    "<h3>Your code is: </h3>" +
+                "</div>"
         }
     }
 });
