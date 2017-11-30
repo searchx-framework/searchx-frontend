@@ -157,7 +157,7 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
 
                 elements.push({
                     title: "In your own words, what do you think the meaning is?",
-                    visibleIf: "{"+ topicId +"-"+ idx +"} > 2",
+                    visibleIf: "{Q-"+ topicId +"-"+ idx +"} > 2",
                     name : "meaning-"+topicId+"-"+idx, 
                     type :"text", 
                     inputType:"text", 
@@ -213,7 +213,7 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
 
             elements.push({ 
                 title: "In your own words, what do you think the meaning is?", 
-                visibleIf: "{"+ topicId +"-"+ idx +"} > 2",
+                visibleIf: "{Q-"+ topicId +"-"+ idx +"} > 2",
                 name : "meaning-"+topicId+ "-" + idx, 
                 type :"text", 
                 inputType:"text", 
