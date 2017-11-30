@@ -2,7 +2,7 @@ import './Header.css';
 import React from 'react';
 
 import Logo from './Logo';
-import Search from './Search';
+import Search from './SearchBar';
 import Task from '../../Survey/Task';
 
 import account from '../../../stores/AccountStore';

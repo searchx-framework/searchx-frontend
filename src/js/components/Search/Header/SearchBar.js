@@ -1,4 +1,4 @@
-import './Search.css'
+import './SearchBar.css'
 
 import React from 'react';
 import request from 'superagent';
