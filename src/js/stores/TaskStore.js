@@ -131,7 +131,7 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
                 type: "html", 
                 name: "topic",
                 html: "<h2>Diagonistic Test</h2> " +
-                    "<h3>Let's find out what you already know. </h3>" +
+                    "<h3>Let's find out what you already know.</h3>" +
                     "<h3>Answer these questions about <b>" + topics[tid]["title"] + "</b>:</h3>"
             });
 
@@ -174,7 +174,7 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
             completedHtml: 
                 "<div class='Survey-complete'>" +
                     "<h2>Thanks!</h2> " +
-                    "<h3>Now, go to the learning phase. </h3>" +
+                    "<h3>Now, use our custom Web search system to learn about a given topic. </h3>" +
                     "<a href=\"/search\" class=\"btn btn-primary btn-lg\" role=\"button\">Start!</a></div>" +
                 "</div>"
         }
@@ -224,7 +224,7 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
             completedHtml: 
                 "<div class='Survey-complete'>" +
                     "<h2>Thanks!</h2> " +
-                    "<h3>Please, copy and paste this code: "+ codes[userId] +"</h3>" +
+                    "<h3>Please, copy and paste this code on CrowdFlower: "+ codes[userId] +"</h3>" +
                 "</div>"
         }
     }

@@ -25,7 +25,7 @@ export default class PreTest extends React.Component {
 
             //TODO set task details properly
             var type = 'search';
-            var minutes = 5;
+            var minutes = 15;
 
             AccountStore.setTask(topicId, type, minutes);
             AccountStore.setId(userId)

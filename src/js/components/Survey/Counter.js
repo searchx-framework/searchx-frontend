@@ -40,9 +40,7 @@ class Counter extends React.Component {
     }
 
     clickHandler(){
-        console.log('test');
         localStorage.setItem("elapsed", 0);
-
         var metaInfo = {
             elapsedTime: Math.round(this.state.elapsed / 1000)
         }
@@ -52,15 +50,21 @@ class Counter extends React.Component {
     ////
 
     render () {
+
         var elapsed = Math.round(this.state.elapsed / 1000);
         var minutes = Math.floor(elapsed/60);
         var seconds = elapsed-(minutes*60);
+
+        if (this.props.start == 0) {
+            minutes = 0;
+            seconds = 0;
+        }
 
         return (
             <div className="counter" id="intro-counter">
                 {minutes}:{this.padZero(seconds)}
                 {minutes >= this.state.duration &&
-                    <a className="btn btn-primary" href="/posttest" role="button" onClick={this.clickHandler}>I'm done learning!</a>
+                    <a className="btn btn-primary" href="/posttest" role="button" onClick={this.clickHandler}>Complete Final Test</a>
                 }
             </div>
         )

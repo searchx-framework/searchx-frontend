@@ -6,21 +6,27 @@ import Search from './SearchBar';
 import Task from '../../Survey/Task';
 
 import account from '../../../stores/AccountStore';
+import TaskStore from '../../../stores/TaskStore';
 
 ////
 
 var steps = [
     {
-        element: '#intro-task',
-        intro: 'In the learning phase, you will need to use this system to learn about the given topic.'
+        element: '#intro-system',
+        intro: 'We want you to use our custom Web search system (we call it "SearchX") to learn about a given topic.',
+        position: 'bottom-middle-aligned'
+    },
+    {
+        element: '#intro-topic',
+        intro: 'Learn about this topic.'
     },
     {
         element: '#intro-search-bar',
-        intro: 'We have provided a custom search engine to help you learn about the topic.'
+        intro: 'Use this tool to search for documents about the topic - and to browse/read them of course.'
     },
     {
         element: '#intro-counter',
-        intro: 'You will need to learn about the topic for a given time. Afterwards, you can press the button to take the final test.'
+        intro: 'You will need to learn about the topic for 15 minutes. Afterwards, you can press the button to take the final test.'
     }
 ];
 
@@ -31,17 +37,19 @@ var intro = introJs().setOptions({
     showBullets: false
 });
 
+intro.oncomplete(function() {
+    localStorage.setItem("intro", true);
+    var start = localStorage.getItem("counter-start") || Date.now();
+    localStorage.setItem("counter-start",start);
+    location.reload();
+  });
 ////
 
 export default class Header extends React.Component {
 
     componentDidMount(){
         var topicId = account.getTopicId();
-        var start = localStorage.getItem("counter-start") || Date.now();
-        var elapsed = (new Date() - start) / 1000;
-
-        // Show introduction when below 30 seconds elapsed
-        if (topicId && elapsed < 30) {
+        if (!localStorage.getItem("intro")) {
             intro.start();
         }
     }
@@ -54,7 +62,7 @@ export default class Header extends React.Component {
         }
 
         return (
-            <div className="row Header">
+            <div className="row Header" id="intro-system">
                 <div className="col-sm-12 col-sm-1 text-center Header-logo">
                     <Logo />
                 </div>
