@@ -36,8 +36,14 @@ var intro = introJs().setOptions({
 export default class Header extends React.Component {
 
     componentDidMount(){
-        // TODO : prevent re running intro through logs / elapsed
-        intro.start();
+        var topicId = account.getTopicId();
+        var start = localStorage.getItem("counter-start") || Date.now();
+        var elapsed = (new Date() - start) / 1000;
+
+        // Show introduction when below 30 seconds elapsed
+        if (topicId && elapsed < 30) {
+            intro.start();
+        }
     }
     
     render() {
