@@ -5,16 +5,22 @@ var config = require('config');
 var eventQueue = []
 
 export function log(event, meta) {
+    var task = {}
+    var topicId = AccountStore.getTopicId() || '';
+    if (topicId != '') {
+        task = {
+            topicId: topicId,
+            type: AccountStore.getTaskType() || '',
+            duration: AccountStore.getTaskDuration() || '',
+        }
+    }
+
     eventQueue.push({
         userId: AccountStore.getId() || '',
         date: new Date(),
         event: event || '',
         meta: meta || {},
-        task: {
-            topicId: AccountStore.getTopicId() || '',
-            type: AccountStore.getTaskType() || '',
-            duration: AccountStore.getTaskDuration() || '',
-        }
+        task: task
     });
 }
 

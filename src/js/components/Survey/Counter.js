@@ -46,7 +46,7 @@ class Counter extends React.Component {
         var metaInfo = {
             elapsedTime: Math.round(this.state.elapsed / 1000)
         }
-        log(LoggerEventTypes.SEARCHRESULT_DONE, metaInfo)
+        log(LoggerEventTypes.SURVEY_LEARNING_DONE, metaInfo)
     }
 
     ////
@@ -59,7 +59,7 @@ class Counter extends React.Component {
         return (
             <div className={"counter"}>
                 {minutes}:{this.padZero(seconds)}
-                {minutes > this.state.duration &&
+                {minutes >= this.state.duration &&
                     <a className="btn btn-primary" href="/posttest" role="button" onClick={this.clickHandler}>I'm done learning!</a>
                 }
             </div>

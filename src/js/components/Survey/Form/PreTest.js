@@ -19,21 +19,16 @@ export default class PreTest extends React.Component {
         var data = TaskStore.getPreTest();
         var survey = new Survey.Model(data);
         
-        survey.onComplete.add( function(result){
-            //TODO send result.data to server
-            console.log(result);
-
-            //TODO set task details properly
-
+        survey.onComplete.add(function(result) {
             var topicId = TaskStore.getTopicFromResults(result.data);
             var userId = TaskStore.getUserIdFromResults(result.data);
 
+            //TODO set task details properly
             var type = 'search';
             var minutes = 5;
 
             AccountStore.setTask(topicId, type, minutes);
             AccountStore.setId(userId)
-
 
             var metaInfo = {
                 results: result.data
