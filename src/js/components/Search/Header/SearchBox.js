@@ -10,7 +10,7 @@ class SearchBox extends React.Component {
 
     render () {
         return (
-            <div className="row Search-box">
+            <div className="row Search-box" id="intro-search-bar">
                 <div className="col-xs-12">
                     <div className="input-group">
                         <input type="text" className="form-control" name="query" placeholder="" value={this.props.query} onChange={this.props.changeHandler} autoFocus onFocus={this.moveCursor} autoComplete={'off'} />

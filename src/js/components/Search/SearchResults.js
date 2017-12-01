@@ -95,16 +95,11 @@ export default class SearchResults extends React.Component {
         }
         var timeIndicator = prefix + numberWithCommas(this.state.matches) + " results (" + this.state.elapsedTime + " seconds)";
         
-        var introMsg = "You can upvote (the result was useful) and downvote (the result was not useful) search results. For every result you are shown the total number of votes (positives-negatives) your fellow learners have assigned to it.";
-        
-        
-        
-        
         return (
                 <div >
                     {SearchStore.getResultsNotFound() ? <SearchResultsNotFound/> : 
                     <div>
-                        <div className="row SearchResults" data-intro={introMsg} data-position="auto" data-set="step3" >
+                        <div className="row SearchResults">
                             <div className="col-xs-12" >
                                 {this.state.results.length > 0 ? <p className = "TimeIndicator"> {timeIndicator} </p> : ""}
                                 

@@ -36,8 +36,6 @@ var getParameterByName = function (name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 };
 
-// var intro = introJs().setOptions({'doneLabel':  "Ok!",  'showStepNumbers': false, 'showBullets': false});
-
 
 /*****************************/
 
@@ -47,8 +45,7 @@ class SearchBar extends React.Component {
         super(props);
         this.state = Object.assign(getSearchState(), {
             userId: this.props.userId,
-            task: this.props.task,
-            aOrB: this.props.aOrB
+            task: this.props.task
         });
 
         this._onChange = this._onChange.bind(this);
@@ -69,40 +66,19 @@ class SearchBar extends React.Component {
            var splitedUrl = url.split("?query=");
           
            if (splitedUrl.length == 2) {
+                var query = getParameterByName("query",url);
 
-            var query = getParameterByName("query",url);
+                log(LoggerEventTypes.SEARCHBOX_SEARCH, {
+                    query: query,
+                    vertical: "site-search"
+                    }
+                );
 
-            log(LoggerEventTypes.SEARCHBOX_SEARCH, {
-                query: query,
-                vertical: "site-search"
-                }
-            );
-            history.push({ 'pathname':  '/search/?q='+this.state.query+'&v=web&p=1'});
-            AppActions.search(query, "web",1);
-            this.setState({query: query, vertical: "site-search"})
+                history.push({ 'pathname':  '/search/?q='+this.state.query+'&v=web&p=1'});
+                AppActions.search(query, "web",1);
+                this.setState({query: query, vertical: "site-search"})
            }
         }
-    }
-
-    componentDidMount(){   
-        /*
-        intro.onchange(function(targetElement) {  
-            var name = targetElement.getAttribute("class") ;
-            if ("Search" === name) {
-                if (!this.state.aOrB) {
-                    intro._introItems.pop()
-                }
-            }
-        });
-
-        request
-        .get(config.serverUrl + '/v1/users/'+ this.state.userId + '/task/?topicId=' + this.state.topicId)
-        .end((err, res) => {
-            console.log()
-            if (!res.body.found) {
-                intro.start();
-            }
-        });*/
     }
     
     componentWillUnmount() {
@@ -154,11 +130,11 @@ class SearchBar extends React.Component {
         var re = new RegExp('(edx\.org)');
         
         return (
-            <div className="Search" data-intro="Search the Web from within this MOOC, but that is not all ..."  data-set="step1" >
+            <div className="Search">
                 <form action="/" method="GET" onSubmit={this.searchHandler.bind(this)}>
                     <SearchBox query={this.state.query} changeHandler={this.queryChangeHandler.bind(this)}/>
                     <SearchVerticals vertical={this.state.vertical} changeHandler={this.verticalChangeHandler.bind(this)}
-                     edX={re.test(url)} data-set="1"/>
+                     edX={re.test(url)}/>
                 </form>
                 
             </div>

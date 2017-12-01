@@ -24,7 +24,7 @@ export default class SearchVerticals extends React.Component {
         });
 
         return (
-            <div className="row Search-verticals" data-intro="You can also search within the edX discussion forum." data-set="step2" >
+            <div className="row Search-verticals">
                 <div className="col-xs-12">
                     <ul>
                         {verticals}
