@@ -6,12 +6,11 @@ import * as Survey from 'survey-react';
 import TaskStore from '../../../stores/TaskStore';
 import AccountStore from '../../../stores/AccountStore';
 
-import {log, flush} from '../../../logger/Logger';
+import {flush, log} from '../../../logger/Logger';
 import {LoggerEventTypes} from '../../../constants/LoggerEventTypes';
 import $ from 'jquery'
 
 export default class PreTest extends React.Component {
-
 
     constructor(props) {
         super(props);
@@ -27,6 +26,7 @@ export default class PreTest extends React.Component {
             $('body').bind('cut copy paste', function (e) {
                 e.preventDefault();
             });
+
             //Disable mouse right click
             $("body").on("contextmenu",function(e){
                 return false;
@@ -34,69 +34,57 @@ export default class PreTest extends React.Component {
 
         });
 
-        window.onblur = function(){   
-
-            var metaInfo = {
+        window.onblur = function(){
+            const metaInfo = {
                 type: "blur",
                 step : "pretest"
-            }
-            log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo)
-
-        }  
+            };
+            log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo);
+        };
 
         window.onfocus = function(){  
-            var metaInfo = {
+            const metaInfo = {
                 type: "focus",
                 step : "pretest"
-            }
-            log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo)
+            };
+            log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo);
         }
-
     }
 
-    
- 
+    ////
 
     render() {  
-        var data = TaskStore.getPreTest();
-        var survey = new Survey.Model(data);
+        const data = TaskStore.getPreTest();
+        let survey = new Survey.Model(data);
 
-        var sleep = function(milliseconds) {
-            var start = new Date().getTime();
-            for (var i = 0; i < 1e7; i++) {
-              if ((new Date().getTime() - start) > milliseconds){
-                break;
-              }
+        const sleep = function(milliseconds) {
+            const start = new Date().getTime();
+            for (let i = 0; i < 1e7; i++) {
+                if ((new Date().getTime() - start) > milliseconds){
+                    break;
+                }
             }
-          }
+        };
 
         survey.requiredText = "";
-        
+
         survey.onComplete.add(function(result) {
-
-            var topicId = TaskStore.getTopicFromResults(result.data);
-
             //TODO set task details properly
-            var type = 'search';
-            var minutes = 15;
-
+            const topicId = TaskStore.getTopicFromResults(result.data);
+            const type = 'search';
+            const minutes = 15;
             AccountStore.setTask(topicId, type, minutes);
 
-            var metaInfo = {
+            const metaInfo = {
                 results: result.data
-            }
-            
-
-            log(LoggerEventTypes.SURVEY_PRE_TEST_RESULTS, metaInfo)
-            flush()
+            };
+            log(LoggerEventTypes.SURVEY_PRE_TEST_RESULTS, metaInfo);
+            flush();
 
             sleep(1000);
-
             window.location = "/search"
         });
 
-        
-        
         return (
             <div className="Survey">
                 <div className="Survey-form" >

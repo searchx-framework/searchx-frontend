@@ -1,19 +1,21 @@
 import AccountStore from '../stores/AccountStore';
 import request from 'superagent';
 
-var config = require('config');
-var eventQueue = []
+const config = require('config');
+let eventQueue = [];
 
 export function log(event, meta) {
-    var task = {}
-    var topicId = AccountStore.getTopicId() || '';
-    if (topicId != '') {
+    let task = {};
+    const topicId = AccountStore.getTopicId() || '';
+
+    if (topicId !== '') {
         task = {
             topicId: topicId,
             type: AccountStore.getTaskType() || '',
             duration: AccountStore.getTaskDuration() || '',
         }
     }
+
     eventQueue.push({
         userId: AccountStore.getId() || '',
         date: new Date().toLocaleString("en-US", {timeZone: "Europe/Amsterdam"}),
@@ -24,7 +26,7 @@ export function log(event, meta) {
 }
 
 export function flush() {
-    if (eventQueue.length == 0) {
+    if (eventQueue.length === 0) {
         return;
     }
 

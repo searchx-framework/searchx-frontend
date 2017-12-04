@@ -1,21 +1,18 @@
-import {dispatch, register} from '../dispatchers/AppDispatcher';
-import AppConstants from '../constants/AppConstants';
+import {register} from '../dispatchers/AppDispatcher';
 import EventEmitter from 'events';
-import request from 'superagent';
 import underscore from 'underscore';
 
 import topics from '../../../dist/data/topics.json';
 import codes from '../../../dist/data/codes.json';
-import AccountStore from './AccountStore';
 
 const CHANGE_EVENT = 'change_task';
 
-var choices = [
+const choices = [
     {value: 1, text: "I don't remember having seen this term/phrase before." }, 
     {value: 2, text: "I have seen this term/phrase before, but I don't think I know what it means."}, 
     {value: 3, text: "I have seen this term/phrase before, and I think I know what it means."},
     {value: 4, text: "I know this term/phrase."}
-]
+];
 
 function sample(a, n) {
     return underscore.take(underscore.shuffle(a), n);
@@ -47,39 +44,40 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
     },
 
     getTopicTerms(topicId) {
-        var terms = "";
-        for (var idx in topics[topicId]["terms"]) {
-            var term = topics[topicId]["terms"][idx];
+        let terms = "";
+        topics[topicId]['terms'].forEach(term => {
             terms += term + ";  "
-        }
+        });
+
         return terms;
     },
 
     getUserIdFromResults(results) {
-        for (var result in results){
-            if (result == "userId") {
+        results.forEach(result => {
+            if (result === "userId") {
                 return results[result];
             }
-        }
+        });
     },
 
     getTopicFromResults(results) {
-        var topicResults = {};
-        for (var result in results){
-            var v = result.split("-");
-            if (v[0] == "Q") {
+        let topicResults = {};
+
+        results.forEach(result => {
+            const v = result.split("-");
+            if (v[0] === "Q") {
                 topicResults[v[1]] = 0;
             }
-        }
-        
-        for (var result in results){
-            var v = result.split("-");
-            if (v[0] == "Q") {
+        });
+
+        results.forEach(result => {
+            const v = result.split("-");
+            if (v[0] === "Q") {
                 topicResults[v[1]] += parseInt(results[result]);
             }
-        }
+        });
 
-        var items = Object.keys(topicResults).map(function(key) {
+        const items = Object.keys(topicResults).map(function(key) {
             return [key, topicResults[key]];
         });
         
@@ -94,9 +92,8 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
     ////
 
     getRegisterInfo() {
-
-        var pages = [];
-        var elements = [];
+        let pages = [];
+        let elements = [];
 
         elements.push({ 
             type: "html", 
@@ -121,7 +118,6 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
             name: "degree",
             type: "radiogroup",
             isRequired: true,
-            name: "degree",
             choices: [
                 {value: 0, text: "High School"}, 
                 {value: 1, text: "Bachelor"}, 
@@ -168,7 +164,7 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
             ]
         });
 
-        pages.push({elements:  elements}) 
+        pages.push({elements:  elements});
 
         return {
             pages: pages, 
@@ -178,8 +174,8 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
     }, 
 
     surveyValidateQuestion (s, options) {
-        if (options.name == 'userId') {
-            var userId = options.value;
+        if (options.name === 'userId') {
+            const userId = options.value;
             
             if(!codes[userId]) {
                 options.error = "This User Code is not valid, please check if you have copied and pasted the code correctly'.";
@@ -189,25 +185,24 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
 
 
     getPreTest() {
-        var sampledTopics = sample(Object.keys(topics), 3);
-        var pages = [];
- 
-        for (var topic in sampledTopics) {
-            var tid = sampledTopics[topic];
-            var elements = [];
+        const sampledTopics = sample(Object.keys(topics), 3);
+        let pages = [];
 
-            elements.push({ 
-                type: "html", 
+        sampledTopics.forEach(topic => {
+            const tid = sampledTopics[topic];
+            let elements = [];
+
+            elements.push({
+                type: "html",
                 name: "topic",
                 html: "<h2>Diagonistic Test</h2> " +
-                    "<h3>Let's find out what you already know first.</h3>" +
-                    "<h3>Answer these questions about <b>" + topics[tid]["title"] + "</b>:</h3>"
+                "<h3>Let's find out what you already know first.</h3>" +
+                "<h3>Answer these questions about <b>" + topics[tid]["title"] + "</b>:</h3>"
             });
 
-            for (var idx in topics[tid]["terms"]) {
-                var term = topics[tid]["terms"][idx];
-                var name = "Q-"+ tid +"-"+ idx
-                
+            topics[tid]["terms"].forEach(term => {
+                const name = "Q-"+ tid +"-"+ idx;
+
                 elements.push({
                     type: "html",
                     html: "<hr/>"
@@ -224,15 +219,16 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
                 elements.push({
                     title: "In your own words, what do you think the meaning is?",
                     visibleIf: "{"+ name +"} > 2",
-                    name: "meaning-" + name, 
-                    type: "text", 
-                    inputType: "text", 
-                    width: 500, 
+                    name: "meaning-" + name,
+                    type: "text",
+                    inputType: "text",
+                    width: 500,
                     isRequired: true
                 });
-            }
+            });
+
             pages.push({elements:  elements});
-        }
+        });
 
         ////
 
@@ -245,8 +241,8 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
     },
 
     getPostTest(userId, topicId) {
-        var pages = [];
-        var elements = [];
+        let pages = [];
+        let elements = [];
 
         elements.push({ 
             type: "html", 
@@ -256,9 +252,8 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
                 "<h3>Answer these questions about <b>" + topics[topicId]["title"] + "</b>:</h3>"
         });
 
-        for (var idx in topics[topicId]["terms"]) {
-            var term = topics[topicId]["terms"][idx];
-            var name = "Q-"+topicId + "-" +idx;
+        topics[topicId]["terms"].forEach(term => {
+            const name = "Q-"+topicId + "-" +idx;
 
             elements.push({
                 title: "How much do  you know about \"" + term + "\"?",
@@ -271,13 +266,14 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
             elements.push({
                 title: "In your own words, what do you think the meaning is?",
                 visibleIf: "{"+ name +"} > 2",
-                name : "meaning-"+topicId+ "-" + idx, 
-                type :"text", 
-                inputType:"text", 
-                width: 500, 
+                name : "meaning-"+topicId+ "-" + idx,
+                type :"text",
+                inputType:"text",
+                width: 500,
                 isRequired: true,
             });
-        }
+        });
+
         pages.push({elements:  elements});
 
         ////

@@ -16,7 +16,7 @@ class SearchBox extends React.Component {
                         <input type="text" className="form-control" name="query" placeholder="" value={this.props.query} onChange={this.props.changeHandler} autoFocus onFocus={this.moveCursor} autoComplete={'off'} />
                             <span className="input-group-btn">
                                 <button className="btn" type="submit" disabled={this.props.query.length === 0}>
-                                    <span className="fa fa-search"></span>
+                                    <span className="fa fa-search"/>
                                 </button>
                             </span>
                     </div>

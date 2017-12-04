@@ -8,14 +8,12 @@ import AccountStore from '../../../stores/AccountStore';
 
 import {log} from '../../../logger/Logger';
 import {LoggerEventTypes} from '../../../constants/LoggerEventTypes';
-import $ from 'jquery'
 
 export default class Register extends React.Component {
 
-
     constructor(props) {
         super(props);
-      }
+    }
 
     componentWillMount() {    
         Survey.Survey.cssType = "bootstrap";
@@ -23,48 +21,45 @@ export default class Register extends React.Component {
     }
 
     componentDidMount(){
-        window.onblur = function(){   
-
-            var metaInfo = {
+        window.onblur = function(){
+            const metaInfo = {
                 type: "blur",
                 step : "register"
 
-            }
-            log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo)
+            };
+            log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo);
+        };
 
-        }  
         window.onfocus = function(){  
-            var metaInfo = {
+            const metaInfo = {
                 type: "focus",
                 step : "register"
 
-            }
-            log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo)
+            };
+            log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo);
         }
     }
 
+    ////
 
     render() {  
-        var data = TaskStore.getRegisterInfo();
-        var survey = new Survey.Model(data);
+        const data = TaskStore.getRegisterInfo();
+        let survey = new Survey.Model(data);
 
         survey.requiredText = "";
-        
+
         survey.onComplete.add(function(result) {
+            const userId = TaskStore.getUserIdFromResults(result.data);
+            AccountStore.setId(userId);
 
-            var userId = TaskStore.getUserIdFromResults(result.data);
-
-            AccountStore.setId(userId)
-            var metaInfo = {
+            const metaInfo = {
                 results: result.data
-            }
-            log(LoggerEventTypes.SURVEY_PRE_TEST_RESULTS, metaInfo)
+            };
+            log(LoggerEventTypes.SURVEY_PRE_TEST_RESULTS, metaInfo);
 
             window.location = "/pretest"
         });
 
-        
-        
         return (
             <div className="Survey">
                 <div className="Survey-form">

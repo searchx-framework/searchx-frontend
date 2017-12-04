@@ -17,8 +17,8 @@ import {LoggerEventTypes} from '../../constants/LoggerEventTypes';
 
 import history from '../History';
 
-var configuration = require('../../config');
-var Loader = require('react-loader');
+const configuration = require('../../config');
+let Loader = require('react-loader');
 
 
 ////
@@ -28,8 +28,7 @@ function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-var getSearchState = () => {
-  
+let getSearchState = () => {
     return {
         query: SearchStore.getQuery(),
         vertical: SearchStore.getVertical(),
@@ -69,17 +68,18 @@ export default class SearchResults extends React.Component {
     
 
     handlePageChange(pageNumber) {
-        
-        var metaInfo = {
+        const metaInfo = {
             query: this.state.query,
             page: pageNumber,
             previous_page: this.state.activePage,
             vertical: this.state.vertical,
             serp_id: this.state.serp_id
-        }
+        };
         log(LoggerEventTypes.SEARCHRESULTS_NEXT_PAGE, metaInfo);
+
         history.push({'pathname': '/search/?q='+this.state.query+'&v='+this.state.vertical + '&p=' + pageNumber});
         AppActions.nextPage(this.state.query, this.state.vertical, pageNumber);
+
         this.setState({activePage: pageNumber,
             results: SearchStore.getResults()
         });
@@ -89,52 +89,49 @@ export default class SearchResults extends React.Component {
 
     render() {
         //only if more than X search results are returned do we enter approximate numbering
-        var prefix = "About ";
+        let prefix = "About ";
         if (this.state.matches < configuration.aboutPrefixAt) {
             prefix = "";
         }
-        var timeIndicator = prefix + numberWithCommas(this.state.matches) + " results (" + this.state.elapsedTime + " seconds)";
+
+        const timeIndicator = prefix + numberWithCommas(this.state.matches) + " results (" + this.state.elapsedTime + " seconds)";
         
         return (
-                <div >
-                    {SearchStore.getResultsNotFound() ? <SearchResultsNotFound/> : 
-                    <div>
-                        <div className="row SearchResults">
-                            <div className="col-xs-12" >
-                                {this.state.results.length > 0 ? <p className = "TimeIndicator"> {timeIndicator} </p> : ""}
-                                
-                                {this.state.vertical === 'web' ? <WebSearchResults  results={this.state.results} 
-                                    query={this.state.query} page={this.state.activePage} serp_id = {this.state.serp_id}/> : ''}
-                                {this.state.vertical === 'news' ? <NewsSearchResults results={this.state.results} 
-                                    query={this.state.query} page={this.state.activePage} serp_id={this.state.serp_id}/> : ''}
-                                {this.state.vertical === 'images' ? <ImagesSearchResults results={this.state.results} 
-                                    query={this.state.query} page={this.state.activePage} serp_id = {this.state.serp_id}/> : ''}
-                                {this.state.vertical === 'videos' ? <VideosSearchResults results={this.state.results} 
-                                    query={this.state.query} page={this.state.activePage} serp_id = {this.state.serp_id}/> : ''}
-                                {this.state.vertical === 'forums' ? <ForumSearchResults results={this.state.results}
-                                    query={this.state.query} page={this.state.activePage} serp_id = {this.state.serp_id}/> : ''}
-                            </div>
-                            {  SearchStore.getSubmittedQuery() ? <Loader loaded={this.state.results.length > 0 || SearchStore.isFinished()  }/> : "" }
+            <div >
+                {SearchStore.getResultsNotFound() ? <SearchResultsNotFound/> :
+                <div>
+                    <div className="row SearchResults">
+                        <div className="col-xs-12" >
+                            {this.state.results.length > 0 ? <p className = "TimeIndicator"> {timeIndicator} </p> : ""}
 
-                            
+                            {this.state.vertical === 'web' ? <WebSearchResults  results={this.state.results}
+                                query={this.state.query} page={this.state.activePage} serp_id = {this.state.serp_id}/> : ''}
+                            {this.state.vertical === 'news' ? <NewsSearchResults results={this.state.results}
+                                query={this.state.query} page={this.state.activePage} serp_id={this.state.serp_id}/> : ''}
+                            {this.state.vertical === 'images' ? <ImagesSearchResults results={this.state.results}
+                                query={this.state.query} page={this.state.activePage} serp_id = {this.state.serp_id}/> : ''}
+                            {this.state.vertical === 'videos' ? <VideosSearchResults results={this.state.results}
+                                query={this.state.query} page={this.state.activePage} serp_id = {this.state.serp_id}/> : ''}
+                            {this.state.vertical === 'forums' ? <ForumSearchResults results={this.state.results}
+                                query={this.state.query} page={this.state.activePage} serp_id = {this.state.serp_id}/> : ''}
                         </div>
-                    
-                        <SearchResultsPagination vertical={this.state.vertical}   
-                            length={this.state.matches} activePage={this.state.activePage}  
-                            handlePageChange={this.handlePageChange.bind(this)} finished={this.state.results.length > 0 || SearchStore.isFinished()  }/>
-                        
-                        {  SearchStore.getSubmittedQuery() & SearchStore.isFinished() ? 
- 			    <div className="col-xs-12 text-center" >
-                            	<p className="Footer"> About <a href="https://searchx.ewi.tudelft.nl:80/about" target="_blank">SearchX</a>.</p>
-			    </div>
-                             : ""
-                        }
-                        
+                        {  SearchStore.getSubmittedQuery() ? <Loader loaded={this.state.results.length > 0 || SearchStore.isFinished()  }/> : "" }
                     </div>
-                    }
-                </div>
 
-            
+                    <SearchResultsPagination vertical={this.state.vertical}
+                        length={this.state.matches} activePage={this.state.activePage}
+                        handlePageChange={this.handlePageChange.bind(this)} finished={this.state.results.length > 0 || SearchStore.isFinished()  }
+                    />
+
+                    {SearchStore.getSubmittedQuery() && SearchStore.isFinished() ?
+                        <div className="col-xs-12 text-center" >
+                            <p className="Footer"> About <a href="https://searchx.ewi.tudelft.nl:80/about" target="_blank">SearchX</a>.</p>
+                        </div>
+                    : ""}
+
+                </div>
+                }
+            </div>
         )
     }
 }

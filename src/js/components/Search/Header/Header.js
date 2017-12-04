@@ -6,11 +6,10 @@ import Search from './SearchBar';
 import Task from '../../Survey/Task';
 
 import account from '../../../stores/AccountStore';
-import TaskStore from '../../../stores/TaskStore';
 
 ////
 
-var steps = [
+const steps = [
 
     {
         element: '#intro-description',
@@ -39,7 +38,7 @@ var steps = [
     }
 ];
 
-var intro = introJs().setOptions({
+const intro = introJs().setOptions({
     steps: steps,
     doneLabel:  "Ok!",  
     showStepNumbers: false, 
@@ -47,8 +46,9 @@ var intro = introJs().setOptions({
 });
 
 intro.oncomplete(function() {
+    const start = localStorage.getItem("counter-start") || Date.now();
+
     localStorage.setItem("intro", true);
-    var start = localStorage.getItem("counter-start") || Date.now();
     localStorage.setItem("counter-start",start);
     location.reload();
 });
@@ -57,18 +57,17 @@ intro.oncomplete(function() {
 export default class Header extends React.Component {
 
     componentDidMount(){
-        var topicId = account.getTopicId();
         if (!localStorage.getItem("intro")) {
             intro.start();
         }
     }
     
     render() {
-        var task = {
+        const task = {
             topicId: account.getTopicId(),
             type: account.getTaskType(),
             duration: account.getTaskDuration()
-        }
+        };
 
         return (
             <div className="row Header" id="intro-system">

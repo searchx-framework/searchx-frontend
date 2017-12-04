@@ -1,7 +1,6 @@
 import './ImagesSearchResults.css';
 
 import React from 'react';
-import Lightbox from 'react-images';
 
 
 import ImagesSearchResult from './ImagesSearchResult';

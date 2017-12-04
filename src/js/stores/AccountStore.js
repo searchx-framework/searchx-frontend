@@ -1,7 +1,5 @@
-import {dispatch, register} from '../dispatchers/AppDispatcher';
-import AppConstants from '../constants/AppConstants';
+import {register} from '../dispatchers/AppDispatcher';
 import EventEmitter from 'events';
-import request from 'superagent';
 
 
 /*****************************/
@@ -9,12 +7,12 @@ import request from 'superagent';
 
 const CHANGE_EVENT = 'change_account';
 
-var getParameterByName = function (name, url) {
+const getParameterByName = function (name, url) {
     if (!url) url = window.location.href;
     name = name.replace(/[\[\]]/g, "\\$&");
 
-    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"), 
-        results = regex.exec(url);
+    const regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)");
+    const results = regex.exec(url);
     
     if (!results) return null;
     if (!results[2]) return '';
@@ -26,7 +24,7 @@ var getParameterByName = function (name, url) {
 /*****************************/
 
 
-var state = {
+let state = {
 
     userId: localStorage.getItem("userId") || '' ,
     taskType : localStorage.getItem("taskType") || '',
@@ -50,7 +48,7 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
     ////
 
     getId() {
-        if (state.userId == '') {
+        if (state.userId === '') {
             //TODO: should create a new user id and maintain in session cookie
             return '20fdf0sd032';
         }
@@ -59,7 +57,7 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
 
     setId(userId) {
         localStorage.setItem("userId", userId);
-        state.userId = userId
+        state.userId = userId;
         return state.userId;
     },
 
@@ -76,9 +74,9 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
     },
 
     setTask(topicId, type, minutes) {
-        localStorage.setItem("topicId", topicId)
-        localStorage.setItem("taskType", type)
-        localStorage.setItem("taskDuration", minutes)
+        localStorage.setItem("topicId", topicId);
+        localStorage.setItem("taskType", type);
+        localStorage.setItem("taskDuration", minutes);
 
         state.topicId = topicId;
         state.taskType = type;

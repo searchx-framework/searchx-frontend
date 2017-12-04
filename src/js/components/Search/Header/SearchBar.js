@@ -1,7 +1,5 @@
 import './SearchBar.css'
-
 import React from 'react';
-import request from 'superagent';
 
 import history from '../../History';
 import AppActions from '../../../actions/AppActions';
@@ -12,13 +10,11 @@ import {LoggerEventTypes} from '../../../constants/LoggerEventTypes';
 import SearchBox from './SearchBox';
 import SearchVerticals from './SearchVerticals';
 
-var config = require('config');
-
 
 /*****************************/
 
 
-var getSearchState = () => {
+let getSearchState = () => {
     return {
         query: SearchStore.getQuery(),
         vertical: SearchStore.getVertical(),
@@ -26,11 +22,13 @@ var getSearchState = () => {
     }
 };
 
-var getParameterByName = function (name, url) {
+let getParameterByName = function (name, url) {
     if (!url) url = window.location.href;
     name = name.replace(/[\[\]]/g, "\\$&");
-    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-        results = regex.exec(url);
+
+    const regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)");
+    const results = regex.exec(url);
+
     if (!results) return null;
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
@@ -56,17 +54,17 @@ class SearchBar extends React.Component {
     componentWillMount() {
         SearchStore.addChangeListener(this._onChange);
         
-        var url = (window.location != window.parent.location)
+        const url = (window.location !== window.parent.location)
             ? document.referrer
             : document.location.href;
         
-        var re = new RegExp('(edx\.org)');
+        const re = new RegExp('(edx\.org)');
         
         if (re.test(url)) {
-           var splitedUrl = url.split("?query=");
+           let splitedUrl = url.split("?query=");
           
-           if (splitedUrl.length == 2) {
-                var query = getParameterByName("query",url);
+           if (splitedUrl.length === 2) {
+                const query = getParameterByName("query",url);
 
                 log(LoggerEventTypes.SEARCHBOX_SEARCH, {
                     query: query,
@@ -92,7 +90,7 @@ class SearchBar extends React.Component {
     }
 
     queryChangeHandler(e) {
-        var query = e.target.value;
+        const query = e.target.value;
         AppActions.changeQuery(query);
     }
     
@@ -124,10 +122,10 @@ class SearchBar extends React.Component {
     ////
 
     render() {
-        var url = (window.location != window.parent.location)
+        const url = (window.location !== window.parent.location)
             ? document.referrer
             : document.location.href;
-        var re = new RegExp('(edx\.org)');
+        const re = new RegExp('(edx\.org)');
         
         return (
             <div className="Search">
@@ -136,7 +134,6 @@ class SearchBar extends React.Component {
                     <SearchVerticals vertical={this.state.vertical} changeHandler={this.verticalChangeHandler.bind(this)}
                      edX={re.test(url)}/>
                 </form>
-                
             </div>
         )
     }

@@ -22,47 +22,44 @@ export default class PostTest extends React.Component {
             $('body').bind('cut copy paste', function (e) {
                 e.preventDefault();
             });
+
             //Disable mouse right click
             $("body").on("contextmenu",function(e){
                 return false;
             });
-
         });
 
-        window.onblur = function(){   
-            
-            var metaInfo = {
+        window.onblur = function(){
+            const metaInfo = {
                 type: "blur",
                 step : "posttest"
 
-            }
-            log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo)
+            };
+            log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo);
 
-        }  
+        };
+
         window.onfocus = function(){  
-            var metaInfo = {
+            const metaInfo = {
                 type: "focus",
                 step : "posttest"
-
-            }
-            log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo)
+            };
+            log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo);
         }
     }
 
 
-    render() {  
-
-        var data = TaskStore.getPostTest(AccountStore.getId(), AccountStore.getTopicId());
-        var survey = new Survey.Model(data);
+    render() {
+        const data = TaskStore.getPostTest(AccountStore.getId(), AccountStore.getTopicId());
+        let survey = new Survey.Model(data);
 
         survey.requiredText = "";
 
         survey.onComplete.add( function(result){
-
-            var metaInfo = {
+            const metaInfo = {
                 results: result.data
-            }
-            log(LoggerEventTypes.SURVEY_POST_TEST_RESULTS, metaInfo)
+            };
+            log(LoggerEventTypes.SURVEY_POST_TEST_RESULTS, metaInfo);
         });
 
         return (

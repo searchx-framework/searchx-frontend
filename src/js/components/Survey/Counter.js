@@ -34,28 +34,26 @@ class Counter extends React.Component {
     padZero(num) {
         if (num < 10 && num >= 0) {
             return '0' + num;
-        };
-
+        }
         return num;
     }
 
     clickHandler(){
         localStorage.setItem("elapsed", 0);
-        var metaInfo = {
+        const metaInfo = {
             elapsedTime: Math.round(this.state.elapsed / 1000)
-        }
-        log(LoggerEventTypes.SURVEY_LEARNING_DONE, metaInfo)
+        };
+        log(LoggerEventTypes.SURVEY_LEARNING_DONE, metaInfo);
     }
 
     ////
 
     render () {
+        const elapsed = Math.round(this.state.elapsed / 1000);
+        let minutes = Math.floor(elapsed/60);
+        let seconds = elapsed-(minutes*60);
 
-        var elapsed = Math.round(this.state.elapsed / 1000);
-        var minutes = Math.floor(elapsed/60);
-        var seconds = elapsed-(minutes*60);
-
-        if (this.props.start == 0) {
+        if (this.props.start === 0) {
             minutes = 0;
             seconds = 0;
         }

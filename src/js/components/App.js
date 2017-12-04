@@ -1,16 +1,8 @@
 import './App.css'
 
 import React from 'react'
-import {
-  BrowserRouter as Router,
-  Route,
-  Link
-} from 'react-router-dom'
-import HTML5Backend from 'react-dnd-html5-backend';
-
-import history from './History';
-import AppActions from '../actions/AppActions';
-import {flush,log} from '../logger/Logger';
+import {BrowserRouter as Router, Route} from 'react-router-dom'
+import {flush} from '../logger/Logger';
 
 import About from './Pages/About';
 import Search from './Search/Search';
@@ -19,8 +11,7 @@ import PostTest from './Survey/Form/PostTest';
 import Register from './Survey/Form/Register';
 import Welcome from './Survey/Welcome';
 
-var config = require('config');
-import AccountStore from '../stores/AccountStore';
+const config = require('config');
 
 ////
 

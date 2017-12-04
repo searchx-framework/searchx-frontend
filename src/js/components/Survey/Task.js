@@ -4,9 +4,6 @@ import React from 'react';
 import Counter from './Counter';
 import TaskStore from '../../stores/TaskStore';
 
-var configuration = require('../../config');
-
-
 class Task extends React.Component {    
 
     constructor(props) {
@@ -20,7 +17,8 @@ class Task extends React.Component {
     render () {
         //var start = localStorage.getItem("counter-start") || Date.now();
         //localStorage.setItem("counter-start", start);
-        var start = localStorage.getItem("counter-start") || 0;
+        let start = localStorage.getItem("counter-start") || 0;
+
         return(
             <div className="Task row" id={this.state.task.topicId} >
                 <div className="Task-submit no-padding">

@@ -1,27 +1,22 @@
 import React from 'react';
 import VisibilitySensor from 'react-visibility-sensor';
 
-import Rating from '../Features/Rating';
-
 import {log} from '../../../logger/Logger';
 import {LoggerEventTypes} from '../../../constants/LoggerEventTypes';
 import SearchStore from '../../../stores/SearchStore';
 
-
 class WebSearchResult extends React.Component {
-    
-
 
     render(){
         
-        var metaInfo = {
+        let metaInfo = {
             url: this.props.result.displayUrl,
             query: this.props.query,
             page: this.props.page,
             vertical: 'web',
             serp_id: this.props.serp_id,
-        }
-       
+        };
+
         let clickUrlLog = (e) => {
             log(LoggerEventTypes.SEARCHRESULT_CLICK_URL, metaInfo)
         };
@@ -42,6 +37,8 @@ class WebSearchResult extends React.Component {
         let hoverLeaveSummary = (e) => {
             log(LoggerEventTypes.SEARCHRESULT_HOVERLEAVE,metaInfo)
         };
+
+        ////
 
         let cName = 'row WebSearchResults-result';
 
@@ -68,35 +65,32 @@ class WebSearchResult extends React.Component {
         
         return  (
             <div className={cName}>
-                    <VisibilitySensor onChange={viewUrlLog} 
-                            scrollCheck
-                            delayedCall={true}
-                            scrollThrottle={50}
-                            intervalDelay={2000}
-                    />
+                <VisibilitySensor
+                    onChange={viewUrlLog}
+                    scrollCheck
+                    delayedCall={true}
+                    scrollThrottle={50}
+                    intervalDelay={2000}
+                />
                   
-                    <div onMouseEnter={hoverEnterSummary} onMouseLeave={hoverLeaveSummary} >
-          
-                        
-                        <h2>
-                            <a href={this.props.result.url} title={this.props.result.name} target="_blank"
-                                        onClick={clickUrlLog}
-                                        onContextMenu={contextUrlLog}>
-                                {this.props.result.name}
-                            </a>
-                        </h2>
-                        <span>
-                            {this.props.result.displayUrl}
-                        </span>
-                
-                        <p>
-                            {this.props.result.snippet}
-                        </p>
-                    </div>
+                <div onMouseEnter={hoverEnterSummary} onMouseLeave={hoverLeaveSummary} >
+                    <h2>
+                        <a href={this.props.result.url} title={this.props.result.name} target="_blank" onClick={clickUrlLog} onContextMenu={contextUrlLog}>
+                            {this.props.result.name}
+                        </a>
+                    </h2>
+
+                    <span>
+                        {this.props.result.displayUrl}
+                    </span>
+
+                    <p>
+                        {this.props.result.snippet}
+                    </p>
+                </div>
             </div>
-            
         )
-        
+
     }
 }
 
