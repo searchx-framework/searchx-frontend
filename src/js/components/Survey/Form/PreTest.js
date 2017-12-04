@@ -6,7 +6,7 @@ import * as Survey from 'survey-react';
 import TaskStore from '../../../stores/TaskStore';
 import AccountStore from '../../../stores/AccountStore';
 
-import {log} from '../../../logger/Logger';
+import {log, flush} from '../../../logger/Logger';
 import {LoggerEventTypes} from '../../../constants/LoggerEventTypes';
 import $ from 'jquery'
 
@@ -55,11 +55,20 @@ export default class PreTest extends React.Component {
     }
 
     
-    
+ 
 
     render() {  
         var data = TaskStore.getPreTest();
         var survey = new Survey.Model(data);
+
+        var sleep = function(milliseconds) {
+            var start = new Date().getTime();
+            for (var i = 0; i < 1e7; i++) {
+              if ((new Date().getTime() - start) > milliseconds){
+                break;
+              }
+            }
+          }
 
         survey.requiredText = "";
         
@@ -76,8 +85,12 @@ export default class PreTest extends React.Component {
             var metaInfo = {
                 results: result.data
             }
+            
 
             log(LoggerEventTypes.SURVEY_PRE_TEST_RESULTS, metaInfo)
+            flush()
+
+            sleep(1000);
 
             window.location = "/search"
         });
