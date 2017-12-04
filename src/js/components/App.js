@@ -2,7 +2,7 @@ import './App.css'
 
 import React from 'react'
 import {BrowserRouter as Router, Route} from 'react-router-dom'
-import {flush} from '../logger/Logger';
+import {flush} from '../utils/Logger';
 
 import About from './Pages/About';
 import Search from './Search/Search';
@@ -36,10 +36,11 @@ export class App extends React.Component {
                     <Route exact path="/" component={About}/>
                     <Route path="/about" component={About}/>
                     <Route path="/search" component={Search}/>
+
                     <Route path="/start" component={Welcome}/>
+                    <Route path="/register" component={Register}/>
                     <Route path="/pretest" component={PreTest}/>
                     <Route path="/posttest" component={PostTest}/>
-                    <Route path="/register" component={Register}/>
                 </div>
             </Router>
         );

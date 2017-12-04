@@ -1,4 +1,4 @@
-import {register} from '../dispatchers/AppDispatcher';
+import {register} from '../utils/Dispatcher';
 import EventEmitter from 'events';
 import underscore from 'underscore';
 
@@ -41,6 +41,11 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
 
     getCourseTitle(topicId) {
         return topics[topicId]["course"];
+    },
+
+    getTopicVideo(topicId) {
+        const prefix = "https://www.youtube.com/watch?v=";
+        return prefix + topics[topicId]["youtube"];
     },
 
     getTopicTerms(topicId) {

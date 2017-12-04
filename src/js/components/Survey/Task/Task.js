@@ -2,7 +2,7 @@ import './Task.css';
 import React from 'react';
 
 import Counter from './Counter';
-import TaskStore from '../../stores/TaskStore';
+import TaskStore from '../../../stores/TaskStore';
 
 class Task extends React.Component {    
 

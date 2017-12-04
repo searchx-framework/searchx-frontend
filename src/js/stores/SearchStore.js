@@ -1,9 +1,9 @@
-import {register} from '../dispatchers/AppDispatcher';
+import {register} from '../utils/Dispatcher';
 import AppConstants from '../constants/AppConstants';
 import EventEmitter from 'events';
 import request from 'superagent';
 import AccountStore from '../stores/AccountStore';
-import {log} from '../logger/Logger';
+import {log} from '../utils/Logger';
 import {LoggerEventTypes} from '../constants/LoggerEventTypes';
 
 const configuration = require('../config');

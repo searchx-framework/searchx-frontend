@@ -6,7 +6,7 @@ import * as Survey from 'survey-react';
 import TaskStore from '../../../stores/TaskStore';
 import AccountStore from '../../../stores/AccountStore';
 
-import {flush, log} from '../../../logger/Logger';
+import {flush, log} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../constants/LoggerEventTypes';
 import $ from 'jquery'
 

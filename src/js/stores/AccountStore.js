@@ -1,4 +1,4 @@
-import {register} from '../dispatchers/AppDispatcher';
+import {register} from '../utils/Dispatcher';
 import EventEmitter from 'events';
 
 

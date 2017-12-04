@@ -1,7 +1,7 @@
 import React from 'react';
-import Header from './Header/Header';
-import SearchResults from './SearchResults';
-import {log} from '../../logger/Logger';
+import SearchHeader from './Header/SearchHeader';
+import SearchResults from './Results/SearchResults';
+import {log} from '../../utils/Logger';
 import {LoggerEventTypes} from '../../constants/LoggerEventTypes';
 
 
@@ -30,7 +30,7 @@ export default class Template extends React.Component {
     render() {
         return (
             <div >
-                <Header />
+                <SearchHeader/>
                 <SearchResults/>
             </div>
         )

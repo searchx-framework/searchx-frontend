@@ -1,8 +1,8 @@
 import React from 'react';
 import VisibilitySensor from 'react-visibility-sensor';
 
-import {log} from '../../../logger/Logger';
-import {LoggerEventTypes} from '../../../constants/LoggerEventTypes';
+import {log} from '../../../../utils/Logger';
+import {LoggerEventTypes} from '../../../../constants/LoggerEventTypes';
 
 
 class ImagesSearchResult extends React.Component {

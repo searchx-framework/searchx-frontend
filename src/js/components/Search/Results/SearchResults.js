@@ -1,23 +1,23 @@
 import './SearchResults.css';
 import React from 'react';
 
-import WebSearchResults from './Results/WebSearchResults';
-import NewsSearchResults from './Results/NewsSearchResults';
-import ImagesSearchResults from './Results/ImagesSearchResults';
-import VideosSearchResults from './Results/VideosSearchResults';
+import WebSearchResults from './Types/WebSearchResults';
+import NewsSearchResults from './Types/NewsSearchResults';
+import ImagesSearchResults from './Types/ImagesSearchResults';
+import VideosSearchResults from './Types/VideosSearchResults';
 
 import SearchResultsPagination from './SearchResultsPagination';
 import SearchResultsNotFound from './SearchResultsNotFound';
 
-import SearchStore from '../../stores/SearchStore'
-import AccountStore from '../../stores/AccountStore';
-import AppActions from '../../actions/AppActions';
-import {log} from '../../logger/Logger';
-import {LoggerEventTypes} from '../../constants/LoggerEventTypes';
+import SearchStore from '../../../stores/SearchStore'
+import AccountStore from '../../../stores/AccountStore';
+import SearchActions from '../SearchActions';
+import {log} from '../../../utils/Logger';
+import {LoggerEventTypes} from '../../../constants/LoggerEventTypes';
 
-import history from '../History';
+import {updateUrl} from '../Header/SearchBar';
 
-const configuration = require('../../config');
+const configuration = require('../../../config');
 let Loader = require('react-loader');
 
 
@@ -77,8 +77,8 @@ export default class SearchResults extends React.Component {
         };
         log(LoggerEventTypes.SEARCHRESULTS_NEXT_PAGE, metaInfo);
 
-        history.push({'pathname': '/search/?q='+this.state.query+'&v='+this.state.vertical + '&p=' + pageNumber});
-        AppActions.nextPage(this.state.query, this.state.vertical, pageNumber);
+        updateUrl(this.state.query, this.state.vertical, pageNumber);
+        SearchActions.nextPage(this.state.query, this.state.vertical, pageNumber);
 
         this.setState({activePage: pageNumber,
             results: SearchStore.getResults()
@@ -125,7 +125,7 @@ export default class SearchResults extends React.Component {
 
                     {SearchStore.getSubmittedQuery() && SearchStore.isFinished() ?
                         <div className="col-xs-12 text-center" >
-                            <p className="Footer"> About <a href="https://searchx.ewi.tudelft.nl:80/about" target="_blank">SearchX</a>.</p>
+                            <p className="Footer"> About <a href="/about" target="_blank">SearchX</a>.</p>
                         </div>
                     : ""}
 

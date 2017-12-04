@@ -1,16 +1,14 @@
-import './Header.css';
+import './SearchHeader.css';
 import React from 'react';
 
 import Logo from './Logo';
 import Search from './SearchBar';
-import Task from '../../Survey/Task';
 
 import account from '../../../stores/AccountStore';
 
 ////
 
 const steps = [
-
     {
         element: '#intro-description',
         intro: 'Read the task description.'
@@ -52,6 +50,7 @@ intro.oncomplete(function() {
     localStorage.setItem("counter-start",start);
     location.reload();
 });
+
 ////
 
 export default class Header extends React.Component {
@@ -63,25 +62,14 @@ export default class Header extends React.Component {
     }
     
     render() {
-        const task = {
-            topicId: account.getTopicId(),
-            type: account.getTaskType(),
-            duration: account.getTaskDuration()
-        };
-
         return (
             <div className="row Header" id="intro-system">
                 <div className="col-sm-12 col-sm-1 text-center Header-logo">
                     <Logo />
                 </div>
-                <div className="col-sm-12 col-sm-4">
-                    <Search userId={account.getId()} task={task} />
+                <div className="col-sm-12 col-sm-5">
+                    <Search userId={account.getId()}/>
                 </div>
-                {task.topicId &&
-                    <div className="col-sm-12 col-sm-5 pull-right">
-                        <Task userId={account.getId()} task={task} />
-                    </div>
-                }
             </div>
         )
     }

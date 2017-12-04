@@ -1,13 +1,8 @@
+import './Survey.css'
 import React from 'react';
-import './Welcome.css'
 
 class Welcome extends React.Component {
-    constructor() {
-        super();
-    }
-
     render() {
-       
         return (
             <div className="Welcome">
                 

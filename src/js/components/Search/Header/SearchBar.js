@@ -2,9 +2,9 @@ import './SearchBar.css'
 import React from 'react';
 
 import history from '../../History';
-import AppActions from '../../../actions/AppActions';
+import SearchActions from '../SearchActions';
 import SearchStore from '../../../stores/SearchStore';
-import {log} from '../../../logger/Logger';
+import {log} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../constants/LoggerEventTypes';
 
 import SearchBox from './SearchBox';
@@ -22,7 +22,7 @@ let getSearchState = () => {
     }
 };
 
-let getParameterByName = function (name, url) {
+let getParameterByName = function(name, url) {
     if (!url) url = window.location.href;
     name = name.replace(/[\[\]]/g, "\\$&");
 
@@ -34,6 +34,13 @@ let getParameterByName = function (name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 };
 
+exports.updateUrl = function(query, vertical, page) {
+    let current = window.location.href;
+    if(current.includes('/search')) {
+        history.push({pathname: '/search/?q='+ query +'&v='+ vertical.toLowerCase() +'&p='+ page});
+    }
+};
+
 
 /*****************************/
 
@@ -42,8 +49,7 @@ class SearchBar extends React.Component {
     constructor(props) {
         super(props);
         this.state = Object.assign(getSearchState(), {
-            userId: this.props.userId,
-            task: this.props.task
+            userId: this.props.userId
         });
 
         this._onChange = this._onChange.bind(this);
@@ -61,9 +67,9 @@ class SearchBar extends React.Component {
         const re = new RegExp('(edx\.org)');
         
         if (re.test(url)) {
-           let splitedUrl = url.split("?query=");
+            let splitedUrl = url.split("?query=");
           
-           if (splitedUrl.length === 2) {
+            if (splitedUrl.length === 2) {
                 const query = getParameterByName("query",url);
 
                 log(LoggerEventTypes.SEARCHBOX_SEARCH, {
@@ -72,10 +78,10 @@ class SearchBar extends React.Component {
                     }
                 );
 
-                history.push({ 'pathname':  '/search/?q='+this.state.query+'&v=web&p=1'});
-                AppActions.search(query, "web",1);
+                updateUrl(this.state.query, 'web', 1);
+                SearchActions.search(query, "web",1);
                 this.setState({query: query, vertical: "site-search"})
-           }
+            }
         }
     }
     
@@ -91,7 +97,7 @@ class SearchBar extends React.Component {
 
     queryChangeHandler(e) {
         const query = e.target.value;
-        AppActions.changeQuery(query);
+        SearchActions.changeQuery(query);
     }
     
     verticalChangeHandler(vertical) {
@@ -100,10 +106,10 @@ class SearchBar extends React.Component {
             vertical: vertical.toLowerCase(),
             current_vertical: this.state.vertical
         });
-        AppActions.changeVertical(vertical.toLowerCase());
+        SearchActions.changeVertical(vertical.toLowerCase());
         if (this.state.query.length > 0) {
-            history.push({'pathname':  '/search/?q='+this.state.query+'&v='+vertical.toLowerCase() + '&p=1'} );
-            AppActions.search(this.state.query, vertical.toLowerCase(),1);
+            updateUrl(this.state.query, vertical, 1);
+            SearchActions.search(this.state.query, vertical.toLowerCase(),1);
         }
     }
 
@@ -115,8 +121,8 @@ class SearchBar extends React.Component {
             }
         );
         e.preventDefault();
-        history.push({ 'pathname':  '/search/?q='+this.state.query+'&v='+this.state.vertical + '&p=1'});
-        AppActions.search(this.state.query, this.state.vertical,1);
+        updateUrl(this.state.query, this.state.vertical, 1);
+        SearchActions.search(this.state.query, this.state.vertical,1);
     }
 
     ////

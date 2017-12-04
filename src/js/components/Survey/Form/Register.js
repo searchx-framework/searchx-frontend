@@ -6,7 +6,7 @@ import * as Survey from 'survey-react';
 import TaskStore from '../../../stores/TaskStore';
 import AccountStore from '../../../stores/AccountStore';
 
-import {log} from '../../../logger/Logger';
+import {log} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../constants/LoggerEventTypes';
 
 export default class Register extends React.Component {

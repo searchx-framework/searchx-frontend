@@ -1,6 +1,6 @@
 import React from 'react';
-import {log} from '../../logger/Logger';
-import {LoggerEventTypes} from '../../constants/LoggerEventTypes';
+import {log} from '../../../utils/Logger';
+import {LoggerEventTypes} from '../../../constants/LoggerEventTypes';
 
 class Counter extends React.Component {    
 

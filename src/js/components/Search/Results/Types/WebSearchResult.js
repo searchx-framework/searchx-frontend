@@ -1,9 +1,9 @@
 import React from 'react';
 import VisibilitySensor from 'react-visibility-sensor';
 
-import {log} from '../../../logger/Logger';
-import {LoggerEventTypes} from '../../../constants/LoggerEventTypes';
-import SearchStore from '../../../stores/SearchStore';
+import {log} from '../../../../utils/Logger';
+import {LoggerEventTypes} from '../../../../constants/LoggerEventTypes';
+import SearchStore from '../../../../stores/SearchStore';
 
 class WebSearchResult extends React.Component {
 

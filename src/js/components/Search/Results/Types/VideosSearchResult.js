@@ -2,8 +2,8 @@ import React from 'react';
 import VisibilitySensor from 'react-visibility-sensor';
 import ReactPlayer from 'react-player'
 
-import {log} from '../../../logger/Logger';
-import {LoggerEventTypes} from '../../../constants/LoggerEventTypes';
+import {log} from '../../../../utils/Logger';
+import {LoggerEventTypes} from '../../../../constants/LoggerEventTypes';
 
 
 class VideosSearchResult extends React.Component {
