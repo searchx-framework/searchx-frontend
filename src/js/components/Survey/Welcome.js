@@ -27,7 +27,7 @@ class Welcome extends React.Component {
                         </ol>  
 
                         <h3> Good Luck and Have Fun! </h3> 
-                        <a href="/pretest" className="btn btn-primary pull-right btn-lg" role="button">Start!</a>
+                        <a href="/register" className="btn btn-primary pull-right btn-lg" role="button">Start!</a>
                          </div>
                     </div>
                 </div>

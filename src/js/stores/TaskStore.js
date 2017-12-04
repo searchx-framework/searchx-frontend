@@ -236,12 +236,7 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
             pages: pages, 
             showProgressBar: "top",
             showQuestionNumbers: "off",
-            completedHtml: 
-                "<div class='Survey-complete'>" +
-                    "<h2>Thanks!</h2> " +
-                    "<h3>Now, use our custom Web search system to learn about a given topic. </h3>" +
-                    "<a href=\"/search\" class=\"btn btn-primary btn-lg\" role=\"button\">Start!</a></div>" +
-                "</div>"
+            completedHtml: "<p> </p>  "
         }
     },
 

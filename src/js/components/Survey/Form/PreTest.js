@@ -72,12 +72,13 @@ export default class PreTest extends React.Component {
             var minutes = 15;
 
             AccountStore.setTask(topicId, type, minutes);
-            AccountStore.setId(userId)
 
             var metaInfo = {
                 results: result.data
             }
             log(LoggerEventTypes.SURVEY_PRE_TEST_RESULTS, metaInfo)
+
+            window.location = "/search"
         });
 
         
