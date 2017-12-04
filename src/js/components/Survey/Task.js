@@ -27,9 +27,11 @@ class Task extends React.Component {
                     <Counter start={start} duration={this.state.task.duration}/>  
                 </div>
                 <div className="Task-info no-padding">
-                    <div className="Task-info-instruction">Use this system to learn about:</div>
-                    <div className="Task-info-title" id="intro-topic">{TaskStore.getTopicTitle(this.state.task.topicId)}</div>
-                    <div className="Task-info-instruction"> Search for documents about that this - and browse/read them of course.</div>
+                    <div className="Task-info-instruction">Learn about this topic using our search system.</div>
+                    <div className="Task-info-title" id="intro-topic">{TaskStore.getTopicTitle(this.state.task.topicId)}</div> 
+                    <div className="Task-info-instruction"> You may need to several queries in order to learn more about this topic.</div> 
+                    <div className="Task-info-instruction" id="intro-terms">These terms/phraes may help you to formulate your queries: <b>{TaskStore.getTopicTerms(this.state.task.topicId)} </b></div>
+
                 </div>
             </div>
         )

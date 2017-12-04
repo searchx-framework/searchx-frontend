@@ -42,6 +42,15 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
         return topics[topicId]["title"];
     },
 
+    getTopicTerms(topicId) {
+        var terms = "";
+        for (var idx in topics[topicId]["terms"]) {
+            var term = topics[topicId]["terms"][idx];
+            terms += term + ";  "
+        }
+        return terms;
+    },
+
     getUserIdFromResults(results) {
         for (var result in results){
             if (result == "userId") {
@@ -80,23 +89,31 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
 
     ////
 
-    getPreTest() {
-        var sampledTopics = sample(Object.keys(topics), 3);
+    getRegisterInfo() {
+
         var pages = [];
         var elements = [];
 
         elements.push({ 
-            title: "Your User Code Here", 
+            type: "html", 
+            name: "topic",
+            html: "<h2>Registration</h2>" +
+                "<h3>Let's find out what you already know first.</h3>" +
+                "<h3>First fill out this basic information about you.</h3>"
+        });
+
+        elements.push({ 
+            title: "Copy and Past the User Code here", 
             name : "userId", 
             type :"text", 
             inputType:"text", 
-            width: 500, 
+            width: 300, 
             isRequired: true
            }
         );
 
         elements.push({
-            title: "Your Highest Academic Degree so far",
+            title: "What is your highest academic degree so far?",
             name: "degree",
             type: "radiogroup",
             isRequired: true,
@@ -110,7 +127,7 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
         });
 
         elements.push({ 
-            title: "University degree(s) in which subject areas",
+            title: "Which subject areas you have university degree(s)?",
             visibleIf: "{degree} > 0",
             name : "background", 
             type :"text", 
@@ -119,10 +136,58 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
             isRequired: true
         });
 
+        elements.push({ 
+            title: "How often do you use Web search engine (e.g., Google, Bing, Yahoo) when you want to learn about something?",
+            name: "search-frequency",
+            type: "radiogroup",
+            isRequired: true,
+            choices: [
+                {value: 0, text: "Never"},
+                {value: 1, text: "Rarely"}, 
+                {value: 2, text: "Occasionally"}, 
+                {value: 3, text: "Generally"}, 
+                {value: 4, text: "Always"}
+            ]
+        });
+
+        elements.push({ 
+            title: "How many queries do you think you try in a Web search engine when you want to learn about something?",
+            name: "search-queries",
+            type: "radiogroup",
+            isRequired: true,
+            choices: [
+                {value: 1, text: "1 query"},
+                {value: 2, text: "2 queries"}, 
+                {value: 3, text: "3 queries"}, 
+                {value: 4, text: "3 to 5 queries"}, 
+                {value: 5, text: "More than 5 queries"}
+            ]
+        });
+
         pages.push({elements:  elements}) 
 
-        ////
+        return {
+            pages: pages, 
+            showQuestionNumbers: "off",
+            completedHtml: "    "
+        }
+    }, 
 
+    surveyValidateQuestion (s, options) {
+        if (options.name == 'userId') {
+            var userId = options.value;
+            
+            if(!codes[userId]) {
+                options.error = "This User Code is not valid, please check if you have copied and pasted the code correctly'.";
+            }
+        }
+    }, 
+
+
+    getPreTest() {
+        var sampledTopics = sample(Object.keys(topics), 3);
+        var pages = [];
+ 
         for (var topic in sampledTopics) {
             var tid = sampledTopics[topic];
             var elements = [];
@@ -131,7 +196,7 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
                 type: "html", 
                 name: "topic",
                 html: "<h2>Diagonistic Test</h2> " +
-                    "<h3>Let's find out what you already know.</h3>" +
+                    "<h3>Let's find out what you already know first.</h3>" +
                     "<h3>Answer these questions about <b>" + topics[tid]["title"] + "</b>:</h3>"
             });
 
@@ -188,7 +253,7 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
             type: "html", 
             name: "topic",
             html: "<h2>Final Test</h2>" +
-                "<h4>Let's see how much you've learned." +
+                "<h3>Let's see how much you've learned.</h3>" +
                 "<h3>Answer these questions about <b>" + topics[topicId]["title"] + "</b>:</h3>"
         });
 

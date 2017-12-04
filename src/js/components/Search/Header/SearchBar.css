@@ -1,6 +1,7 @@
 @import url('../../variables.css');
 
 .Search {
+    
     &-box {
         width: 632px;
         height: 50px;

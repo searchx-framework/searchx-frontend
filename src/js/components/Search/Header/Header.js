@@ -21,6 +21,10 @@ var steps = [
         intro: 'Learn about this topic.'
     },
     {
+        element: '#intro-terms',
+        intro: 'These are key terms/phrases about this topic that you may use to formulate your queries.'
+    },
+    {
         element: '#intro-search-bar',
         intro: 'Use this tool to search for documents about the topic - and to browse/read them of course.'
     },
@@ -42,7 +46,7 @@ intro.oncomplete(function() {
     var start = localStorage.getItem("counter-start") || Date.now();
     localStorage.setItem("counter-start",start);
     location.reload();
-  });
+});
 ////
 
 export default class Header extends React.Component {

@@ -16,6 +16,7 @@ import About from './Pages/About';
 import Search from './Search/Search';
 import PreTest from './Survey/Form/PreTest';
 import PostTest from './Survey/Form/PostTest';
+import Register from './Survey/Form/Register';
 import Welcome from './Survey/Welcome';
 
 var config = require('config');
@@ -24,6 +25,7 @@ import AccountStore from '../stores/AccountStore';
 ////
 
 export class App extends React.Component {
+
     componentWillMount(){
         setInterval( flush, config.logTimeInterval);
 
@@ -46,6 +48,7 @@ export class App extends React.Component {
                     <Route path="/start" component={Welcome}/>
                     <Route path="/pretest" component={PreTest}/>
                     <Route path="/posttest" component={PostTest}/>
+                    <Route path="/register" component={Register}/>
                 </div>
             </Router>
         );

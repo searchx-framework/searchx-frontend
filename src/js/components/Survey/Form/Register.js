@@ -10,7 +10,7 @@ import {log} from '../../../logger/Logger';
 import {LoggerEventTypes} from '../../../constants/LoggerEventTypes';
 import $ from 'jquery'
 
-export default class PreTest extends React.Component {
+export default class Register extends React.Component {
 
 
     constructor(props) {
@@ -22,70 +22,53 @@ export default class PreTest extends React.Component {
         Survey.defaultBootstrapCss.navigationButton = "btn btn-green";
     }
 
-    componentDidMount() {
-        $(document).ready(function () {
-            $('body').bind('cut copy paste', function (e) {
-                e.preventDefault();
-            });
-            //Disable mouse right click
-            $("body").on("contextmenu",function(e){
-                return false;
-            });
-
-        });
-
+    componentDidMount(){
         window.onblur = function(){   
 
             var metaInfo = {
                 type: "blur",
                 step : "search"
+
             }
             log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo)
 
         }  
-
         window.onfocus = function(){  
             var metaInfo = {
                 type: "focus",
                 step : "search"
+
             }
             log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo)
         }
-
     }
 
-    
-    
 
     render() {  
-        var data = TaskStore.getPreTest();
+        var data = TaskStore.getRegisterInfo();
         var survey = new Survey.Model(data);
 
         survey.requiredText = "";
         
         survey.onComplete.add(function(result) {
-            var topicId = TaskStore.getTopicFromResults(result.data);
+
             var userId = TaskStore.getUserIdFromResults(result.data);
 
-            //TODO set task details properly
-            var type = 'search';
-            var minutes = 15;
-
-            AccountStore.setTask(topicId, type, minutes);
             AccountStore.setId(userId)
-
             var metaInfo = {
                 results: result.data
             }
             log(LoggerEventTypes.SURVEY_PRE_TEST_RESULTS, metaInfo)
+
+            window.location = "/pretest"
         });
 
         
         
         return (
             <div className="Survey">
-                <div className="Survey-form" >
-                    <Survey.Survey model={survey}/>
+                <div className="Survey-form">
+                    <Survey.Survey model={survey}   onValidateQuestion={TaskStore.surveyValidateQuestion} />
                 </div>
             </div>    
         );

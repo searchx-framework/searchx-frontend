@@ -11,16 +11,32 @@ import {LoggerEventTypes} from '../../constants/LoggerEventTypes';
 
 export default class Template extends React.Component {
 
+    componentDidMount(){
+        window.onblur = function(){   
+
+            var metaInfo = {
+                type: "blur",
+                step : "search"
+
+            }
+            log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo)
+
+        }  
+        window.onfocus = function(){  
+            var metaInfo = {
+                type: "focus",
+                step : "search"
+
+            }
+            log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo)
+        }
+    }
+
     render() {
 
         return (
             <div >
                 <Header />
-                <div className="row">
-                    <div className="col-xs-12 col-md-auto">
-                        {this.props.children}
-                    </div>
-                </div>
                 <SearchResults/>
             </div>
         )
