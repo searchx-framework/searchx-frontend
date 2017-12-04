@@ -33,7 +33,7 @@ export default class PostTest extends React.Component {
             
             var metaInfo = {
                 type: "blur",
-                step : "search"
+                step : "posttest"
 
             }
             log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo)
@@ -42,7 +42,7 @@ export default class PostTest extends React.Component {
         window.onfocus = function(){  
             var metaInfo = {
                 type: "focus",
-                step : "search"
+                step : "posttest"
 
             }
             log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo)

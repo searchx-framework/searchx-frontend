@@ -27,7 +27,7 @@ export default class Register extends React.Component {
 
             var metaInfo = {
                 type: "blur",
-                step : "search"
+                step : "register"
 
             }
             log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo)
@@ -36,7 +36,7 @@ export default class Register extends React.Component {
         window.onfocus = function(){  
             var metaInfo = {
                 type: "focus",
-                step : "search"
+                step : "register"
 
             }
             log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo)

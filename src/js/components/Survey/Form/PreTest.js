@@ -38,7 +38,7 @@ export default class PreTest extends React.Component {
 
             var metaInfo = {
                 type: "blur",
-                step : "search"
+                step : "pretest"
             }
             log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo)
 
@@ -47,7 +47,7 @@ export default class PreTest extends React.Component {
         window.onfocus = function(){  
             var metaInfo = {
                 type: "focus",
-                step : "search"
+                step : "pretest"
             }
             log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo)
         }
