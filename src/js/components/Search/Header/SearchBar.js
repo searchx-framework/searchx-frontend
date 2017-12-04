@@ -34,7 +34,7 @@ let getParameterByName = function(name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 };
 
-exports.updateUrl = function(query, vertical, page) {
+let updateUrl = function(query, vertical, page) {
     let current = window.location.href;
     if(current.includes('/search')) {
         history.push({pathname: '/search/?q='+ query +'&v='+ vertical.toLowerCase() +'&p='+ page});
@@ -146,3 +146,4 @@ class SearchBar extends React.Component {
 }
 
 export default SearchBar;
+exports.updateUrl = updateUrl;
