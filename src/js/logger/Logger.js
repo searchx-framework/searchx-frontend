@@ -14,10 +14,9 @@ export function log(event, meta) {
             duration: AccountStore.getTaskDuration() || '',
         }
     }
-
     eventQueue.push({
         userId: AccountStore.getId() || '',
-        date: new Date(),
+        date: new Date().toLocaleString("en-US", {timeZone: "Europe/Amsterdam"}),
         event: event || '',
         meta: meta || {},
         task: task

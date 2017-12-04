@@ -1,6 +1,7 @@
 {
     "1": {
         "title": "Glycolysis",
+        "course": "Biology",
         "terms": [
             "krebs cycle",
             "phosphoglyceraldehyde",
@@ -16,6 +17,7 @@
     },
     "2": {
         "title": "Religions",
+        "course": "Philosophy",
         "terms": [
             "dharma",
             "moksha",
@@ -31,6 +33,7 @@
     },
     "3": {
         "title": "Depression",
+        "course" : "Psychology",
         "terms": [
             "norepinephrine",
             "circadian",
@@ -46,6 +49,7 @@
     },
     "4": {
         "title": "Anesthesia",
+        "course" : "Health and Medicine",
         "terms": [
             "sevoflurane",
             "hemlock",
@@ -61,6 +65,7 @@
     },
     "5": {
         "title": "Sedimentary rocks",
+        "course": "Geology",
         "terms": [
             "feldspars",
             "terrigenous sediments",
@@ -76,6 +81,7 @@
     },
     "6": {
         "title": "Urban water cycle",
+        "course": "Water treatment",
         "terms": [
             "Lesoto Highlands",
             "eutrophication",
@@ -91,6 +97,7 @@
     },
     "7": {
         "title": "Water quality aspects",
+        "course": "Water treatment",
         "terms": [
             "trihalomethanes",
             "coliforms",
@@ -106,6 +113,7 @@
     },
     "8": {
         "title": "Radioactive decay",
+        "course": "Physics",
         "terms": [
             "Auger electron",
             "Coulomb barrier",
@@ -121,6 +129,7 @@
     },
     "9": {
         "title": "Majoranas",
+        "course": "Physics",
         "terms": [
             "4π Josephson effect",
             "Majorana zero mode",
@@ -136,6 +145,7 @@
     },
     "10": {
         "title": "Qubit",
+        "course": "Quantum computing",
         "terms": [
             "Ket",
             "Bra",

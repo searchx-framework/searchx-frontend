@@ -26,12 +26,13 @@ class Task extends React.Component {
                 <div className="Task-submit no-padding">
                     <Counter start={start} duration={this.state.task.duration}/>  
                 </div>
-                <div className="Task-info no-padding">
-                    <div className="Task-info-instruction">Learn about this topic using our search system.</div>
-                    <div className="Task-info-title" id="intro-topic">{TaskStore.getTopicTitle(this.state.task.topicId)}</div> 
-                    <div className="Task-info-instruction"> You may need to try several queries in order to learn more about this topic.</div> 
-                    <div className="Task-info-instruction" id="intro-terms">These terms/phraes may help you to formulate your queries: <b>{TaskStore.getTopicTerms(this.state.task.topicId)} </b></div>
-
+                <div className="Task-info no-padding" id="intro-description">
+                    <div className="Task-info-title"> Task Description </div>
+                    <div className="Task-info-instruction">Imagine that you are enrolled in a <font size="3" color="red"> <b> {TaskStore.getCourseTitle(this.state.task.topicId)} </b> </font> course.</div>
+                    <div className="Task-info-instruction">For the final test of the course, you need to summarize the meaning of key terms/phrases about <font size="5" color="red" id="intro-topic"> <b> {TaskStore.getTopicTitle(this.state.task.topicId)}.</b></font></div> 
+                    <div className="Task-info-instruction"> <br/> To prepare yourself for the final, here are some key terms/phrases that you need to learn and search for them: </div>
+                    <div  className="Task-info-instruction"> <font size="3" id="intro-terms"> <b>{TaskStore.getTopicTerms(this.state.task.topicId)} </b> </font> </div>
+                  
                 </div>
             </div>
         )

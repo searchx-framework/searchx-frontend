@@ -11,6 +11,11 @@ import TaskStore from '../../../stores/TaskStore';
 ////
 
 var steps = [
+
+    {
+        element: '#intro-description',
+        intro: 'Read the task description.'
+    },
     {
         element: '#intro-system',
         intro: 'We want you to use our custom Web search system (we call it "SearchX") to learn about a given topic.',
@@ -18,7 +23,7 @@ var steps = [
     },
     {
         element: '#intro-topic',
-        intro: 'Learn about this topic.'
+        intro: 'This is your topic.'
     },
     {
         element: '#intro-terms',
@@ -30,7 +35,7 @@ var steps = [
     },
     {
         element: '#intro-counter',
-        intro: 'You will need to learn about the topic for 15 minutes. Afterwards, you can press the button to take the final test.'
+        intro: 'You will need to learn about the topic for 15 minutes. Afterwards, you can press the button to take the final test. Good luck and have fun!'
     }
 ];
 

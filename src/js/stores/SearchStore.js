@@ -99,6 +99,7 @@ var _search = (query,pageNumber) => {
             serp_id: state.serp_id,
             elapsedTime: state.elapsedTime
         }
+        
         log(LoggerEventTypes.SEARCHRESULT_ELAPSEDTIME, metaInfo);
 
         

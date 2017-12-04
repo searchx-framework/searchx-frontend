@@ -64,8 +64,8 @@ export default class PreTest extends React.Component {
         survey.requiredText = "";
         
         survey.onComplete.add(function(result) {
+
             var topicId = TaskStore.getTopicFromResults(result.data);
-            var userId = TaskStore.getUserIdFromResults(result.data);
 
             //TODO set task details properly
             var type = 'search';
@@ -76,6 +76,7 @@ export default class PreTest extends React.Component {
             var metaInfo = {
                 results: result.data
             }
+
             log(LoggerEventTypes.SURVEY_PRE_TEST_RESULTS, metaInfo)
 
             window.location = "/search"

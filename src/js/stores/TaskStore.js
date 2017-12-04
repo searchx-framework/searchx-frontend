@@ -42,6 +42,10 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
         return topics[topicId]["title"];
     },
 
+    getCourseTitle(topicId) {
+        return topics[topicId]["course"];
+    },
+
     getTopicTerms(topicId) {
         var terms = "";
         for (var idx in topics[topicId]["terms"]) {

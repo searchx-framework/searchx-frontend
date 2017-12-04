@@ -78,7 +78,7 @@ export default class SearchResults extends React.Component {
             serp_id: this.state.serp_id
         }
         log(LoggerEventTypes.SEARCHRESULTS_NEXT_PAGE, metaInfo);
-        history.push({'pathname': '/?q='+this.state.query+'&v='+this.state.vertical + '&p=' + pageNumber});
+        history.push({'pathname': '/search/?q='+this.state.query+'&v='+this.state.vertical + '&p=' + pageNumber});
         AppActions.nextPage(this.state.query, this.state.vertical, pageNumber);
         this.setState({activePage: pageNumber,
             results: SearchStore.getResults()
