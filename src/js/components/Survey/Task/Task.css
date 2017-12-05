@@ -22,7 +22,6 @@
     &-info {
         text-align: left;
         width: auto;
-        overflow-y: scroll;
     }
 
     &-submit {

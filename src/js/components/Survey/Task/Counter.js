@@ -8,7 +8,7 @@ class Counter extends React.Component {
         super(props);
 
         this.state = {
-            elapsed: localStorage.getItem("elapsed") || 0,
+            elapsed: 0,
             duration: props.duration
         };
 
@@ -21,7 +21,6 @@ class Counter extends React.Component {
     }
 
     componentWillUnmount () {
-        localStorage.setItem("elapsed", this.state.elapsed);
         clearInterval(this.timer);
     }
 
@@ -39,7 +38,6 @@ class Counter extends React.Component {
     }
 
     clickHandler(){
-        localStorage.setItem("elapsed", 0);
         const metaInfo = {
             elapsedTime: Math.round(this.state.elapsed / 1000)
         };
@@ -58,16 +56,16 @@ class Counter extends React.Component {
             seconds = 0;
         }
 
+        const active = minutes < this.state.duration ? "disabled" : "active";
+
         return (
-            <div>
-                <div className="counter" id="intro-counter">
+            <div id="intro-counter">
+                <div className="counter">
                     {minutes}:{this.padZero(seconds)}
                 </div>
-                {minutes >= this.state.duration &&
-                    <a className="btn btn-primary" href="/posttest" role="button" onClick={this.clickHandler}>
-                        To Final Test
-                    </a>
-                }
+                <a className={"btn btn-primary " + active} href="/posttest" role="button" onClick={this.clickHandler}>
+                    To Final Test
+                </a>
             </div>
         )
     }

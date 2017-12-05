@@ -31,7 +31,7 @@ class Task extends React.Component {
                     <div className="Task-instruction">
                         Imagine that you are enrolled in a <font size="3" color="orangered"> <b>{TaskStore.getCourseTitle(this.state.task.topicId)}</b> </font> course.
                         For the final test of the course, you need to summarize the meaning of key terms/phrases about
-                        <font size="3" color="orangered" id="intro-topic"> <b>{TaskStore.getTopicTitle(this.state.task.topicId)}.</b></font>
+                        <font size="3" color="orangered" id="intro-topic"><b> {TaskStore.getTopicTitle(this.state.task.topicId)}</b></font>.
                     </div>
                     <br/>
 

@@ -15,7 +15,7 @@ class Video extends React.Component {
         };
 
         return(
-            <div className="Video row text-center">
+            <div className="Video row text-center" id="intro-video">
                 <div className="col-xs-12">
                     <div className="Video-title">
                         <span className="Video-title-course">{TaskStore.getCourseTitle(task.topicId) + " : "}</span>
