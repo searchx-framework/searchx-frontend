@@ -50,13 +50,29 @@ export default class PostTest extends React.Component {
 
     render() {
         const topicId = AccountStore.getTopicId();
+        const userId = AccountStore.getId();
+
         if (topicId === '') {
-            return <div/>;
+            const finishCode = localStorage.getItem("finish-code") || '';
+            if (finishCode === '') {
+                return <div/>;
+            }
+
+            return (
+                <div className="Survey">
+                    <div className="Survey-form">
+                        <div className='Survey-complete'>
+                            <h2>Thanks!</h2>
+                            <h3>Please, copy and paste this code on CrowdFlower: {finishCode}</h3>
+                        </div>
+                    </div>
+                </div>
+            );
         }
 
         ////
 
-        const data = TaskStore.getPostTest(AccountStore.getId(), topicId);
+        const data = TaskStore.getPostTest(userId, topicId);
         const survey = new Survey.Model(data);
 
         survey.requiredText = "";
@@ -67,6 +83,7 @@ export default class PostTest extends React.Component {
             log(LoggerEventTypes.SURVEY_POST_TEST_RESULTS, metaInfo);
 
             AccountStore.clearTask();
+            localStorage.setItem("finish-code", TaskStore.getFinishCode(AccountStore.getId()));
         });
 
         return (

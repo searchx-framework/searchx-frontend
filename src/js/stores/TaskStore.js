@@ -57,6 +57,12 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
         return terms;
     },
 
+    getFinishCode(userId) {
+        return codes[userId];
+    },
+
+    ////
+
     getUserIdFromResults(results) {
         return results["userId"];
     },
@@ -299,7 +305,7 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
             completedHtml: 
                 "<div class='Survey-complete'>" +
                     "<h2>Thanks!</h2> " +
-                    "<h3>Please, copy and paste this code on CrowdFlower: "+ codes[userId] +"</h3>" +
+                    "<h3>Please, copy and paste this code on CrowdFlower: "+ this.getFinishCode(userId) +"</h3>" +
                 "</div>"
         }
     }

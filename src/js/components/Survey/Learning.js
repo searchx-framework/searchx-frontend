@@ -111,7 +111,7 @@ class Learning extends React.Component {
     }
 
     componentDidMount() {
-        if (!localStorage.getItem("intro-done")) {
+        if (this.state.task.topicId && !localStorage.getItem("intro-done")) {
             intro.setOption('steps', this.state.steps);
             intro.start();
         }

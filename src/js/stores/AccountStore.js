@@ -102,6 +102,8 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
         state.task.type = type;
         state.task.duration = minutes;
         state.task.sessionId = sessionId;
+
+        localStorage.removeItem("finish-code");
     },
 
     clearTask() {
