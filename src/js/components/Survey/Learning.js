@@ -5,6 +5,7 @@ import Account from "../../stores/AccountStore";
 import Search from "../Search/Search";
 import Video from "../Video/Video";
 import Task from "./Task/Task";
+
 ////
 
 const stepsTask = [
@@ -118,14 +119,18 @@ class Learning extends React.Component {
 
     render() {
         return(
-            <div className="Learning row">
-                <div className="Learning-medium col-md-9">
-                    {this.state.medium}
-                </div>
+            <div>
+                {Account.getTopicId() !== "" &&
+                    <div className="Learning row">
+                        <div className="Learning-medium col-md-9">
+                            {this.state.medium}
+                        </div>
 
-                <div className="Learning-task col-md-3">
-                    <Task task={this.state.task}/>
-                </div>
+                        <div className="Learning-task col-md-3">
+                            <Task task={this.state.task}/>
+                        </div>
+                    </div>
+                }
             </div>
         );
     }

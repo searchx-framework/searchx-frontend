@@ -123,11 +123,11 @@ export default class SearchResults extends React.Component {
                         handlePageChange={this.handlePageChange.bind(this)} finished={this.state.results.length > 0 || SearchStore.isFinished()  }
                     />
 
-                    {SearchStore.getSubmittedQuery() && SearchStore.isFinished() ?
+                    {SearchStore.getSubmittedQuery() && SearchStore.isFinished() &&
                         <div className="col-xs-12 text-center" >
                             <p className="Footer"> About <a href="/about" target="_blank">SearchX</a>.</p>
                         </div>
-                    : ""}
+                    }
 
                 </div>
                 }

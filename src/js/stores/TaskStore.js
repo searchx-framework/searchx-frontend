@@ -199,8 +199,6 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
         let sampledTopics = sample(Object.keys(topics), 3);
         let pages = [];
 
-        console.log(sampledTopics);
-
         sampledTopics.forEach(topicId => {
             let elements = [];
 

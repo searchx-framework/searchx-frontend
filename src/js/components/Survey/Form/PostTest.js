@@ -48,18 +48,18 @@ export default class PostTest extends React.Component {
         }
     }
 
-
     render() {
         const data = TaskStore.getPostTest(AccountStore.getId(), AccountStore.getTopicId());
         let survey = new Survey.Model(data);
 
         survey.requiredText = "";
-
-        survey.onComplete.add( function(result){
+        survey.onComplete.add(function(result){
             const metaInfo = {
                 results: result.data
             };
             log(LoggerEventTypes.SURVEY_POST_TEST_RESULTS, metaInfo);
+
+            AccountStore.clearTask();
         });
 
         return (

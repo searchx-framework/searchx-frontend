@@ -11,8 +11,9 @@ export function log(event, meta) {
     if (topicId !== '') {
         task = {
             topicId: topicId,
+            sessionId: AccountStore.getTaskSessionId() || '',
             type: AccountStore.getTaskType() || '',
-            duration: AccountStore.getTaskDuration() || '',
+            duration: AccountStore.getTaskDuration() || ''
         }
     }
 
