@@ -3,7 +3,7 @@
 .Search {
     
     &-box {
-        width: 632px;
+        max-width: 650px;
         height: 50px;
 
         margin-top: 5px;

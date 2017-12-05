@@ -1,12 +1,10 @@
 @import '../../variables.css';
 
 .WebSearchResults {
-
     margin-left: 14px;
-    margin-top:0px;
+    margin-top: 0px;
 
     &-result {
-
         margin-bottom: 10px;
 
         h2 {
@@ -18,7 +16,7 @@
             white-space: nowrap;
             line-height: 21px;
             margin-bottom: 1px;
-            margin-top:0px;
+            margin-top: 0px;
             max-width: 500px;
 
             a, a:hover, a:focus {

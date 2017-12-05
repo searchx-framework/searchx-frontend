@@ -1,7 +1,6 @@
 @import '../../variables.css';
 
 .ImagesSearchResults {
-
     &-result {
         float: left;
         margin-left: 14px;

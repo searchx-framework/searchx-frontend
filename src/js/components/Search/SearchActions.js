@@ -1,5 +1,5 @@
-import AppConstants from '../constants/AppConstants'
-import {dispatch, register} from '../dispatchers/AppDispatcher';
+import AppConstants from '../../constants/AppConstants'
+import {dispatch} from '../../utils/Dispatcher';
 
 export default {
     /* Search actions */

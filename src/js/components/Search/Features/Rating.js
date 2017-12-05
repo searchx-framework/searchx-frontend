@@ -14,11 +14,11 @@ class Rating extends React.Component {
         return  (
             <div className = "Rating" >
                 <div className = "UpRating">
-                    <a className={buttonUpClass} onClick={this.props.onUpRating}><span className="glyphicon glyphicon-chevron-up"></span></a> 
+                    <a className={buttonUpClass} onClick={this.props.onUpRating}><span className="glyphicon glyphicon-chevron-up"/></a>
                 </div>
                 <h5>{this.props.rating}</h5>
                 <div className = "DownRating"> 
-                <a className={buttonDownClass} onClick={this.props.onDownRating}><span className="glyphicon glyphicon-chevron-down"></span></a>
+                <a className={buttonDownClass} onClick={this.props.onDownRating}><span className="glyphicon glyphicon-chevron-down"/></a>
                 </div>
             </div>
         )

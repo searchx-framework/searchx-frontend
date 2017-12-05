@@ -1,16 +1,8 @@
+import './Survey.css'
 import React from 'react';
-import './Welcome.css'
-
-import Logo from '../Search/Header/Logo';
-import {Link} from 'react-router-dom';
 
 class Welcome extends React.Component {
-    constructor() {
-        super();
-    }
-
     render() {
-       
         return (
             <div className="Welcome">
                 

@@ -6,7 +6,7 @@ import * as Survey from 'survey-react';
 import TaskStore from '../../../stores/TaskStore';
 import AccountStore from '../../../stores/AccountStore';
 
-import {log} from '../../../logger/Logger';
+import {log} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../constants/LoggerEventTypes';
 import $ from 'jquery'
 
@@ -22,47 +22,68 @@ export default class PostTest extends React.Component {
             $('body').bind('cut copy paste', function (e) {
                 e.preventDefault();
             });
+
             //Disable mouse right click
             $("body").on("contextmenu",function(e){
                 return false;
             });
-
         });
 
-        window.onblur = function(){   
-            
-            var metaInfo = {
+        window.onblur = function(){
+            const metaInfo = {
                 type: "blur",
                 step : "posttest"
 
-            }
-            log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo)
+            };
+            log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo);
 
-        }  
+        };
+
         window.onfocus = function(){  
-            var metaInfo = {
+            const metaInfo = {
                 type: "focus",
                 step : "posttest"
-
-            }
-            log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo)
+            };
+            log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo);
         }
     }
 
+    render() {
+        const topicId = AccountStore.getTopicId();
+        const userId = AccountStore.getId();
 
-    render() {  
+        if (topicId === '') {
+            const finishCode = localStorage.getItem("finish-code") || '';
+            if (finishCode === '') {
+                return <div/>;
+            }
 
-        var data = TaskStore.getPostTest(AccountStore.getId(), AccountStore.getTopicId());
-        var survey = new Survey.Model(data);
+            return (
+                <div className="Survey">
+                    <div className="Survey-form">
+                        <div className='Survey-complete'>
+                            <h2>Thanks!</h2>
+                            <h3>Please, copy and paste this code on CrowdFlower: {finishCode}</h3>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        ////
+
+        const data = TaskStore.getPostTest(userId, topicId);
+        const survey = new Survey.Model(data);
 
         survey.requiredText = "";
-
-        survey.onComplete.add( function(result){
-
-            var metaInfo = {
+        survey.onComplete.add(function(result){
+            const metaInfo = {
                 results: result.data
-            }
-            log(LoggerEventTypes.SURVEY_POST_TEST_RESULTS, metaInfo)
+            };
+            log(LoggerEventTypes.SURVEY_POST_TEST_RESULTS, metaInfo);
+
+            AccountStore.clearTask();
+            localStorage.setItem("finish-code", TaskStore.getFinishCode(AccountStore.getId()));
         });
 
         return (

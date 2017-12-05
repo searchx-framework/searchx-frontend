@@ -1,7 +1,5 @@
-import {dispatch, register} from '../dispatchers/AppDispatcher';
-import AppConstants from '../constants/AppConstants';
+import {register} from '../utils/Dispatcher';
 import EventEmitter from 'events';
-import request from 'superagent';
 
 
 /*****************************/
@@ -9,12 +7,12 @@ import request from 'superagent';
 
 const CHANGE_EVENT = 'change_account';
 
-var getParameterByName = function (name, url) {
+const getParameterByName = function(name, url) {
     if (!url) url = window.location.href;
     name = name.replace(/[\[\]]/g, "\\$&");
 
-    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"), 
-        results = regex.exec(url);
+    const regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)");
+    const results = regex.exec(url);
     
     if (!results) return null;
     if (!results[2]) return '';
@@ -22,16 +20,25 @@ var getParameterByName = function (name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 };
 
+const generateUUID = function() {
+    // https://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
+    return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+        (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+    )
+};
+
 
 /*****************************/
 
 
-var state = {
-
+let state = {
     userId: localStorage.getItem("userId") || '' ,
-    taskType : localStorage.getItem("taskType") || '',
-    taskDuration: localStorage.getItem("taskDuration")|| '',
-    topicId: localStorage.getItem('topicId') || ''
+    task: {
+        topicId: localStorage.getItem('topicId') || '',
+        sessionId: localStorage.getItem('taskSessionId') || '',
+        type : localStorage.getItem("taskType") || '',
+        duration: localStorage.getItem("taskDuration")|| ''
+    }
 };
 
 const AccountStore = Object.assign(EventEmitter.prototype, {
@@ -50,39 +57,65 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
     ////
 
     getId() {
-        if (state.userId == '') {
+        if (state.userId === '') {
             //TODO: should create a new user id and maintain in session cookie
-            return '20fdf0sd032';
+            return 'anonymous';
         }
         return state.userId;
     },
 
     setId(userId) {
         localStorage.setItem("userId", userId);
-        state.userId = userId
+        state.userId = userId;
         return state.userId;
     },
 
+    ////
+
     getTopicId() {
-        return state.topicId;
+        return state.task.topicId;
+    },
+
+    getTaskSessionId() {
+        return state.task.sessionId;
     },
 
     getTaskType() {
-        return state.taskType;
+        return state.task.type;
     },
 
     getTaskDuration() {
-        return state.taskDuration;
+        return state.task.duration;
     },
 
-    setTask(topicId, type, minutes) {
-        localStorage.setItem("topicId", topicId)
-        localStorage.setItem("taskType", type)
-        localStorage.setItem("taskDuration", minutes)
+    ////
 
-        state.topicId = topicId;
-        state.taskType = type;
-        state.taskDuration = minutes;
+    setTask(topicId, type, minutes) {
+        const sessionId = generateUUID();
+
+        localStorage.setItem("topicId", topicId);
+        localStorage.setItem("taskSessionId", sessionId);
+        localStorage.setItem("taskType", type);
+        localStorage.setItem("taskDuration", minutes);
+
+        state.task.topicId = topicId;
+        state.task.type = type;
+        state.task.duration = minutes;
+        state.task.sessionId = sessionId;
+
+        localStorage.removeItem("finish-code");
+    },
+
+    clearTask() {
+        localStorage.removeItem("topicId");
+        localStorage.removeItem("taskSessionId");
+        localStorage.removeItem("taskType");
+        localStorage.removeItem("taskDuration");
+
+        localStorage.removeItem("intro-done");
+        localStorage.removeItem("counter-start");
+
+        state.task = {};
     }
 });
 
