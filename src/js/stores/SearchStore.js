@@ -38,12 +38,6 @@ let _search = (query,pageNumber) => {
     state.pageNumber = pageNumber;
     state.resultsNotFound = false;
     state.query = query || state.query;
-    
-    if (state.vertical === 'forums') {
-        //if searchx is in an iframe, alert the parent that a forum search should be enabled
-        parent.postMessage( {query: state.query, page: pageNumber}, configuration.edxDomain);
-        return; //end the function call as the forum vertical is client-side only
-    } 
 
     request
         .get(Config.serverUrl + '/v1/search/'+state.vertical+'/?query='+state.query+ '&page=' 

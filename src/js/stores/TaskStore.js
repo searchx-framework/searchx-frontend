@@ -51,36 +51,32 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
     getTopicTerms(topicId) {
         let terms = "";
         topics[topicId]['terms'].forEach(term => {
-            terms += term + ";  "
+            terms += term.toLowerCase() + ";  "
         });
 
         return terms;
     },
 
     getUserIdFromResults(results) {
-        results.forEach(result => {
-            if (result === "userId") {
-                return results[result];
-            }
-        });
+        return results["userId"];
     },
 
     getTopicFromResults(results) {
         let topicResults = {};
 
-        results.forEach(result => {
+        for (let result in results) {
             const v = result.split("-");
             if (v[0] === "Q") {
                 topicResults[v[1]] = 0;
             }
-        });
+        }
 
-        results.forEach(result => {
+        for (let result in results) {
             const v = result.split("-");
             if (v[0] === "Q") {
                 topicResults[v[1]] += parseInt(results[result]);
             }
-        });
+        }
 
         const items = Object.keys(topicResults).map(function(key) {
             return [key, topicResults[key]];
@@ -108,6 +104,11 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
                 "<h3>First fill out this basic information about you.</h3>"
         });
 
+        elements.push({
+            type: "html",
+            html: "<hr/>"
+        });
+
         elements.push({ 
             title: "Copy and Past the User Code here", 
             name : "userId", 
@@ -117,6 +118,11 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
             isRequired: true
            }
         );
+
+        elements.push({
+            type: "html",
+            html: "<hr/>"
+        });
 
         elements.push({
             title: "What is your highest academic degree so far?",
@@ -190,11 +196,12 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
 
 
     getPreTest() {
-        const sampledTopics = sample(Object.keys(topics), 3);
+        let sampledTopics = sample(Object.keys(topics), 3);
         let pages = [];
 
-        sampledTopics.forEach(topic => {
-            const tid = sampledTopics[topic];
+        console.log(sampledTopics);
+
+        sampledTopics.forEach(topicId => {
             let elements = [];
 
             elements.push({
@@ -202,11 +209,11 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
                 name: "topic",
                 html: "<h2>Diagonistic Test</h2> " +
                 "<h3>Let's find out what you already know first.</h3>" +
-                "<h3>Answer these questions about <b>" + topics[tid]["title"] + "</b>:</h3>"
+                "<h3>Answer these questions about <b>" + topics[topicId]["title"] + "</b>:</h3>"
             });
 
-            topics[tid]["terms"].forEach(term => {
-                const name = "Q-"+ tid +"-"+ idx;
+            topics[topicId]["terms"].forEach((term, idx) => {
+                const name = "Q-"+ topicId +"-"+ idx;
 
                 elements.push({
                     type: "html",
@@ -257,8 +264,13 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
                 "<h3>Answer these questions about <b>" + topics[topicId]["title"] + "</b>:</h3>"
         });
 
-        topics[topicId]["terms"].forEach(term => {
-            const name = "Q-"+topicId + "-" +idx;
+        topics[topicId]["terms"].forEach((term, idx) => {
+            const name = "Q-"+topicId +"-"+ idx;
+
+            elements.push({
+                type: "html",
+                html: "<hr/>"
+            });
 
             elements.push({
                 title: "How much do  you know about \"" + term + "\"?",
@@ -271,7 +283,7 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
             elements.push({
                 title: "In your own words, what do you think the meaning is?",
                 visibleIf: "{"+ name +"} > 2",
-                name : "meaning-"+topicId+ "-" + idx,
+                name : "meaning-"+ topicId +"-"+ idx,
                 type :"text",
                 inputType:"text",
                 width: 500,
