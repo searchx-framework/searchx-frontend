@@ -47,7 +47,8 @@ const stepsSearch = [
 const stepsSubmit = [
     {
         element: '#intro-counter',
-        intro: 'You will need to learn about the topic for 15 minutes. Afterwards, you can press the button to take the final test. Good luck and have fun!'
+        intro: 'You will need to learn about the topic for 15 minutes. Afterwards, you can press the button to take the final test. Good luck and have fun!',
+        position: 'left'
     }
 ];
 
@@ -56,7 +57,8 @@ const stepsSubmit = [
 const intro = introJs().setOptions({
     doneLabel:  "Ok!",
     showStepNumbers: false,
-    showBullets: false
+    showBullets: false,
+    exitOnOverlayClick: false
 });
 
 intro.oncomplete(function() {

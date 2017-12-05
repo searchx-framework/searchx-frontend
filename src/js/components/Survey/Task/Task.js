@@ -1,7 +1,7 @@
 import './Task.css';
 import React from 'react';
 
-import Counter from './Counter';
+import TimedSubmit from './TimedSubmit';
 import TaskStore from '../../../stores/TaskStore';
 
 class Task extends React.Component {    
@@ -15,8 +15,6 @@ class Task extends React.Component {
     }
 
     render () {
-        //var start = localStorage.getItem("counter-start") || Date.now();
-        //localStorage.setItem("counter-start", start);
         let start = localStorage.getItem("counter-start") || 0;
 
         return(
@@ -58,7 +56,7 @@ class Task extends React.Component {
                 <hr/>
 
                 <div className="Task-submit no-padding">
-                    <Counter start={start} duration={this.state.task.duration}/>
+                    <TimedSubmit start={start} duration={this.state.task.duration}/>
                 </div>
             </div>
         )

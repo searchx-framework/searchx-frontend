@@ -2,7 +2,7 @@ import React from 'react';
 import {log} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../constants/LoggerEventTypes';
 
-class Counter extends React.Component {    
+class TimedSubmit extends React.Component {
 
     constructor(props){
         super(props);
@@ -51,7 +51,8 @@ class Counter extends React.Component {
         let minutes = Math.floor(elapsed/60);
         let seconds = elapsed-(minutes*60);
 
-        if (this.props.start === 0) {
+        const started = this.props.start !== 0;
+        if (!started) {
             minutes = 0;
             seconds = 0;
         }
@@ -66,9 +67,15 @@ class Counter extends React.Component {
                 <a className={"btn btn-primary " + active} href="/posttest" role="button" onClick={this.clickHandler}>
                     To Final Test
                 </a>
+                {!started &&
+                    <div>
+                        <br/>
+                        Finish the introduction to start the counter.
+                    </div>
+                }
             </div>
         )
     }
 }
 
-export default Counter;
+export default TimedSubmit;
