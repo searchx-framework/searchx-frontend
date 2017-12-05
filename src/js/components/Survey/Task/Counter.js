@@ -59,10 +59,14 @@ class Counter extends React.Component {
         }
 
         return (
-            <div className="counter" id="intro-counter">
-                {minutes}:{this.padZero(seconds)}
+            <div>
+                <div className="counter" id="intro-counter">
+                    {minutes}:{this.padZero(seconds)}
+                </div>
                 {minutes >= this.state.duration &&
-                    <a className="btn btn-primary" href="/posttest" role="button" onClick={this.clickHandler}>Final Test</a>
+                    <a className="btn btn-primary" href="/posttest" role="button" onClick={this.clickHandler}>
+                        To Final Test
+                    </a>
                 }
             </div>
         )

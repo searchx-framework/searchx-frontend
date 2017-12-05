@@ -6,6 +6,7 @@ import {flush} from '../utils/Logger';
 
 import About from './Pages/About';
 import Search from './Search/Search';
+import Learning from './Survey/Learning';
 import PreTest from './Survey/Form/PreTest';
 import PostTest from './Survey/Form/PostTest';
 import Register from './Survey/Form/Register';
@@ -41,6 +42,8 @@ export class App extends React.Component {
                     <Route path="/register" component={Register}/>
                     <Route path="/pretest" component={PreTest}/>
                     <Route path="/posttest" component={PostTest}/>
+
+                    <Route path="/learning" component={Learning}/>
                 </div>
             </Router>
         );
