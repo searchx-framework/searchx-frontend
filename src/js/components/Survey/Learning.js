@@ -62,7 +62,7 @@ const intro = introJs().setOptions({
 intro.oncomplete(function() {
     const start = localStorage.getItem("counter-start") || Date.now();
 
-    localStorage.setItem("intro", true);
+    localStorage.setItem("intro-done", true);
     localStorage.setItem("counter-start",start);
     location.reload();
 });
@@ -111,7 +111,7 @@ class Learning extends React.Component {
     }
 
     componentDidMount() {
-        if (!localStorage.getItem("intro")) {
+        if (!localStorage.getItem("intro-done")) {
             intro.setOption('steps', this.state.steps);
             intro.start();
         }

@@ -110,6 +110,9 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
         localStorage.removeItem("taskType");
         localStorage.removeItem("taskDuration");
 
+        localStorage.removeItem("intro-done");
+        localStorage.removeItem("counter-start");
+
         state.task = {};
     }
 });
