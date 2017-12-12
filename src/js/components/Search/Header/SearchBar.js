@@ -18,7 +18,7 @@ let getSearchState = () => {
     return {
         query: SearchStore.getQuery(),
         vertical: SearchStore.getVertical(),
-        pageNumber: SearchStore.getPageNumber() ? SearchStore.getPageNumber() : 1
+        pageNumber: SearchStore.getPageNumber()
     }
 };
 
@@ -35,9 +35,17 @@ let getParameterByName = function(name, url) {
 };
 
 let updateUrl = function(query, vertical, page) {
-    let current = window.location.href;
-    if(current.includes('/search')) {
-        history.push({pathname: '/search/?q='+ query +'&v='+ vertical.toLowerCase() +'&p='+ page});
+    let url = window.location.href;
+    let params = '?q='+ query +'&v='+ vertical.toLowerCase() +'&p='+ page;
+
+    // TODO : automatically extract api string
+
+    if(url.includes('/search')) {
+        history.push({pathname: '/search/' + params});
+    }
+
+    if(url.includes('/learning')) {
+        history.push({pathname: '/learning/' + params});
     }
 };
 

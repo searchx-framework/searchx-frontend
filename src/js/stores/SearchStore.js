@@ -18,7 +18,7 @@ let _getURLParameter = (name) => {
 let state = {
     query: _getURLParameter('q') || '',
     vertical: _getURLParameter('v') || 'web',
-    pageNumber: 1,
+    pageNumber: parseInt(_getURLParameter('p')) || 1,
     results: [],
     forum_results: [],
     matches: 0,
@@ -33,10 +33,11 @@ let _search = (query,pageNumber) => {
 
     state.submittedQuery = true;
     state.finished = false;
-    pageNumber = pageNumber ? pageNumber: 1;
     state.elapsedTime = new Date().getTime();
-    state.pageNumber = pageNumber;
     state.resultsNotFound = false;
+
+    pageNumber = pageNumber || state.pageNumber || 1;
+    state.pageNumber = pageNumber;
     state.query = query || state.query;
 
     request
@@ -152,7 +153,7 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
         return state.vertical;
     },
     getPageNumber(){
-        return state.pageNumber;
+        return state.pageNumber || 1;
     },
     getResults() {
         return state.results;
@@ -190,8 +191,8 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
         SearchStore.emitChange();
         // send request to server
     },
+
     dispatcherIndex: register(action => {
-       
         switch(action.actionType) {
             case AppConstants.SEARCH:
                 _search(action.query, action.pageNumber);
