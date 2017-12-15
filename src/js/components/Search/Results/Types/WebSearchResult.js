@@ -1,11 +1,42 @@
+
+
 import React from 'react';
 import VisibilitySensor from 'react-visibility-sensor';
 
 import {log} from '../../../../utils/Logger';
 import {LoggerEventTypes} from '../../../../constants/LoggerEventTypes';
 import SearchStore from '../../../../stores/SearchStore';
+import Rating from 'react-rating';
+import BookmarkActions from '../../BookmarkActions';
 
 class WebSearchResult extends React.Component {
+
+
+    constructor(props) {
+        super(props);
+        this.state = {bookmark: props.result.bookmark};
+        this.handleOnClick = this.handleOnClick.bind(this);
+    }
+
+ 
+    handleOnClick () {
+        
+        if (this.props.result.bookmark == false) {
+            BookmarkActions.addBookmark(this.props.result.displayUrl, this.props.result.name);         
+            this.setState({
+                bookmark: true
+            });
+            SearchStore.addBookmark(this.props.result.position);
+        } else if (this.props.result.bookmark == true) {
+            BookmarkActions.removeBookmark(this.props.result.displayUrl);
+            this.setState({
+                bookmark: false
+            });
+            SearchStore.removeBookmark(this.props.result.position);
+            
+        }
+    };
+
 
     render(){
         
@@ -42,29 +73,13 @@ class WebSearchResult extends React.Component {
 
         let cName = 'row WebSearchResults-result';
 
-        let handleUpRating = () => {
-            if (this.props.result.downPressed) {
-                 SearchStore.setRating(this.props.serp_id, this.props.result.position, 2, "up");
-            } else if (this.props.result.upPressed) {
-                 SearchStore.setRating(this.props.serp_id, this.props.result.position, -1, "neutral");
-            } else {
-                 SearchStore.setRating(this.props.serp_id, this.props.result.position, 1, "up" );
-            }
-           
-        };
+        var initialRate = this.props.result.bookmark ? 1 : 0;
 
-        let handleDownRating = () => {
-            if (this.props.result.upPressed) {
-                 SearchStore.setRating(this.props.serp_id, this.props.result.position, -2, "down");
-            } else if (this.props.result.downPressed) {
-                 SearchStore.setRating(this.props.serp_id, this.props.result.position, 1,"neutral");
-            } else {
-                 SearchStore.setRating(this.props.serp_id, this.props.result.position, -1,"down");
-            }
-        };
         
         return  (
+            
             <div className={cName}>
+               
                 <VisibilitySensor
                     onChange={viewUrlLog}
                     scrollCheck
@@ -72,7 +87,8 @@ class WebSearchResult extends React.Component {
                     scrollThrottle={50}
                     intervalDelay={2000}
                 />
-                  
+                
+                <Rating stop={1} className="rating"  empty="fa fa-star-o medium" full="fa fa-star medium" onClick={this.handleOnClick} initialRate={initialRate}/>
                 <div onMouseEnter={hoverEnterSummary} onMouseLeave={hoverLeaveSummary} >
                     <h2>
                         <a href={this.props.result.url} title={this.props.result.name} target="_blank" onClick={clickUrlLog} onContextMenu={contextUrlLog}>

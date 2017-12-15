@@ -135,6 +135,7 @@ class SearchBar extends React.Component {
         e.preventDefault();
         updateUrl(this.state.query, this.state.vertical, 1);
         SearchActions.search(this.state.query, this.state.vertical,1);
+        BookmarkActions.getBookmarks();
     }
 
     ////

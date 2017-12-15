@@ -1,0 +1,100 @@
+import {register} from '../utils/Dispatcher';
+import AppConstants from '../constants/AppConstants';
+import EventEmitter from 'events';
+import request from 'superagent';
+import AccountStore from '../stores/AccountStore';
+import {log} from '../utils/Logger';
+import {LoggerEventTypes} from '../constants/LoggerEventTypes';
+
+const configuration = require('../config');
+const Config = require('config');
+const CHANGE_EVENT = 'change_search';
+
+
+let state = {
+    bookmarks: [],
+};
+
+let _get_bookmarks = () => {
+    request
+        .get(Config.serverUrl + '/v1/bookmark/' + AccountStore.getId())
+        .end((err, res) => {
+            if (!res.body.error) {
+                state.bookmarks = res.body.results;
+
+            } else {
+                state.bookmarks = [];
+            }
+            
+            BookmarkStore.emitChange();
+        });
+};
+
+let _add_bookmark = function(url, title){
+    request
+    .post( Config.serverUrl + '/v1/bookmark/')
+    .send({
+        userId: AccountStore.getId(),
+        url: url,
+        title : title
+    })
+    .end((err, res) => {
+        //console.log(res.body);
+    });
+    state.bookmarks.unshift( {url: url,title : title})
+    BookmarkStore.emitChange();
+};
+
+let _remove_bookmark = function(url){
+
+    request
+    .delete( Config.serverUrl + '/v1/bookmark/')
+    .send({
+        userId: AccountStore.getId(),
+        url: url
+    })
+    .end((err, res) => {
+        //console.log(res.body);
+    });
+
+    state.bookmarks = state.bookmarks.filter(function(item) { 
+        return item["url"] !== url
+    })
+
+    BookmarkStore.emitChange();
+};
+
+
+const BookmarkStore = Object.assign(EventEmitter.prototype, {
+
+    emitChange() {
+        this.emit(CHANGE_EVENT);
+    },
+    addChangeListener(callback) {
+        this.on(CHANGE_EVENT, callback);
+    },
+    removeChangeListener(callback) {
+        this.removeListener(CHANGE_EVENT, callback);
+    },
+    getBookmarks() {
+        return state.bookmarks;
+    },
+
+    dispatcherIndex: register(action => {
+        switch(action.actionType) {
+            case AppConstants.GET_BOOKMARKS:
+                _get_bookmarks();
+                break;
+            case AppConstants.ADD_BOOKMARK:
+                _add_bookmark(action.url, action.title)
+                break;
+            case AppConstants.REMOVE_BOOKMARK:
+                _remove_bookmark(action.url);
+                break;
+        }
+        BookmarkStore.emitChange();
+    })
+
+});
+
+export default BookmarkStore;

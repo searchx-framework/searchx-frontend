@@ -56,11 +56,11 @@ module.exports = {
 
     externals: {
         'config': JSON.stringify(process.env.ENV === 'production' ? {
-            serverUrl: "http://csal.ewi.tudelft.nl:443",
+            serverUrl: "http://localhost:4443",
             logTimeInterval: 5000
         } : {
             //serverUrl: "https://52.58.223.73:4443",
-            serverUrl: "http://csal.ewi.tudelft.nl:443",
+            serverUrl: "http://localhost:4443",
             logTimeInterval: 5000
         })
     }

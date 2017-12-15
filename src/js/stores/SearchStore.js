@@ -174,22 +174,24 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
         return state.resultsNotFound;
     },
 
-    setRating(serpId, position, discount, signal){
-        state.results[position].rating += discount;
-        if (signal === "down") {
-            state.results[position].upPressed = false;
-            state.results[position].downPressed = true;
-        } else if (signal === "up") {
-            state.results[position].upPressed = true;
-            state.results[position].downPressed = false;
-        } else {
-            state.results[position].upPressed = false;
-            state.results[position].downPressed = false;
-        }
-        _rating(state.results[position].displayUrl,"web",serpId,discount,signal);
-        
+    addBookmark(position) {
+        state.results[position].bookmark = true;
         SearchStore.emitChange();
-        // send request to server
+    },
+
+    removeBookmark(position){
+        state.results[position].bookmark = false;
+        SearchStore.emitChange();
+    },
+
+    searchAndRemoveBookmark(url){
+        state.results = state.results.filter(function(item) { 
+            if (item["displayUrl"] == url ) {
+                item.bookmark = false;
+            }
+            return true;
+        })
+    
     },
 
     dispatcherIndex: register(action => {

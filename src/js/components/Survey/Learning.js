@@ -124,10 +124,10 @@ class Learning extends React.Component {
             <div>
                 {Account.getTopicId() !== "" &&
                     <div className="Learning row">
-                        <div className="Learning-medium col-md-9">
+                        <div id="modal" className="Learning-medium col-md-9">
                             {this.state.medium}
                         </div>
-
+                        
                         <div className="Learning-task col-md-3">
                             <Task task={this.state.task}/>
                         </div>

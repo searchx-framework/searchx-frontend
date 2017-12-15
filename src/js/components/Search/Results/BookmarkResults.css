@@ -1,0 +1,104 @@
+@import '../../variables.css';
+
+.trash {
+    float: left;
+    margin-right: 5px; 
+    margin-left: 10px; 
+}
+
+.trash .fa {
+    color: #000;
+    padding-top: 2px;  
+    font-size: 15px;
+}
+
+.span6 {
+    border-left: 2px solid $border-color;
+}
+
+
+.BookmarkResults {
+
+    margin-left: 20px;
+
+    h3 {
+        font-size: 20px;
+        margin-left: 5px;
+    }   
+
+    &-result-1 {
+        margin-bottom: 5px;
+        margin-left: 0px;
+        background-color: #F5F5F5;
+
+        h2 {
+            font-size: 15px;
+            display: block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-text-overflow: ellipsis;
+            white-space: nowrap;
+            line-height: 21px;
+            max-width: 600px;
+            margin: 0px;
+            a, a:hover, a:focus {
+                color: #000;
+                text-decoration: none;
+            }
+
+ 
+        }
+
+        span {
+            color: #000;
+            line-height: 16px;
+            font-size: 12px;
+            max-width: 500px;
+            display: block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+
+    }
+
+    &-result-2 {
+        margin-bottom: 5px;
+        margin-left: 0px;
+        background-color: #E0E0E0;
+
+        h2 {
+            font-size: 15px;
+            display: block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-text-overflow: ellipsis;
+            white-space: nowrap;
+            line-height: 21px;
+            max-width: 600px;
+            margin: 0px;
+            a, a:hover, a:focus {
+                color: #000;
+                text-decoration: none;
+            }
+
+ 
+        }
+
+        span {
+            color: #000;
+            line-height: 16px;
+            font-size: 12px;
+            max-width: 500px;
+            display: block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+
+    }
+}

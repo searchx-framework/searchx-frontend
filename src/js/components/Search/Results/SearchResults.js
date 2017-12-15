@@ -5,12 +5,14 @@ import WebSearchResults from './Types/WebSearchResults';
 import NewsSearchResults from './Types/NewsSearchResults';
 import ImagesSearchResults from './Types/ImagesSearchResults';
 import VideosSearchResults from './Types/VideosSearchResults';
+import BookmarkResults from './BookmarkResults'
 
 import SearchResultsPagination from './SearchResultsPagination';
 import SearchResultsNotFound from './SearchResultsNotFound';
 
 import SearchStore from '../../../stores/SearchStore'
 import AccountStore from '../../../stores/AccountStore';
+import BookmarkStore from '../../../stores/BookmarkStore';
 import SearchActions from '../SearchActions';
 import {log} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../constants/LoggerEventTypes';
@@ -22,7 +24,6 @@ let Loader = require('react-loader');
 
 
 ////
-
 
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -38,7 +39,8 @@ let getSearchState = () => {
         userId: AccountStore.getId(),
         activePage: SearchStore.getPageNumber(),
         elapsedTime : ((SearchStore.getElapsedTime())/1000).toFixed(2).toString(),
-        resultsNotFound : SearchStore.getResultsNotFound()
+        resultsNotFound : SearchStore.getResultsNotFound(),
+        showPopup: false
     }
 };
 
@@ -50,7 +52,6 @@ export default class SearchResults extends React.Component {
     }
 
     componentWillMount() {
-        
         SearchStore.addChangeListener(this._onChange);
     }
 
@@ -85,6 +86,11 @@ export default class SearchResults extends React.Component {
         });
            
     }
+
+    showPopup(url) {
+        "called";
+        this.setState({showPopup:true});
+    }
       
 
     render() {
@@ -95,7 +101,6 @@ export default class SearchResults extends React.Component {
         }
 
         const timeIndicator = prefix + numberWithCommas(this.state.matches) + " results (" + this.state.elapsedTime + " seconds)";
-        
         return (
             <div >
                 {SearchStore.getResultsNotFound() ? <SearchResultsNotFound/> :

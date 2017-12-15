@@ -34,7 +34,7 @@ class VideosSearchResult extends React.Component {
                 if (publisher) {
                     info += " · "
                 } 
-                info += VideosSearchResult.numberWithCommas(views) +" views"
+                info += this.numberWithCommas(views) +" views"
         }
 
         if (creator) {
@@ -122,10 +122,10 @@ class VideosSearchResult extends React.Component {
 
                     <div className="videoInfo" >
                         <a href = {this.props.result.contentUrl} target="_blank" onClick={clickUrlLog} onContextMenu={contextUrlLog}>
-                            <h5> {VideosSearchResult.getTitle(this.props.result.name)}</h5>
+                            <h5> {this.getTitle(this.props.result.name)}</h5>
                         </a>
                         <h6> {
-                            VideosSearchResult.getInfo(
+                            this.getInfo(
                                 this.props.result.publisher[0].name,
                                 this.props.result.viewCount,
                                 dateString,

@@ -6,6 +6,8 @@ import {LoggerEventTypes} from '../../../../constants/LoggerEventTypes';
 
 
 class NewsSearchResult extends React.Component {
+
+
     render(){
 
         let metaInfo = {
@@ -50,6 +52,7 @@ class NewsSearchResult extends React.Component {
                     scrollThrottle={50}
                     intervalDelay={2000}
                 />
+               
                 <div className="newsContainer" onMouseEnter={hoverEnterSummary} onMouseLeave={hoverLeaveSummary}>
                    
                         { (this.props.result.image) ?  <div> <img src={this.props.result.image.thumbnail.contentUrl} /> </div>: "" }
