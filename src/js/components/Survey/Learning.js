@@ -60,7 +60,7 @@ const stepsSubmit = [
 ////
 
 class Learning extends React.Component {
-    
+
     constructor() {
         super();
 
@@ -91,6 +91,8 @@ class Learning extends React.Component {
             );
         }
 
+        ////
+
         this.intro = introJs().setOptions({
             doneLabel:  "Ok!",
             showStepNumbers: false,
@@ -98,19 +100,18 @@ class Learning extends React.Component {
             exitOnOverlayClick: false
         });
 
-        this.handleOnComplete = this.handleOnComplete.bind(this);
-        this.onBackButtonEvent = this.onBackButtonEvent.bind(this);
-
         $('.introjs-skipbutton').hide();
-
-        this.intro.onafterchange(function(){          
-            if (this._introItems.length - 1 == this._currentStep || this._introItems.length == 1) {
+        this.intro.onafterchange(function(){
+            if (this._introItems.length - 1 === this._currentStep || this._introItems.length === 1) {
                 $('.introjs-skipbutton').show();
-            } 
+            }
         });
 
-
+        this.handleOnComplete = this.handleOnComplete.bind(this);
+        this.onBackButtonEvent = this.onBackButtonEvent.bind(this);
         this.intro.oncomplete(this.handleOnComplete);
+
+        ////
 
         this.state = {
             task: task,
@@ -120,20 +121,18 @@ class Learning extends React.Component {
     }
 
     handleOnComplete () {
-
-
         const start = localStorage.getItem("counter-start") || Date.now();
 
         const metaInfo = {
         start: start };
         log(LoggerEventTypes.SURVEY_LEARNING_START, metaInfo);
-        
+
         localStorage.setItem("intro-done", true);
         localStorage.setItem("counter-start",start);
         this.props.history.push("/learning");
         this.props.history.go();
         this.setState(this.state);
-        
+
 
     }
 
@@ -145,44 +144,79 @@ class Learning extends React.Component {
     componentDidMount() {
 
         if (this.state.task.topicId && !localStorage.getItem("intro-done")) {
-
             document.addEventListener('visibilitychange', function(){
-            })
+            });
 
             this.intro.setOption('steps', this.state.steps);
             this.intro.start();
             Alert.closeAll();
+
+        if (this.state.task.topicId) {
+            if (!localStorage.getItem("intro-done")) {
+                intro.setOption('steps', this.state.steps);
+                intro.start();
+            }
+
+            converse.initialize({
+                authentication: 'anonymous',
+                auto_login: true,
+                auto_reconnect: true,
+
+                allow_logout: false,
+                allow_muc_invitations: false,
+                allow_contact_requests: false,
+                allow_bookmarks: false,
+                allow_registration: false,
+                allow_muc: false,
+
+                auto_join_rooms: [
+                    'searchx@conference.nomnom.im',
+                ],
+                notify_all_room_messages: [
+                    'searchx@conference.nomnom.im',
+                ],
+                bosh_service_url: 'https://conversejs.org/http-bind/',
+                jid: 'nomnom.im',
+                muc_nickname_from_jid: true,
+
+                visible_toolbar_buttons: {
+                    call: false,
+                    clear: false,
+                    toggle_occupants: false,
+                    emoji: true
+                },
+
+                keepalive: true,
+                hide_muc_server: true,
+                play_sounds: true,
+                synchronize_availability: false,
+                show_controlbox_by_default: false,
+                strict_plugin_dependencies: false,
+            });
         }
         window.onpopstate = this.onBackButtonEvent;
 
     }
 
     render() {
-
         var switchTabsPreTest = localStorage.getItem("switchTabsPreTest");
-        
         var switchTabsPostTest = localStorage.getItem("switchTabsPostTest");
-        
-        if (switchTabsPreTest >= 3 || switchTabsPostTest >= 3) {
+
+        if (Account.getTopicId() === '' || switchTabsPreTest >= 3 || switchTabsPostTest >= 3) {
             return (
                 <div/>
             );
         }
 
-        
         return(
-            <div>
-                {Account.getTopicId() !== "" &&
-                    <div className="Learning row">
-                        <div id="modal" className="Learning-medium col-md-9">
-                            {this.state.medium}
-                        </div>
-                        
-                        <div className="Learning-task col-md-3">
-                            <Task task={this.state.task}/>
-                        </div>
-                    </div>
-                }
+            <div className="Learning row">
+                <div className="Learning-medium col-md-9">
+                    {this.state.medium}
+                </div>
+
+                <div className="Learning-task col-md-3">
+                    <Task task={this.state.task}/>
+                </div>
             </div>
         );
     }
