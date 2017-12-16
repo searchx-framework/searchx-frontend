@@ -113,26 +113,67 @@ class Learning extends React.Component {
     }
 
     componentDidMount() {
-        if (this.state.task.topicId && !localStorage.getItem("intro-done")) {
-            intro.setOption('steps', this.state.steps);
-            intro.start();
+        if (this.state.task.topicId) {
+            if (!localStorage.getItem("intro-done")) {
+                intro.setOption('steps', this.state.steps);
+                intro.start();
+            }
+
+            converse.initialize({
+                authentication: 'anonymous',
+                auto_login: true,
+                auto_reconnect: true,
+
+                allow_logout: false,
+                allow_muc_invitations: false,
+                allow_contact_requests: false,
+                allow_bookmarks: false,
+                allow_registration: false,
+                allow_muc: false,
+
+                auto_join_rooms: [
+                    'searchx@conference.nomnom.im',
+                ],
+                notify_all_room_messages: [
+                    'searchx@conference.nomnom.im',
+                ],
+                bosh_service_url: 'https://conversejs.org/http-bind/',
+                jid: 'nomnom.im',
+                muc_nickname_from_jid: true,
+
+                visible_toolbar_buttons: {
+                    call: false,
+                    clear: false,
+                    toggle_occupants: false,
+                    emoji: true
+                },
+
+                keepalive: true,
+                hide_muc_server: true,
+                play_sounds: true,
+                synchronize_availability: false,
+                show_controlbox_by_default: false,
+                strict_plugin_dependencies: false,
+            });
         }
     }
 
     render() {
+        if (Account.getTopicId() === '') {
+            return <div/>
+        }
+
         return(
             <div>
-                {Account.getTopicId() !== "" &&
-                    <div className="Learning row">
-                        <div className="Learning-medium col-md-9">
-                            {this.state.medium}
-                        </div>
-
-                        <div className="Learning-task col-md-3">
-                            <Task task={this.state.task}/>
-                        </div>
+                <div className="Learning row">
+                    <div className="Learning-medium col-md-9">
+                        {this.state.medium}
                     </div>
-                }
+
+                    <div className="Learning-task col-md-3">
+                        <Task task={this.state.task}/>
+                    </div>
+                </div>
             </div>
         );
     }

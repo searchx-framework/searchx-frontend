@@ -24,3 +24,19 @@
         padding: 20px;
     }
 }
+
+.toggle-controlbox {
+    display: none !important;
+}
+
+.configure-chatroom-button {
+    display: none !important;
+}
+
+.close-chatbox-button {
+    display: none !important;
+}
+
+.chat-title {
+    display: none !important;
+}
