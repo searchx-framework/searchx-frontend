@@ -21,23 +21,17 @@ export default class Register extends React.Component {
     }
 
     componentDidMount(){
-        window.onblur = function(){
+
+        document.addEventListener('visibilitychange', function(){
             const metaInfo = {
-                type: "blur",
                 step : "register"
 
             };
             log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo);
-        };
+            alert("We have noticited that you try to move to a new tab. Please focus on your task.");
+            
+        })
 
-        window.onfocus = function(){  
-            const metaInfo = {
-                type: "focus",
-                step : "register"
-
-            };
-            log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo);
-        }
     }
 
     ////

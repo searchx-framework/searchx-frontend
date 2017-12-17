@@ -12,6 +12,7 @@ import PreTest from './Survey/Form/PreTest';
 import PostTest from './Survey/Form/PostTest';
 import Register from './Survey/Form/Register';
 import Welcome from './Survey/Welcome';
+import {NotificationContainer, NotificationManager} from 'react-notifications';
 
 const config = require('config');
 
@@ -23,11 +24,13 @@ export class App extends React.Component {
         setInterval( flush, config.logTimeInterval);
 
         window.onbeforeunload = function (e) {
+            
             flush();
         };
 
         document.addEventListener('visibilitychange', function(){
             flush();
+            //alert("way");
         })
     };
 
@@ -46,6 +49,8 @@ export class App extends React.Component {
 
                     <Route path="/learning" component={Learning}/>
                     <Route path="/page" component={Page}/>
+
+                    <NotificationContainer/>
                 </div>
             </Router>
         );

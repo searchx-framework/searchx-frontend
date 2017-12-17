@@ -33,22 +33,15 @@ export default class PreTest extends React.Component {
             });
 
         });
-
-        window.onblur = function(){
+        document.addEventListener('visibilitychange', function(){
             const metaInfo = {
-                type: "blur",
                 step : "pretest"
+
             };
             log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo);
-        };
-
-        window.onfocus = function(){  
-            const metaInfo = {
-                type: "focus",
-                step : "pretest"
-            };
-            log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo);
-        }
+            alert("We have noticited that you try to move to a new tab. Please focus on your task.");
+            
+        })
     }
 
     ////

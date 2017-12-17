@@ -19,7 +19,6 @@
     "flux": "^2.1.1",
     "forever": "^0.15.3",
     "history": "^4.7.2",
-    "iframe-resizer": "^3.5.15",
     "jquery": "^3.2.1",
     "normalize.css": "^3.0.3",
     "postcss-import": "^7.1.3",

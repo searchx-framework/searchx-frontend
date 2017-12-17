@@ -1,3 +1,4 @@
+import './Page.css';
 import React from 'react';
 import {log} from '../../utils/Logger';
 import {LoggerEventTypes} from '../../constants/LoggerEventTypes';
@@ -40,13 +41,12 @@ export default class Page extends React.Component {
 
   
     render() {
-       
-
+        
         return (
             <div className="row text-center">
             <div className="col-md-12">
-            <iframe src={this.state.url} width="100%" height="1000" allowFullScreen frameBorder="0"/>
 
+                  
                 
                 </div>
             </div>

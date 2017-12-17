@@ -9,6 +9,7 @@ import AccountStore from '../../../stores/AccountStore';
 import {log} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../constants/LoggerEventTypes';
 import $ from 'jquery'
+import {NotificationContainer, NotificationManager} from 'react-notifications';
 
 export default class PostTest extends React.Component {
 
@@ -18,6 +19,7 @@ export default class PostTest extends React.Component {
     }
 
     componentDidMount() {
+        
         $(document).ready(function () {
             $('body').bind('cut copy paste', function (e) {
                 e.preventDefault();
@@ -29,26 +31,16 @@ export default class PostTest extends React.Component {
             });
         });
 
-        window.onblur = function(){
-            // var message = "Are you sure you want to navigate away from this page?\n\nYou have started writing or editing a post.\n\nPress OK to continue or Cancel to stay on the current page.";
-            // if (confirm(message)) return true;
-            // else return false;
 
+        document.addEventListener('visibilitychange', function(){
             const metaInfo = {
-                type: "blur",
                 step : "posttest"
 
             };
             log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo);
-        };
-
-        window.onfocus = function(){  
-            const metaInfo = {
-                type: "focus",
-                step : "posttest"
-            };
-            log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo);
-        }
+            alert("We have noticited that you try to move to a new tab. Please focus on your task.");
+            
+        })
     }
 
     render() {
