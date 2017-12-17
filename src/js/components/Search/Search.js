@@ -15,6 +15,7 @@ export default class Template extends React.Component {
 
             };
             log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo);
+           
         };
 
         window.onfocus = function(){  
@@ -23,6 +24,7 @@ export default class Template extends React.Component {
                 step : "search"
 
             };
+            
             log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo);
         }
     }

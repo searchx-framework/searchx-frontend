@@ -11,7 +11,7 @@ import Task from "./Task/Task";
 const stepsTask = [
     {
         element: '#intro-description',
-        intro: 'Read the task description.'
+        intro: 'Please, take a minute to read the task description.'
     },
     {
         element: '#intro-topic',
@@ -41,6 +41,16 @@ const stepsSearch = [
     {
         element: '#intro-search-bar',
         intro: 'Use this tool to search for documents about the topic - and to browse/read them of course.'
+    },
+    {
+        element: '#intro-search-results',
+        intro: 'Use this tool to bookmark documents that you find relevant along your search session.',
+        position: 'right'
+    },
+    {
+        element: '#intro-bookmark-bar',
+        intro: 'The bookmarked documents will appear here in case you want to revisit them before taking the final test.',
+        position: 'left'
     }
 ];
 
@@ -66,7 +76,7 @@ intro.oncomplete(function() {
 
     localStorage.setItem("intro-done", true);
     localStorage.setItem("counter-start",start);
-    location.reload();
+    location.href = "/learning/"
 });
 
 ////

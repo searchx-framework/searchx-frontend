@@ -15,6 +15,14 @@ let state = {
     bookmarks: [],
 };
 
+if (!localStorage.getItem("intro-done")) {
+    state.bookmarks = [{title: "You can view your bookmarked documents here", url: "https://www.viewbookmark.com"}, 
+        {title: "You also can delete any bookmarked documents here", url: "https://www.deletebookmark.com"}]
+}
+
+
+
+
 let _get_bookmarks = () => {
     request
         .get(Config.serverUrl + '/v1/bookmark/' + AccountStore.getId())
@@ -26,6 +34,11 @@ let _get_bookmarks = () => {
                 state.bookmarks = [];
             }
             
+            if (!localStorage.getItem("intro-done")) {
+                state.bookmarks = [{title: "You can view your bookmarked documents here", url: "https://www.viewbookmark.com"}, 
+                    {title: "You also can delete any bookmarked documents here", url: "https://www.deletebookmark.com"}]
+            }
+
             BookmarkStore.emitChange();
         });
 };

@@ -23,15 +23,15 @@ export default class WebSearchResults extends React.Component {
 
         return (
             
-            <div className="row WebSearchResults" >
+            <div className="row WebSearchResults">
                  
-                <div className="col-xs-6" >
+                <div className="col-xs-6"  id="intro-search-results">
                    
                     {results}
       
                 </div>
 
-                <div className="col-xs-6" >
+                <div className="col-xs-6"  id="intro-bookmark-bar">
 
                  <BookmarkResults />
                 </div >

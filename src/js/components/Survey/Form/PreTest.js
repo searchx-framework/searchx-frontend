@@ -82,7 +82,7 @@ export default class PreTest extends React.Component {
             flush();
 
             sleep(1000);
-            window.location = "/learning"
+            window.location = "/learning/?q=search%20while%20learning&v=web&p=1"
         });
 
         return (
