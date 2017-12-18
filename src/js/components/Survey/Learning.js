@@ -1,10 +1,14 @@
 import './Survey.css'
 import React from 'react';
 
-import Account from "../../stores/AccountStore";
 import Search from "../Search/Search";
 import Video from "../Video/Video";
 import Task from "./Task/Task";
+
+import AccountStore from "../../stores/AccountStore";
+import SearchActions from '../Search/SearchActions';
+import SearchStore from '../../stores/SearchStore';
+import SyncStore from '../../stores/SyncStore';
 
 ////
 
@@ -77,9 +81,9 @@ class Learning extends React.Component {
         super();
 
         const task = {
-            topicId: Account.getTopicId(),
-            type: Account.getTaskType(),
-            duration: Account.getTaskDuration()
+            topicId: AccountStore.getTopicId(),
+            type: AccountStore.getTaskType(),
+            duration: AccountStore.getTaskDuration()
         };
 
         ////
@@ -111,6 +115,38 @@ class Learning extends React.Component {
             steps: steps
         }
     }
+
+    ////
+
+    _onChange() {
+        let searchState =  {
+            query: SearchStore.getQuery(),
+            vertical: SearchStore.getVertical(),
+            pageNumber: SearchStore.getPageNumber()
+        };
+
+        SyncStore.pushSearchState(searchState);
+    }
+
+    componentWillMount() {
+        // TODO : only subscribe if doing collaborative single computer search and has proper role
+
+        // For non searching team member
+        SyncStore.subscribeToSyncSearch((userId, state) => {
+            if (AccountStore.getId() !== userId) {
+                SearchActions.search(state.query, state.vertical, state.page);
+            }
+        });
+
+        // For searching team member
+        SearchStore.addSubmitListener(this._onChange);
+    }
+
+    componentWillUnmount() {
+        SearchStore.removeSubmitListener(this._onChange);
+    }
+
+    ////
 
     componentDidMount() {
         if (this.state.task.topicId) {
@@ -159,7 +195,7 @@ class Learning extends React.Component {
     }
 
     render() {
-        if (Account.getTopicId() === '') {
+        if (AccountStore.getTopicId() === '') {
             return <div/>
         }
 

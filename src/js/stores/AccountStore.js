@@ -1,11 +1,4 @@
-import {register} from '../utils/Dispatcher';
 import EventEmitter from 'events';
-
-
-/*****************************/
-
-
-const CHANGE_EVENT = 'change_account';
 
 const getParameterByName = function(name, url) {
     if (!url) url = window.location.href;
@@ -27,9 +20,7 @@ const generateUUID = function() {
     )
 };
 
-
-/*****************************/
-
+////
 
 let state = {
     userId: localStorage.getItem("userId") || '' ,
@@ -42,19 +33,6 @@ let state = {
 };
 
 const AccountStore = Object.assign(EventEmitter.prototype, {
-    emitChange() {
-        this.emit(CHANGE_EVENT);
-    },
-    
-    dispatcherIndex: register(action => {
-        AccountStore.emitChange();
-    }),
-
-    addChangeListener(callback) {
-        this.on(CHANGE_EVENT, callback)
-    },
-
-    ////
 
     getId() {
         if (state.userId === '') {
@@ -91,6 +69,7 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
     ////
 
     setTask(topicId, type, minutes) {
+        // TODO : set session according to collaborative group
         const sessionId = generateUUID();
 
         localStorage.setItem("topicId", topicId);
