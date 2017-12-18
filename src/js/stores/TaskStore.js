@@ -1,11 +1,8 @@
-import {register} from '../utils/Dispatcher';
 import EventEmitter from 'events';
 import underscore from 'underscore';
 
 import topics from '../../../dist/data/topics.json';
 import codes from '../../../dist/data/codes.json';
-
-const CHANGE_EVENT = 'change_task';
 
 const choices = [
     {value: 1, text: "I don't remember having seen this term/phrase before." }, 
@@ -21,19 +18,6 @@ function sample(a, n) {
 ////
 
 const TaskStore = Object.assign(EventEmitter.prototype, {
-    emitChange() {
-        this.emit(CHANGE_EVENT);
-    },
-    
-    dispatcherIndex: register(action => {
-        TaskStore.emitChange();
-    }),
-
-    addChangeListener(callback) {
-        this.on(CHANGE_EVENT, callback)
-    },
-
-    ////
 
     getTopicDescription(topicId) {
         

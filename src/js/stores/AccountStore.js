@@ -1,11 +1,4 @@
-import {register} from '../utils/Dispatcher';
 import EventEmitter from 'events';
-
-
-/*****************************/
-
-
-const CHANGE_EVENT = 'change_account';
 
 const getParameterByName = function(name, url) {
     if (!url) url = window.location.href;
@@ -27,9 +20,7 @@ const generateUUID = function() {
     )
 };
 
-
-/*****************************/
-
+////
 
 let state = {
     userId: localStorage.getItem("userId") || '' ,
@@ -42,32 +33,19 @@ let state = {
 };
 
 const AccountStore = Object.assign(EventEmitter.prototype, {
-    emitChange() {
-        this.emit(CHANGE_EVENT);
-    },
-    
-    dispatcherIndex: register(action => {
-        AccountStore.emitChange();
-    }),
-
-    addChangeListener(callback) {
-        this.on(CHANGE_EVENT, callback)
-    },
-
-    ////
 
     getId() {
         return state.userId;
     },
 
     setId(userId) {
-        
+
 
         localStorage.setItem("userId", userId);
 
         const sessionId = generateUUID();
         localStorage.setItem("taskSessionId", sessionId);
-        
+
 
         state.userId = userId;
         state.task.sessionId = sessionId;
@@ -95,10 +73,8 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
     ////
 
     setTask(topicId, type, minutes) {
-        
-
         localStorage.setItem("topicId", topicId);
-       
+
         localStorage.setItem("taskType", type);
         localStorage.setItem("taskDuration", minutes);
 

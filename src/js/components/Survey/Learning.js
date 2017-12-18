@@ -1,7 +1,6 @@
 import './Survey.css'
 import React from 'react';
 
-import Account from "../../stores/AccountStore";
 import Search from "../Search/Search";
 import Video from "../Video/Video";
 import Task from "./Task/Task";
@@ -9,6 +8,13 @@ import {log} from '../../utils/Logger';
 import {LoggerEventTypes} from '../../constants/LoggerEventTypes';
 import $ from 'jquery';
 import Alert from 'react-s-alert';
+
+import AccountStore from "../../stores/AccountStore";
+import SearchActions from '../Search/SearchActions';
+import SearchStore from '../../stores/SearchStore';
+import SyncStore from '../../stores/SyncStore';
+
+////
 
 const stepsTask = [
     {
@@ -65,9 +71,9 @@ class Learning extends React.Component {
         super();
 
         const task = {
-            topicId: Account.getTopicId(),
-            type: Account.getTaskType(),
-            duration: Account.getTaskDuration()
+            topicId: AccountStore.getTopicId(),
+            type: AccountStore.getTaskType(),
+            duration: AccountStore.getTaskDuration()
         };
 
         ////
@@ -122,18 +128,17 @@ class Learning extends React.Component {
 
     handleOnComplete () {
         const start = localStorage.getItem("counter-start") || Date.now();
-
         const metaInfo = {
-        start: start };
+            start: start
+        };
         log(LoggerEventTypes.SURVEY_LEARNING_START, metaInfo);
 
         localStorage.setItem("intro-done", true);
         localStorage.setItem("counter-start",start);
+
         this.props.history.push("/learning");
         this.props.history.go();
         this.setState(this.state);
-
-
     }
 
     onBackButtonEvent (e) {
@@ -141,20 +146,17 @@ class Learning extends React.Component {
        this.props.history.go();
     }
 
+    ////
+
     componentDidMount() {
-
-        if (this.state.task.topicId && !localStorage.getItem("intro-done")) {
-            document.addEventListener('visibilitychange', function(){
-            });
-
-            this.intro.setOption('steps', this.state.steps);
-            this.intro.start();
-            Alert.closeAll();
-
         if (this.state.task.topicId) {
             if (!localStorage.getItem("intro-done")) {
-                intro.setOption('steps', this.state.steps);
-                intro.start();
+                document.addEventListener('visibilitychange', function(){
+                });
+
+                this.intro.setOption('steps', this.state.steps);
+                this.intro.start();
+                Alert.closeAll();
             }
 
             converse.initialize({
@@ -194,15 +196,15 @@ class Learning extends React.Component {
                 strict_plugin_dependencies: false,
             });
         }
-        window.onpopstate = this.onBackButtonEvent;
 
+        window.onpopstate = this.onBackButtonEvent;
     }
 
     render() {
-        var switchTabsPreTest = localStorage.getItem("switchTabsPreTest");
-        var switchTabsPostTest = localStorage.getItem("switchTabsPostTest");
+        const switchTabsPreTest = localStorage.getItem("switchTabsPreTest");
+        const switchTabsPostTest = localStorage.getItem("switchTabsPostTest");
 
-        if (Account.getTopicId() === '' || switchTabsPreTest >= 3 || switchTabsPostTest >= 3) {
+        if (AccountStore.getTopicId() === '' || switchTabsPreTest >= 3 || switchTabsPostTest >= 3) {
             return (
                 <div/>
             );
