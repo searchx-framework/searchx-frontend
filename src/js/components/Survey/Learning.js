@@ -11,7 +11,8 @@ import Task from "./Task/Task";
 const stepsTask = [
     {
         element: '#intro-description',
-        intro: 'Please, take a minute to read your task description.'
+        intro: 'Please, take a minute to read your task description.',
+        position: 'left'
     }
 ];
 
@@ -40,7 +41,7 @@ const stepsSearch = [
     },
     {
         element: '#intro-bookmark-bar',
-        intro: 'The bookmarked documents will appear here in case you want to revisit them before completing the final exercises.',
+        intro: 'The bookmarked documents will appear here in case you want to revisit them before completing the final test.',
         position: 'left'
     }
 ];
@@ -48,7 +49,7 @@ const stepsSearch = [
 const stepsSubmit = [
     {
         element: '#intro-counter',
-        intro: 'You will need to search and learn for 20 minutes. Afterwards, you can press the button to complete the final exercises. Good luck and have fun!',
+        intro: 'You will need to search and learn for 20 minutes. Afterwards, you can press the button to complete the final test. Good luck and have fun!',
         position: 'left'
     }
 ];
