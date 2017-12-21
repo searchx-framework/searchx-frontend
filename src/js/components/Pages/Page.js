@@ -2,7 +2,7 @@ import './Page.css';
 import React from 'react';
 import {log} from '../../utils/Logger';
 import {LoggerEventTypes} from '../../constants/LoggerEventTypes';
-import ReactIframeResizer from 'react-iframe-resizer-super';
+
 
 
 const iframeResizerOptions = {

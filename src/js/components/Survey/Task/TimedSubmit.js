@@ -65,7 +65,7 @@ class TimedSubmit extends React.Component {
                     {minutes}:{this.padZero(seconds)}
                 </div>
                 <a className={"btn btn-primary " + active} href="/posttest" role="button" onClick={this.clickHandler}>
-                    To Final Test
+                    To Final Exercises
                 </a>
                 {!started &&
                     <div>

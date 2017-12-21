@@ -28,7 +28,6 @@ export default class Register extends React.Component {
 
             };
             log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo);
-            alert("We have noticited that you try to move to a new tab. Please focus on your task.");
             
         })
 

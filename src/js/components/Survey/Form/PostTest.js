@@ -38,9 +38,10 @@ export default class PostTest extends React.Component {
 
             };
             log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo);
-            alert("We have noticited that you try to move to a new tab. Please focus on your task.");
+            alert("We have noticited that you have tried to go to a different window. Please focus on completing the exercises.");
             
         })
+
     }
 
     render() {
@@ -84,7 +85,7 @@ export default class PostTest extends React.Component {
         return (
             <div className="Survey">
                 <div className="Survey-form">
-                    <Survey.Survey model={survey}/>
+                    <Survey.Survey model={survey} onValidateQuestion={TaskStore.surveyValidateWordCount}/>
                 </div>
             </div>            
         );

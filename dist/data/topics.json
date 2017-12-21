@@ -1,8 +1,8 @@
 {
-    "1": {
+    "7": {
         "title": "Glycolysis",
-        "course": "Biology",
         "youtube": "FE2jfTXAJHg",
+        "task" : "Imagine you are taking an introductory Biology course this term. For your term paper, you have decided to write about glycolysis (i.e. cellular respiration). You also would like to learn about the major phases of glycolysis.",
         "terms": [
             "krebs cycle",
             "phosphoglyceraldehyde",
@@ -16,9 +16,9 @@
             "cellular respiration"
         ]
     },
-    "2": {
+    "4": {
         "title": "Religions",
-        "course": "Philosophy",
+        "tasks": "Imagine you are taking an introductory Religion course this term. For your term paper, you have decided to write about how the histories of the five major world religions (Hinduism, Judaism, Buddhism, Christianity and Islam) are connected.",        
         "youtube": "m6dCxo7t_aE",
         "terms": [
             "dharma",
@@ -33,10 +33,10 @@
             "pilgrimage"
         ]
     },
-    "3": {
+    "9": {
         "title": "Depression",
-        "course" : "Psychology",
         "youtube": "z-IR48Mb3W0",
+        "task" : "Imagine you are taking an introductory Health and Medicine course this term. For your term paper, you have decided to write about  the symptoms and treatments of depression.",        
         "terms": [
             "norepinephrine",
             "circadian",
@@ -50,10 +50,10 @@
             "cholesterol"
         ]
     },
-    "4": {
+    "6": {
         "title": "Anesthesia",
-        "course" : "Health and Medicine",
         "youtube": "B_tTymvDWXk",
+        "task": "Imagine you are taking an introductory Health and Medicine course this term. For your term paper, you have decided to write about how anesthesia works. You also would like to learn what regional, inhalational and intravenous anesthesia do to your body.",
         "terms": [
             "sevoflurane",
             "hemlock",
@@ -69,8 +69,8 @@
     },
     "5": {
         "title": "Sedimentary rocks",
-        "course": "Geology",
         "youtube": "qLRhYOrkig4",
+        "task" : "Imagine you are taking an introductory Geoscience course this term. For your term paper, you have decided to write about sedimentary rocks. You also would like to learn about the importance of sedimentary rocks for the environment and how sediments are produced.",
         "terms": [
             "feldspars",
             "terrigenous sediments",
@@ -84,10 +84,10 @@
             "sedimentary rocks"
         ]
     },
-    "6": {
+    "8": {
         "title": "Urban water cycle",
-        "course": "Water treatment",
         "youtube": "bXE12-8NwrE",
+        "task": "Imagine you are taking an introductory Water treatment course this term. For your term paper, you have decided to write about the urban water cycle. You also would like to learn about urban water management as well as the importance of water reuse within the urban environment.",        
         "terms": [
             "Lesoto Highlands",
             "eutrophication",
@@ -101,9 +101,9 @@
             "recontamination"
         ]
     },
-    "7": {
-        "title": "Water quality aspects",
-        "course": "Water treatment",
+    "3": {
+        "title": "Water quality chemistry",
+        "task": "Imagine you are taking an introductory Water treatment course this term. For your term paper, you have decided to write about chemical processes that are relevant to ensure a safe drinking water supply.",
         "youtube": "KjKN_aAdm2I",
         "terms": [
             "trihalomethanes",
@@ -118,9 +118,10 @@
             "blue baby syndrome"
         ]
     },
-    "8": {
+    "1": {
         "title": "Radioactive decay",
         "course": "Physics",
+        "task" : "Imagine that you are taking an introductory Physics course this term. For your term paper, you have decided to write about radioactivity. You also would like to learn how radioactivity happens and what types of radioactivity exist.",
         "youtube": "p7uC7wMtXY0",
         "terms": [
             "Auger electron",
@@ -135,27 +136,27 @@
             "electron capture decay"
         ]
     },
-    "9": {
-        "title": "Majoranas",
-        "course": "Physics",
-        "youtube": "WAhNblNbadA",
+    "10": {
+        "title": "Industrial biotechnology",
+        "youtube": "WU8qWo8_frc",
+        "task" : "Imagine you are taking an introductory Biotechnology course this term. For you term paper, you have decided to write about industrial biotechnology. You also would like to learn how industrial biotechnology benefits bioplastics and biological large scale processes.",
         "terms": [
-            "4π Josephson effect",
-            "Majorana zero mode",
-            "Cooper pair",
-            "particle-hole symmetry",
-            "broken time-reversal symmetry",
-            "adiabatically",
-            "Majorana resonances",
-            "topological superconductivity",
-            "resonant conduction",
-            "topological superconductor"
+            "tobacco mosaic virus",
+            "succinic acid",
+            "propanediol",
+            "anammox bacteria",
+            "prokaryotic",
+            "eukaryotic",
+            "microbial fermentation",
+            "bioplastics",
+            "unity",
+            "fungi"
         ]
     },
-    "10": {
+    "2": {
         "title": "Qubit",
-        "course": "Quantum computing",
         "youtube": "zo4Gg2LS_IE",
+        "tasks": "Imagine you are taking an introductory Computer Science course this term. For your term paper, you have decided to write about a topic where computer science meets physics: quantum information. You also would like to learn about the difference between a classical bit and a quantum bit (a so-called qubit).",
         "terms": [
             "Ket",
             "Bra",
@@ -167,6 +168,21 @@
             "excited state",
             "quantum cryptography",
             "quantum information"
+        ]
+    },
+    "0":  {
+        "title" : "Sports",
+        "terms" : [
+            "physical",
+            "lift weight",
+            "karate",
+            "martial art",
+            "cardio",
+            "play",
+            "soccer",
+            "baseball",
+            "compete",
+            "winner"
         ]
     }
 }

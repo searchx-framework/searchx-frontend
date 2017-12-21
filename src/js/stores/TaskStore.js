@@ -35,12 +35,11 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
 
     ////
 
+    getTopicDescription(topicId) {
+        return topics[topicId]["task"];
+    },
     getTopicTitle(topicId) {
         return topics[topicId]["title"];
-    },
-
-    getCourseTitle(topicId) {
-        return topics[topicId]["course"];
     },
 
     getTopicVideo(topicId) {
@@ -92,6 +91,10 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
         items.sort(function(first, second) {
             return first[1] - second[1];
         });
+        console.log(items);
+        if (items[0][0] == "1") {
+            return items[0][1];
+        }
         
         return items[0][0];
     },
@@ -153,6 +156,35 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
             isRequired: true
         });
 
+        elements.push({
+            title: "Are you an English native speaker?",
+            name: "english",
+            type: "radiogroup",
+            isRequired: true,
+            choices: [
+                {value: 0, text: "No"}, 
+                {value: 1, text: "Yes"}, 
+            ]
+        });
+
+        elements.push({ 
+            title: "What is your level of English?",
+            visibleIf: "{english} == 0",
+            name : "english-level", 
+            type: "radiogroup",
+            isRequired: true,
+            choices: [
+                {value: 0, text: "Beginner"}, 
+                {value: 1, text: "Elementary"}, 
+                {value: 2, text: "Intermediate"}, 
+                {value: 3, text: "Upper-intermediate"}, 
+                {value: 4, text: "Advanced"}, 
+                {value: 5, text: "Proficiency"}
+            ],
+            isRequired: true
+        });
+
+
         elements.push({ 
             title: "How often do you use Web search engine (e.g., Google, Bing, Yahoo) when you want to learn about something?",
             name: "search-frequency",
@@ -195,15 +227,31 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
             const userId = options.value;
             
             if(!codes[userId]) {
-                options.error = "This User Code is not valid, please check if you have copied and pasted the code correctly'.";
+                options.error = "This User Code is not valid, please check if you have copied and pasted the code correctly.";
+            }
+        }
+    }, 
+
+    surveyValidateWordCount (s, options) {
+        if (options.name === 'summary') {
+            const text = options.value;
+            var c = text.split(" ").length
+            if (c < 100) {
+                options.error = "You have written only " + c + " words, you need to write at least 100 words to complete the exercises.";
             }
         }
     }, 
 
 
+
     getPreTest() {
-        let sampledTopics = sample(Object.keys(topics), 3);
+ 
+        let sampledTopics = sample(["1", "2","3","4","5", "6", "7","8","9", "10"], 4);
+        
+        sampledTopics[1] = "0";
         let pages = [];
+
+        
 
         sampledTopics.forEach(topicId => {
             let elements = [];
@@ -243,6 +291,8 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
                 });
             });
 
+            
+
             pages.push({elements:  elements});
         });
 
@@ -263,7 +313,7 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
         elements.push({ 
             type: "html", 
             name: "topic",
-            html: "<h2>Final Test</h2>" +
+            html: "<h2>Final Exercises</h2>" +
                 "<h3>Let's see how much you've learned.</h3>" +
                 "<h3>Answer these questions about <b>" + topics[topicId]["title"] + "</b>:</h3>"
         });
@@ -277,7 +327,7 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
             });
 
             elements.push({
-                title: "How much do  you know about \"" + term + "\"?",
+                title: "How much do you know about \"" + term + "\"?",
                 type: "radiogroup",
                 isRequired: true,
                 name: name,
@@ -295,6 +345,36 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
             });
         });
 
+        elements.push({ 
+            title: "Based on what you have learned from your searches, please write an outline for your paper.",
+            name : "outline-paper", 
+            type :"comment", 
+            inputType:"text", 
+            width: 600, 
+            height: 1000,
+            isRequired: true
+        });
+
+        elements.push({ 
+            title: "Please write what you learned about this topic from your searches. Use at least 100 words.",
+            name : "summary", 
+            type :"comment", 
+            inputType:"text", 
+            width: 600, 
+            height: 1000,
+            isRequired: true
+        });
+
+        elements.push({ 
+            title: "During your searches did you have difficulties finding information about something? If so, describe briefly what you were looking for.",
+            name : "difficulties", 
+            type :"comment", 
+            inputType:"text", 
+            width: 600, 
+            height: 300,
+            isRequired: true
+        });
+
         pages.push({elements:  elements});
 
         ////
@@ -310,5 +390,7 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
         }
     }
 });
+
+
 
 export default TaskStore;

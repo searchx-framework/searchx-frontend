@@ -39,7 +39,7 @@ export default class PreTest extends React.Component {
 
             };
             log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo);
-            alert("We have noticited that you try to move to a new tab. Please focus on your task.");
+            alert("We have noticited that you have tried to go to a different window. Please focus on completing the diagnostic test.");
             
         })
     }
@@ -65,7 +65,7 @@ export default class PreTest extends React.Component {
             //TODO set task details properly
             const topicId = TaskStore.getTopicFromResults(result.data);
             const type = 'search';
-            const minutes = 15;
+            const minutes = 20;
             AccountStore.setTask(topicId, type, minutes);
 
             const metaInfo = {

@@ -11,17 +11,8 @@ import Task from "./Task/Task";
 const stepsTask = [
     {
         element: '#intro-description',
-        intro: 'Please, take a minute to read the task description.'
-    },
-    {
-        element: '#intro-topic',
-        intro: 'This is your topic.',
-        position: 'left'
-    },
-    {
-        element: '#intro-terms',
-        intro: 'These are key terms/phrases about this topic that you may use to formulate your queries.'
-    },
+        intro: 'Please, take a minute to read your task description.'
+    }
 ];
 
 const stepsVideo = [
@@ -35,21 +26,21 @@ const stepsVideo = [
 const stepsSearch = [
     {
         element: '#intro-system',
-        intro: 'We want you to use our custom web search system (we call it "SearchX") to explore more about the given topic.',
+        intro: 'We want you to use our custom web search system (we call it "SearchX").',
         position: 'bottom-middle-aligned'
     },
     {
         element: '#intro-search-bar',
-        intro: 'Use this tool to search for documents about the topic - and to browse/read them of course.'
+        intro: 'Use this tool to search for webpages, publications, and other online sources on the Web.'
     },
     {
         element: '#intro-search-results',
-        intro: 'Use this tool to bookmark documents that you find relevant along your search session.',
+        intro: 'Use this tool to collect and save all the Webpages, publications, and other online sources that are helpful for you to write a paper.',
         position: 'right'
     },
     {
         element: '#intro-bookmark-bar',
-        intro: 'The bookmarked documents will appear here in case you want to revisit them before taking the final test.',
+        intro: 'The bookmarked documents will appear here in case you want to revisit them before completing the final exercises.',
         position: 'left'
     }
 ];
@@ -57,7 +48,7 @@ const stepsSearch = [
 const stepsSubmit = [
     {
         element: '#intro-counter',
-        intro: 'You will need to learn about the topic for 15 minutes. Afterwards, you can press the button to take the final test. Good luck and have fun!',
+        intro: 'You will need to search and learn for 20 minutes. Afterwards, you can press the button to complete the final exercises. Good luck and have fun!',
         position: 'left'
     }
 ];
