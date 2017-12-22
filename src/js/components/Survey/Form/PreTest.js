@@ -73,9 +73,6 @@ export default class PreTest extends React.Component {
             };
             log_and_go(LoggerEventTypes.SURVEY_PRE_TEST_RESULTS, metaInfo,"/learning/?q=search%20while%20learning&v=web&p=1");
            
-
-            sleep(1000);
-           
         });
 
         return (

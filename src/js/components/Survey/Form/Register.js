@@ -58,7 +58,7 @@ export default class Register extends React.Component {
                 results: result.data
             };
             log_and_go(LoggerEventTypes.SURVEY_REGISTER_RESULTS, metaInfo, "/pretest");
-           
+            
             sleep(1000);
             
             //window.location = "/pretest"

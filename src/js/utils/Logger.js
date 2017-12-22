@@ -52,6 +52,16 @@ export function log_and_go(event, meta, url) {
         }
     }
 
+    const sleep = function(milliseconds) {
+        const start = new Date().getTime();
+        for (let i = 0; i < 1e7; i++) {
+            if ((new Date().getTime() - start) > milliseconds){
+                break;
+            }
+        }
+    };
+
+
     eventQueue.push({
         userId: AccountStore.getTaskSessionId() || '',
         date: new Date().toLocaleString("en-US", {timeZone: "Europe/Amsterdam"}),
@@ -66,6 +76,7 @@ export function log_and_go(event, meta, url) {
     })
     .end((err, res) => {
         //console.log(res.body);
+        sleep(1000);
         window.location = url;
     });
 

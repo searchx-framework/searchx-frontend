@@ -127,7 +127,7 @@ class Learning extends React.Component {
         }
 
         window.addEventListener("beforeunload", function (event) {
-            flush();    
+               
         });
 
     }
