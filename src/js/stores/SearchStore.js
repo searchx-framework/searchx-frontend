@@ -42,7 +42,7 @@ let _search = (query,pageNumber) => {
 
     request
         .get(Config.serverUrl + '/v1/search/'+state.vertical+'/?query='+state.query+ '&page=' 
-            + pageNumber + '&userId=' + AccountStore.getId())
+            + pageNumber + '&userId=' + AccountStore.getTaskSessionId())
         .end((err, res) => {
             if (!res.body.error) {
 
@@ -105,7 +105,7 @@ let _rating = function(url,vertical,serpId, discount,signal){
     request
     .post( Config.serverUrl + '/v1/rating')
     .send({
-        userId: AccountStore.getId(),
+        userId: AccountStore.getTaskSessionId(),
         signal: signal,
         discount: discount,
         vertical: vertical,

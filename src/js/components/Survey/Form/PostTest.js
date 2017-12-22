@@ -9,7 +9,6 @@ import AccountStore from '../../../stores/AccountStore';
 import {log} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../constants/LoggerEventTypes';
 import $ from 'jquery'
-import {NotificationContainer, NotificationManager} from 'react-notifications';
 
 export default class PostTest extends React.Component {
 

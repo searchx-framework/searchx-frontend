@@ -18,7 +18,8 @@ export function log(event, meta) {
     }
 
     eventQueue.push({
-        userId: AccountStore.getId() || '',
+        userId: AccountStore.getTaskSessionId() || '',
+        userCode: AccountStore.getId(),
         date: new Date().toLocaleString("en-US", {timeZone: "Europe/Amsterdam"}),
         event: event || '',
         meta: meta || {},
@@ -31,7 +32,7 @@ export function flush() {
         return;
     }
 
-    request.post(config.serverUrl + '/v1/users/' + AccountStore.getId() + '/logs')
+    request.post(config.serverUrl + '/v1/users/' + AccountStore.getTaskSessionId() + '/logs')
         .send({
             data: eventQueue
         })

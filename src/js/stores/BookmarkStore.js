@@ -25,7 +25,7 @@ if (!localStorage.getItem("intro-done")) {
 
 let _get_bookmarks = () => {
     request
-        .get(Config.serverUrl + '/v1/bookmark/' + AccountStore.getId())
+        .get(Config.serverUrl + '/v1/bookmark/' + AccountStore.getTaskSessionId())
         .end((err, res) => {
             if (!res.body.error) {
                 state.bookmarks = res.body.results;
@@ -47,7 +47,7 @@ let _add_bookmark = function(url, title){
     request
     .post( Config.serverUrl + '/v1/bookmark/')
     .send({
-        userId: AccountStore.getId(),
+        userId: AccountStore.getTaskSessionId(),
         url: url,
         title : title
     })
@@ -63,7 +63,7 @@ let _remove_bookmark = function(url){
     request
     .delete( Config.serverUrl + '/v1/bookmark/')
     .send({
-        userId: AccountStore.getId(),
+        userId: AccountStore.getTaskSessionId(),
         url: url
     })
     .end((err, res) => {

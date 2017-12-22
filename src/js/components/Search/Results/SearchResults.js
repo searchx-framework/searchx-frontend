@@ -36,7 +36,7 @@ let getSearchState = () => {
         results: SearchStore.getResults(),
         serp_id : SearchStore.getSerpId(),
         matches: SearchStore.getMatches(),
-        userId: AccountStore.getId(),
+        userId: AccountStore.getTaskSessionId(),
         activePage: SearchStore.getPageNumber(),
         elapsedTime : ((SearchStore.getElapsedTime())/1000).toFixed(2).toString(),
         resultsNotFound : SearchStore.getResultsNotFound(),
