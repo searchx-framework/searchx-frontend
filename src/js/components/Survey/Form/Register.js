@@ -6,7 +6,7 @@ import * as Survey from 'survey-react';
 import TaskStore from '../../../stores/TaskStore';
 import AccountStore from '../../../stores/AccountStore';
 
-import {log,flush_and_go} from '../../../utils/Logger';
+import {log,log_and_go} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../constants/LoggerEventTypes';
 
 export default class Register extends React.Component {
@@ -57,10 +57,10 @@ export default class Register extends React.Component {
             const metaInfo = {
                 results: result.data
             };
-            log(LoggerEventTypes.SURVEY_REGISTER_RESULTS, metaInfo);
-            flush_and_go("/pretest");
+            log_and_go(LoggerEventTypes.SURVEY_REGISTER_RESULTS, metaInfo, "/pretest");
+           
             sleep(1000);
-            console.log("Log sent");
+            
             //window.location = "/pretest"
         });
 
