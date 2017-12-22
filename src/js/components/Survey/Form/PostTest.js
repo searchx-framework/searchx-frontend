@@ -80,6 +80,9 @@ export default class PostTest extends React.Component {
 
             AccountStore.clearTask();
             localStorage.setItem("finish-code", TaskStore.getFinishCode(AccountStore.getId()));
+            document.addEventListener('visibilitychange', function(){
+            })
+
         });
 
         return (
