@@ -27,16 +27,21 @@ class Task extends React.Component {
 
                 <div className="Task-info no-padding" id="intro-description">
                     <div className="Task-instruction-specific">
-                        {TaskStore.getTopicDescription(this.state.task.topicId)}
+                         <b> {TaskStore.getTopicDescription(this.state.task.topicId)} </b>
                     </div>
                 
                     <hr/>
 
                     <div className="Task-instruction-general">
-                    The professor requires all students to demonstrate what they learn about a particular topic by conducting searches online and presenting their views on the topic. To prepare your term paper, you need to collect and save all the webpages, publications, and other online sources that are helpful for you to write a paper.
+                        The professor requires all students to demonstrate what they learn about a particular topic by conducting searches online and presenting their views on the topic. To prepare your term paper, you need to collect and save all the webpages, publications, and other online sources that are helpful for you to write a paper. 
+                    <hr/>
+                    <div className="Task-instruction-general">
+                        Please, use only this tool. You may not get payment if you use another search engine or do not conduct searches about the given topic. 
+                    </div>
                     <hr/>
                     After you have completed the search phase, you will be asked to complete 13 exercises; those exercises include questions about your term paper topic and the writing of an outline for your term paper.
-                    
+                    </div>
+                    <div className="Task-instruction-general">
                     </div>
                 <hr/>
 

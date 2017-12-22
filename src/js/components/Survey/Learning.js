@@ -5,7 +5,8 @@ import Account from "../../stores/AccountStore";
 import Search from "../Search/Search";
 import Video from "../Video/Video";
 import Task from "./Task/Task";
-
+import {log, flush} from '../../utils/Logger';
+import {LoggerEventTypes} from '../../constants/LoggerEventTypes';
 ////
 
 const stepsTask = [
@@ -68,6 +69,10 @@ intro.oncomplete(function() {
 
     localStorage.setItem("intro-done", true);
     localStorage.setItem("counter-start",start);
+    const metaInfo = {
+    };
+    log(LoggerEventTypes.SURVEY_LEARNING_START, metaInfo);
+    flush();
     location.href = "/learning/"
 });
 
@@ -115,10 +120,16 @@ class Learning extends React.Component {
     }
 
     componentDidMount() {
+
         if (this.state.task.topicId && !localStorage.getItem("intro-done")) {
             intro.setOption('steps', this.state.steps);
             intro.start();
         }
+
+        window.addEventListener("beforeunload", function (event) {
+            flush();    
+        });
+
     }
 
     render() {

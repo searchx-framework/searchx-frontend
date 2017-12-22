@@ -91,9 +91,9 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
         items.sort(function(first, second) {
             return first[1] - second[1];
         });
-        console.log(items);
-        if (items[0][0] == "1") {
-            return items[0][1];
+   
+        if (items[0][0] == "0") {
+            return items[1][0];
         }
         
         return items[0][0];
@@ -236,8 +236,8 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
         if (options.name === 'summary') {
             const text = options.value;
             var c = text.split(" ").length
-            if (c < 100) {
-                options.error = "You have written only " + c + " words, you need to write at least 100 words to complete the exercises.";
+            if (c < 50) {
+                options.error = "You have written only " + c + " words, you need to write at least 50 words to complete the exercises.";
             }
         }
     }, 
@@ -350,13 +350,14 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
             name : "outline-paper", 
             type :"comment", 
             inputType:"text", 
+            description: "An outline is an organizational plan to help you draft a paper. Writing an outline before beginning a paper is a way to organize your thoughts. An outline breaks down the parts of your thesis in a clear, hierarchical manner to help you see the overall format of your paper.",
             width: 600, 
             height: 1000,
             isRequired: true
         });
 
         elements.push({ 
-            title: "Please write what you learned about this topic from your searches. Use at least 100 words.",
+            title: "Please write what you learned about this topic from your searches. Use at least 50 words.",
             name : "summary", 
             type :"comment", 
             inputType:"text", 
@@ -368,7 +369,7 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
         elements.push({ 
             title: "During your searches did you have difficulties finding information about something? If so, describe briefly what you were looking for.",
             name : "difficulties", 
-            type :"comment", 
+            type :"comment",  
             inputType:"text", 
             width: 600, 
             height: 300,

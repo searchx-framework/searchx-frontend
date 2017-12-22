@@ -6,7 +6,7 @@ import * as Survey from 'survey-react';
 import TaskStore from '../../../stores/TaskStore';
 import AccountStore from '../../../stores/AccountStore';
 
-import {log} from '../../../utils/Logger';
+import {log, flush} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../constants/LoggerEventTypes';
 import $ from 'jquery'
 
@@ -19,27 +19,34 @@ export default class PostTest extends React.Component {
 
     componentDidMount() {
         
-        $(document).ready(function () {
-            $('body').bind('cut copy paste', function (e) {
-                e.preventDefault();
+        
+        const finishCode = localStorage.getItem("finish-code") || '';
+
+        
+        if (finishCode === '') {
+
+            $(document).ready(function () {
+                $('body').bind('cut copy paste', function (e) {
+                    e.preventDefault();
+                });
+    
+                //Disable mouse right click
+                $("body").on("contextmenu",function(e){
+                    return false;
+                });
             });
-
-            //Disable mouse right click
-            $("body").on("contextmenu",function(e){
-                return false;
-            });
-        });
-
-
-        document.addEventListener('visibilitychange', function(){
-            const metaInfo = {
-                step : "posttest"
-
-            };
-            log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo);
-            alert("We have noticited that you have tried to go to a different window. Please focus on completing the exercises.");
             
-        })
+            document.addEventListener('visibilitychange', function(){
+                const metaInfo = {
+                    step : "posttest"
+
+                };
+                log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo);
+                alert("We have noticited that you have tried to go to a different window. Please focus on completing the exercises.");
+                
+            })
+
+        } 
 
     }
 
@@ -47,11 +54,21 @@ export default class PostTest extends React.Component {
         const topicId = AccountStore.getTopicId();
         const userId = AccountStore.getId();
 
+        const sleep = function(milliseconds) {
+            const start = new Date().getTime();
+            for (let i = 0; i < 1e7; i++) {
+                if ((new Date().getTime() - start) > milliseconds){
+                    break;
+                }
+            }
+        };
+
+
         if (topicId === '') {
             const finishCode = localStorage.getItem("finish-code") || '';
             if (finishCode === '') {
                 return <div/>;
-            }
+            } 
 
             return (
                 <div className="Survey">
@@ -76,11 +93,11 @@ export default class PostTest extends React.Component {
                 results: result.data
             };
             log(LoggerEventTypes.SURVEY_POST_TEST_RESULTS, metaInfo);
-
+            flush();
+            sleep(2000);
             AccountStore.clearTask();
             localStorage.setItem("finish-code", TaskStore.getFinishCode(AccountStore.getId()));
-            document.addEventListener('visibilitychange', function(){
-            });
+            window.location.reload();
 
         });
 

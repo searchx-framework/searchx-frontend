@@ -56,9 +56,10 @@ class TimedSubmit extends React.Component {
             minutes = 0;
             seconds = 0;
         }
-
-        const active = minutes < this.state.duration ? "disabled" : "active";
-
+       
+        //const active = minutes < this.state.duration ? "disabled" : "active";
+        const active = "active";
+        
         return (
             <div id="intro-counter">
                 <div className="counter">

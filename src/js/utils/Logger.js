@@ -12,19 +12,30 @@ export function log(event, meta) {
         task = {
             topicId: topicId,
             sessionId: AccountStore.getTaskSessionId() || '',
-            type: AccountStore.getTaskType() || '',
-            duration: AccountStore.getTaskDuration() || ''
+            userCode: AccountStore.getTaskType() || '',
+            duration: AccountStore.getTaskDuration() || '',
+            userCode: AccountStore.getId() || '',
         }
     }
 
     eventQueue.push({
         userId: AccountStore.getTaskSessionId() || '',
-        userCode: AccountStore.getId(),
         date: new Date().toLocaleString("en-US", {timeZone: "Europe/Amsterdam"}),
         event: event || '',
         meta: meta || {},
         task: task
     });
+    
+    request.post(config.serverUrl + '/v1/users/' + AccountStore.getTaskSessionId() + '/logs')
+    .send({
+        data: eventQueue
+    })
+    .end((err, res) => {
+        //console.log(res.body);
+    });
+
+    eventQueue = [];
+
 }
 
 export function flush() {
@@ -38,6 +49,23 @@ export function flush() {
         })
         .end((err, res) => {
             //console.log(res.body);
+        });
+
+    eventQueue = [];
+}
+
+export function flush_and_go(url) {
+    if (eventQueue.length === 0) {
+        window.location = url;
+        return;
+    }
+
+    request.post(config.serverUrl + '/v1/users/' + AccountStore.getTaskSessionId() + '/logs')
+        .send({
+            data: eventQueue
+        })
+        .end((err, res) => {
+            window.location = url;
         });
 
     eventQueue = [];

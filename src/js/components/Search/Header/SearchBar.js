@@ -9,6 +9,7 @@ import {LoggerEventTypes} from '../../../constants/LoggerEventTypes';
 
 import SearchBox from './SearchBox';
 import SearchVerticals from './SearchVerticals';
+import BookmarkActions from './../BookmarkActions';
 
 
 /*****************************/

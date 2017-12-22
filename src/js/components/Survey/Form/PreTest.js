@@ -6,7 +6,7 @@ import * as Survey from 'survey-react';
 import TaskStore from '../../../stores/TaskStore';
 import AccountStore from '../../../stores/AccountStore';
 
-import {flush, log} from '../../../utils/Logger';
+import {flush_and_go, log} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../constants/LoggerEventTypes';
 import $ from 'jquery'
 
@@ -72,10 +72,10 @@ export default class PreTest extends React.Component {
                 results: result.data
             };
             log(LoggerEventTypes.SURVEY_PRE_TEST_RESULTS, metaInfo);
-            flush();
+            flush_and_go("/learning/?q=search%20while%20learning&v=web&p=1");
 
             sleep(1000);
-            window.location = "/learning/?q=search%20while%20learning&v=web&p=1"
+           
         });
 
         return (
