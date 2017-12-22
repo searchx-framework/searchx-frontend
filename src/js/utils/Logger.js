@@ -38,6 +38,42 @@ export function log(event, meta) {
 
 }
 
+export function log_and_go(event, meta, url) {
+    let task = {};
+    const topicId = AccountStore.getTopicId() || '';
+
+    if (topicId !== '') {
+        task = {
+            topicId: topicId,
+            sessionId: AccountStore.getTaskSessionId() || '',
+            userCode: AccountStore.getTaskType() || '',
+            duration: AccountStore.getTaskDuration() || '',
+            userCode: AccountStore.getId() || '',
+        }
+    }
+
+    eventQueue.push({
+        userId: AccountStore.getTaskSessionId() || '',
+        date: new Date().toLocaleString("en-US", {timeZone: "Europe/Amsterdam"}),
+        event: event || '',
+        meta: meta || {},
+        task: task
+    });
+    
+    request.post(config.serverUrl + '/v1/users/' + AccountStore.getTaskSessionId() + '/logs')
+    .send({
+        data: eventQueue
+    })
+    .end((err, res) => {
+        //console.log(res.body);
+        window.location = url;
+    });
+
+    eventQueue = [];
+
+}
+
+
 export function flush() {
     if (eventQueue.length === 0) {
         return;
@@ -54,19 +90,3 @@ export function flush() {
     eventQueue = [];
 }
 
-export function flush_and_go(url) {
-    if (eventQueue.length === 0) {
-        window.location = url;
-        return;
-    }
-
-    request.post(config.serverUrl + '/v1/users/' + AccountStore.getTaskSessionId() + '/logs')
-        .send({
-            data: eventQueue
-        })
-        .end((err, res) => {
-            window.location = url;
-        });
-
-    eventQueue = [];
-}
