@@ -57,15 +57,18 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
     ////
 
     getId() {
-        if (state.userId === '') {
-            //TODO: should create a new user id and maintain in session cookie
-            return 'anonymous';
-        }
         return state.userId;
     },
 
     setId(userId) {
+        
+
         localStorage.setItem("userId", userId);
+
+        const sessionId = generateUUID();
+        localStorage.setItem("taskSessionId", sessionId);
+        
+
         state.userId = userId;
         return state.userId;
     },
@@ -91,24 +94,24 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
     ////
 
     setTask(topicId, type, minutes) {
-        const sessionId = generateUUID();
+        
 
         localStorage.setItem("topicId", topicId);
-        localStorage.setItem("taskSessionId", sessionId);
+       
         localStorage.setItem("taskType", type);
         localStorage.setItem("taskDuration", minutes);
 
         state.task.topicId = topicId;
         state.task.type = type;
         state.task.duration = minutes;
-        state.task.sessionId = sessionId;
+        state.task.sessionId = localStorage.getItem('taskSessionId');
 
         localStorage.removeItem("finish-code");
     },
 
     clearTask() {
         localStorage.removeItem("topicId");
-        localStorage.removeItem("taskSessionId");
+
         localStorage.removeItem("taskType");
         localStorage.removeItem("taskDuration");
 

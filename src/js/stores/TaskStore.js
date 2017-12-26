@@ -36,6 +36,7 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
     ////
 
     getTopicDescription(topicId) {
+        
         return topics[topicId]["task"];
     },
     getTopicTitle(topicId) {

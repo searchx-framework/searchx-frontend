@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import {log} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../constants/LoggerEventTypes';
 
@@ -57,16 +58,16 @@ class TimedSubmit extends React.Component {
             seconds = 0;
         }
        
-        const active = minutes < this.state.duration ? "disabled" : "active";
-        
+    //    const active = minutes < this.state.duration ? "disabled" : "active";
+    const active =  "active";
         return (
             <div id="intro-counter">
                 <div className="counter">
                     {minutes}:{this.padZero(seconds)}
                 </div>
-                <a className={"btn btn-primary " + active} href="/posttest" role="button" onClick={this.clickHandler}>
+                <Link className={"btn btn-primary " + active} to="/posttest" role="button" onClick={this.clickHandler}>
                     To Final Test
-                </a>
+                </Link>
                 {!started &&
                     <div>
                         <br/>

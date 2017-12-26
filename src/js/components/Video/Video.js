@@ -27,9 +27,7 @@ class Video extends React.Component {
 
                 <hr/>
 
-                <div className="col-xs-12">
-                    <p className="Footer"> About <a href="/about" target="_blank">SearchX</a>.</p>
-                </div>
+
             </div>
         );
     }

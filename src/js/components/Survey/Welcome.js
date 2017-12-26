@@ -1,5 +1,6 @@
 import './Survey.css'
 import React from 'react';
+import {Link} from 'react-router-dom';
 
 class Welcome extends React.Component {
     render() {
@@ -34,9 +35,11 @@ class Welcome extends React.Component {
                         </h4> 
                         <hr/>
                         <h3> Good Luck and Have Fun! </h3> 
-                        <a href="/register" className="btn btn-primary pull-right btn-lg" role="button">Start!</a>
+                        <Link to="/register" className="btn btn-primary pull-right btn-lg" role="button">Start!</Link>
                          </div>
+                         
                     </div>
+                    <hr/>
                 </div>
             </div>
         )

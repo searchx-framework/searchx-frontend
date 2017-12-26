@@ -9,12 +9,20 @@ import AccountStore from '../../../stores/AccountStore';
 import {log_and_go, log} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../constants/LoggerEventTypes';
 import $ from 'jquery'
+import {Redirect} from 'react-router-dom';
 
 export default class PreTest extends React.Component {
 
     constructor(props) {
         super(props);
-      }
+        this.state = {
+            isComplete: false
+        };
+        this.handleComplete = this.handleComplete.bind(this);
+
+        this.handleCutCopyPaste = this.handleCutCopyPaste.bind(this);
+ 
+    }
 
     componentWillMount() {    
         Survey.Survey.cssType = "bootstrap";
@@ -22,17 +30,6 @@ export default class PreTest extends React.Component {
     }
 
     componentDidMount() {
-        $(document).ready(function () {
-            $('body').bind('cut copy paste', function (e) {
-                e.preventDefault();
-            });
-
-            //Disable mouse right click
-            $("body").on("contextmenu",function(e){
-                return false;
-            });
-
-        });
         document.addEventListener('visibilitychange', function(){
             const metaInfo = {
                 step : "pretest"
@@ -44,7 +41,27 @@ export default class PreTest extends React.Component {
         })
     }
 
-    ////
+
+    handleCutCopyPaste(e){
+        e.preventDefault();
+    }
+
+    handleComplete (result) {
+        
+        const topicId = TaskStore.getTopicFromResults(result.data);
+        
+        const type = 'search';
+        const minutes = 20;
+        AccountStore.setTask(topicId, type, minutes);
+
+        const metaInfo = {
+            results: result.data
+        };
+        log(LoggerEventTypes.SURVEY_PRE_TEST_RESULTS, metaInfo);
+        this.state.isComplete = true;
+        this.setState(this.state);
+    }
+      ////
 
     render() {  
         const data = TaskStore.getPreTest();
@@ -61,25 +78,17 @@ export default class PreTest extends React.Component {
 
         survey.requiredText = "";
 
-        survey.onComplete.add(function(result) {
-            //TODO set task details properly
-            const topicId = TaskStore.getTopicFromResults(result.data);
-            const type = 'search';
-            const minutes = 20;
-            AccountStore.setTask(topicId, type, minutes);
-
-            const metaInfo = {
-                results: result.data
-            };
-            log_and_go(LoggerEventTypes.SURVEY_PRE_TEST_RESULTS, metaInfo,"/learning/?q=search%20while%20learning&v=web&p=1");
-           
-        });
+        survey.onComplete.add(this.handleComplete);
 
         return (
-            <div className="Survey">
-                <div className="Survey-form" >
+            <div className="Survey" >
+                {this.state.isComplete ?
+                     <Redirect to='/learning'  />
+                    : 
+                <div className="Survey-form" onPaste={this.handleCutCopyPaste} onCut={this.handleCutCopyPaste} onCopy={this.handleCutCopyPaste} >
                     <Survey.Survey model={survey}/>
                 </div>
+                }
             </div>    
         );
     }

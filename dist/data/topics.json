@@ -18,7 +18,7 @@
     },
     "4": {
         "title": "Religions",
-        "tasks": "Imagine you are taking an introductory Religion course this term. For your term paper, you have decided to write about how the histories of the five major world religions (Hinduism, Judaism, Buddhism, Christianity and Islam) are connected.",        
+        "task": "Imagine you are taking an introductory Religion course this term. For your term paper, you have decided to write about how the histories of the five major world religions (Hinduism, Judaism, Buddhism, Christianity and Islam) are connected.",        
         "youtube": "m6dCxo7t_aE",
         "terms": [
             "dharma",
@@ -156,7 +156,7 @@
     "2": {
         "title": "Qubit",
         "youtube": "zo4Gg2LS_IE",
-        "tasks": "Imagine you are taking an introductory Computer Science course this term. For your term paper, you have decided to write about a topic where computer science meets physics: quantum information. You also would like to learn about the difference between a classical bit and a quantum bit (a so-called qubit).",
+        "task": "Imagine you are taking an introductory Computer Science course this term. For your term paper, you have decided to write about a topic where computer science meets physics: quantum information. You also would like to learn about the difference between a classical bit and a quantum bit (a so-called qubit).",
         "terms": [
             "Ket",
             "Bra",

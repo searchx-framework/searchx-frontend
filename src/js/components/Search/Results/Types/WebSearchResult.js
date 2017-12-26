@@ -91,7 +91,7 @@ class WebSearchResult extends React.Component {
                 <Rating stop={1} className="rating"  empty="fa fa-star-o medium" full="fa fa-star medium" onClick={this.handleOnClick} initialRate={initialRate}/>
                 <div onMouseEnter={hoverEnterSummary} onMouseLeave={hoverLeaveSummary} >
                     <h2>
-                        <a href={this.props.result.url} title={this.props.result.name} target="_blank" onClick={clickUrlLog} onContextMenu={contextUrlLog}>
+                        <a href={this.props.result.displayUrl} title={this.props.result.name} target="_blank" onClick={clickUrlLog} onContextMenu={contextUrlLog}>
                             {this.props.result.name}
                         </a>
                     </h2>

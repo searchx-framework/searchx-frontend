@@ -12,29 +12,31 @@ import $ from 'jquery'
 
 export default class PostTest extends React.Component {
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            finish: false
+        };
+        this.handleComplete = this.handleComplete.bind(this);
+
+        this.handleCutCopyPaste = this.handleCutCopyPaste.bind(this);
+ 
+    }
+
+
     componentWillMount() {    
         Survey.Survey.cssType = "bootstrap";
         Survey.defaultBootstrapCss.navigationButton = "btn btn-green";
     }
 
+    
     componentDidMount() {
         
-        
-        const finishCode = localStorage.getItem("finish-code") || '';
 
-        
-        if (finishCode === '') {
-
-            $(document).ready(function () {
-                $('body').bind('cut copy paste', function (e) {
-                    e.preventDefault();
-                });
-    
-                //Disable mouse right click
-                $("body").on("contextmenu",function(e){
-                    return false;
-                });
-            });
+        let finishedCode = localStorage.getItem("finishedCode") || '';
+       
+        if (this.state.finish || finishedCode === '') {
             
             document.addEventListener('visibilitychange', function(){
                 const metaInfo = {
@@ -50,63 +52,58 @@ export default class PostTest extends React.Component {
 
     }
 
-    render() {
-        const topicId = AccountStore.getTopicId();
-        const userId = AccountStore.getId();
 
-        const sleep = function(milliseconds) {
-            const start = new Date().getTime();
-            for (let i = 0; i < 1e7; i++) {
-                if ((new Date().getTime() - start) > milliseconds){
-                    break;
-                }
-            }
+    handleComplete(result){
+        const metaInfo = {
+            results: result.data
         };
+        log(LoggerEventTypes.SURVEY_POST_TEST_RESULTS, metaInfo);
+
+        AccountStore.clearTask();
+        localStorage.setItem("finishedCode", TaskStore.getFinishCode(AccountStore.getId()));
+        this.setState({finish: true});
+    }
+        
+        
+    handleCutCopyPaste(e){
+        e.preventDefault();
+    }
 
 
-        if (topicId === '') {
-            const finishCode = localStorage.getItem("finish-code") || '';
-            if (finishCode === '') {
-                return <div/>;
-            } 
 
+    render() {
+        const userId = AccountStore.getId();
+        let finishedCode = localStorage.getItem("finishedCode") || '';
+        if (this.state.finish || finishedCode) {
+           
             return (
                 <div className="Survey">
                     <div className="Survey-form">
                         <div className='Survey-complete'>
                             <h2>Thanks!</h2>
-                            <h3>Please, copy and paste this code on CrowdFlower: {finishCode}</h3>
+                            <h3>Please, copy and paste this code on CrowdFlower: {TaskStore.getFinishCode(AccountStore.getId())}</h3>
                         </div>
                     </div>
                 </div>
             );
-        }
+        } else {
 
-        ////
+            const topicId = AccountStore.getTopicId();
+        
 
-        const data = TaskStore.getPostTest(userId, topicId);
-        const survey = new Survey.Model(data);
+            const data = TaskStore.getPostTest(userId, topicId);
+            const survey = new Survey.Model(data);
 
-        survey.requiredText = "";
-        survey.onComplete.add(function(result){
-            const metaInfo = {
-                results: result.data
-            };
-            log(LoggerEventTypes.SURVEY_POST_TEST_RESULTS, metaInfo);
-            flush();
-            sleep(2000);
-            AccountStore.clearTask();
-            localStorage.setItem("finish-code", TaskStore.getFinishCode(AccountStore.getId()));
-            window.location.reload();
+            survey.requiredText = "";
+            survey.onComplete.add(this.handleComplete);
 
-        });
-
-        return (
-            <div className="Survey">
-                <div className="Survey-form">
-                    <Survey.Survey model={survey} onValidateQuestion={TaskStore.surveyValidateWordCount}/>
-                </div>
-            </div>            
-        );
+            return (
+                <div className="Survey">
+                    <div className="Survey-form" onPaste={this.handleCutCopyPaste} onCut={this.handleCutCopyPaste} onCopy={this.handleCutCopyPaste}>
+                        <Survey.Survey model={survey} onValidateQuestion={TaskStore.surveyValidateWordCount}/>
+                    </div>
+                </div>            
+            );
+    }
     }
 }

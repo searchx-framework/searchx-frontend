@@ -38,13 +38,13 @@ export class App extends React.Component {
             <Router>
                 <div>
                     <Route exact path="/" component={About}/>
-                    <Route path="/about" component={About}/>
+                    <Route exact path="/about" component={About}/>
                     <Route path="/search" component={Search}/>
 
-                    <Route path="/start" component={Welcome}/>
-                    <Route path="/register" component={Register}/>
-                    <Route path="/pretest" component={PreTest}/>
-                    <Route path="/posttest" component={PostTest}/>
+                    <Route exact path="/start" component={Welcome}/>
+                    <Route exact path="/register" component={Register}/>
+                    <Route exact path="/pretest" component={PreTest}/>
+                    <Route exact path="/posttest" component={PostTest}/>
 
                     <Route path="/learning" component={Learning}/>
                     <Route path="/page" component={Page}/>

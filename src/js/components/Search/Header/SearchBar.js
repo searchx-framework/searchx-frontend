@@ -63,10 +63,6 @@ class SearchBar extends React.Component {
 
         this._onChange = this._onChange.bind(this);
 
-        history.listen((location, action) => {
-          
-        })
-
     }
 
     ////

@@ -29,6 +29,16 @@ let state = {
     resultsNotFound: false
 };
 
+if (!localStorage.getItem("intro-done")) {
+    state.results = [{name: "You can view the search first result here", displayUrl: "https://www.result1.com" , snippet: "This is the first result result..."}, 
+    {name: "You can view the search second result here", displayUrl: "https://www.result2.com" , snippet: "This is the second result result..."},
+    {name: "You can view a search third result here", displayUrl: "https://www.result3.com" , snippet: "This is the third result result..."},
+    {name: "You can view a search fourth result here", displayUrl: "https://www.result4.com" , snippet: "This is the fourth result result..."},
+    {name: "You can view a search fifth result here", displayUrl: "https://www.result5.com" , snippet: "This is the fifth result result..."}]
+}
+
+
+
 let _search = (query,pageNumber) => {
 
     state.submittedQuery = true;

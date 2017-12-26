@@ -38,52 +38,6 @@ export function log(event, meta) {
 
 }
 
-export function log_and_go(event, meta, url) {
-    let task = {};
-    const topicId = AccountStore.getTopicId() || '';
-
-    if (topicId !== '') {
-        task = {
-            topicId: topicId,
-            sessionId: AccountStore.getTaskSessionId() || '',
-            userCode: AccountStore.getTaskType() || '',
-            duration: AccountStore.getTaskDuration() || '',
-            userCode: AccountStore.getId() || '',
-        }
-    }
-
-    const sleep = function(milliseconds) {
-        const start = new Date().getTime();
-        for (let i = 0; i < 1e7; i++) {
-            if ((new Date().getTime() - start) > milliseconds){
-                break;
-            }
-        }
-    };
-
-
-    eventQueue.push({
-        userId: AccountStore.getTaskSessionId() || '',
-        date: new Date().toLocaleString("en-US", {timeZone: "Europe/Amsterdam"}),
-        event: event || '',
-        meta: meta || {},
-        task: task
-    });
-    
-    request.post(config.serverUrl + '/v1/users/' + AccountStore.getTaskSessionId() + '/logs')
-    .send({
-        data: eventQueue
-    })
-    .end((err, res) => {
-        //console.log(res.body);
-        sleep(1000);
-        window.location = url;
-    });
-
-    eventQueue = [];
-
-}
-
 
 export function flush() {
     if (eventQueue.length === 0) {

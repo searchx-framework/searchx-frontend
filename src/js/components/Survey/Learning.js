@@ -7,6 +7,7 @@ import Video from "../Video/Video";
 import Task from "./Task/Task";
 import {log, flush} from '../../utils/Logger';
 import {LoggerEventTypes} from '../../constants/LoggerEventTypes';
+import {Redirect} from 'react-router-dom';
 ////
 
 const stepsTask = [
@@ -55,31 +56,14 @@ const stepsSubmit = [
     }
 ];
 
-////
-
-const intro = introJs().setOptions({
-    doneLabel:  "Ok!",
-    showStepNumbers: false,
-    showBullets: false,
-    exitOnOverlayClick: false
-});
-
-intro.oncomplete(function() {
-    const start = localStorage.getItem("counter-start") || Date.now();
-
-    localStorage.setItem("intro-done", true);
-    localStorage.setItem("counter-start",start);
-    const metaInfo = {
-    };
-    log(LoggerEventTypes.SURVEY_LEARNING_START, metaInfo);
-    flush();
-    location.href = "/learning/"
-});
 
 ////
 
 class Learning extends React.Component {
 
+
+
+    
     constructor() {
         super();
 
@@ -110,7 +94,16 @@ class Learning extends React.Component {
             );
         }
 
-        ////
+        this.intro = introJs().setOptions({
+            doneLabel:  "Ok!",
+            showStepNumbers: false,
+            showBullets: false,
+            exitOnOverlayClick: false
+        });
+        this.handleOnComplete = this.handleOnComplete.bind(this);
+
+
+        this.intro.oncomplete(this.handleOnComplete);
 
         this.state = {
             task: task,
@@ -119,16 +112,29 @@ class Learning extends React.Component {
         }
     }
 
+    handleOnComplete () {
+
+
+        const start = localStorage.getItem("counter-start") || Date.now();
+
+        const metaInfo = {
+        start: start };
+        log(LoggerEventTypes.SURVEY_LEARNING_START, metaInfo);
+        
+        localStorage.setItem("intro-done", true);
+        localStorage.setItem("counter-start",start);
+
+        this.setState(this.state);
+        window.location.reload();
+
+    }
+
     componentDidMount() {
 
         if (this.state.task.topicId && !localStorage.getItem("intro-done")) {
-            intro.setOption('steps', this.state.steps);
-            intro.start();
+            this.intro.setOption('steps', this.state.steps);
+            this.intro.start();
         }
-
-        window.addEventListener("beforeunload", function (event) {
-               
-        });
 
     }
 
