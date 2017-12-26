@@ -70,6 +70,7 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
         
 
         state.userId = userId;
+        state.task.sessionId = sessionId;
         return state.userId;
     },
 
