@@ -38,7 +38,10 @@ module.exports = {
                 test:   /\.css$/,
                 loader: "style-loader!css-loader!postcss-loader"
             },
-            { test: /\.(png|jpg|jpeg)$/, loader: 'url-loader?limit=10000' }
+            {
+                test: /\.(png|jpg|jpeg)$/,
+                loader: 'url-loader?limit=10000'
+            }
         ]
     },
 
@@ -48,7 +51,7 @@ module.exports = {
                 context: __dirname,
                 postcss: [
                     postcssImport({ addDependencyTo: webpack}),
-                simpleVars, postcssNested, autoprefixer
+                    simpleVars, postcssNested, autoprefixer
                 ]
             }
         }
@@ -59,7 +62,6 @@ module.exports = {
             serverUrl: "http://127.0.0.1:4443",
             logTimeInterval: 5000
         } : {
-            //serverUrl: "https://52.58.223.73:4443",
             serverUrl: "http://127.0.0.1:4443",
             logTimeInterval: 5000
         })

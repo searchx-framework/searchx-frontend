@@ -1,13 +1,14 @@
 import './Survey.css'
 import React from 'react';
+import Alert from 'react-s-alert';
 
 import Search from "../Search/Search";
 import Video from "../Video/Video";
 import Task from "./Task/Task";
+
 import {log} from '../../utils/Logger';
 import {LoggerEventTypes} from '../../constants/LoggerEventTypes';
 import $ from 'jquery';
-import Alert from 'react-s-alert';
 
 import AccountStore from "../../stores/AccountStore";
 import SearchActions from '../Search/SearchActions';
@@ -62,6 +63,45 @@ const stepsSubmit = [
     }
 ];
 
+////
+
+const initializeChat = function() {
+    converse.initialize({
+        authentication: 'anonymous',
+        auto_login: true,
+        auto_reconnect: true,
+
+        allow_logout: false,
+        allow_muc_invitations: false,
+        allow_contact_requests: false,
+        allow_bookmarks: false,
+        allow_registration: false,
+        allow_muc: false,
+
+        auto_join_rooms: [
+            'searchx@conference.nomnom.im',
+        ],
+        notify_all_room_messages: [
+            'searchx@conference.nomnom.im',
+        ],
+        bosh_service_url: 'https://conversejs.org/http-bind/',
+        jid: 'nomnom.im',
+
+        visible_toolbar_buttons: {
+            call: false,
+            clear: false,
+            toggle_occupants: false,
+            emoji: true
+        },
+
+        keepalive: true,
+        hide_muc_server: true,
+        play_sounds: true,
+        synchronize_availability: false,
+        show_controlbox_by_default: false,
+        strict_plugin_dependencies: false,
+    });
+};
 
 ////
 
@@ -159,42 +199,7 @@ class Learning extends React.Component {
                 Alert.closeAll();
             }
 
-            converse.initialize({
-                authentication: 'anonymous',
-                auto_login: true,
-                auto_reconnect: true,
-
-                allow_logout: false,
-                allow_muc_invitations: false,
-                allow_contact_requests: false,
-                allow_bookmarks: false,
-                allow_registration: false,
-                allow_muc: false,
-
-                auto_join_rooms: [
-                    'searchx@conference.nomnom.im',
-                ],
-                notify_all_room_messages: [
-                    'searchx@conference.nomnom.im',
-                ],
-                bosh_service_url: 'https://conversejs.org/http-bind/',
-                jid: 'nomnom.im',
-                muc_nickname_from_jid: true,
-
-                visible_toolbar_buttons: {
-                    call: false,
-                    clear: false,
-                    toggle_occupants: false,
-                    emoji: true
-                },
-
-                keepalive: true,
-                hide_muc_server: true,
-                play_sounds: true,
-                synchronize_availability: false,
-                show_controlbox_by_default: false,
-                strict_plugin_dependencies: false,
-            });
+            initializeChat();
         }
 
         window.onpopstate = this.onBackButtonEvent;
