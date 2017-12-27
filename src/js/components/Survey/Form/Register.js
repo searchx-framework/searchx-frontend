@@ -29,7 +29,7 @@ export default class Register extends React.Component {
     }
 
     componentDidMount(){
-
+        localStorage.clear();
     }
 
 
@@ -45,6 +45,7 @@ export default class Register extends React.Component {
         log(LoggerEventTypes.SURVEY_REGISTER_RESULTS, metaInfo);
 
         this.state.isComplete = true;
+        this.props.history.push('/pretest');
         this.setState(this.state);
 
     }
@@ -63,11 +64,8 @@ export default class Register extends React.Component {
             <div className="Survey">
                 <div className="Survey-form">
 
-                    {this.state.isComplete ?
-                     <Redirect to='/pretest'  />
-                    : 
                     <Survey.Survey model={survey}   onValidateQuestion={TaskStore.surveyValidateQuestion} />
-                    }
+                    
                 </div>
             </div>    
         );

@@ -8,25 +8,13 @@ import {LoggerEventTypes} from '../../constants/LoggerEventTypes';
 export default class Template extends React.Component {
 
     componentDidMount(){
-        window.onblur = function(){
+        document.addEventListener('visibilitychange', function(){
             const metaInfo = {
-                type: "blur",
-                step : "search"
-
+                step : "search",
+                hidden: document.hidden
             };
             log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo);
-           
-        };
-
-        window.onfocus = function(){  
-            const metaInfo = {
-                type: "focus",
-                step : "search"
-
-            };
-            
-            log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo);
-        }
+        })
     }
 
     render() {

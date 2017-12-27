@@ -21,7 +21,7 @@ module.exports = {
         headers: { 'Access-Control-Allow-Origin': '*' },
         historyApiFallback: true,
         port : 8080,
-        host: "0.0.0.0"
+        host: "127.0.0.1"
     },
 
     module: {
@@ -56,11 +56,11 @@ module.exports = {
 
     externals: {
         'config': JSON.stringify(process.env.ENV === 'production' ? {
-            serverUrl: "http://localhost:4443",
+            serverUrl: "http://127.0.0.1:4443",
             logTimeInterval: 5000
         } : {
             //serverUrl: "https://52.58.223.73:4443",
-            serverUrl: "http://localhost:4443",
+            serverUrl: "http://127.0.0.1:4443",
             logTimeInterval: 5000
         })
     }

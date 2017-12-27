@@ -1,6 +1,7 @@
 @import url('../variables.css');
 
 .Welcome {
+    margin-bottom: 50px;
 }
 
 .Learning {
@@ -13,14 +14,18 @@
         overflow-y: scroll;
 
         border: 0px;
-        border-right: 1px;
+        
         border-style: solid;
         border-color: lightgrey;
     }
 
     &-task {
         background-color: $primary-color;
-        height: 100%;
+        
         padding: 20px;
     }
+}
+
+.introjs-skipbutton {
+    display: none;
 }

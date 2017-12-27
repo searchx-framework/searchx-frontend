@@ -9,7 +9,8 @@ import AccountStore from '../../../stores/AccountStore';
 import {log_and_go, log} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../constants/LoggerEventTypes';
 import $ from 'jquery'
-import {Redirect} from 'react-router-dom';
+import Alert from 'react-s-alert';
+
 
 export default class PreTest extends React.Component {
 
@@ -23,6 +24,7 @@ export default class PreTest extends React.Component {
         this.handleCutCopyPaste = this.handleCutCopyPaste.bind(this);
  
     }
+      
 
     componentWillMount() {    
         Survey.Survey.cssType = "bootstrap";
@@ -32,12 +34,37 @@ export default class PreTest extends React.Component {
     componentDidMount() {
         document.addEventListener('visibilitychange', function(){
             const metaInfo = {
-                step : "pretest"
+                step : "pretest",
+                hidden: document.hidden
 
             };
             log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo);
-            alert("We have noticited that you have tried to go to a different window. Please focus on completing the diagnostic test.");
-            
+            if (document.hidden) {
+                Alert.error('We have noticited that you have tried to change to a different window/tab.', {
+                    position: 'top-right',
+                    effect: 'scale',
+                    beep: true,
+                    timeout: "none",
+                    offset: 100
+                });
+
+                Alert.error('Please, focus on completing the diagnostic test.', {
+                    position: 'top-right',
+                    effect: 'scale',
+                    beep: true,
+                    timeout: "none",
+                    offset: 100
+                });
+
+                Alert.error('You may not get the payment if you continue changing to a different window/tab.', {
+                    position: 'top-right',
+                    effect: 'scale',
+                    beep: true,
+                    timeout: "none",
+                    offset: 100
+                });
+
+            }
         })
     }
 
@@ -59,36 +86,29 @@ export default class PreTest extends React.Component {
         };
         log(LoggerEventTypes.SURVEY_PRE_TEST_RESULTS, metaInfo);
         this.state.isComplete = true;
+        this.props.history.push('/learning')
         this.setState(this.state);
     }
       ////
 
     render() {  
         const data = TaskStore.getPreTest();
-        let survey = new Survey.Model(data);
 
-        const sleep = function(milliseconds) {
-            const start = new Date().getTime();
-            for (let i = 0; i < 1e7; i++) {
-                if ((new Date().getTime() - start) > milliseconds){
-                    break;
-                }
-            }
-        };
+        let survey = new Survey.Model(data);
 
         survey.requiredText = "";
 
         survey.onComplete.add(this.handleComplete);
 
+
         return (
             <div className="Survey" >
-                {this.state.isComplete ?
-                     <Redirect to='/learning'  />
-                    : 
+
                 <div className="Survey-form" onPaste={this.handleCutCopyPaste} onCut={this.handleCutCopyPaste} onCopy={this.handleCutCopyPaste} >
                     <Survey.Survey model={survey}/>
                 </div>
-                }
+                
+
             </div>    
         );
     }

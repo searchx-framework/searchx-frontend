@@ -1,8 +1,9 @@
 import './App.css'
 
 import React from 'react'
-import {BrowserRouter as Router, Route} from 'react-router-dom'
+import {Router, Route} from 'react-router-dom'
 import {flush} from '../utils/Logger';
+import history from '../components/History';
 
 import About from './Pages/About';
 import Page from './Pages/Page';
@@ -21,21 +22,11 @@ export class App extends React.Component {
 
     componentWillMount(){
         setInterval( flush, config.logTimeInterval);
-
-        window.onbeforeunload = function (e) {
-            
-            flush();
-        };
-
-        document.addEventListener('visibilitychange', function(){
-            flush();
-            //alert("way");
-        })
     };
 
     render() {
         return (
-            <Router>
+            <Router history={history}>
                 <div>
                     <Route exact path="/" component={About}/>
                     <Route exact path="/about" component={About}/>

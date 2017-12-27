@@ -24,22 +24,26 @@ class Welcome extends React.Component {
                         <h3>Requirements:</h3>
                         <ol type="1">
                             <li> This experiment will be in English. You must write all your answers and conduct your searches in English. You may not get the payment if you use other languages.</li>
-                            <li> Check whether the version of your browser meets our requirements: Google Chrome 47+, Microsoft Edge 13+, and Mozilla Firefox 44+. </li>
+                            <li> Check whether the version of your browser meets our requirements: Google Chrome 47+ and Mozilla Firefox 44+. </li>
                         </ol> 
                         <hr/>
                         <h3>This experiment takes about 40 minutes on average.</h3>
                         <hr/>
-                        <h3>Bonus!</h3>
+
+                        <h3>IMPORTANT: Payment</h3>
+                            <h4> We pay based on how well you participate in this experiment. We will evaluate your behavior during all experiment and we will automatically decide if we pay you at the end of the experiment. In order to avoid any complications, reserve the amount of time of 40 minutes to focus only on this experiment.</h4>
+                        <h3>BONUS</h3>
                          <h4>
                             A bonus payment will be given to workers that complete this experiment with high-quality answers.
                         </h4> 
                         <hr/>
                         <h3> Good Luck and Have Fun! </h3> 
                         <Link to="/register" className="btn btn-primary pull-right btn-lg" role="button">Start!</Link>
+                        
                          </div>
                          
                     </div>
-                    <hr/>
+                    
                 </div>
             </div>
         )

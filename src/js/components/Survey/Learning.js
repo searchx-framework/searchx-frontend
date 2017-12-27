@@ -5,10 +5,10 @@ import Account from "../../stores/AccountStore";
 import Search from "../Search/Search";
 import Video from "../Video/Video";
 import Task from "./Task/Task";
-import {log, flush} from '../../utils/Logger';
+import {log} from '../../utils/Logger';
 import {LoggerEventTypes} from '../../constants/LoggerEventTypes';
-import {Redirect} from 'react-router-dom';
-////
+import $ from 'jquery';
+import Alert from 'react-s-alert';
 
 const stepsTask = [
     {
@@ -43,7 +43,7 @@ const stepsSearch = [
     },
     {
         element: '#intro-bookmark-bar',
-        intro: 'The bookmarked documents will appear here in case you want to revisit them before completing the final test.',
+        intro: 'The saved/bookmarked documents will appear here in case you want to revisit them before completing the final test.',
         position: 'left'
     }
 ];
@@ -60,9 +60,6 @@ const stepsSubmit = [
 ////
 
 class Learning extends React.Component {
-
-
-
     
     constructor() {
         super();
@@ -100,7 +97,17 @@ class Learning extends React.Component {
             showBullets: false,
             exitOnOverlayClick: false
         });
+
         this.handleOnComplete = this.handleOnComplete.bind(this);
+        this.onBackButtonEvent = this.onBackButtonEvent.bind(this);
+
+        $('.introjs-skipbutton').hide();
+
+        this.intro.onafterchange(function(){          
+            if (this._introItems.length - 1 == this._currentStep || this._introItems.length == 1) {
+                $('.introjs-skipbutton').show();
+            } 
+        });
 
 
         this.intro.oncomplete(this.handleOnComplete);
@@ -123,18 +130,30 @@ class Learning extends React.Component {
         
         localStorage.setItem("intro-done", true);
         localStorage.setItem("counter-start",start);
-
+        this.props.history.push("/learning");
+        this.props.history.go();
         this.setState(this.state);
-        window.location.reload();
+        
 
+    }
+
+    onBackButtonEvent (e) {
+       e.preventDefault();
+       this.props.history.go();
     }
 
     componentDidMount() {
 
         if (this.state.task.topicId && !localStorage.getItem("intro-done")) {
+
+            document.addEventListener('visibilitychange', function(){
+            })
+
             this.intro.setOption('steps', this.state.steps);
             this.intro.start();
+            Alert.closeAll();
         }
+        window.onpopstate = this.onBackButtonEvent;
 
     }
 

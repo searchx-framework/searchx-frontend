@@ -3,7 +3,7 @@
 .Task {
     padding: 15px;
     margin: 0px;
-    height: 100%;
+    
 
     background-color: #ffffff;
     border: 1px;
@@ -17,11 +17,13 @@
          font-weight: 700;
          font-size: 18px;
          margin: 10px;
+         word-wrap: break-word;
     }
 
     &-info {
         text-align: left;
         width: auto;
+        word-wrap: break-word;
     }
 
     &-submit {

@@ -351,7 +351,7 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
             name : "outline-paper", 
             type :"comment", 
             inputType:"text", 
-            description: "An outline is an organizational plan to help you draft a paper. Writing an outline before beginning a paper is a way to organize your thoughts. An outline breaks down the parts of your thesis in a clear, hierarchical manner to help you see the overall format of your paper.",
+            description: "Tip: An outline is an organizational plan to help you draft a paper. An outline breaks down the parts of your thesis in a clear, hierarchical manner to help you see the overall format of your paper.",
             width: 600, 
             height: 1000,
             isRequired: true

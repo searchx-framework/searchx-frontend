@@ -59,7 +59,7 @@ class TimedSubmit extends React.Component {
         }
        
         const active = minutes < this.state.duration ? "disabled" : "active";
-    
+
         return (
             <div id="intro-counter">
                 <div className="counter">
@@ -71,7 +71,7 @@ class TimedSubmit extends React.Component {
                 {!started &&
                     <div>
                         <br/>
-                        Finish the introduction to start the counter. You may need to reload this page to restart introduction.
+                        Finish the guide tour to start the counter. You may need to reload this page to restart the guide tour.
                     </div>
                 }
             </div>

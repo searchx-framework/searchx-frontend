@@ -111,22 +111,6 @@ let _search = (query,pageNumber) => {
         });
 };
 
-let _rating = function(url,vertical,serpId, discount,signal){
-    request
-    .post( Config.serverUrl + '/v1/rating')
-    .send({
-        userId: AccountStore.getTaskSessionId(),
-        signal: signal,
-        discount: discount,
-        vertical: vertical,
-        url: url,
-        serpId: serpId
-    })
-    .end((err, res) => {
-        //console.log(res.body);
-    });
-};
-
 
 if (_getURLParameter('q')) {
     _search();
