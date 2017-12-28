@@ -192,27 +192,14 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
             type: "radiogroup",
             isRequired: true,
             choices: [
-                {value: 0, text: "Never"},
-                {value: 1, text: "Rarely"}, 
-                {value: 2, text: "Occasionally"}, 
-                {value: 3, text: "Generally"}, 
-                {value: 4, text: "Always"}
+                {value: 0, text: "Once a day"},
+                {value: 1, text: "1-10 times a day"}, 
+                {value: 2, text: "More than 10 times a day"}, 
+                {value: 3, text: "Every few days"}, 
+                {value: 4, text: "Never"}
             ]
         });
 
-        elements.push({ 
-            title: "How many queries do you think you try in a Web search engine when you want to learn about something?",
-            name: "search-queries",
-            type: "radiogroup",
-            isRequired: true,
-            choices: [
-                {value: 1, text: "1 query"},
-                {value: 2, text: "2 queries"}, 
-                {value: 3, text: "3 queries"}, 
-                {value: 4, text: "3 to 5 queries"}, 
-                {value: 5, text: "More than 5 queries"}
-            ]
-        });
 
         pages.push({elements:  elements});
 

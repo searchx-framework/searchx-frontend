@@ -8,7 +8,7 @@ export default {
             actionType: AppConstants.SEARCH, query, pageNumber
         })
     },
-    nextPage(query, vertical,pageNumber) {
+    nextPage(query, vertical, pageNumber) {
         dispatch({
             actionType: AppConstants.NEXT_PAGE, query, pageNumber
         })

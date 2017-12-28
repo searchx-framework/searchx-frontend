@@ -29,7 +29,6 @@ export default class Register extends React.Component {
     }
 
     componentDidMount(){
-        localStorage.clear();
     }
 
 
@@ -53,6 +52,20 @@ export default class Register extends React.Component {
     ////
 
     render() {  
+
+        var switchTabsPreTest = localStorage.getItem("switchTabsPreTest");
+
+        var switchTabsPostTest = localStorage.getItem("switchTabsPostTest");
+        
+        if (switchTabsPreTest >= 3 || switchTabsPostTest >=3) {
+            return (
+                <div/>
+            );
+        } else {
+            localStorage.clear();
+        }
+
+
         const data = TaskStore.getRegisterInfo();
         let survey = new Survey.Model(data);
 

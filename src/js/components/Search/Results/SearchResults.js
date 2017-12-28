@@ -81,9 +81,9 @@ export default class SearchResults extends React.Component {
         updateUrl(this.state.query, this.state.vertical, pageNumber);
         SearchActions.nextPage(this.state.query, this.state.vertical, pageNumber);
 
-        this.setState({activePage: pageNumber,
-            results: SearchStore.getResults()
-        });
+       // this.setState({activePage: pageNumber,
+       //     results: SearchStore.getResults()
+       // });
            
     }
 
@@ -99,7 +99,7 @@ export default class SearchResults extends React.Component {
         if (this.state.matches < configuration.aboutPrefixAt) {
             prefix = "";
         }
-
+        
         const timeIndicator = prefix + numberWithCommas(this.state.matches) + " results (" + this.state.elapsedTime + " seconds)";
         return (
             <div >

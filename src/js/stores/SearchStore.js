@@ -43,8 +43,11 @@ let _search = (query,pageNumber) => {
 
     state.submittedQuery = true;
     state.finished = false;
-    state.elapsedTime = new Date().getTime();
+    var elapsedTime = new Date().getTime();
     state.resultsNotFound = false;
+    
+    state.results = [];
+    SearchStore.emitChange();
 
     pageNumber = pageNumber || state.pageNumber || 1;
     state.pageNumber = pageNumber;
@@ -93,7 +96,7 @@ let _search = (query,pageNumber) => {
                 state.resultsNotFound = true;
             }
 
-            state.elapsedTime = (new Date().getTime()) - state.elapsedTime;
+            state.elapsedTime = (new Date().getTime()) - elapsedTime;
 
             ////
 

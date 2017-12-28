@@ -23,6 +23,7 @@ export default class PreTest extends React.Component {
 
         this.handleCutCopyPaste = this.handleCutCopyPaste.bind(this);
  
+        this.handleForfeitPayment = this.handleForfeitPayment.bind(this);
     }
       
 
@@ -64,7 +65,21 @@ export default class PreTest extends React.Component {
                     offset: 100
                 });
 
+                var switchTabs = -1;
+                if (localStorage.getItem("switchTabsPreTest") !== null) {
+                    switchTabs = localStorage.getItem("switchTabsPreTest");
+                }
+                switchTabs++;
+                localStorage.setItem("switchTabsPreTest", switchTabs);
+                
+                
+                if (switchTabs >= 3) {
+                    window.location.reload();
+                }
+
             }
+
+            
         })
     }
 
@@ -87,11 +102,30 @@ export default class PreTest extends React.Component {
         log(LoggerEventTypes.SURVEY_PRE_TEST_RESULTS, metaInfo);
         this.state.isComplete = true;
         this.props.history.push('/learning')
+        
+    }
+
+    handleForfeitPayment(){
         this.setState(this.state);
     }
       ////
 
     render() {  
+        
+        var switchTabs = localStorage.getItem("switchTabsPreTest") || 0;
+
+        if (switchTabs >= 3) {
+            return (
+                <div className="Survey">
+                    <div className="Survey-form">
+                        <div className='Survey-complete'>
+                            <h2>Sorry!</h2>
+                            <h3>You have switched this experiment tab or experiment window more than three times, you have forfeited your payment.</h3>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
         const data = TaskStore.getPreTest();
 
         let survey = new Survey.Model(data);

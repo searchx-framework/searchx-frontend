@@ -22,13 +22,13 @@ class WebSearchResult extends React.Component {
     handleOnClick () {
         
         if (this.props.result.bookmark == false) {
-            BookmarkActions.addBookmark(this.props.result.displayUrl, this.props.result.name);         
+            BookmarkActions.addBookmark(this.props.result.url, this.props.result.name);         
             this.setState({
                 bookmark: true
             });
             SearchStore.addBookmark(this.props.result.position);
         } else if (this.props.result.bookmark == true) {
-            BookmarkActions.removeBookmark(this.props.result.displayUrl);
+            BookmarkActions.removeBookmark(this.props.result.url);
             this.setState({
                 bookmark: false
             });
@@ -91,7 +91,7 @@ class WebSearchResult extends React.Component {
                 <Rating stop={1} className="rating"  empty="fa fa-star-o medium" full="fa fa-star medium" onClick={this.handleOnClick} initialRate={initialRate}/>
                 <div onMouseEnter={hoverEnterSummary} onMouseLeave={hoverLeaveSummary} >
                     <h2>
-                        <a href={this.props.result.displayUrl} title={this.props.result.name} target="_blank" onClick={clickUrlLog} onContextMenu={contextUrlLog}>
+                        <a href={this.props.result.url} title={this.props.result.name} target="_blank" onClick={clickUrlLog} onContextMenu={contextUrlLog}>
                             {this.props.result.name}
                         </a>
                     </h2>

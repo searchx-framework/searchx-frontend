@@ -38,12 +38,12 @@ const stepsSearch = [
     },
     {
         element: '#intro-search-results',
-        intro: 'Use this tool to collect and save all the Webpages, publications, and other online sources that are helpful for you to write a paper.',
+        intro: 'Use the star button to collect and save all the Web pages, publications, and other online sources that are helpful for you to write a paper.',
         position: 'right'
     },
     {
         element: '#intro-bookmark-bar',
-        intro: 'The saved/bookmarked documents will appear here in case you want to revisit them before completing the final test.',
+        intro: 'The starred/bookmarked documents will appear here in case you want to revisit them before completing the final test.',
         position: 'left'
     }
 ];
@@ -158,6 +158,18 @@ class Learning extends React.Component {
     }
 
     render() {
+
+        var switchTabsPreTest = localStorage.getItem("switchTabsPreTest");
+        
+        var switchTabsPostTest = localStorage.getItem("switchTabsPostTest");
+        
+        if (switchTabsPreTest >= 3 || switchTabsPostTest >= 3) {
+            return (
+                <div/>
+            );
+        }
+
+        
         return(
             <div>
                 {Account.getTopicId() !== "" &&
