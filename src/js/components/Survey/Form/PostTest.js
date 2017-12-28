@@ -50,6 +50,7 @@ export default class PostTest extends React.Component {
         };
         log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo);
         if (document.hidden) {
+            let finishedCode = localStorage.getItem("finishedCode");
             if (finishedCode === null) {
                 Alert.error('We have noticited that you have tried to change to a different window/tab.', {
                     position: 'top-right',
@@ -80,7 +81,7 @@ export default class PostTest extends React.Component {
             if (localStorage.getItem("switchTabsPostTest") !== null) {
                 switchTabs = localStorage.getItem("switchTabsPostTest");
             }
-            let finishedCode = localStorage.getItem("finishedCode");
+            
             
             if (finishedCode === null) {
                 switchTabs++;
