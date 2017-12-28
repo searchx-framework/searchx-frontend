@@ -12,6 +12,11 @@
     font-size: 15px;
 }
 
+.fa-star {
+    font-size: 20px;
+    color: #ffd700;
+}
+
 .span6 {
     border-left: 2px solid $border-color;
 }

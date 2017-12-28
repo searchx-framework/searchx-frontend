@@ -64,7 +64,7 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
     ////
 
     getUserIdFromResults(results) {
-        return results["userId"];
+        return results["userId"].replace(/\s/g, '');
     },
 
     getTopicFromResults(results) {
@@ -212,7 +212,7 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
 
     surveyValidateQuestion (s, options) {
         if (options.name === 'userId') {
-            const userId = options.value;
+            const userId = options.value.replace(/\s/g, '');
             
             if(!codes[userId]) {
                 options.error = "This User Code is not valid, please check if you have copied and pasted the code correctly.";
@@ -351,6 +351,7 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
             inputType:"text", 
             width: 600, 
             height: 1000,
+            rows: 5,
             isRequired: true
         });
 
@@ -371,11 +372,7 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
         return {
             pages: pages,
             showQuestionNumbers: "off", 
-            completedHtml: 
-                "<div class='Survey-complete'>" +
-                    "<h2>Thanks!</h2> " +
-                    "<h3>Please, copy and paste this code on CrowdFlower: "+ this.getFinishCode(userId) +"</h3>" +
-                "</div>"
+            completedHtml: "<p> </p>"
         }
     }
 });

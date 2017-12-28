@@ -11,10 +11,10 @@ export default class BookmarkResults extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-           bookmarks: BookmarkStore.getBookmarks()
-        };
         this._onChange = this._onChange.bind(this);
+        this.state = {
+            bookmarks: BookmarkStore.getBookmarks()
+         };
         BookmarkActions.getBookmarks();
         
     }
@@ -28,6 +28,7 @@ export default class BookmarkResults extends React.Component {
     }
 
     _onChange() {
+        if (this.refs.myRef) 
         this.setState({ bookmarks: BookmarkStore.getBookmarks()});
     }
     
@@ -43,13 +44,13 @@ export default class BookmarkResults extends React.Component {
         });
         return (
             
-            <div className="row BookmarkResults" >
+            <div className="row BookmarkResults" ref="myRef" >
                  
 
                     <div className="col-xs-12" >
                     <div className="span6">
                  
-                        <h3>BOOKMARKS</h3>
+                        <h3> <i className="fa fa-star medium"></i> BOOKMARKS</h3>
                         {bookmarks}
         
                     </div>

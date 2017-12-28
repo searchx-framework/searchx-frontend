@@ -17,6 +17,7 @@
         }
     }
 
+
     &-complete {
         padding: 20px;
         padding-top: 5px;
@@ -25,4 +26,20 @@
 
 .container-fluid {
     padding: 0;
+}
+
+.sv_complete_btn{
+    background-color: $primary-color;
+    color: white;
+}
+
+
+.sv_next_btn {
+    background-color: $primary-color;
+    color: white;
+}
+
+.sv_prev_btn {
+    background-color: $primary-color;
+    color: white;
 }

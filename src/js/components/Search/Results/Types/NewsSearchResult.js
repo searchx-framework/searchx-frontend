@@ -3,9 +3,39 @@ import VisibilitySensor from 'react-visibility-sensor';
 
 import {log} from '../../../../utils/Logger';
 import {LoggerEventTypes} from '../../../../constants/LoggerEventTypes';
+import Rating from 'react-rating';
+import BookmarkActions from '../../BookmarkActions';
+import SearchStore from '../../../../stores/SearchStore';
 
 
 class NewsSearchResult extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {bookmark: props.result.bookmark};
+        this.handleOnClick = this.handleOnClick.bind(this);
+    }
+
+
+    handleOnClick () {
+        
+        if (this.props.result.bookmark == false) {
+            BookmarkActions.addBookmark(this.props.result.url, this.props.result.name);         
+            this.setState({
+                bookmark: true
+            });
+            
+            SearchStore.addBookmark(this.props.result.position);
+        } else if (this.props.result.bookmark == true) {
+            BookmarkActions.removeBookmark(this.props.result.url);
+            this.setState({
+                bookmark: false
+            });
+            SearchStore.removeBookmark(this.props.result.position);
+            
+        }
+    };
+
 
 
     render(){
@@ -43,7 +73,7 @@ class NewsSearchResult extends React.Component {
         const cts = this.props.result.datePublished;
         const cdate = (new Date(cts));
         const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
+        var initialRate = this.props.result.bookmark ? 1 : 0;
         return (
             <div className={cName}>
                 <VisibilitySensor onChange={viewUrlLog} 
@@ -52,11 +82,12 @@ class NewsSearchResult extends React.Component {
                     scrollThrottle={50}
                     intervalDelay={2000}
                 />
-               
+                
                 <div className="newsContainer" onMouseEnter={hoverEnterSummary} onMouseLeave={hoverLeaveSummary}>
                    
                         { (this.props.result.image) ?  <div> <img src={this.props.result.image.thumbnail.contentUrl} /> </div>: "" }
                     
+                        
                     <h2>
                         <a href={this.props.result.url} title={this.props.result.name} target="_blank" onClick={clickUrlLog} onContextMenu={contextUrlLog}>
                             {this.props.result.name}

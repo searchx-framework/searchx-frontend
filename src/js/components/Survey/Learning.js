@@ -13,7 +13,7 @@ import Alert from 'react-s-alert';
 const stepsTask = [
     {
         element: '#intro-description',
-        intro: 'Please, take a minute to read your task description.',
+        intro: 'Please take a minute to read your task description.',
         position: 'left'
     }
 ];
@@ -29,21 +29,21 @@ const stepsVideo = [
 const stepsSearch = [
     {
         element: '#intro-system',
-        intro: 'We want you to use our custom web search system (we call it "SearchX").',
+        intro: 'We want you to use our custom web search system SearchX.',
         position: 'bottom-middle-aligned'
     },
     {
         element: '#intro-search-bar',
-        intro: 'Use this tool to search for webpages, publications, and other online sources on the Web.'
+        intro: 'Use SearchX to search for webpages, publications, and other online sources about the topic.'
     },
     {
         element: '#intro-search-results',
-        intro: 'Use the star button to collect and save all the Web pages, publications, and other online sources that are helpful for you to write a paper.',
+        intro: 'To bookmark a resource that is useful for your term paper, star it.',
         position: 'right'
     },
     {
         element: '#intro-bookmark-bar',
-        intro: 'The starred/bookmarked documents will appear here in case you want to revisit them before completing the final test.',
+        intro: 'The starred documents will appear here. You can revisit them before completing the final test.',
         position: 'left'
     }
 ];

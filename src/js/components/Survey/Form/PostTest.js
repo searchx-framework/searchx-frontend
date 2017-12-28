@@ -19,9 +19,14 @@ export default class PostTest extends React.Component {
         this.state = {
             finish: false
         };
+
         this.handleComplete = this.handleComplete.bind(this);
 
         this.handleCutCopyPaste = this.handleCutCopyPaste.bind(this);
+
+        this.handleCutCopyPasteDismute = this.handleCutCopyPasteDismute.bind(this);
+
+        this.forceSetState = this.forceSetState.bind(this);
  
     }
 
@@ -99,8 +104,6 @@ export default class PostTest extends React.Component {
         let finishedCode = localStorage.getItem("finishedCode");
         
         if (this.state.finish || finishedCode !== null) {
-
-            
             
             document.addEventListener('visibilitychange', function(){
                 const metaInfo = {
@@ -114,6 +117,11 @@ export default class PostTest extends React.Component {
     }
 
 
+    forceSetState() {
+        
+        this.setState(this.state);
+    }
+
     handleComplete(result){
         const metaInfo = {
             results: result.data
@@ -122,11 +130,25 @@ export default class PostTest extends React.Component {
 
         AccountStore.clearTask();
         localStorage.setItem("finishedCode", TaskStore.getFinishCode(AccountStore.getId()));
+        
+        this.forceSetState();
     }
         
         
     handleCutCopyPaste(e){
+        Alert.warning('You cannot copy and paste in this step.', {
+            position: 'top-right',
+            effect: 'scale',
+            beep: true,
+            timeout: "none",
+            offset: 100
+        });
+
         e.preventDefault();
+    }
+
+    handleCutCopyPasteDismute(e){
+        
     }
 
 
@@ -144,7 +166,7 @@ export default class PostTest extends React.Component {
             return (
                 <div className="Survey">
                     <div className="Survey-form">
-                        <div className='Survey-complete'>
+                        <div className='Survey-complete' onCopy={this.handleCutCopyPasteDismute}>
                             <h2>Thanks!</h2>
                             <h3>Please, copy and paste this code on CrowdFlower: {TaskStore.getFinishCode(AccountStore.getId())}</h3>
                         </div>
@@ -157,7 +179,7 @@ export default class PostTest extends React.Component {
                     <div className="Survey-form">
                         <div className='Survey-complete'>
                             <h2>Sorry!</h2>
-                            <h3>You have switched this experiment tab or experiment window more than three times, you have forfeited your payment.</h3>
+                            <h3>You have changed to a different tab/windows than three times, we have cancelled your participation, will not pay you.</h3>
                         </div>
                     </div>
                 </div>

@@ -37,6 +37,87 @@ if (!localStorage.getItem("intro-done")) {
     {name: "You can view a search fifth result here", displayUrl: "https://www.result5.com" , snippet: "This is the fifth result result..."}]
 }
 
+const SearchStore = Object.assign(EventEmitter.prototype, {
+    
+        emitChange() {
+            this.emit(CHANGE_EVENT);
+        },
+        addChangeListener(callback) {
+            this.on(CHANGE_EVENT, callback);
+        },
+        removeChangeListener(callback) {
+            this.removeListener(CHANGE_EVENT, callback);
+        },
+        getQuery() {
+            return state.query;
+        },
+        getSerpId() {
+            return state.serp_id;
+        },
+        getVertical() {
+            return state.vertical;
+        },
+        getPageNumber(){
+            return state.pageNumber || 1;
+        },
+        getResults() {
+            return state.results;
+        },
+        getSubmittedQuery(){
+            return state.submittedQuery;
+        },
+        getElapsedTime(){
+            return state.elapsedTime;
+        },
+        isFinished(){
+            return state.finished;
+        },
+        getMatches(){
+            return state.matches || 0;
+        },
+        getResultsNotFound(){
+            return state.resultsNotFound;
+        },
+    
+        addBookmark(position) {
+            state.results[position].bookmark = true;
+            SearchStore.emitChange();
+        },
+    
+        removeBookmark(position){
+            state.results[position].bookmark = false;
+            SearchStore.emitChange();
+        },
+    
+        searchAndRemoveBookmark(url){
+            state.results = state.results.filter(function(item) { 
+                if (item["url"] == url ) {
+                    item.bookmark = false;
+                }
+                return true;
+            })
+        
+        },
+    
+        dispatcherIndex: register(action => {
+            switch(action.actionType) {
+                case AppConstants.SEARCH:
+                    _search(action.query, action.pageNumber);
+                    break;
+                case AppConstants.NEXT_PAGE:
+                    _search(action.query, action.pageNumber);
+                    break;
+                case AppConstants.CHANGE_VERTICAL:
+                    _changeVertical(action.vertical);
+                    break;
+                case AppConstants.CHANGE_QUERY:
+                    _changeQuery(action.query);
+                    break;
+            }
+            SearchStore.emitChange();
+        })
+    
+    });
 
 
 let _search = (query,pageNumber) => {
@@ -129,86 +210,6 @@ let _changeQuery = (query) => {
     state.query = query;
 };
 
-const SearchStore = Object.assign(EventEmitter.prototype, {
 
-    emitChange() {
-        this.emit(CHANGE_EVENT);
-    },
-    addChangeListener(callback) {
-        this.on(CHANGE_EVENT, callback);
-    },
-    removeChangeListener(callback) {
-        this.removeListener(CHANGE_EVENT, callback);
-    },
-    getQuery() {
-        return state.query;
-    },
-    getSerpId() {
-        return state.serp_id;
-    },
-    getVertical() {
-        return state.vertical;
-    },
-    getPageNumber(){
-        return state.pageNumber || 1;
-    },
-    getResults() {
-        return state.results;
-    },
-    getSubmittedQuery(){
-        return state.submittedQuery;
-    },
-    getElapsedTime(){
-        return state.elapsedTime;
-    },
-    isFinished(){
-        return state.finished;
-    },
-    getMatches(){
-        return state.matches || 0;
-    },
-    getResultsNotFound(){
-        return state.resultsNotFound;
-    },
-
-    addBookmark(position) {
-        state.results[position].bookmark = true;
-        SearchStore.emitChange();
-    },
-
-    removeBookmark(position){
-        state.results[position].bookmark = false;
-        SearchStore.emitChange();
-    },
-
-    searchAndRemoveBookmark(url){
-        state.results = state.results.filter(function(item) { 
-            if (item["displayUrl"] == url ) {
-                item.bookmark = false;
-            }
-            return true;
-        })
-    
-    },
-
-    dispatcherIndex: register(action => {
-        switch(action.actionType) {
-            case AppConstants.SEARCH:
-                _search(action.query, action.pageNumber);
-                break;
-            case AppConstants.NEXT_PAGE:
-                _search(action.query, action.pageNumber);
-                break;
-            case AppConstants.CHANGE_VERTICAL:
-                _changeVertical(action.vertical);
-                break;
-            case AppConstants.CHANGE_QUERY:
-                _changeQuery(action.query);
-                break;
-        }
-        SearchStore.emitChange();
-    })
-
-});
 
 export default SearchStore;

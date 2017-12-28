@@ -85,6 +85,14 @@ export default class PreTest extends React.Component {
 
 
     handleCutCopyPaste(e){
+        Alert.warning('You cannot copy and paste in this step.', {
+            position: 'top-right',
+            effect: 'scale',
+            beep: true,
+            timeout: "none",
+            offset: 100
+        });
+
         e.preventDefault();
     }
 
@@ -120,7 +128,7 @@ export default class PreTest extends React.Component {
                     <div className="Survey-form">
                         <div className='Survey-complete'>
                             <h2>Sorry!</h2>
-                            <h3>You have switched this experiment tab or experiment window more than three times, you have forfeited your payment.</h3>
+                            <h3>You have changed to a different tab/windows than three times, we have cancelled your participation, will not pay you.</h3>
                         </div>
                     </div>
                 </div>
