@@ -1,12 +1,39 @@
 import React from 'react';
 import VisibilitySensor from 'react-visibility-sensor';
 import ReactPlayer from 'react-player'
-
+import SearchStore from '../../../../stores/SearchStore';
+import Rating from 'react-rating';
+import BookmarkActions from '../../BookmarkActions';
 import {log} from '../../../../utils/Logger';
 import {LoggerEventTypes} from '../../../../constants/LoggerEventTypes';
 
 
 class VideosSearchResult extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {bookmark: props.result.bookmark};
+        this.handleOnClick = this.handleOnClick.bind(this);
+    }
+
+ 
+    handleOnClick () {
+        
+        if (this.props.result.bookmark == false) {
+            BookmarkActions.addBookmark(this.props.result.url, this.props.result.name);         
+            this.setState({
+                bookmark: true
+            });
+            SearchStore.addBookmark(this.props.result.position);
+        } else if (this.props.result.bookmark == true) {
+            BookmarkActions.removeBookmark(this.props.result.url);
+            this.setState({
+                bookmark: false
+            });
+            SearchStore.removeBookmark(this.props.result.position);
+            
+        }
+    };
 
     rawMarkup(content){
         return { __html: content };
@@ -43,9 +70,12 @@ class VideosSearchResult extends React.Component {
         return info + " "  + date;
     }
 
+    
     ////
 
     render(){
+
+        var initialRate = this.props.result.bookmark ? 1 : 0;
 
         let metaInfo = {
             url: this.props.result.contentUrl,
@@ -107,6 +137,7 @@ class VideosSearchResult extends React.Component {
         ////
 
         return (
+        
             <div className={cName}>
                 <VisibilitySensor onChange={viewUrlLog} 
                     scrollCheck
@@ -121,6 +152,7 @@ class VideosSearchResult extends React.Component {
                     />
 
                     <div className="videoInfo" >
+                    <Rating stop={1} className="rating"  empty="fa fa-star-o medium" full="fa fa-star medium" onClick={this.handleOnClick} initialRate={initialRate}/>
                         <a href = {this.props.result.contentUrl} target="_blank" onClick={clickUrlLog} onContextMenu={contextUrlLog}>
                             <h5> {this.getTitle(this.props.result.name)}</h5>
                         </a>

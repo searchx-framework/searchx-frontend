@@ -9,7 +9,7 @@ export default class VideosSearchResults extends React.Component {
         let results = this.props.results.map((result, index) => {
             return (
                 <VideosSearchResult result={result} key={index} 
-                query={this.props.query} page={this.props.page} serp_id = {this.props.serp_id}/>
+                query={this.props.query} page={this.props.page} serp_id = {this.props.serp_id} bookmark={0}/>
             );
         });
 

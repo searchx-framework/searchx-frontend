@@ -192,9 +192,9 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
             type: "radiogroup",
             isRequired: true,
             choices: [
-                {value: 0, text: "Once a day"},
-                {value: 1, text: "1-10 times a day"}, 
-                {value: 2, text: "More than 10 times a day"}, 
+                {value: 0, text: "More than 10 times a day"},
+                {value: 1, text: "1-10 times a day"},  
+                {value: 2, text: "Once a day"},
                 {value: 3, text: "Every few days"}, 
                 {value: 4, text: "Never"}
             ]
@@ -333,13 +333,34 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
             });
         });
 
+
         elements.push({ 
-            title: "Based on what you have learned from your searches, please write an outline for your paper.",
+            type: "html", 
+            name: "outline-description",
+            html: "</br> <b> Based on what you have learned from your searches, please write an outline for your paper. </b>" +
+                "<p> Tip: An outline is an organizational plan to help you draft a paper. Here is a simple template example: </p>" +
+    
+                "<p> 1. Introduction</p>" +
+                "<p> 1.1. Main argument: ...</p>" + 
+                "<p> 1.2 Purpose of the paper: ... </p>" +
+                
+                "<p> 2. Body </p>" +
+                "<p> 2.1 Argument 1: ....</p>" +
+                "<p> 2.2 Argument 2: .... </p>" +
+                 
+                "<p> 3. Conclusions</p>" +
+                "<p> Summary: ....</p>" 
+        });
+
+
+        elements.push({ 
+            title: "Write your outline here:",
             name : "outline-paper", 
             type :"comment", 
             inputType:"text", 
-            description: "Tip: An outline is an organizational plan to help you draft a paper. An outline breaks down the parts of your thesis in a clear, hierarchical manner to help you see the overall format of your paper.",
+            description: "",
             width: 600, 
+            rows: 6,
             height: 1000,
             isRequired: true
         });

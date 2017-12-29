@@ -20,12 +20,14 @@ class NewsSearchResult extends React.Component {
     handleOnClick () {
         
         if (this.props.result.bookmark == false) {
-            BookmarkActions.addBookmark(this.props.result.url, this.props.result.name);         
+            BookmarkActions.addBookmark(this.props.result.url, this.props.result.name); 
+                  
             this.setState({
                 bookmark: true
             });
             
             SearchStore.addBookmark(this.props.result.position);
+           
         } else if (this.props.result.bookmark == true) {
             BookmarkActions.removeBookmark(this.props.result.url);
             this.setState({
@@ -74,6 +76,7 @@ class NewsSearchResult extends React.Component {
         const cdate = (new Date(cts));
         const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         var initialRate = this.props.result.bookmark ? 1 : 0;
+        
         return (
             <div className={cName}>
                 <VisibilitySensor onChange={viewUrlLog} 
@@ -87,7 +90,7 @@ class NewsSearchResult extends React.Component {
                    
                         { (this.props.result.image) ?  <div> <img src={this.props.result.image.thumbnail.contentUrl} /> </div>: "" }
                     
-                        
+                        <Rating stop={1} className="rating"  empty="fa fa-star-o medium" full="fa fa-star medium" onClick={this.handleOnClick} initialRate={initialRate}/>
                     <h2>
                         <a href={this.props.result.url} title={this.props.result.name} target="_blank" onClick={clickUrlLog} onContextMenu={contextUrlLog}>
                             {this.props.result.name}

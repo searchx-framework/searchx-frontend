@@ -1,5 +1,22 @@
 @import '../../variables.css';
 
+
+.rating {
+    
+    padding-right: 15px;  
+     
+}
+
+.rating .fa-star {
+    font-size: 17px;
+    color: #ffd700;
+}
+
+.rating .fa-star-o {
+    font-size: 17px;
+    color: #e5c100;
+}
+
 .ImagesSearchResults {
     &-result {
         float: left;
@@ -9,7 +26,7 @@
 
 .ImagesSearchResults img {
     display: block;
-    margin-bottom: 10px;
+    
     margin-left: 10px;
     margin-top: 10px;
     margin-right: 10px;

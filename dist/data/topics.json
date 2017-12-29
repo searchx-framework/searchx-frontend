@@ -2,7 +2,7 @@
     "7": {
         "title": "Glycolysis",
         "youtube": "FE2jfTXAJHg",
-        "task" : "Imagine you are taking an introductory Biology course this term. For your term paper, you have decided to write about glycolysis (i.e. cellular respiration). You also would like to learn about the major phases of glycolysis.",
+        "task" : "Imagine you are taking an introductory Biology course this term. For your term paper, you have decided to write about <b>glycolysis (i.e. cellular respiration)</b>. You also would like to learn about the <b>major phases of glycolysis</b>.",
         "terms": [
             "krebs cycle",
             "phosphoglyceraldehyde",
@@ -18,7 +18,7 @@
     },
     "4": {
         "title": "Religions",
-        "task": "Imagine you are taking an introductory Religion course this term. For your term paper, you have decided to write about how the histories of the five major world religions (Hinduism, Judaism, Buddhism, Christianity and Islam) are connected.",        
+        "task": "Imagine you are taking an introductory Religion course this term. For your term paper, you have decided to write about <b>how the histories of the five major world religions (Hinduism, Judaism, Buddhism, Christianity and Islam) are connected </b>.",        
         "youtube": "m6dCxo7t_aE",
         "terms": [
             "dharma",
@@ -36,7 +36,7 @@
     "9": {
         "title": "Depression",
         "youtube": "z-IR48Mb3W0",
-        "task" : "Imagine you are taking an introductory Health and Medicine course this term. For your term paper, you have decided to write about  the symptoms and treatments of depression.",        
+        "task" : "Imagine you are taking an introductory Health and Medicine course this term. For your term paper, you have decided to write about <b>the symptoms and treatments of depression</b>.",        
         "terms": [
             "norepinephrine",
             "circadian",
@@ -53,7 +53,7 @@
     "6": {
         "title": "Anesthesia",
         "youtube": "B_tTymvDWXk",
-        "task": "Imagine you are taking an introductory Health and Medicine course this term. For your term paper, you have decided to write about how anesthesia works. You also would like to learn what regional, inhalational and intravenous anesthesia do to your body.",
+        "task": "Imagine you are taking an introductory Health and Medicine course this term. For your term paper, you have decided to write about <b>how anesthesia works</b>. You also would like to learn <b>what regional, inhalational and intravenous anesthesia do to your body</b>.",
         "terms": [
             "sevoflurane",
             "hemlock",
@@ -70,7 +70,7 @@
     "5": {
         "title": "Sedimentary rocks",
         "youtube": "qLRhYOrkig4",
-        "task" : "Imagine you are taking an introductory Geoscience course this term. For your term paper, you have decided to write about sedimentary rocks. You also would like to learn about the importance of sedimentary rocks for the environment and how sediments are produced.",
+        "task" : "Imagine you are taking an introductory Geoscience course this term. For your term paper, you have decided to write about <b>sedimentary rocks</b>. You also would like to learn about the <b>importance of sedimentary rocks for the environment and how sediments are produced</b>.",
         "terms": [
             "feldspars",
             "terrigenous sediments",
@@ -87,7 +87,7 @@
     "8": {
         "title": "Urban water cycle",
         "youtube": "bXE12-8NwrE",
-        "task": "Imagine you are taking an introductory Water treatment course this term. For your term paper, you have decided to write about the urban water cycle. You also would like to learn about urban water management as well as the importance of water reuse within the urban environment.",        
+        "task": "Imagine you are taking an introductory Water treatment course this term. For your term paper, you have decided to write about the <b>urban water cycle</b>. You also would like to learn about <b>urban water management</b> as well as <b>the importance of water reuse within the urban environment</b>.",        
         "terms": [
             "Lesoto Highlands",
             "eutrophication",
@@ -103,7 +103,7 @@
     },
     "3": {
         "title": "Water quality chemistry",
-        "task": "Imagine you are taking an introductory Water treatment course this term. For your term paper, you have decided to write about chemical processes that are relevant to ensure a safe drinking water supply.",
+        "task": "Imagine you are taking an introductory Water treatment course this term. For your term paper, you have decided to write about <b>chemical processes that are relevant to ensure a safe drinking water supply</b>.",
         "youtube": "KjKN_aAdm2I",
         "terms": [
             "trihalomethanes",
@@ -121,7 +121,7 @@
     "1": {
         "title": "Radioactive decay",
         "course": "Physics",
-        "task" : "Imagine that you are taking an introductory Physics course this term. For your term paper, you have decided to write about radioactivity. You also would like to learn how radioactivity happens and what types of radioactivity exist.",
+        "task" : "Imagine that you are taking an introductory Physics course this term. For your term paper, you have decided to write about <b>radioactivity</b>. You also would like to learn <b>how radioactivity happens and what types of radioactivity exist</b>.",
         "youtube": "p7uC7wMtXY0",
         "terms": [
             "Auger electron",
@@ -139,7 +139,7 @@
     "10": {
         "title": "Industrial biotechnology",
         "youtube": "WU8qWo8_frc",
-        "task" : "Imagine you are taking an introductory Biotechnology course this term. For you term paper, you have decided to write about industrial biotechnology. You also would like to learn how industrial biotechnology benefits bioplastics and biological large scale processes.",
+        "task" : "Imagine you are taking an introductory Biotechnology course this term. For you term paper, you have decided to write about <b>industrial biotechnology</b>. You also would like to learn <b>how industrial biotechnology benefits bioplastics and biological large scale processes</b>.",
         "terms": [
             "tobacco mosaic virus",
             "succinic acid",
@@ -156,7 +156,7 @@
     "2": {
         "title": "Qubit",
         "youtube": "zo4Gg2LS_IE",
-        "task": "Imagine you are taking an introductory Computer Science course this term. For your term paper, you have decided to write about a topic where computer science meets physics: quantum information. You also would like to learn about the difference between a classical bit and a quantum bit (a so-called qubit).",
+        "task": "Imagine you are taking an introductory Computer Science course this term. For your term paper, you have decided to write about a topic <b>where computer science meets physics: quantum information</b>. You also would like to learn about the <b>difference between a classical bit and a quantum bit (a so-called qubit)</b>.",
         "terms": [
             "Ket",
             "Bra",

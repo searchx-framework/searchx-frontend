@@ -40,7 +40,25 @@ export default class PreTest extends React.Component {
 
             };
             log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo);
+            
             if (document.hidden) {
+
+                var switchTabs = -1;
+                if (localStorage.getItem("switchTabsPreTest") !== null) {
+                    switchTabs = localStorage.getItem("switchTabsPreTest");
+                }
+                switchTabs++;
+                localStorage.setItem("switchTabsPreTest", switchTabs);
+
+
+                var times = '';
+                if (switchTabs == 1) {
+                    times = 'once.';
+                } else if (switchTabs == 2) {
+                    times = 'twice.';
+                } else {
+                    times = switchTabs + " times." 
+                }
                 Alert.error('We have noticited that you have tried to change to a different window/tab.', {
                     position: 'top-right',
                     effect: 'scale',
@@ -49,7 +67,7 @@ export default class PreTest extends React.Component {
                     offset: 100
                 });
 
-                Alert.error('Please, focus on completing the diagnostic test.', {
+                Alert.error('Please, focus on completing the final test.', {
                     position: 'top-right',
                     effect: 'scale',
                     beep: true,
@@ -57,20 +75,13 @@ export default class PreTest extends React.Component {
                     offset: 100
                 });
 
-                Alert.error('You may not get the payment if you continue changing to a different window/tab.', {
+                Alert.error('Remember that more than three tab changes result in non-payment. So far you have changed tabs ' + times, {
                     position: 'top-right',
                     effect: 'scale',
                     beep: true,
                     timeout: "none",
                     offset: 100
                 });
-
-                var switchTabs = -1;
-                if (localStorage.getItem("switchTabsPreTest") !== null) {
-                    switchTabs = localStorage.getItem("switchTabsPreTest");
-                }
-                switchTabs++;
-                localStorage.setItem("switchTabsPreTest", switchTabs);
                 
                 
                 if (switchTabs >= 3) {
@@ -128,7 +139,7 @@ export default class PreTest extends React.Component {
                     <div className="Survey-form">
                         <div className='Survey-complete'>
                             <h2>Sorry!</h2>
-                            <h3>You have changed to a different tab/windows than three times, we have cancelled your participation, will not pay you.</h3>
+                            <h3>You have changed to a different tab/windows than three times, we have cancelled your participation, we will not pay you.</h3>
                         </div>
                     </div>
                 </div>

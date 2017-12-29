@@ -75,7 +75,6 @@ class WebSearchResult extends React.Component {
 
         var initialRate = this.props.result.bookmark ? 1 : 0;
 
-        
         return  (
             
             <div className={cName}>

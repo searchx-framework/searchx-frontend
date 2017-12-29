@@ -14,7 +14,7 @@ export default class  NewsSearchResults extends React.Component {
     render () {
         let results = this.props.results.map((result, index) => {
             return (
-                <NewsSearchResult result={result} key={index} bookmark={false}
+                <NewsSearchResult result={result} key={index} bookmark={0}
                 query={this.props.query} page={this.props.page} serp_id = {this.props.serp_id} />
             );
         });

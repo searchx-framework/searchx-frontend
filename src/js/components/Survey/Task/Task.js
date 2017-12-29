@@ -27,7 +27,8 @@ class Task extends React.Component {
 
                 <div className="Task-info no-padding" id="intro-description">
                     <div className="Task-instruction-specific">
-                         <b> {TaskStore.getTopicDescription(this.state.task.topicId)} </b>
+                        <div dangerouslySetInnerHTML={{__html: TaskStore.getTopicDescription(this.state.task.topicId)}} />
+                         
                     </div>
                 
                     <hr/>

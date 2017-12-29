@@ -12,7 +12,7 @@ export default class ImagesSearchResults extends React.Component {
             let results = this.props.results.map((result, index) => {
         
             return <ImagesSearchResult result={result} key={index} 
-                    query={this.props.query} page={this.props.page} serp_id = {this.props.serp_id}/>
+                    query={this.props.query} page={this.props.page} serp_id = {this.props.serp_id} bookmark={0}/>
           
         });
         

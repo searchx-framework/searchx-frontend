@@ -1,5 +1,21 @@
 @import '../../variables.css';
 
+.rating {
+    float : left;
+    margin-right: 5px;  
+     
+}
+
+.rating .fa-star {
+    font-size: 17px;
+    color: #ffd700;
+}
+
+.rating .fa-star-o {
+    font-size: 17px;
+    color: #e5c100;
+}
+
 .VideosSearchResults {
     &-result {
         float: left;

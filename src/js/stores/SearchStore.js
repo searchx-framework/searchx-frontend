@@ -140,34 +140,18 @@ let _search = (query,pageNumber) => {
         .end((err, res) => {
             if (!res.body.error) {
 
-                if (state.vertical === 'web') {
-                    const results = res.body.results;
-                   
-                    for (let i = 0; i < results.length; i++) {
-                        results[i].position = i;
-                        if (results[i].signal === "up") {
-                            results[i].upPressed = true;
-                            results[i].downPressed = false;
-                        } else if (results[i].signal === "down") {
-                            results[i].upPressed = false;
-                            results[i].downPressed = true;
-                        } else {
-                            results[i].upPressed = false;
-                            results[i].downPressed = false;    
-                        }
-                    }
-                    state.results = results;
-                    state.matches = res.body.matches;
-                    state.pageNumber = pageNumber;
-                    state.serp_id = res.body.id;
-
-                } else {
-                    state.results = res.body.results;
-                    state.matches = res.body.matches;
-                    state.pageNumber = pageNumber;
-                    state.serp_id = res.body.id;
+                
+                const results = res.body.results;
+                
+                for (let i = 0; i < results.length; i++) {
+                    results[i].position = i;
                 }
+                state.results = results;
+                state.matches = res.body.matches;
+                state.pageNumber = pageNumber;
+                state.serp_id = res.body.id;
 
+              
             } else {
                 state.results = [];
                 state.pageNumber = pageNumber;
