@@ -1,3 +1,4 @@
+import './NewsSearchResults.css';
 import React from 'react';
 import VisibilitySensor from 'react-visibility-sensor';
 
@@ -90,7 +91,7 @@ class NewsSearchResult extends React.Component {
                    
                         { (this.props.result.image) ?  <div> <img src={this.props.result.image.thumbnail.contentUrl} /> </div>: "" }
                     
-                        <Rating stop={1} className="rating"  empty="fa fa-star-o medium" full="fa fa-star medium" onClick={this.handleOnClick} initialRate={initialRate}/>
+                        <Rating stop={1} className="rating-news"  empty="fa fa-star-o medium" full="fa fa-star medium" onClick={this.handleOnClick} initialRate={initialRate}/>
                     <h2>
                         <a href={this.props.result.url} title={this.props.result.name} target="_blank" onClick={clickUrlLog} onContextMenu={contextUrlLog}>
                             {this.props.result.name}

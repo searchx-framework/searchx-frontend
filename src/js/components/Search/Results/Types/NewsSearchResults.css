@@ -1,25 +1,26 @@
 @import '../variables.css';
 
 
-.rating {
+.rating-news {
     float : left;
-    margin-right: 5px;  
-    padding-top: 2px;   
+    
+    padding-top: 3px;   
+    margin-right: 5px;
 }
 
-.rating .fa-star {
+.rating-news .fa-star {
     font-size: 17px;
     color: #ffd700;
 }
 
-.rating .fa-star-o {
+.rating-news .fa-star-o {
     font-size: 17px;
     color: #e5c100;
 }
 
 
 .NewsSearchResults {
-    margin-left: 14px;
+    margin-left: 8px;
     margin-top: 0px;
 
     &-result {
