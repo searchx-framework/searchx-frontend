@@ -4,17 +4,14 @@ import {Link} from 'react-router-dom';
 
 class Welcome extends React.Component {
     render() {
-
-        var switchTabsPreTest = localStorage.getItem("switchTabsPreTest");
-        
-        var switchTabsPostTest = localStorage.getItem("switchTabsPostTest");
+        const switchTabsPreTest = localStorage.getItem("switch-tabs-pretest");
+        const switchTabsPostTest = localStorage.getItem("switch-tabs-posttest");
         
         if (switchTabsPreTest >= 3 || switchTabsPostTest >= 3) {
             return (
                 <div/>
             );
         }
-
 
         return (
             <div className="Welcome">

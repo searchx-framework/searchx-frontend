@@ -1,5 +1,7 @@
 import EventEmitter from 'events';
 
+////
+
 const getParameterByName = function(name, url) {
     if (!url) url = window.location.href;
     name = name.replace(/[\[\]]/g, "\\$&");
@@ -23,12 +25,15 @@ const generateUUID = function() {
 ////
 
 let state = {
-    userId: localStorage.getItem("userId") || '' ,
+    userId: localStorage.getItem("user-id") || '' ,
+    groupId: localStorage.getItem("group-id") || '',
+    finishCode: localStorage.getItem("code") || '',
+
     task: {
-        topicId: localStorage.getItem('topicId') || '',
-        sessionId: localStorage.getItem('taskSessionId') || '',
-        type : localStorage.getItem("taskType") || '',
-        duration: localStorage.getItem("taskDuration")|| ''
+        topicId: localStorage.getItem("topic-id") || '',
+        sessionId: localStorage.getItem("task-session-id") || '',
+        type : localStorage.getItem("task-type") || '',
+        duration: localStorage.getItem("task-duration")|| ''
     }
 };
 
@@ -39,13 +44,10 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
     },
 
     setId(userId) {
-
-
-        localStorage.setItem("userId", userId);
-
         const sessionId = generateUUID();
-        localStorage.setItem("taskSessionId", sessionId);
 
+        localStorage.setItem("user-id", userId);
+        localStorage.setItem("task-session-id", sessionId);
 
         state.userId = userId;
         state.task.sessionId = sessionId;
@@ -53,6 +55,10 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
     },
 
     ////
+
+    getGroupId() {
+        return state.groupId;
+    },
 
     getTopicId() {
         return state.task.topicId;
@@ -70,28 +76,37 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
         return state.task.duration;
     },
 
+    getFinishCode() {
+        return state.finishCode;
+    },
+
     ////
 
-    setTask(topicId, type, minutes) {
-        localStorage.setItem("topicId", topicId);
+    setUserData(finishCode, groupId) {
+        localStorage.setItem("code", finishCode);
+        localStorage.setItem("group-id", groupId);
 
-        localStorage.setItem("taskType", type);
-        localStorage.setItem("taskDuration", minutes);
+        state.finishCode = finishCode;
+        state.groupId = groupId;
+    },
+
+    setTask(topicId, type, minutes) {
+        localStorage.setItem("topic-id", topicId);
+        localStorage.setItem("task-type", type);
+        localStorage.setItem("task-duration", minutes);
 
         state.task.topicId = topicId;
         state.task.type = type;
         state.task.duration = minutes;
-        state.task.sessionId = localStorage.getItem('taskSessionId');
+        state.task.sessionId = localStorage.getItem('task-session-id');
 
-        localStorage.removeItem("finish-code");
+        localStorage.removeItem("finish");
     },
 
     clearTask() {
-        localStorage.removeItem("topicId");
-
-        localStorage.removeItem("taskType");
-        localStorage.removeItem("taskDuration");
-
+        localStorage.removeItem("topic-id");
+        localStorage.removeItem("task-type");
+        localStorage.removeItem("task-duration");
         localStorage.removeItem("intro-done");
         localStorage.removeItem("counter-start");
 

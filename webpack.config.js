@@ -1,9 +1,9 @@
-var postcssImport = require('postcss-import');
-var autoprefixer = require('autoprefixer');
-var simpleVars = require('postcss-simple-vars');
-var postcssNested = require('postcss-nested');
-var webpack = require('webpack');
-var path = require('path');
+const postcssImport = require('postcss-import');
+const autoprefixer = require('autoprefixer');
+const simpleVars = require('postcss-simple-consts');
+const postcssNested = require('postcss-nested');
+const webpack = require('webpack');
+const path = require('path');
 
 module.exports = {
     entry: "./src/js/main.js",
@@ -58,12 +58,10 @@ module.exports = {
     )],
 
     externals: {
-        'config': JSON.stringify(process.env.ENV === 'production' ? {
-            serverUrl: "http://127.0.0.1:4443",
-            logTimeInterval: 5000
+        'env': JSON.stringify(process.env.ENV === 'production' ? {
+            serverUrl: "http://127.0.0.1:4443"
         } : {
-            serverUrl: "http://127.0.0.1:4443",
-            logTimeInterval: 5000
+            serverUrl: "http://127.0.0.1:4443"
         })
     }
 };

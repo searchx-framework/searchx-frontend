@@ -3,13 +3,11 @@ import AppConstants from '../constants/AppConstants';
 import EventEmitter from 'events';
 import request from 'superagent';
 import AccountStore from '../stores/AccountStore';
-import {log} from '../utils/Logger';
-import {LoggerEventTypes} from '../constants/LoggerEventTypes';
 
-const configuration = require('../config');
-const Config = require('config');
+const env = require('env');
 const CHANGE_EVENT = 'change_search';
 
+////
 
 let state = {
     bookmarks: [],
@@ -20,12 +18,9 @@ if (!localStorage.getItem("intro-done")) {
         {title: "You also can delete any bookmarked documents here", url: "https://www.deletebookmark.com"}]
 }
 
-
-
-
 let _get_bookmarks = () => {
     request
-        .get(Config.serverUrl + '/v1/bookmark/' + AccountStore.getTaskSessionId())
+        .get(env.serverUrl + '/v1/bookmark/' + AccountStore.getTaskSessionId())
         .end((err, res) => {
             if (!res.body.error) {
                 state.bookmarks = res.body.results;
@@ -45,7 +40,7 @@ let _get_bookmarks = () => {
 
 let _add_bookmark = function(url, title){
     request
-    .post( Config.serverUrl + '/v1/bookmark/')
+    .post( env.serverUrl + '/v1/bookmark/')
     .send({
         userId: AccountStore.getTaskSessionId(),
         url: url,
@@ -54,14 +49,14 @@ let _add_bookmark = function(url, title){
     .end((err, res) => {
         //console.log(res.body);
     });
-    state.bookmarks.unshift( {url: url,title : title})
+    state.bookmarks.unshift( {url: url,title : title});
     BookmarkStore.emitChange();
 };
 
 let _remove_bookmark = function(url){
 
     request
-    .delete( Config.serverUrl + '/v1/bookmark/')
+    .delete( env.serverUrl + '/v1/bookmark/')
     .send({
         userId: AccountStore.getTaskSessionId(),
         url: url
@@ -72,11 +67,12 @@ let _remove_bookmark = function(url){
 
     state.bookmarks = state.bookmarks.filter(function(item) { 
         return item["url"] !== url
-    })
+    });
 
     BookmarkStore.emitChange();
 };
 
+////
 
 const BookmarkStore = Object.assign(EventEmitter.prototype, {
 
@@ -99,7 +95,7 @@ const BookmarkStore = Object.assign(EventEmitter.prototype, {
                 _get_bookmarks();
                 break;
             case AppConstants.ADD_BOOKMARK:
-                _add_bookmark(action.url, action.title)
+                _add_bookmark(action.url, action.title);
                 break;
             case AppConstants.REMOVE_BOOKMARK:
                 _remove_bookmark(action.url);

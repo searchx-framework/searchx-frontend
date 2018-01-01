@@ -206,8 +206,8 @@ class Learning extends React.Component {
     }
 
     render() {
-        const switchTabsPreTest = localStorage.getItem("switchTabsPreTest");
-        const switchTabsPostTest = localStorage.getItem("switchTabsPostTest");
+        const switchTabsPreTest = localStorage.getItem("switch-tabs-posttest");
+        const switchTabsPostTest = localStorage.getItem("switch-tabs-posttest");
 
         if (AccountStore.getTopicId() === '' || switchTabsPreTest >= 3 || switchTabsPostTest >= 3) {
             return (

@@ -14,7 +14,7 @@ import PostTest from './Survey/Form/PostTest';
 import Register from './Survey/Form/Register';
 import Welcome from './Survey/Welcome';
 
-const config = require('config');
+const config = require('../config');
 
 ////
 

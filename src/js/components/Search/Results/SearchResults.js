@@ -14,14 +14,12 @@ import SearchStore from '../../../stores/SearchStore'
 import AccountStore from '../../../stores/AccountStore';
 import BookmarkStore from '../../../stores/BookmarkStore';
 import SearchActions from '../SearchActions';
+
 import {log} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../constants/LoggerEventTypes';
-
 import {updateUrl} from '../Header/SearchBar';
 
-const configuration = require('../../../config');
-let Loader = require('react-loader');
-
+const config = require('../../../config');
 
 ////
 
@@ -96,7 +94,7 @@ export default class SearchResults extends React.Component {
     render() {
         //only if more than X search results are returned do we enter approximate numbering
         let prefix = "About ";
-        if (this.state.matches < configuration.aboutPrefixAt) {
+        if (this.state.matches < config.aboutPrefixAt) {
             prefix = "";
         }
         

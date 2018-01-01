@@ -1,6 +1,7 @@
 import './Form.css'
 
 import React from 'react';
+import Alert from 'react-s-alert';
 import * as Survey from 'survey-react';
 
 import TaskStore from '../../../stores/TaskStore';
@@ -8,9 +9,6 @@ import AccountStore from '../../../stores/AccountStore';
 
 import {log_and_go, log} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../constants/LoggerEventTypes';
-import $ from 'jquery'
-import Alert from 'react-s-alert';
-
 
 export default class PreTest extends React.Component {
 
@@ -19,13 +17,13 @@ export default class PreTest extends React.Component {
         this.state = {
             isComplete: false
         };
-        this.handleComplete = this.handleComplete.bind(this);
 
+        this.handleComplete = this.handleComplete.bind(this);
         this.handleCutCopyPaste = this.handleCutCopyPaste.bind(this);
- 
-        this.handleForfeitPayment = this.handleForfeitPayment.bind(this);
+        this.handleVisibilityChange = this.handleVisibilityChange.bind(this);
     }
-      
+
+    ////
 
     componentWillMount() {    
         Survey.Survey.cssType = "bootstrap";
@@ -33,67 +31,8 @@ export default class PreTest extends React.Component {
     }
 
     componentDidMount() {
-        document.addEventListener('visibilitychange', function(){
-            const metaInfo = {
-                step : "pretest",
-                hidden: document.hidden
-
-            };
-            log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo);
-            
-            if (document.hidden) {
-
-                var switchTabs = -1;
-                if (localStorage.getItem("switchTabsPreTest") !== null) {
-                    switchTabs = localStorage.getItem("switchTabsPreTest");
-                }
-                switchTabs++;
-                localStorage.setItem("switchTabsPreTest", switchTabs);
-
-
-                var times = '';
-                if (switchTabs == 1) {
-                    times = 'once.';
-                } else if (switchTabs == 2) {
-                    times = 'twice.';
-                } else {
-                    times = switchTabs + " times." 
-                }
-                Alert.error('We have noticited that you have tried to change to a different window/tab.', {
-                    position: 'top-right',
-                    effect: 'scale',
-                    beep: true,
-                    timeout: "none",
-                    offset: 100
-                });
-
-                Alert.error('Please, focus on completing the final test.', {
-                    position: 'top-right',
-                    effect: 'scale',
-                    beep: true,
-                    timeout: "none",
-                    offset: 100
-                });
-
-                Alert.error('Remember that more than three tab changes result in non-payment. So far you have changed tabs ' + times, {
-                    position: 'top-right',
-                    effect: 'scale',
-                    beep: true,
-                    timeout: "none",
-                    offset: 100
-                });
-                
-                
-                if (switchTabs >= 3) {
-                    window.location.reload();
-                }
-
-            }
-
-            
-        })
+        document.addEventListener('visibilitychange', this.handleVisibilityChange);
     }
-
 
     handleCutCopyPaste(e){
         Alert.warning('You cannot copy and paste in this step.', {
@@ -108,9 +47,7 @@ export default class PreTest extends React.Component {
     }
 
     handleComplete (result) {
-        
         const topicId = TaskStore.getTopicFromResults(result.data);
-        
         const type = 'search';
         const minutes = 20;
         AccountStore.setTask(topicId, type, minutes);
@@ -119,20 +56,73 @@ export default class PreTest extends React.Component {
             results: result.data
         };
         log(LoggerEventTypes.SURVEY_PRE_TEST_RESULTS, metaInfo);
+
         this.state.isComplete = true;
         this.props.history.push('/learning')
-        
     }
 
-    handleForfeitPayment(){
-        this.setState(this.state);
+    handleVisibilityChange() {
+        const metaInfo = {
+            step : "pretest",
+            hidden: document.hidden
+
+        };
+        log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo);
+
+        ////
+
+        if (document.hidden) {
+            let switchTabs = -1;
+            if (localStorage.getItem("switch-tabs-pretest") !== null) {
+                switchTabs = localStorage.getItem("switch-tabs-pretest");
+            }
+
+            switchTabs++;
+            localStorage.setItem("switch-tabs-pretest", switchTabs);
+
+            let times = '';
+            if (switchTabs === 1) {
+                times = 'once.';
+            } else if (switchTabs === 2) {
+                times = 'twice.';
+            } else {
+                times = switchTabs + " times."
+            }
+
+            Alert.error('We have noticed that you have tried to change to a different window/tab.', {
+                position: 'top-right',
+                effect: 'scale',
+                beep: true,
+                timeout: "none",
+                offset: 100
+            });
+
+            Alert.error('Please, focus on completing the final test.', {
+                position: 'top-right',
+                effect: 'scale',
+                beep: true,
+                timeout: "none",
+                offset: 100
+            });
+
+            Alert.error('Remember that more than three tab changes result in non-payment. So far you have changed tabs ' + times, {
+                position: 'top-right',
+                effect: 'scale',
+                beep: true,
+                timeout: "none",
+                offset: 100
+            });
+
+            if (switchTabs >= 3) {
+                window.location.reload();
+            }
+        }
     }
-      ////
 
-    render() {  
-        
-        var switchTabs = localStorage.getItem("switchTabsPreTest") || 0;
+    ////
 
+    render() {
+        const switchTabs = localStorage.getItem("switch-tabs-pretest") || 0;
         if (switchTabs >= 3) {
             return (
                 <div className="Survey">
@@ -145,23 +135,20 @@ export default class PreTest extends React.Component {
                 </div>
             );
         }
-        const data = TaskStore.getPreTest();
 
+        ////
+
+        const data = TaskStore.getPreTest();
         let survey = new Survey.Model(data);
 
         survey.requiredText = "";
-
         survey.onComplete.add(this.handleComplete);
-
 
         return (
             <div className="Survey" >
-
                 <div className="Survey-form" onPaste={this.handleCutCopyPaste} onCut={this.handleCutCopyPaste} onCopy={this.handleCutCopyPaste} >
                     <Survey.Survey model={survey}/>
                 </div>
-                
-
             </div>    
         );
     }

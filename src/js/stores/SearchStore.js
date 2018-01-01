@@ -7,7 +7,7 @@ import {LoggerEventTypes} from '../constants/LoggerEventTypes';
 import AccountStore from '../stores/AccountStore';
 import AppConstants from '../constants/AppConstants';
 
-const Config = require('config');
+const env = require('env');
 const CHANGE_EVENT = 'change_search';
 const SUBMIT_EVENT = 'submit_search';
 
@@ -38,10 +38,6 @@ if (!localStorage.getItem("intro-done")) {
     {name: "You can view a search third result here", displayUrl: "https://www.result3.com" , snippet: "This is the third result result..."},
     {name: "You can view a search fourth result here", displayUrl: "https://www.result4.com" , snippet: "This is the fourth result result..."},
     {name: "You can view a search fifth result here", displayUrl: "https://www.result5.com" , snippet: "This is the fifth result result..."}]
-}
-
-if (_getURLParameter('q')) {
-    _search();
 }
 
 ////
@@ -117,7 +113,7 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
 
     searchAndRemoveBookmark(url){
         state.results = state.results.filter(function(item) {
-            if (item["url"] == url ) {
+            if (item["url"] === url ) {
                 item.bookmark = false;
             }
             return true;
@@ -147,11 +143,10 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
 
 ////
 
-let _search = (query,pageNumber) => {
-
+const _search = (query,pageNumber) => {
     state.submittedQuery = true;
     state.finished = false;
-    var elapsedTime = new Date().getTime();
+    const elapsedTime = new Date().getTime();
     state.resultsNotFound = false;
 
     state.results = [];
@@ -162,7 +157,7 @@ let _search = (query,pageNumber) => {
     state.query = query || state.query;
 
     request
-        .get(Config.serverUrl + '/v1/search/'+state.vertical+'/?query='+state.query+ '&page='
+        .get(env.serverUrl + '/v1/search/'+state.vertical+'/?query='+state.query+ '&page='
             + pageNumber + '&userId=' + AccountStore.getTaskSessionId())
         .end((err, res) => {
             if (!res.body.error) {
@@ -201,11 +196,12 @@ let _search = (query,pageNumber) => {
             log(LoggerEventTypes.SEARCHRESULT_ELAPSEDTIME, metaInfo);
 
             state.finished = true;
+            SearchStore.emitChange();
             SearchStore.emitSubmit();
         });
 };
 
-let _changeVertical = (vertical) => {
+const _changeVertical = (vertical) => {
     state.vertical = vertical;
     state.results = [];
     state.pageNumber = 1;
@@ -213,10 +209,12 @@ let _changeVertical = (vertical) => {
     SearchStore.emitSubmit();
 };
 
-let _changeQuery = (query) => {
+const _changeQuery = (query) => {
     state.query = query;
 };
 
-
+if (_getURLParameter('q')) {
+    _search();
+}
 
 export default SearchStore;

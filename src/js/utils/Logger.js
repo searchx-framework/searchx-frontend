@@ -1,7 +1,7 @@
 import AccountStore from '../stores/AccountStore';
 import request from 'superagent';
 
-const config = require('config');
+const env = require('env');
 let eventQueue = [];
 
 export function log(event, meta) {
@@ -12,7 +12,7 @@ export function log(event, meta) {
         task = {
             topicId: topicId,
             sessionId: AccountStore.getTaskSessionId() || '',
-            userCode: AccountStore.getTaskType() || '',
+            type: AccountStore.getTaskType() || '',
             duration: AccountStore.getTaskDuration() || '',
             userCode: AccountStore.getId() || '',
         }
@@ -26,7 +26,7 @@ export function log(event, meta) {
         task: task
     });
     
-    request.post(config.serverUrl + '/v1/users/' + AccountStore.getTaskSessionId() + '/logs')
+    request.post(env.serverUrl + '/v1/users/' + AccountStore.getTaskSessionId() + '/logs')
     .send({
         data: eventQueue
     })
@@ -44,7 +44,7 @@ export function flush() {
         return;
     }
 
-    request.post(config.serverUrl + '/v1/users/' + AccountStore.getTaskSessionId() + '/logs')
+    request.post(env.serverUrl + '/v1/users/' + AccountStore.getTaskSessionId() + '/logs')
         .send({
             data: eventQueue
         })
