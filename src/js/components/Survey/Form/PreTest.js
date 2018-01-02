@@ -10,13 +10,18 @@ import SyncStore from '../../../stores/SyncStore';
 
 import {log_and_go, log} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../constants/LoggerEventTypes';
+import config from '../../../config';
 
 export default class PreTest extends React.Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            isComplete: false
+        };
 
         this.handleComplete = this.handleComplete.bind(this);
+        this.handleTaskSetup = this.handleTaskSetup.bind(this);
         this.handleCutCopyPaste = this.handleCutCopyPaste.bind(this);
         this.handleVisibilityChange = this.handleVisibilityChange.bind(this);
     }
@@ -30,6 +35,46 @@ export default class PreTest extends React.Component {
 
     componentDidMount() {
         document.addEventListener('visibilitychange', this.handleVisibilityChange);
+        SyncStore.listenToTopicId((topicId) => this.handleTaskSetup(topicId));
+    }
+
+    ////
+
+    handleComplete(result) {
+        const metaInfo = {
+            results: result.data
+        };
+        log(LoggerEventTypes.SURVEY_PRE_TEST_RESULTS, metaInfo);
+
+        ////
+
+        const scores = TaskStore.getScoresFromResults(result.data);
+        const newState = {
+            isComplete: true,
+            scores: scores
+        };
+
+        SyncStore.emitPretestScore(scores);
+        this.setState(newState, () => {
+            sleep(config.groupTimeout * 60 * 1000).then(() => {
+                SyncStore.emitGroupTimeout();
+            });
+        });
+    }
+
+    handleTaskSetup(topicId) {
+        if (AccountStore.getTopicId() === '' && this.state.scores) {
+            if (topicId === '-1') {
+                topicId = TaskStore.getMinScoreIndex(this.state.scores);
+                AccountStore.clearGroup();
+            }
+
+            const type = 'search';
+            const minutes = 20;
+            AccountStore.setTask(topicId, type, minutes);
+
+            this.props.history.push('/learning')
+        }
     }
 
     handleCutCopyPaste(e){
@@ -44,30 +89,10 @@ export default class PreTest extends React.Component {
         e.preventDefault();
     }
 
-    handleComplete (result) {
-        const metaInfo = {
-            results: result.data
-        };
-        log(LoggerEventTypes.SURVEY_PRE_TEST_RESULTS, metaInfo);
-
-        const scores = TaskStore.getScoresFromResults(result.data);
-        SyncStore.submitPretestScore(scores, (topicId) => {
-            console.log(topicId);
-            const type = 'search';
-            const minutes = 20;
-            AccountStore.setTask(topicId, type, minutes);
-
-            this.props.history.push('/learning')
-        });
-
-        // TODO : handle waiting & add timeout
-    }
-
     handleVisibilityChange() {
         const metaInfo = {
             step : "pretest",
             hidden: document.hidden
-
         };
         log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo);
 
@@ -124,6 +149,24 @@ export default class PreTest extends React.Component {
     ////
 
     render() {
+        if (this.state.isComplete) {
+            document.removeEventListener("visibilitychange", this.handleVisibilityChange);
+
+            return (
+                <div className="Survey">
+                    <div className="Survey-form">
+                        <div className='Survey-complete'>
+                            <h2>Waiting for other members...</h2>
+                            <h3>You have been assigned to a collaborative search experiment. We are still waiting for your partners to finish the Pretest.</h3>
+                            <h3>If after {config.groupTimeout} minutes there is still no update, we will fallback to a single user experiment. Please do not close this page.</h3>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        ////
+
         const switchTabs = localStorage.getItem("switch-tabs-pretest") || 0;
         if (switchTabs >= 3) {
             return (
@@ -155,3 +198,7 @@ export default class PreTest extends React.Component {
         );
     }
 }
+
+const sleep = function(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+};

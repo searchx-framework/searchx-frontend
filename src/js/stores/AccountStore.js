@@ -1,4 +1,5 @@
 import EventEmitter from 'events';
+import config from '../config';
 
 ////
 
@@ -37,7 +38,7 @@ let state = {
 
     group: {
         id: localStorage.getItem("group-id") || '',
-        members: JSON.parse(localStorage.getItem("group-members")) || '',
+        members: JSON.parse(localStorage.getItem("group-members")) || [],
     }
 };
 
@@ -60,9 +61,17 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
 
     ////
 
+    isCollaborative() {
+        if (!config.collaborative) return false;
+        if (state.task.topicId === '') return true;
+        return state.group.id !== '';
+    },
+
     getGroup() {
         return state.group;
     },
+
+    ////
 
     getTopicId() {
         return state.task.topicId;
@@ -88,12 +97,15 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
 
     setUserData(finishCode, groupId, groupMembers) {
         localStorage.setItem("code", finishCode);
-        localStorage.setItem("group-id", groupId);
-        localStorage.setItem("group-members", JSON.stringify(groupMembers));
-
         state.finishCode = finishCode;
-        state.group.id = groupId;
-        state.group.members = groupMembers;
+
+        if (groupId) {
+            localStorage.setItem("group-id", groupId);
+            localStorage.setItem("group-members", JSON.stringify(groupMembers));
+
+            state.group.id = groupId;
+            state.group.members = groupMembers;
+        }
     },
 
     setTask(topicId, type, minutes) {
@@ -117,6 +129,14 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
         localStorage.removeItem("counter-start");
 
         state.task = {};
+        this.clearGroup();
+    },
+
+    clearGroup() {
+        localStorage.removeItem("group-id");
+        localStorage.removeItem("group-members");
+
+        state.group = {}
     }
 });
 

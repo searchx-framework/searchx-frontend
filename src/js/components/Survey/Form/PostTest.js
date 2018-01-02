@@ -14,9 +14,8 @@ export default class PostTest extends React.Component {
 
     constructor(props) {
         super(props);
-
         this.state = {
-            finish: localStorage.getItem('finish') === 'true'
+            isComplete: localStorage.getItem('finish') === 'true'
         };
 
         this.handleComplete = this.handleComplete.bind(this);
@@ -31,13 +30,13 @@ export default class PostTest extends React.Component {
     }
 
     componentDidMount() {
-        if (!this.state.finish) {
+        if (!this.state.isComplete) {
             document.addEventListener('visibilitychange', this.handleVisibilityChange);
         }
     }
 
     componentDidUpdate() {
-        if (this.state.finish) {
+        if (this.state.isComplete) {
             document.addEventListener('visibilitychange', function(){
                 const metaInfo = {
                     step : "posttest",
@@ -60,7 +59,7 @@ export default class PostTest extends React.Component {
         localStorage.setItem('finish', 'true');
 
         this.setState({
-            finish: true
+            isComplete: true
         });
     }
 
@@ -137,7 +136,7 @@ export default class PostTest extends React.Component {
     ////
 
     render() {
-        if (this.state.finish) {
+        if (this.state.isComplete) {
             const finishCode = AccountStore.getFinishCode();
             document.removeEventListener("visibilitychange", this.handleVisibilityChange);
 

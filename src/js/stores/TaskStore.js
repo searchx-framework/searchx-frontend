@@ -3,7 +3,7 @@ import EventEmitter from 'events';
 import Account from "./AccountStore";
 
 import codes from '../../../dist/data/codes.json';
-const config = require('../config');
+import config from '../config';
 const env = require('env');
 
 ////
@@ -16,7 +16,6 @@ const choices = [
 ];
 
 let state = {
-    collaborative: config.collaborative,
     topics: JSON.parse(localStorage.getItem("topics")) || []
 };
 
@@ -24,26 +23,33 @@ let state = {
 
 const TaskStore = Object.assign(EventEmitter.prototype, {
 
-    initTask(callback) {
+    initializeTask(callback) {
         request
-            .get(env.serverUrl + '/v1/task/' + Account.getId() + '/?collaborative=' + state.collaborative)
+            .get(env.serverUrl + '/v1/task/' + Account.getId() + '/?collaborative=' + config.collaborative)
             .end((err, res) => {
-                localStorage.setItem("topics", JSON.stringify(res.body.topics));
-                Account.setUserData(
-                    res.body.code,
-                    res.body.groupId,
-                    res.body.members
-                );
+                if(err) {
+                    console.log(err);
+                }
+
+                if(res) {
+                    this.setTopics(res.body.topics);
+                    Account.setUserData(
+                        res.body.code,
+                        res.body.groupId,
+                        res.body.members
+                    );
+                }
 
                 callback();
             })
     },
 
-    ////
-
-    isCollaborative() {
-        return state.collaborative
+    setTopics(topics) {
+        localStorage.setItem("topics", JSON.stringify(topics));
+        state.topics = topics;
     },
+
+    ////
 
     getTopicDescription(topicId) {
         return state.topics[topicId]["task"];
@@ -75,18 +81,18 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
 
     getScoresFromResults(results) {
         let scores = {};
-        for (let result in results) {
+        Object.keys(results).forEach((result) => {
             const v = result.split("-");
             if (v[0] === "Q") {
                 if(!scores[v[1]]) scores[v[1]] = 0;
                 scores[v[1]] += parseInt(results[result]);
             }
-        }
+        });
 
         return scores;
     },
 
-    getMaxScoreIndex(scores) {
+    getMinScoreIndex(scores) {
         const items = Object.keys(scores)
             .filter((key) => key === '1')
             .map((key) => {
@@ -263,7 +269,7 @@ const preTestPage = function(topics) {
         elements.push({
             type: "html",
             name: "topic",
-            html: "<h2>Diagonistic Test</h2> " +
+            html: "<h2>Diagnostic Test</h2> " +
             "<h3>Let's find out what you already know first.</h3>" +
             "<h3>Answer these questions about <b>" + topics[topicId]["title"] + "</b>:</h3>"
         });

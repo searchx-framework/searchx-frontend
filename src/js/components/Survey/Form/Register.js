@@ -13,6 +13,9 @@ export default class Register extends React.Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            isComplete: false
+        };
 
         this.handleComplete = this.handleComplete.bind(this);
     }
@@ -33,14 +36,35 @@ export default class Register extends React.Component {
         };
         log(LoggerEventTypes.SURVEY_REGISTER_RESULTS, metaInfo);
 
-        TaskStore.initTask(() => {
+        ////
+
+        this.setState({
+            isComplete: true
+        });
+
+        TaskStore.initializeTask(() => {
             this.props.history.push('/pretest');
+            this.props.history.go();
         });
     }
 
     ////
 
     render() {
+        if (this.state.isComplete) {
+            return (
+                <div className="Survey">
+                    <div className="Survey-form">
+                        <div className='Survey-complete'>
+                            <h2>Registering user...</h2>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        ////
+
         const switchTabsPreTest = localStorage.getItem("switch-tabs-pretest");
         const switchTabsPostTest = localStorage.getItem("switch-tabs-posttest");
 

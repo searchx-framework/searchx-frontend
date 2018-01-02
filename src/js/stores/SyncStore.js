@@ -15,26 +15,32 @@ if (Account.getId() !== '') {
 
 const SyncStore = Object.assign(EventEmitter.prototype, {
 
-    submitPretestScore(scores, callback) {
+    listenToTopicId(callback) {
         socket.on('groupTopic', (data) => {
             callback(data.topicId)
         });
+    },
 
-        socket.emit('pretestScore', {
+    emitPretestScore(scores) {
+        socket.emit('pushPretestScores', {
             userId: Account.getId(),
             scores: scores
         });
     },
 
+    emitGroupTimeout() {
+        socket.emit('pushGroupTimeout', {});
+    },
+
     ////
 
-    subscribeToSyncSearch(callback) {
-        socket.on('syncSearch', (data) => {
+    listenToSearchState(callback) {
+        socket.on('searchState', (data) => {
             callback(data.userId, data.state);
         });
     },
 
-    pushSearchState(state) {
+    emitSearchState(state) {
         socket.emit('pushSearchState', {
             userId: Account.getId(),
             state: state
