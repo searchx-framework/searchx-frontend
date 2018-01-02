@@ -31,7 +31,8 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
                 localStorage.setItem("topics", JSON.stringify(res.body.topics));
                 Account.setUserData(
                     res.body.code,
-                    res.body.groupId
+                    res.body.groupId,
+                    res.body.members
                 );
 
                 callback();
@@ -72,35 +73,29 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
         return results["userId"].replace(/\s/g, '');
     },
 
-    getTopicFromResults(results) {
-        let topicResults = {};
-
+    getScoresFromResults(results) {
+        let scores = {};
         for (let result in results) {
             const v = result.split("-");
             if (v[0] === "Q") {
-                topicResults[v[1]] = 0;
+                if(!scores[v[1]]) scores[v[1]] = 0;
+                scores[v[1]] += parseInt(results[result]);
             }
         }
 
-        for (let result in results) {
-            const v = result.split("-");
-            if (v[0] === "Q") {
-                topicResults[v[1]] += parseInt(results[result]);
-            }
-        }
+        return scores;
+    },
 
-        const items = Object.keys(topicResults).map(function(key) {
-            return [key, topicResults[key]];
+    getMaxScoreIndex(scores) {
+        const items = Object.keys(scores)
+            .filter((key) => key === '1')
+            .map((key) => {
+                return [key, scores[key]];
+            });
+
+        items.sort((a,b) => {
+            return a[1] - b[1];
         });
-
-        // Sort the array based on the second element
-        items.sort(function(first, second) {
-            return first[1] - second[1];
-        });
-
-        if (items[0][0] === "0") {
-            return items[1][0];
-        }
 
         return items[0][0];
     },

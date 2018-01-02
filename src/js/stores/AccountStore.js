@@ -26,7 +26,6 @@ const generateUUID = function() {
 
 let state = {
     userId: localStorage.getItem("user-id") || '' ,
-    groupId: localStorage.getItem("group-id") || '',
     finishCode: localStorage.getItem("code") || '',
 
     task: {
@@ -34,6 +33,11 @@ let state = {
         sessionId: localStorage.getItem("task-session-id") || '',
         type : localStorage.getItem("task-type") || '',
         duration: localStorage.getItem("task-duration")|| ''
+    },
+
+    group: {
+        id: localStorage.getItem("group-id") || '',
+        members: JSON.parse(localStorage.getItem("group-members")) || '',
     }
 };
 
@@ -56,8 +60,8 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
 
     ////
 
-    getGroupId() {
-        return state.groupId;
+    getGroup() {
+        return state.group;
     },
 
     getTopicId() {
@@ -82,12 +86,14 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
 
     ////
 
-    setUserData(finishCode, groupId) {
+    setUserData(finishCode, groupId, groupMembers) {
         localStorage.setItem("code", finishCode);
         localStorage.setItem("group-id", groupId);
+        localStorage.setItem("group-members", JSON.stringify(groupMembers));
 
         state.finishCode = finishCode;
-        state.groupId = groupId;
+        state.group.id = groupId;
+        state.group.members = groupMembers;
     },
 
     setTask(topicId, type, minutes) {

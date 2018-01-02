@@ -1,32 +1,43 @@
 import EventEmitter from 'events';
-import openSocket from 'socket.io-client';
+import io from 'socket.io-client';
 import Account from "./AccountStore";
 
-const socket = openSocket('http://localhost:4443'); //TODO : change to api server in config
-
-function subscribeToTimer(cb) {
-    socket.on('timer', timestamp => cb(null, timestamp));
-    socket.emit('subscribeToTimer', 1000);
-}
+const env = require('env');
+const socket = io(env.serverUrl + '/group');
 
 ////
 
+if (Account.getId() !== '') {
+    socket.emit('register', {
+        userId: Account.getId()
+    });
+}
+
 const SyncStore = Object.assign(EventEmitter.prototype, {
+
+    submitPretestScore(scores, callback) {
+        socket.on('groupTopic', (data) => {
+            callback(data.topicId)
+        });
+
+        socket.emit('pretestScore', {
+            userId: Account.getId(),
+            scores: scores
+        });
+    },
+
+    ////
 
     subscribeToSyncSearch(callback) {
         socket.on('syncSearch', (data) => {
             callback(data.userId, data.state);
         });
-
-        socket.emit('subscribeToSyncSearch', {
-            userId : Account.getId()
-        });
     },
 
     pushSearchState(state) {
         socket.emit('pushSearchState', {
-            userId : Account.getId(),
-            state : state
+            userId: Account.getId(),
+            state: state
         });
     }
 });

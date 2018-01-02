@@ -6,6 +6,7 @@ import * as Survey from 'survey-react';
 
 import TaskStore from '../../../stores/TaskStore';
 import AccountStore from '../../../stores/AccountStore';
+import SyncStore from '../../../stores/SyncStore';
 
 import {log_and_go, log} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../constants/LoggerEventTypes';
@@ -14,9 +15,6 @@ export default class PreTest extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            isComplete: false
-        };
 
         this.handleComplete = this.handleComplete.bind(this);
         this.handleCutCopyPaste = this.handleCutCopyPaste.bind(this);
@@ -47,18 +45,22 @@ export default class PreTest extends React.Component {
     }
 
     handleComplete (result) {
-        const topicId = TaskStore.getTopicFromResults(result.data);
-        const type = 'search';
-        const minutes = 20;
-        AccountStore.setTask(topicId, type, minutes);
-
         const metaInfo = {
             results: result.data
         };
         log(LoggerEventTypes.SURVEY_PRE_TEST_RESULTS, metaInfo);
 
-        this.state.isComplete = true;
-        this.props.history.push('/learning')
+        const scores = TaskStore.getScoresFromResults(result.data);
+        SyncStore.submitPretestScore(scores, (topicId) => {
+            console.log(topicId);
+            const type = 'search';
+            const minutes = 20;
+            AccountStore.setTask(topicId, type, minutes);
+
+            this.props.history.push('/learning')
+        });
+
+        // TODO : handle waiting & add timeout
     }
 
     handleVisibilityChange() {
