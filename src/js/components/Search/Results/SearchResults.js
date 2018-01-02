@@ -20,6 +20,7 @@ import {LoggerEventTypes} from '../../../constants/LoggerEventTypes';
 import {updateUrl} from '../Header/SearchBar';
 
 const config = require('../../../config');
+const Loader = require('react-loader');
 
 ////
 

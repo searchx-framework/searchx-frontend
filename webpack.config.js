@@ -1,6 +1,6 @@
 const postcssImport = require('postcss-import');
 const autoprefixer = require('autoprefixer');
-const simpleVars = require('postcss-simple-consts');
+const simpleVars = require('postcss-simple-vars');
 const postcssNested = require('postcss-nested');
 const webpack = require('webpack');
 const path = require('path');

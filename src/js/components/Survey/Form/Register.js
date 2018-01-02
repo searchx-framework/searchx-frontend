@@ -25,7 +25,6 @@ export default class Register extends React.Component {
     ////
 
     handleComplete(result) {
-        localStorage.clear();
         const userId = TaskStore.getUserIdFromResults(result.data);
         AccountStore.setId(userId);
 
@@ -53,6 +52,7 @@ export default class Register extends React.Component {
 
         ////
 
+        localStorage.clear();
         const data = TaskStore.getRegisterInfo();
         let survey = new Survey.Model(data);
 
