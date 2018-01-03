@@ -119,8 +119,18 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
             html: "<hr/>"
         });
 
+        // elements.push({ 
+        //     title: "Copy and Past the User Code here", 
+        //     name : "userId", 
+        //     type :"text", 
+        //     inputType:"text", 
+        //     width: 300, 
+        //     isRequired: true
+        //    }
+        // );
+
         elements.push({ 
-            title: "Copy and Past the User Code here", 
+            title: "Insert your Prolific ID here", 
             name : "userId", 
             type :"text", 
             inputType:"text", 
@@ -128,6 +138,8 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
             isRequired: true
            }
         );
+
+        
 
         elements.push({
             type: "html",
@@ -157,33 +169,33 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
             isRequired: true
         });
 
-        elements.push({
-            title: "Are you an English native speaker?",
-            name: "english",
-            type: "radiogroup",
-            isRequired: true,
-            choices: [
-                {value: 0, text: "No"}, 
-                {value: 1, text: "Yes"}, 
-            ]
-        });
+        // elements.push({
+        //     title: "Are you an English native speaker?",
+        //     name: "english",
+        //     type: "radiogroup",
+        //     isRequired: true,
+        //     choices: [
+        //         {value: 0, text: "No"}, 
+        //         {value: 1, text: "Yes"}, 
+        //     ]
+        // });
 
-        elements.push({ 
-            title: "What is your level of English?",
-            visibleIf: "{english} == 0",
-            name : "english-level", 
-            type: "radiogroup",
-            isRequired: true,
-            choices: [
-                {value: 0, text: "Beginner"}, 
-                {value: 1, text: "Elementary"}, 
-                {value: 2, text: "Intermediate"}, 
-                {value: 3, text: "Upper-intermediate"}, 
-                {value: 4, text: "Advanced"}, 
-                {value: 5, text: "Proficiency"}
-            ],
-            isRequired: true
-        });
+        // elements.push({ 
+        //     title: "What is your level of English?",
+        //     visibleIf: "{english} == 0",
+        //     name : "english-level", 
+        //     type: "radiogroup",
+        //     isRequired: true,
+        //     choices: [
+        //         {value: 0, text: "Beginner"}, 
+        //         {value: 1, text: "Elementary"}, 
+        //         {value: 2, text: "Intermediate"}, 
+        //         {value: 3, text: "Upper-intermediate"}, 
+        //         {value: 4, text: "Advanced"}, 
+        //         {value: 5, text: "Proficiency"}
+        //     ],
+        //     isRequired: true
+        // });
 
 
         elements.push({ 

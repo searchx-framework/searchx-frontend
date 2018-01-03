@@ -10,6 +10,8 @@ import {log, flush} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../constants/LoggerEventTypes';
 import Alert from 'react-s-alert';
 
+import config from '../../../config';
+
 
 export default class PostTest extends React.Component {
 
@@ -138,8 +140,8 @@ export default class PostTest extends React.Component {
         log(LoggerEventTypes.SURVEY_POST_TEST_RESULTS, metaInfo);
 
         AccountStore.clearTask();
-        localStorage.setItem("finishedCode", TaskStore.getFinishCode(AccountStore.getId()));
-        
+        //localStorage.setItem("finishedCode", TaskStore.getFinishCode(AccountStore.getId()));
+        localStorage.setItem("finishedCode", true);
         this.forceSetState();
     }
         
@@ -176,8 +178,8 @@ export default class PostTest extends React.Component {
                 <div className="Survey">
                     <div className="Survey-form">
                         <div className='Survey-complete' onCopy={this.handleCutCopyPasteDismute}>
-                            <h2>Thanks!</h2>
-                            <h3>Please, copy and paste this code on CrowdFlower: {TaskStore.getFinishCode(AccountStore.getId())}</h3>
+                            <h2>Thanks for your participation!</h2>
+                            <h3>Follow this <a href={config.completionURL}> link</a> back to Prolific Academic to confirm your participation.</h3>
                         </div>
                     </div>
                 </div>
@@ -187,8 +189,8 @@ export default class PostTest extends React.Component {
                 <div className="Survey">
                     <div className="Survey-form">
                         <div className='Survey-complete'>
-                            <h2>Sorry!</h2>
-                            <h3>You have changed to a different tab/windows than three times, we have cancelled your participation, we will not pay you.</h3>
+                            <h2>We are sorry!</h2>
+                            <h3>You have changed to a different tab/windows than three times, we have cancelled your participation.</h3>
                         </div>
                     </div>
                 </div>

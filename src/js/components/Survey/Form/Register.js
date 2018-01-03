@@ -77,7 +77,7 @@ export default class Register extends React.Component {
             <div className="Survey">
                 <div className="Survey-form">
 
-                    <Survey.Survey model={survey}   onValidateQuestion={TaskStore.surveyValidateQuestion} />
+                    <Survey.Survey model={survey} />
                     
                 </div>
             </div>    

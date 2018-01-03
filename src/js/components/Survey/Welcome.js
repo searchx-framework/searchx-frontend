@@ -25,7 +25,6 @@ class Welcome extends React.Component {
 
                         <h3>Requirements:</h3>
                         <ol type="1">
-                            <li>This experiment will be in English. You must do everything in English.</li>
                             <li><a href="https://www.whatismybrowser.com/" target="_blank">Check here</a> if the version of your browser meets our requirements: Google Chrome version 47 (or higher) and Mozilla Firefox version 44 (or higher).  </li>
                         </ol> 
                         <hr/>
@@ -44,7 +43,7 @@ class Welcome extends React.Component {
                         <hr/>
 
                         <h3>IMPORTANT:</h3>
-                            <h4>We do not pay if:</h4>
+                            <h4>We cancel your participation if:</h4>
                             <ul>
                             <li> your answers are shorter than the required word count </li>
                             <li> your answers are off-topic </li>
