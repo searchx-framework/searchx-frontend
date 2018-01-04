@@ -395,6 +395,18 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
             inputType:"text", 
             width: 600, 
             height: 300,
+            rows: 4,
+            isRequired: true
+        });
+
+        elements.push({ 
+            title: "Do you have any additional comments?",
+            name : "additional-comment", 
+            type :"comment",  
+            inputType:"text", 
+            width: 600, 
+            height: 200,
+            rows: 4,
             isRequired: true
         });
 
