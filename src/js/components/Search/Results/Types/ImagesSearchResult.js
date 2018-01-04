@@ -40,7 +40,7 @@ class ImagesSearchResult extends React.Component {
         var initialRate = this.props.result.bookmark ? 1 : 0;
         
         let metaInfo = {
-                url: this.props.result.displayUrl,
+                url: this.props.result.contentUrl,
                 query: this.props.query,
                 page: this.props.page,
                 vertical: 'images',
