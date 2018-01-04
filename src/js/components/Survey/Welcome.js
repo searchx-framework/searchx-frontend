@@ -48,6 +48,7 @@ class Welcome extends React.Component {
                             <li> your answers are shorter than the required word count </li>
                             <li> your answers are off-topic </li>
                             <li> during the Diagnostic test and the Final test you change to a different tab more than three times (you will receive a warning ahead of time). Note that during the search phase, tab changes are expected as the search results open in new tabs. </li>
+                            <li> you become inactive (no searching/browsing/scrolling/reading Web pages) for more than 5 minutes during the learning phase. </li>
                         </ul>
                         <hr/>
                         <h3> Good Luck and Have Fun! </h3> 
