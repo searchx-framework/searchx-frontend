@@ -4,6 +4,7 @@ import underscore from 'underscore';
 
 import topics from '../../../dist/data/topics.json';
 import codes from '../../../dist/data/codes.json';
+import AccountStore from './AccountStore';
 
 const CHANGE_EVENT = 'change_task';
 
@@ -345,11 +346,11 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
             });
         });
 
-
+        var mean =   AccountStore.getTaskType() == "video" ? "the course video" : "your searches";
         elements.push({ 
             type: "html", 
             name: "outline-description",
-            html: "</br> <b> Based on what you have learned from your searches, please write an outline for your paper. </b>" +
+            html: "</br> <b> Based on what you have learned from " + mean + ", please write an outline for your paper. </b>" +
                 "<p> Tip: An outline is an organizational plan to help you draft a paper. Here is a simple template example: </p>" +
     
                 "<p> 1. Introduction</p>" +
@@ -378,7 +379,7 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
         });
 
         elements.push({ 
-            title: "Please write what you learned about this topic from your searches. Use at least 50 words.",
+            title: "Please write what you learned about this topic from " + mean + ". Use at least 50 words.",
             name : "summary", 
             type :"comment", 
             inputType:"text", 
@@ -388,16 +389,18 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
             isRequired: true
         });
 
-        elements.push({ 
-            title: "During your searches did you have difficulties finding information about something? If so, describe briefly what you were looking for.",
-            name : "difficulties", 
-            type :"comment",  
-            inputType:"text", 
-            width: 600, 
-            height: 300,
-            rows: 4,
-            isRequired: true
-        });
+        if (AccountStore.getTaskType() == "search")  {
+            elements.push({ 
+                title: "During your searches did you have difficulties finding information about something? If so, describe briefly what you were looking for.",
+                name : "difficulties", 
+                type :"comment",  
+                inputType:"text", 
+                width: 600, 
+                height: 300,
+                rows: 4,
+                isRequired: true
+            });
+        }
 
         elements.push({ 
             title: "Do you have any additional comments?",

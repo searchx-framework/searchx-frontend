@@ -56,8 +56,10 @@ export default class Register extends React.Component {
         var switchTabsPreTest = localStorage.getItem("switchTabsPreTest");
 
         var switchTabsPostTest = localStorage.getItem("switchTabsPostTest");
+
+        var switchTabsVideo = localStorage.getItem("switchTabsVideo");
         
-        if (switchTabsPreTest >= 3 || switchTabsPostTest >=3) {
+        if (switchTabsPreTest >= 3 || switchTabsPostTest >=3 || switchTabsVideo >=3 ) {
             return (
                 <div/>
             );

@@ -48,7 +48,15 @@ const stepsSearch = [
     }
 ];
 
-const stepsSubmit = [
+const stepsVideoSubmit = [
+    {
+        element: '#intro-counter',
+        intro: 'You will need to watch the entire video. Afterwards, you can press the button to complete the final test. Good luck and have fun!',
+        position: 'left'
+    }
+];
+
+const stepsSearchSubmit = [
     {
         element: '#intro-counter',
         intro: 'You will need to search and learn for 20 minutes. Afterwards, you can press the button to complete the final test. Good luck and have fun!',
@@ -72,11 +80,11 @@ class Learning extends React.Component {
 
         ////
 
-        let steps = stepsTask.concat(stepsSearch, stepsSubmit);
+        let steps = stepsTask.concat(stepsSearch, stepsSearchSubmit);
         let medium = <Search/>;
 
         if (task.type === 'video') {
-            steps = stepsTask.concat(stepsVideo, stepsSubmit);
+            steps = stepsTask.concat(stepsVideo, stepsVideoSubmit);
             medium = <Video/>;
         }
 
@@ -162,8 +170,11 @@ class Learning extends React.Component {
         var switchTabsPreTest = localStorage.getItem("switchTabsPreTest");
         
         var switchTabsPostTest = localStorage.getItem("switchTabsPostTest");
+
+        var switchTabsVideo = localStorage.getItem("switchTabsVideo");
         
-        if (switchTabsPreTest >= 3 || switchTabsPostTest >= 3) {
+        
+        if (switchTabsPreTest >= 3 || switchTabsPostTest >= 3 || switchTabsVideo >= 3) {
             return (
                 <div/>
             );
@@ -174,6 +185,7 @@ class Learning extends React.Component {
             <div>
                 {Account.getTopicId() !== "" &&
                     <div className="Learning row">
+                    
                         <div id="modal" className="Learning-medium col-md-9">
                             {this.state.medium}
                         </div>

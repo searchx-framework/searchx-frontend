@@ -2,6 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import {log} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../constants/LoggerEventTypes';
+import AccountScore from '../../../stores/AccountStore';
 
 class TimedSubmit extends React.Component {
 
@@ -57,14 +58,19 @@ class TimedSubmit extends React.Component {
             minutes = 0;
             seconds = 0;
         }
-       
-        const active = minutes < this.state.duration ? "disabled" : "active";
+        var active = minutes < this.state.duration ? "disabled" : "active";
+
+        active = "active";
+        
 
         return (
             <div id="intro-counter">
-                <div className="counter">
-                    {minutes}:{this.padZero(seconds)}
-                </div>
+                { (AccountScore.getTaskType() == "search") ?
+                    <div className="counter">
+                        {minutes}:{this.padZero(seconds)}
+                    </div>
+                    : <div/>
+                }
                 <Link className={"btn btn-primary " + active} to="/posttest" role="button" onClick={this.clickHandler}>
                     To Final Test
                 </Link>
