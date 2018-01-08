@@ -17,7 +17,7 @@ export default class Header extends React.Component {
                     <Logo />
                 </div>
                 <div className="col-sm-9">
-                    <SearchBar userId={account.getTaskSessionId()}/>
+                    <SearchBar userId={account.getSessionId()}/>
                 </div>
             </div>
         )

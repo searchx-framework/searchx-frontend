@@ -24,6 +24,8 @@ let state = {
 const TaskStore = Object.assign(EventEmitter.prototype, {
 
     initializeTask(callback) {
+        let url = '/pretest';
+
         request
             .get(env.serverUrl + '/v1/task/' + Account.getId() + '/?collaborative=' + config.collaborative)
             .end((err, res) => {
@@ -32,15 +34,23 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
                 }
 
                 if(res) {
-                    this.setTopics(res.body.topics);
+                    const data = res.body;
+
+                    this.setTopics(data.topics);
                     Account.setUserData(
-                        res.body.code,
-                        res.body.groupId,
-                        res.body.members
+                        data.code,
+                        data.groupId,
+                        data.members
                     );
+
+                    if(data.assignedTopicId) {
+                        Account.setTask(data.assignedTopicId);
+                        Account.setSessionId(data.sessionId);
+                        url = '/learning';
+                    }
                 }
 
-                callback();
+                callback(url);
             })
     },
 
@@ -71,6 +81,10 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
         });
 
         return terms;
+    },
+
+    isIntroDone() {
+        return localStorage.getItem("intro-done");
     },
 
     ////

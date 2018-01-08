@@ -42,8 +42,8 @@ export default class Register extends React.Component {
             isComplete: true
         });
 
-        TaskStore.initializeTask(() => {
-            this.props.history.push('/pretest');
+        TaskStore.initializeTask((url) => {
+            this.props.history.push(url);
             this.props.history.go();
         });
     }

@@ -1,0 +1,225 @@
+@import '../../variables.css';
+
+/* WEB */
+
+.WebSearchResults {
+    margin-left: 10px;
+    margin-top: 0px;
+
+    .rating {
+        float : left;
+        margin-right: 5px;
+        padding-top: 2px;
+    }
+
+    .rating .fa-star {
+        font-size: 17px;
+        color: #ffd700;
+    }
+
+    .rating .fa-star-o {
+        font-size: 17px;
+        color: #e5c100;
+    }
+
+    &-result {
+        margin-bottom: 10px;
+
+        h2 {
+            font-size: 18px;
+            display: block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-text-overflow: ellipsis;
+            white-space: nowrap;
+            line-height: 21px;
+            margin-bottom: 1px;
+            margin-top: 0px;
+            max-width: 500px;
+
+            a, a:hover, a:focus {
+                color: $link-blue;
+                text-decoration: none;
+            }
+
+            a:visited {
+                color: $visited-blue;
+                text-decoration: none;
+            }
+        }
+
+        span {
+            color: $link-green;
+            line-height: 16px;
+            font-size: 14px;
+            max-width: 500px;
+            display: block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        p {
+            color: $description-grey;
+            display: block;
+            font-size: 13px;
+            font-weight: normal;
+            height: auto;
+            max-height: 35px;
+            overflow: hidden;
+            line-height: 18px;
+            max-width: 500px;
+            word-wrap: break-word;
+        }
+    }
+}
+
+/* NEWS */
+
+.NewsSearchResults {
+    margin-left: 8px;
+    margin-top: 0px;
+
+    .rating {
+        float : left;
+
+        padding-top: 3px;
+        margin-right: 5px;
+    }
+
+    .rating .fa-star {
+        font-size: 17px;
+        color: #ffd700;
+    }
+
+    .rating .fa-star-o {
+        font-size: 17px;
+        color: #e5c100;
+    }
+
+    &-result {
+        margin-bottom: 10px;
+
+        h2 {
+            font-size: 18px;
+            display: block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-text-overflow: ellipsis;
+            white-space: nowrap;
+            line-height: 21px;
+            margin-bottom: 1px;
+            margin-top: 0px;
+            max-width: 500px;
+
+        a, a:hover, a:focus {
+            color: $ link-blue;
+            text-decoration: none;
+        }
+
+        a:visited {
+            color: $ visited-blue;
+            text-decoration: none;
+        }
+
+        }
+
+        span {
+            color: $ link-green;
+            line-height: 16px;
+            font-size: 14px;
+            max-width: 500px;
+            display: block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        p {
+            color: $ description-grey;
+            display: block;
+            font-size: 13px;
+            font-weight: normal;
+            height: auto;
+            line-height: 18px;
+            max-width: 800px;
+            word-wrap: break-word;
+        }
+
+        img {
+            float: left;
+            height: 100px;
+            width: 100px;
+            margin-right: 10px;
+            margin-bottom: 15px;
+        }
+    }
+}
+
+/* IMAGES */
+
+.ImagesSearchResults {
+    margin-left: -5px;
+
+    .rating {
+        padding-right: 15px;
+    }
+
+    .rating .fa-star {
+        font-size: 17px;
+        color: #ffd700;
+    }
+
+    .rating .fa-star-o {
+        font-size: 17px;
+        color: #e5c100;
+    }
+
+    &-result {
+        float: left;
+        margin-right: 20px;
+        margin-bottom: 20px;
+
+        .crop {
+            height: 150px;
+            width: 275px;
+            background-position: center;
+            background-size: cover;
+
+            margin-bottom: 5px;
+            display: block;
+        }
+    }
+}
+
+/* VIDEOS */
+
+.VideosSearchResults {
+    .rating {
+        float : left;
+        margin-right: 5px;
+
+    }
+
+    .rating .fa-star {
+        font-size: 17px;
+        color: #ffd700;
+    }
+
+    .rating .fa-star-o {
+        font-size: 17px;
+        color: #e5c100;
+    }
+
+    &-result {
+        float: left;
+        margin-left: 10px;
+        margin-bottom: 10px;
+        margin-right: 10px;
+
+        width: 280px;
+        height: 240px;
+    }
+}

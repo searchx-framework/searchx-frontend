@@ -2,14 +2,13 @@ import './SearchBar.css'
 import React from 'react';
 
 import history from '../../History';
-import SearchActions from '../SearchActions';
+import AppActions from '../../../AppActions';
 import SearchStore from '../../../stores/SearchStore';
 import {log} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../constants/LoggerEventTypes';
 
 import SearchBox from './SearchBox';
 import SearchVerticals from './SearchVerticals';
-import BookmarkActions from './../BookmarkActions';
 
 
 /*****************************/
@@ -89,7 +88,7 @@ class SearchBar extends React.Component {
                 );
 
                 updateUrl(this.state.query, 'web', 1);
-                SearchActions.search(query, "web",1);
+                AppActions.search(query, "web",1);
                 this.setState({query: query, vertical: "site-search"})
             }
         }
@@ -107,7 +106,7 @@ class SearchBar extends React.Component {
 
     queryChangeHandler(e) {
         const query = e.target.value;
-        SearchActions.changeQuery(query);
+        AppActions.changeQuery(query);
     }
     
     verticalChangeHandler(vertical) {
@@ -116,10 +115,10 @@ class SearchBar extends React.Component {
             vertical: vertical.toLowerCase(),
             current_vertical: this.state.vertical
         });
-        SearchActions.changeVertical(vertical.toLowerCase());
+        AppActions.changeVertical(vertical.toLowerCase());
         if (this.state.query.length > 0) {
             updateUrl(this.state.query, vertical, 1);
-            SearchActions.search(this.state.query, vertical.toLowerCase(),1);
+            AppActions.search(this.state.query, vertical.toLowerCase(),1);
         }
     }
 
@@ -132,8 +131,8 @@ class SearchBar extends React.Component {
         );
         e.preventDefault();
         updateUrl(this.state.query, this.state.vertical, 1);
-        SearchActions.search(this.state.query, this.state.vertical,1);
-        BookmarkActions.getBookmarks();
+        AppActions.search(this.state.query, this.state.vertical,1);
+        AppActions.getBookmarks();
     }
 
     ////

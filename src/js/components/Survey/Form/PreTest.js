@@ -35,7 +35,7 @@ export default class PreTest extends React.Component {
 
     componentDidMount() {
         document.addEventListener('visibilitychange', this.handleVisibilityChange);
-        SyncStore.listenToTopicId((topicId) => this.handleTaskSetup(topicId));
+        SyncStore.listenToTopicId(this.handleTaskSetup);
     }
 
     ////
@@ -62,19 +62,23 @@ export default class PreTest extends React.Component {
         });
     }
 
-    handleTaskSetup(topicId) {
-        if (AccountStore.getTopicId() === '' && this.state.scores) {
+    handleTaskSetup(topicId, sessionId) {
+        if(AccountStore.getTopicId !== '') {
             if (topicId === '-1') {
-                topicId = TaskStore.getMinScoreIndex(this.state.scores);
+                topicId = 0;
                 AccountStore.clearGroup();
+
+                if (this.state.scores) {
+                    topicId = TaskStore.getMinScoreIndex(this.state.scores);
+                }
+            } else {
+                AccountStore.setSessionId(sessionId);
             }
 
-            const type = 'search';
-            const minutes = 20;
-            AccountStore.setTask(topicId, type, minutes);
-
-            this.props.history.push('/learning')
+            AccountStore.setTask(topicId);
         }
+
+        this.props.history.push('/learning')
     }
 
     handleCutCopyPaste(e){

@@ -6,6 +6,7 @@ import {log} from '../utils/Logger';
 import {LoggerEventTypes} from '../constants/LoggerEventTypes';
 import AccountStore from '../stores/AccountStore';
 import AppConstants from '../constants/AppConstants';
+import TaskStore from "./TaskStore";
 
 const env = require('env');
 const CHANGE_EVENT = 'change_search';
@@ -22,17 +23,21 @@ let state = {
     query: _getURLParameter('q') || '',
     vertical: _getURLParameter('v') || 'web',
     pageNumber: parseInt(_getURLParameter('p')) || 1,
+
     results: [],
     forum_results: [],
     matches: 0,
-    submittedQuery: false,
     elapsedTime: 0,
+
+    submittedQuery: false,
     finish: false,
-    serp_id: '',
-    resultsNotFound: false
+    refresing: false,
+    resultsNotFound: false,
+
+    serp_id: ''
 };
 
-if (!localStorage.getItem("intro-done")) {
+if (!TaskStore.isIntroDone()) {
     state.results = [{name: "You can view the search first result here", displayUrl: "https://www.result1.com" , snippet: "This is the first result result..."},
     {name: "You can view the search second result here", displayUrl: "https://www.result2.com" , snippet: "This is the second result result..."},
     {name: "You can view a search third result here", displayUrl: "https://www.result3.com" , snippet: "This is the third result result..."},
@@ -80,22 +85,27 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
     getPageNumber(){
         return state.pageNumber || 1;
     },
+
     getResults() {
         return state.results;
-    },
-    getSubmittedQuery(){
-        return state.submittedQuery;
     },
     getElapsedTime(){
         return state.elapsedTime;
     },
-    isFinished(){
-        return state.finished;
-    },
     getMatches(){
         return state.matches || 0;
     },
-    getResultsNotFound(){
+
+    isQuerySubmitted(){
+        return state.submittedQuery;
+    },
+    isFinished(){
+        return state.finished;
+    },
+    isRefreshing(){
+        return state.refreshing;
+    },
+    isResultsNotFound(){
         return state.resultsNotFound;
     },
 
@@ -103,6 +113,8 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
 
     addBookmark(position) {
         state.results[position].bookmark = true;
+        state.results[position].bookmarkUserId = AccountStore.getId();
+        state.results[position].bookmarkTime = new Date();
         SearchStore.emitChange();
     },
 
@@ -135,6 +147,9 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
             case AppConstants.CHANGE_QUERY:
                 _changeQuery(action.query);
                 break;
+            case AppConstants.REFRESH_SEARCH:
+                _refresh(action.query, action.vertical, action.pageNumber);
+                break;
         }
 
         SearchStore.emitChange();
@@ -143,22 +158,30 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
 
 ////
 
-const _search = (query,pageNumber) => {
+const _search = (query, pageNumber) => {
+    const elapsedTime = new Date().getTime();
+
     state.submittedQuery = true;
     state.finished = false;
-    const elapsedTime = new Date().getTime();
     state.resultsNotFound = false;
-
-    state.results = [];
-    SearchStore.emitChange();
 
     pageNumber = pageNumber || state.pageNumber || 1;
     state.pageNumber = pageNumber;
     state.query = query || state.query;
 
+    if (!state.refreshing) {
+        state.results = [];
+    }
+
+    SearchStore.emitChange();
+
     request
-        .get(env.serverUrl + '/v1/search/'+state.vertical+'/?query='+state.query+ '&page='
-            + pageNumber + '&userId=' + AccountStore.getTaskSessionId())
+        .get(env.serverUrl + '/v1/search/'+state.vertical
+            + '/?query='+ state.query
+            + '&page='+ pageNumber
+            + '&userId='+ AccountStore.getId()
+            + '&sessionId='+ AccountStore.getSessionId()
+        )
         .end((err, res) => {
             if (!res.body.error) {
 
@@ -195,6 +218,7 @@ const _search = (query,pageNumber) => {
             };
             log(LoggerEventTypes.SEARCHRESULT_ELAPSEDTIME, metaInfo);
 
+            state.refreshing = false;
             state.finished = true;
             SearchStore.emitChange();
             SearchStore.emitSubmit();
@@ -212,6 +236,15 @@ const _changeVertical = (vertical) => {
 const _changeQuery = (query) => {
     state.query = query;
 };
+
+const _refresh = (query, vertical, pageNumber) => {
+    if (query === state.query && vertical === state.vertical && pageNumber === state.pageNumber) {
+        state.refreshing = true;
+        _search();
+    }
+};
+
+////
 
 if (_getURLParameter('q')) {
     _search();

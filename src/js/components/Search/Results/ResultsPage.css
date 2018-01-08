@@ -3,13 +3,13 @@
 .SearchResults {
     padding: 15px;
     margin: 0px;
-    
+
     min-height: 500px;
-    &-pagination {
-        
-        background-color: $primary-color;
-        border-color: $primary-color;
-    }
+&-pagination {
+
+     background-color: $primary-color;
+     border-color: $primary-color;
+ }
 }
 
 .TimeIndicator {
@@ -36,4 +36,8 @@
     overflow: inherit;
     line-height: 18px;
     margin-left: 14px
+}
+
+.Sidebar {
+    border-left: 2px solid $border-color;
 }

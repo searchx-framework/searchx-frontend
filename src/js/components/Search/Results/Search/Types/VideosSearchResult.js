@@ -1,55 +1,28 @@
 import React from 'react';
 import VisibilitySensor from 'react-visibility-sensor';
 import ReactPlayer from 'react-player'
-import SearchStore from '../../../../stores/SearchStore';
-import Rating from 'react-rating';
-import BookmarkActions from '../../BookmarkActions';
-import {log} from '../../../../utils/Logger';
-import {LoggerEventTypes} from '../../../../constants/LoggerEventTypes';
 
+import {log} from '../../../../../utils/Logger';
+import {LoggerEventTypes} from '../../../../../constants/LoggerEventTypes';
 
-class VideosSearchResult extends React.Component {
+////
 
-    constructor(props) {
-        super(props);
-        this.state = {bookmark: props.result.bookmark};
-        this.handleOnClick = this.handleOnClick.bind(this);
-    }
-
- 
-    handleOnClick () {
-        
-        if (this.props.result.bookmark == false) {
-            BookmarkActions.addBookmark(this.props.result.url, this.props.result.name);         
-            this.setState({
-                bookmark: true
-            });
-            SearchStore.addBookmark(this.props.result.position);
-        } else if (this.props.result.bookmark == true) {
-            BookmarkActions.removeBookmark(this.props.result.url);
-            this.setState({
-                bookmark: false
-            });
-            SearchStore.removeBookmark(this.props.result.position);
-            
-        }
-    };
+export default class VideosSearchResult extends React.Component {
 
     rawMarkup(content){
         return { __html: content };
     }
 
     getTitle(str){
-        if (str.length < 35) {
+        if (str.length < 32) {
             return str;
         }
-        return str.slice(0,34) + " ...";
+        return str.slice(0,30) + " ...";
     }
 
     numberWithCommas(x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");  
     }
-
 
     getInfo(publisher, views, date, creator){
         let info = "";
@@ -70,13 +43,9 @@ class VideosSearchResult extends React.Component {
         return info + " "  + date;
     }
 
-    
     ////
 
     render(){
-
-        var initialRate = this.props.result.bookmark ? 1 : 0;
-
         let metaInfo = {
             url: this.props.result.contentUrl,
             query: this.props.query,
@@ -122,8 +91,6 @@ class VideosSearchResult extends React.Component {
         };
      
         ////
-          
-        let cName = ' VideosSearchResults-result';
 
         const creator = this.props.creator ? this.props.creator : {name:" "};
         const cts = this.props.result.datePublished;
@@ -137,8 +104,7 @@ class VideosSearchResult extends React.Component {
         ////
 
         return (
-        
-            <div className={cName}>
+            <div className="VideosSearchResults-result">
                 <VisibilitySensor onChange={viewUrlLog} 
                     scrollCheck
                     delayedCall={true}
@@ -147,16 +113,24 @@ class VideosSearchResult extends React.Component {
                 />
 
                 <div onMouseEnter={hoverEnter} onMouseLeave={hoverLeave}>
-                    <ReactPlayer url={this.props.result.contentUrl} playing={false} width={268} height={149} onPlay={playVideoLog}
-                        onEnded={stopVideoLog} onPause={pauseVideoLog} controls={true}
+                    <ReactPlayer url={this.props.result.contentUrl}
+                                 playing={false}
+                                 width={275}
+                                 height={150}
+                                 onPlay={playVideoLog}
+                                 onEnded={stopVideoLog}
+                                 onPause={pauseVideoLog}
+                                 controls={true}
                     />
 
                     <div className="videoInfo" >
-                    <Rating stop={1} className="rating"  empty="fa fa-star-o medium" full="fa fa-star medium" onClick={this.handleOnClick} initialRate={initialRate}/>
+                        {this.props.bookmarkButton}
+
                         <a href = {this.props.result.contentUrl} target="_blank" onClick={clickUrlLog} onContextMenu={contextUrlLog}>
                             <h5> {this.getTitle(this.props.result.name)}</h5>
                         </a>
-                        <h6> {
+
+                        <h6>{
                             this.getInfo(
                                 this.props.result.publisher[0].name,
                                 this.props.result.viewCount,
@@ -164,12 +138,11 @@ class VideosSearchResult extends React.Component {
                                 creator.name
                             )
                         }</h6>
-                    </div>
 
+                        {this.props.bookmarkInfo}
+                    </div>
                 </div>
             </div>
         )
     }
 }
-
-export default (VideosSearchResult);

@@ -22,7 +22,7 @@ function validatePagination(vertical,length) {
 
 export default (props) => {
     return (
-        <div className={isImagesOrVideos(props.vertical)? 'col-xs-12 text-center' :  'col-xs-6 text-center'}>       
+        <div className={isImagesOrVideos(props.vertical)? 'col-xs-12 text-center' :  'col-xs-12 text-center'}>
             {validatePagination (props.vertical, props.length) && props.finished ?
                 <Pagination className="pagination"
 

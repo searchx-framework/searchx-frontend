@@ -2,8 +2,8 @@
 
 .trash {
     float: left;
-    margin-right: 5px; 
-    margin-left: 10px; 
+    margin-right: 6px;
+    margin-left: 10px;
 }
 
 .trash .fa {
@@ -17,24 +17,21 @@
     color: #ffd700;
 }
 
-.span6 {
-    border-left: 2px solid $border-color;
-}
-
 
 .BookmarkResults {
-
-    margin-left: 20px;
+    padding-right: 30px;
 
     h3 {
         font-size: 20px;
         margin-left: 5px;
     }   
 
-    &-result-1 {
+    &-result {
         margin-bottom: 5px;
         margin-left: 0px;
-        background-color: #F5F5F5;
+        border-left: 2px solid $border-color;
+        border-width: 4px;
+        padding: 2px;
 
         h2 {
             font-size: 15px;
@@ -65,45 +62,5 @@
             -webkit-text-overflow: ellipsis;
             white-space: nowrap;
         }
-
-
-    }
-
-    &-result-2 {
-        margin-bottom: 5px;
-        margin-left: 0px;
-        background-color: #E0E0E0;
-
-        h2 {
-            font-size: 15px;
-            display: block;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            -webkit-text-overflow: ellipsis;
-            white-space: nowrap;
-            line-height: 21px;
-            max-width: 600px;
-            margin: 0px;
-            a, a:hover, a:focus {
-                color: #000;
-                text-decoration: none;
-            }
-
- 
-        }
-
-        span {
-            color: #000;
-            line-height: 16px;
-            font-size: 12px;
-            max-width: 500px;
-            display: block;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            -webkit-text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-
     }
 }

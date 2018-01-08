@@ -27,11 +27,11 @@ const generateUUID = function() {
 
 let state = {
     userId: localStorage.getItem("user-id") || '' ,
+    sessionId: localStorage.getItem("session-id") || '',
     finishCode: localStorage.getItem("code") || '',
 
     task: {
         topicId: localStorage.getItem("topic-id") || '',
-        sessionId: localStorage.getItem("task-session-id") || '',
         type : localStorage.getItem("task-type") || '',
         duration: localStorage.getItem("task-duration")|| ''
     },
@@ -44,19 +44,17 @@ let state = {
 
 const AccountStore = Object.assign(EventEmitter.prototype, {
 
-    getId() {
-        return state.userId;
-    },
-
     setId(userId) {
         const sessionId = generateUUID();
+        this.setSessionId(sessionId);
 
         localStorage.setItem("user-id", userId);
-        localStorage.setItem("task-session-id", sessionId);
-
         state.userId = userId;
+    },
+
+    setSessionId(sessionId) {
+        localStorage.setItem("session-id", sessionId);
         state.task.sessionId = sessionId;
-        return state.userId;
     },
 
     ////
@@ -71,14 +69,30 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
         return state.group;
     },
 
+    getMemberName(userId) {
+        return state.group.members[userId].name;
+    },
+
+    getMemberColor(userId) {
+        return state.group.members[userId].color;
+    },
+
     ////
+
+    getId() {
+        return state.userId;
+    },
+
+    getSessionId() {
+        return state.sessionId;
+    },
+
+    getFinishCode() {
+        return state.finishCode;
+    },
 
     getTopicId() {
         return state.task.topicId;
-    },
-
-    getTaskSessionId() {
-        return state.task.sessionId;
     },
 
     getTaskType() {
@@ -87,10 +101,6 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
 
     getTaskDuration() {
         return state.task.duration;
-    },
-
-    getFinishCode() {
-        return state.finishCode;
     },
 
     ////
@@ -108,7 +118,10 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
         }
     },
 
-    setTask(topicId, type, minutes) {
+    setTask(topicId) {
+        const type = 'search';
+        const minutes = 20;
+
         localStorage.setItem("topic-id", topicId);
         localStorage.setItem("task-type", type);
         localStorage.setItem("task-duration", minutes);
@@ -116,7 +129,7 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
         state.task.topicId = topicId;
         state.task.type = type;
         state.task.duration = minutes;
-        state.task.sessionId = localStorage.getItem('task-session-id');
+        state.task.sessionId = localStorage.getItem('session-id');
 
         localStorage.removeItem("finish");
     },

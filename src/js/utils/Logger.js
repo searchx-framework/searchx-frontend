@@ -11,7 +11,7 @@ export function log(event, meta) {
     if (topicId !== '') {
         task = {
             topicId: topicId,
-            sessionId: AccountStore.getTaskSessionId() || '',
+            sessionId: AccountStore.getSessionId() || '',
             type: AccountStore.getTaskType() || '',
             duration: AccountStore.getTaskDuration() || '',
             userCode: AccountStore.getId() || '',
@@ -19,14 +19,14 @@ export function log(event, meta) {
     }
 
     eventQueue.push({
-        userId: AccountStore.getTaskSessionId() || '',
+        userId: AccountStore.getSessionId() || '',
         date: new Date().toLocaleString("en-US", {timeZone: "Europe/Amsterdam"}),
         event: event || '',
         meta: meta || {},
         task: task
     });
     
-    request.post(env.serverUrl + '/v1/users/' + AccountStore.getTaskSessionId() + '/logs')
+    request.post(env.serverUrl + '/v1/users/' + AccountStore.getSessionId() + '/logs')
     .send({
         data: eventQueue
     })
@@ -44,7 +44,7 @@ export function flush() {
         return;
     }
 
-    request.post(env.serverUrl + '/v1/users/' + AccountStore.getTaskSessionId() + '/logs')
+    request.post(env.serverUrl + '/v1/users/' + AccountStore.getSessionId() + '/logs')
         .send({
             data: eventQueue
         })

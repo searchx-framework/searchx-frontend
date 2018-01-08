@@ -1,5 +1,5 @@
-import AppConstants from '../../constants/AppConstants'
-import {dispatch} from '../../utils/Dispatcher';
+import AppConstants from './constants/AppConstants'
+import {dispatch} from './utils/Dispatcher';
 
 export default {
     /* Search actions */
@@ -23,6 +23,11 @@ export default {
             actionType: AppConstants.CHANGE_QUERY, query
         })
     },
+    refreshSearch(query, vertical, pageNumber) {
+        dispatch({
+            actionType: AppConstants.REFRESH_SEARCH, query, vertical, pageNumber
+        })
+    },
 
     /* Account actions */
     updateAccountDetails() {
@@ -35,6 +40,23 @@ export default {
     loadUser(handle) {
         dispatch({
             actionType: AppConstants.LOAD_USER, handle
+        })
+    },
+
+    /* Search actions */
+    getBookmarks() {
+        dispatch({
+            actionType: AppConstants.GET_BOOKMARKS
+        })
+    },
+    addBookmark(url, title, userId) {
+        dispatch({
+            actionType: AppConstants.ADD_BOOKMARK, url, title, userId
+        })
+    },
+    removeBookmark(url) {
+        dispatch({
+            actionType: AppConstants.REMOVE_BOOKMARK, url
         })
     }
 }

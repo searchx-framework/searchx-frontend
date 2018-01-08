@@ -1,45 +1,13 @@
-
-
 import React from 'react';
 import VisibilitySensor from 'react-visibility-sensor';
 
-import {log} from '../../../../utils/Logger';
-import {LoggerEventTypes} from '../../../../constants/LoggerEventTypes';
-import SearchStore from '../../../../stores/SearchStore';
-import Rating from 'react-rating';
-import BookmarkActions from '../../BookmarkActions';
+import {log} from '../../../../../utils/Logger';
+import {LoggerEventTypes} from '../../../../../constants/LoggerEventTypes';
 
-class WebSearchResult extends React.Component {
+////
 
-
-    constructor(props) {
-        super(props);
-        this.state = {bookmark: props.result.bookmark};
-        this.handleOnClick = this.handleOnClick.bind(this);
-    }
-
- 
-    handleOnClick () {
-        
-        if (this.props.result.bookmark == false) {
-            BookmarkActions.addBookmark(this.props.result.url, this.props.result.name);         
-            this.setState({
-                bookmark: true
-            });
-            SearchStore.addBookmark(this.props.result.position);
-        } else if (this.props.result.bookmark == true) {
-            BookmarkActions.removeBookmark(this.props.result.url);
-            this.setState({
-                bookmark: false
-            });
-            SearchStore.removeBookmark(this.props.result.position);
-            
-        }
-    };
-
-
-    render(){
-        
+export default class WebSearchResult extends React.Component {
+    render() {
         let metaInfo = {
             url: this.props.result.displayUrl,
             query: this.props.query,
@@ -71,14 +39,8 @@ class WebSearchResult extends React.Component {
 
         ////
 
-        let cName = 'row WebSearchResults-result';
-
-        var initialRate = this.props.result.bookmark ? 1 : 0;
-
         return  (
-            
-            <div className={cName}>
-               
+            <div className="row WebSearchResults-result">
                 <VisibilitySensor
                     onChange={viewUrlLog}
                     scrollCheck
@@ -86,8 +48,9 @@ class WebSearchResult extends React.Component {
                     scrollThrottle={50}
                     intervalDelay={2000}
                 />
-                
-                <Rating stop={1} className="rating"  empty="fa fa-star-o medium" full="fa fa-star medium" onClick={this.handleOnClick} initialRate={initialRate}/>
+
+                {this.props.bookmarkButton}
+
                 <div onMouseEnter={hoverEnterSummary} onMouseLeave={hoverLeaveSummary} >
                     <h2>
                         <a href={this.props.result.url} title={this.props.result.name} target="_blank" onClick={clickUrlLog} onContextMenu={contextUrlLog}>
@@ -102,11 +65,11 @@ class WebSearchResult extends React.Component {
                     <p>
                         {this.props.result.snippet}
                     </p>
+
+                    {this.props.bookmarkInfo}
                 </div>
+
             </div>
         )
-
     }
 }
-
-export default (WebSearchResult);

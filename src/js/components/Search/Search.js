@@ -1,12 +1,11 @@
 import React from 'react';
 import SearchHeader from './Header/SearchHeader';
-import SearchResults from './Results/SearchResults';
+import ResultsPage from "./Results/ResultsPage";
+
 import {log} from '../../utils/Logger';
 import {LoggerEventTypes} from '../../constants/LoggerEventTypes';
 
-
 export default class Template extends React.Component {
-
     componentDidMount(){
         document.addEventListener('visibilitychange', function(){
             const metaInfo = {
@@ -21,7 +20,7 @@ export default class Template extends React.Component {
         return (
             <div >
                 <SearchHeader/>
-                <SearchResults/>
+                <ResultsPage/>
             </div>
         )
     }

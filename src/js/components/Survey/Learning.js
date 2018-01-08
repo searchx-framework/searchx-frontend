@@ -11,9 +11,6 @@ import {LoggerEventTypes} from '../../constants/LoggerEventTypes';
 import $ from 'jquery';
 
 import AccountStore from "../../stores/AccountStore";
-import SearchActions from '../Search/SearchActions';
-import SearchStore from '../../stores/SearchStore';
-import SyncStore from '../../stores/SyncStore';
 
 ////
 
@@ -21,7 +18,7 @@ const stepsTask = [
     {
         element: '#intro-description',
         intro: 'Please take a minute to read your task description.',
-        position: 'left'
+        position: 'bottom'
     }
 ];
 
@@ -46,12 +43,12 @@ const stepsSearch = [
     {
         element: '#intro-search-results',
         intro: 'To bookmark a resource that is useful for your term paper, star it.',
-        position: 'right'
+        position: 'top'
     },
     {
         element: '#intro-bookmark-bar',
         intro: 'The starred documents will appear here. You can revisit them before completing the final test.',
-        position: 'left'
+        position: 'bottom-middle-aligned'
     }
 ];
 
@@ -59,13 +56,16 @@ const stepsSubmit = [
     {
         element: '#intro-counter',
         intro: 'You will need to search and learn for 20 minutes. Afterwards, you can press the button to complete the final test. Good luck and have fun!',
-        position: 'left'
+        position: 'top'
     }
 ];
 
 ////
 
 const initializeChat = function() {
+    const group = AccountStore.getGroup();
+    const room = 'searchx-' + group.id + '@conference.nomnom.im';
+
     converse.initialize({
         authentication: 'anonymous',
         auto_login: true,
@@ -78,14 +78,18 @@ const initializeChat = function() {
         allow_registration: false,
         allow_muc: false,
 
-        auto_join_rooms: [
-            'searchx@conference.nomnom.im',
-        ],
-        notify_all_room_messages: [
-            'searchx@conference.nomnom.im',
-        ],
+        auto_join_rooms: [room],
+        notify_all_room_messages: [room],
         bosh_service_url: 'https://conversejs.org/http-bind/',
         jid: 'nomnom.im',
+
+        keepalive: true,
+        hide_muc_server: true,
+        play_sounds: true,
+        synchronize_availability: false,
+        show_controlbox_by_default: false,
+        show_desktop_notifications: false,
+        strict_plugin_dependencies: false,
 
         visible_toolbar_buttons: {
             call: false,
@@ -94,12 +98,13 @@ const initializeChat = function() {
             emoji: true
         },
 
-        keepalive: true,
-        hide_muc_server: true,
-        play_sounds: true,
-        synchronize_availability: false,
-        show_controlbox_by_default: false,
-        strict_plugin_dependencies: false,
+        blacklisted_plugins: [
+            'converse-dragresize',
+            'converse-vcard',
+            'converse-notification',
+            'converse-register',
+            'converse-bookmarks'
+        ]
     });
 };
 
@@ -166,6 +171,8 @@ class Learning extends React.Component {
         }
     }
 
+    ////
+
     handleOnComplete () {
         const start = localStorage.getItem("counter-start") || Date.now();
         const metaInfo = {
@@ -176,9 +183,7 @@ class Learning extends React.Component {
         localStorage.setItem("intro-done", true);
         localStorage.setItem("counter-start",start);
 
-        this.props.history.push("/learning");
-        this.props.history.go();
-        this.setState(this.state);
+        window.location.reload(true);
     }
 
     onBackButtonEvent (e) {
@@ -190,16 +195,19 @@ class Learning extends React.Component {
 
     componentDidMount() {
         if (this.state.task.topicId) {
-            if (!localStorage.getItem("intro-done")) {
+            if (!AccountStore.isIntroDone()) {
                 document.addEventListener('visibilitychange', function(){
                 });
 
                 this.intro.setOption('steps', this.state.steps);
                 this.intro.start();
                 Alert.closeAll();
-            }
 
-            initializeChat();
+            } else {
+                if (AccountStore.isCollaborative()) {
+                    initializeChat();
+                }
+            }
         }
 
         window.onpopstate = this.onBackButtonEvent;
@@ -217,11 +225,11 @@ class Learning extends React.Component {
 
         return(
             <div className="Learning row">
-                <div className="Learning-medium col-md-9">
+                <div className="Learning-medium col-md-9 col-sm-12 col-xs-12">
                     {this.state.medium}
                 </div>
 
-                <div className="Learning-task col-md-3">
+                <div className="Learning-task col-md-3 col-sm-12 col-xs-12">
                     <Task task={this.state.task}/>
                 </div>
             </div>
