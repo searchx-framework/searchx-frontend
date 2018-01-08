@@ -1,5 +1,4 @@
 import React from 'react';
-import VisibilitySensor from 'react-visibility-sensor';
 
 import {log} from '../../../../utils/Logger';
 import {LoggerEventTypes} from '../../../../constants/LoggerEventTypes';
@@ -9,7 +8,7 @@ import Rating from 'react-rating';
 import AccountStore from "../../../../stores/AccountStore";
 import TaskStore from "../../../../stores/TaskStore";
 
-class BookmarkResult extends React.Component {
+export default class BookmarkResult extends React.Component {
 
     constructor(props) {
         super(props);
@@ -31,7 +30,6 @@ class BookmarkResult extends React.Component {
     }
 
     render(){
-        
         let metaInfo = {
             url: this.props.result.url
         };
@@ -56,7 +54,7 @@ class BookmarkResult extends React.Component {
 
         let rowStyle = {
             backgroundColor: '#F5F5F5',
-            borderColor: 'DarkGray'
+            borderColor: 'DarkSlateGray'
         };
 
         if (AccountStore.isCollaborative() && TaskStore.isIntroDone()) {
@@ -82,5 +80,3 @@ class BookmarkResult extends React.Component {
         )
     }
 }
-
-export default (BookmarkResult);

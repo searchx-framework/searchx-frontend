@@ -223,13 +223,18 @@ class Learning extends React.Component {
             );
         }
 
+        let style = {};
+        if (!AccountStore.isIntroDone()) {
+            style.position = 'relative'
+        }
+
         return(
             <div className="Learning row">
                 <div className="Learning-medium col-md-9 col-sm-12 col-xs-12">
                     {this.state.medium}
                 </div>
 
-                <div className="Learning-task col-md-3 col-sm-12 col-xs-12">
+                <div className="Learning-task col-md-3 col-sm-12 col-xs-12" style={style}>
                     <Task task={this.state.task}/>
                 </div>
             </div>

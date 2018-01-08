@@ -18,12 +18,10 @@ class Task extends React.Component {
         let start = localStorage.getItem("counter-start") || 0;
 
         return(
-            <div className="Task row" id={this.state.task.topicId} >
+            <div className="Task row" id={this.state.task.topicId}>
                 <div className="Task-title">
                     Task Description
                 </div>
-
-              
 
                 <div className="Task-info no-padding" id="intro-description">
                     <div className="Task-instruction-specific">

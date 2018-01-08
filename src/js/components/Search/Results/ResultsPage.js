@@ -14,6 +14,7 @@ import AppActions from '../../../AppActions';
 import {log} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../constants/LoggerEventTypes';
 import {updateUrl} from '../Header/SearchBar';
+import QueryHistory from "./Sidebar/QueryHistory";
 
 const config = require('../../../config');
 const Loader = require('react-loader');
@@ -139,16 +140,15 @@ export default class ResultsPage extends React.Component {
                 </div>
 
                 <div className="Sidebar col-md-4 col-sm-12 col-xs-12">
-                    <BookmarkResults />
+                    <QueryHistory/>
+                    <BookmarkResults/>
                 </div >
 
                 <div className="w-100"/>
-                {SearchStore.isQuerySubmitted() && SearchStore.isFinished() &&
-                    <div className="col-xs-12 text-center" >
-                        <hr/>
-                        <p className="Footer"> About <a href="/about" target="_blank">SearchX</a>.</p>
-                    </div>
-                }
+                <div className="col-xs-12 text-center" >
+                    <hr/>
+                    <p className="Footer"> About <a href="/about" target="_blank">SearchX</a>.</p>
+                </div>
             </div>
         );
     }

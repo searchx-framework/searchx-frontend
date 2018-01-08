@@ -7,6 +7,7 @@ import {LoggerEventTypes} from '../constants/LoggerEventTypes';
 import AccountStore from '../stores/AccountStore';
 import AppConstants from '../constants/AppConstants';
 import TaskStore from "./TaskStore";
+import SyncStore from "./SyncStore";
 
 const env = require('env');
 const CHANGE_EVENT = 'change_search';
@@ -24,6 +25,7 @@ let state = {
     vertical: _getURLParameter('v') || 'web',
     pageNumber: parseInt(_getURLParameter('p')) || 1,
 
+    queryHistory: JSON.parse(localStorage.getItem('query-history')) || [],
     results: [],
     forum_results: [],
     matches: 0,
@@ -89,6 +91,9 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
     getResults() {
         return state.results;
     },
+    getQueryHistory() {
+        return state.queryHistory.slice().reverse();
+    },
     getElapsedTime(){
         return state.elapsedTime;
     },
@@ -129,9 +134,21 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
                 item.bookmark = false;
             }
             return true;
-        })
-
+        });
     },
+
+    pushQueryHistory(query, userId) {
+        if (state.queryHistory.filter(x => x.query === query).length === 0) {
+            state.queryHistory.push({
+                query: query,
+                userId: userId
+            });
+            localStorage.setItem('query-history', JSON.stringify(state.queryHistory));
+        }
+        this.emitChange()
+    },
+
+    ////
 
     dispatcherIndex: register(action => {
         switch(action.actionType) {
@@ -173,6 +190,15 @@ const _search = (query, pageNumber) => {
         state.results = [];
     }
 
+    if (AccountStore.isCollaborative()) {
+        SyncStore.emitSearchState({
+            query: state.query,
+            vertical: state.vertical,
+            pageNumber: state.pageNumber
+        });
+    }
+
+    SearchStore.pushQueryHistory(state.query, AccountStore.getId());
     SearchStore.emitChange();
 
     request

@@ -1,37 +1,68 @@
 @import '../../variables.css';
 
-.trash {
-    float: left;
-    margin-right: 6px;
-    margin-left: 10px;
-}
-
-.trash .fa {
-    color: #000;
-    padding-top: 2px;  
-    font-size: 15px;
-}
-
-.fa-star {
-    font-size: 20px;
-    color: #ffd700;
-}
-
-
-.BookmarkResults {
-    padding-right: 30px;
+.Sidebar {
+    border-left: 2px solid $border-color;
 
     h3 {
         font-size: 20px;
         margin-left: 5px;
-    }   
+    }
+}
+
+/* HISTORY */
+
+.QueryHistory {
+
+    .list {
+        height: 150px;
+        overflow-y: scroll;
+    }
 
     &-result {
+         padding: 2px;
+         margin-bottom: 5px;
+         margin-left: 0px;
+         margin-right: 5px;
+
+         border-left: 2px solid $border-color;
+         border-width: 4px;
+         background-color: #F5F5F5;
+
+        a {
+            margin-left: 10px;
+        }
+    }
+}
+
+/* BOOKMARKS */
+
+.BookmarkResults {
+    padding-right: 5px;
+
+    .trash {
+        float: left;
+        margin-right: 6px;
+        margin-left: 10px;
+    }
+
+    .trash .fa {
+        color: #000;
+        padding-top: 2px;
+        font-size: 15px;
+    }
+
+    .list {
+        height: 700px;
+        overflow-y: scroll;
+    }
+
+    &-result {
+        padding: 2px;
+        margin-right: 5px;
         margin-bottom: 5px;
         margin-left: 0px;
         border-left: 2px solid $border-color;
         border-width: 4px;
-        padding: 2px;
 
         h2 {
             font-size: 15px;
@@ -47,8 +78,6 @@
                 color: #000;
                 text-decoration: none;
             }
-
- 
         }
 
         span {

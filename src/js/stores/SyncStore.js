@@ -21,6 +21,10 @@ if (AccountStore.isCollaborative()) {
         AppActions.getBookmarks();
         AppActions.refreshSearch(data.query, data.vertical, data.pageNumber);
     });
+
+    socket.on('searchState', (data) => {
+        SearchStore.pushQueryHistory(data.state.query, data.userId);
+    });
 }
 
 ////
@@ -47,20 +51,12 @@ const SyncStore = Object.assign(EventEmitter.prototype, {
 
     ////
 
-    listenToSearchState(callback) {
-        socket.on('searchState', (data) => {
-            callback(data.userId, data.state);
-        });
-    },
-
     emitSearchState(state) {
         socket.emit('pushSearchState', {
             userId: AccountStore.getId(),
             state: state
         });
     },
-
-    ////
 
     emitBookmarkUpdate() {
         socket.emit('pushBookmarkUpdate', {
