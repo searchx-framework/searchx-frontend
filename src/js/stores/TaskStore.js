@@ -350,7 +350,7 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
         elements.push({ 
             type: "html", 
             name: "outline-description",
-            html: "</br> <b> Based on what you have learned from " + mean + ", please write an outline for your paper. </b>" +
+            html: "</br> <b> Based on what you have learned from the course video and your searches, please write an outline for your paper. </b>" +
                 "<p> Tip: An outline is an organizational plan to help you draft a paper. Here is a simple template example: </p>" +
     
                 "<p> 1. Introduction</p>" +
@@ -379,7 +379,7 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
         });
 
         elements.push({ 
-            title: "Please write what you learned about this topic from " + mean + ". Use at least 50 words.",
+            title: "Please write what you learned about this topic from the course video and your searches. Use at least 50 words.",
             name : "summary", 
             type :"comment", 
             inputType:"text", 

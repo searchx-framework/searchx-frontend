@@ -51,7 +51,7 @@ const stepsSearch = [
 const stepsVideoSubmit = [
     {
         element: '#intro-counter',
-        intro: 'You will need to watch the entire video. Afterwards, you can press the button to complete the final test. Good luck and have fun!',
+        intro: 'You will need to watch the entire video. Afterwards, you can press the button to start the searching. Good luck and have fun!',
         position: 'left'
     }
 ];
@@ -80,25 +80,6 @@ class Learning extends React.Component {
 
         ////
 
-        let steps = stepsTask.concat(stepsSearch, stepsSearchSubmit);
-        let medium = <Search/>;
-
-        if (task.type === 'video') {
-            steps = stepsTask.concat(stepsVideo, stepsVideoSubmit);
-            medium = <Video/>;
-        }
-
-        if (task.type === 'both') {
-            steps = stepsTask.concat(stepsVideo, stepsSearch, stepsSubmit);
-            medium = (
-                <div>
-                    <Video/>
-                    <hr/>
-                    <Search/>
-                </div>
-            );
-        }
-
         this.intro = introJs().setOptions({
             doneLabel:  "Ok!",
             showStepNumbers: false,
@@ -107,6 +88,7 @@ class Learning extends React.Component {
         });
 
         this.handleOnComplete = this.handleOnComplete.bind(this);
+        
         this.onBackButtonEvent = this.onBackButtonEvent.bind(this);
 
         $('.introjs-skipbutton').hide();
@@ -121,23 +103,35 @@ class Learning extends React.Component {
         this.intro.oncomplete(this.handleOnComplete);
 
         this.state = {
-            task: task,
-            medium: medium,
-            steps: steps
+            task: task
         }
     }
 
     handleOnComplete () {
 
 
-        const start = localStorage.getItem("counter-start") || Date.now();
+        
+
+
+        let start = Date.now(); 
+        
+        if (this.state.task.type == "video") {
+            start = localStorage.getItem("counter-start-video") || Date.now();
+            localStorage.setItem("intro-done-video", true);
+            localStorage.setItem("counter-start-video",start);
+
+        } else if (this.state.task.type == "search") {    
+            start = localStorage.getItem("counter-start-search") || Date.now();       
+            localStorage.setItem("intro-done-search", true);
+            localStorage.setItem("counter-start-search",start);
+        }
 
         const metaInfo = {
-        start: start };
+            start: start,
+            step: this.state.task.type
+        };
         log(LoggerEventTypes.SURVEY_LEARNING_START, metaInfo);
-        
-        localStorage.setItem("intro-done", true);
-        localStorage.setItem("counter-start",start);
+
         this.props.history.push("/learning");
         this.props.history.go();
         this.setState(this.state);
@@ -150,13 +144,74 @@ class Learning extends React.Component {
        this.props.history.go();
     }
 
+    componentWillMount() {
+
+        let steps = stepsTask.concat(stepsSearch, stepsSearchSubmit);
+        let medium = <Search/>;
+
+        this.state.task = Account.getTask();
+
+        if (this.state.task.type === 'video') {
+            steps = stepsTask.concat(stepsVideo, stepsVideoSubmit);
+            medium = <Video/>;
+        }
+
+        this.state.medium = medium;
+        this.state.steps = steps;
+       
+
+    }
+
+    componentWillUpdate() {
+        let steps = stepsTask.concat(stepsSearch, stepsSearchSubmit);
+        let medium = <Search/>;
+
+        this.state.task = Account.getTask();
+
+        if (this.state.task.type === 'video') {
+            steps = stepsTask.concat(stepsVideo, stepsVideoSubmit);
+            medium = <Video/>;
+        }
+
+        this.state.medium = medium;
+        this.state.steps = steps;
+
+        let introDone = false;
+        if (this.state.task.type == "video") {
+            
+            if (localStorage.getItem("intro-done-video")) {
+                introDone = true;
+            }
+        } else if (this.state.task.type == "search") {
+            if (localStorage.getItem("intro-done-search")) {
+                introDone = true;
+            }
+        }
+        if (this.state.task.topicId && ! introDone) {
+           
+            this.intro.setOption('steps', this.state.steps);
+            this.intro.start();
+            Alert.closeAll();
+        }
+        window.onpopstate = this.onBackButtonEvent;
+        
+    }
+
     componentDidMount() {
-
-        if (this.state.task.topicId && !localStorage.getItem("intro-done")) {
-
-            document.addEventListener('visibilitychange', function(){
-            })
-
+        let introDone = false;
+        if (this.state.task.type == "video") {
+            
+            if (localStorage.getItem("intro-done-video")) {
+                
+                introDone = true;
+            }
+        } else if (this.state.task.type == "search") {
+            if (localStorage.getItem("intro-done-search")) {
+                introDone = true;
+            }
+        }
+        if (this.state.task.topicId && ! introDone) {
+           
             this.intro.setOption('steps', this.state.steps);
             this.intro.start();
             Alert.closeAll();

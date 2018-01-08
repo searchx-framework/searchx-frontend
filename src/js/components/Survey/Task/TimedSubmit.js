@@ -40,10 +40,17 @@ class TimedSubmit extends React.Component {
     }
 
     clickHandler(){
+        
         const metaInfo = {
-            elapsedTime: Math.round(this.state.elapsed / 1000)
+            elapsedTime: Math.round(this.state.elapsed / 1000),
+            type: AccountScore.getTaskType()
         };
         log(LoggerEventTypes.SURVEY_LEARNING_DONE, metaInfo);
+        if (AccountScore.getTaskType("video")) {
+            AccountScore.setTaskType("search");
+            this.props.history.push('/learning');
+        }
+        
     }
 
     ////
@@ -60,9 +67,11 @@ class TimedSubmit extends React.Component {
         }
         var active = minutes < this.state.duration ? "disabled" : "active";
 
-        active = "active";
-        
+        if (AccountScore.getTaskType() == "video") {
+            active = "active";
+        }
 
+        
         return (
             <div id="intro-counter">
                 { (AccountScore.getTaskType() == "search") ?
@@ -71,8 +80,8 @@ class TimedSubmit extends React.Component {
                     </div>
                     : <div/>
                 }
-                <Link className={"btn btn-primary " + active} to="/posttest" role="button" onClick={this.clickHandler}>
-                    To Final Test
+                <Link className={"btn btn-primary " + active} to={ AccountScore.getTaskType() == "search" ? "/posttest": "/learning"} role="button" onClick={this.clickHandler}>
+                    { AccountScore.getTaskType() == "video" ? "To Search Phase": "To Final Test"}
                 </Link>
                 {!started &&
                     <div>

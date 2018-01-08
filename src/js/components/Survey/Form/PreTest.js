@@ -44,7 +44,7 @@ export default class PreTest extends React.Component {
             
             if (document.hidden) {
 
-                var switchTabs = -1;
+                var switchTabs = 0;
                 if (localStorage.getItem("switchTabsPreTest") !== null) {
                     switchTabs = localStorage.getItem("switchTabsPreTest");
                 }

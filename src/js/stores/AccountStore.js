@@ -60,6 +60,15 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
         return state.userId;
     },
 
+    getTask() {
+        return state.task;
+    },
+
+    setTaskType(type) {
+        localStorage.setItem("taskType", type);
+        state.task.type = type;
+    },
+
     setId(userId) {
         
 
@@ -116,8 +125,9 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
         localStorage.removeItem("taskType");
         localStorage.removeItem("taskDuration");
 
-        localStorage.removeItem("intro-done");
-        localStorage.removeItem("counter-start");
+        localStorage.removeItem("intro-done-video");
+        localStorage.removeItem("intro-done-search");
+        localStorage.removeItem("counter-start-search");
 
         state.task = {};
     }

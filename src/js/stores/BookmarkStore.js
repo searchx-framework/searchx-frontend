@@ -15,7 +15,7 @@ let state = {
     bookmarks: [],
 };
 
-if (!localStorage.getItem("intro-done")) {
+if (!localStorage.getItem("intro-done-search")) {
     state.bookmarks = [{title: "You can view your bookmarked documents here", url: "https://www.viewbookmark.com"}, 
         {title: "You also can delete any bookmarked documents here", url: "https://www.deletebookmark.com"}]
 }
@@ -34,7 +34,7 @@ let _get_bookmarks = () => {
                 state.bookmarks = [];
             }
             
-            if (!localStorage.getItem("intro-done")) {
+            if (!localStorage.getItem("intro-done-search")) {
                 state.bookmarks = [{title: "You can view your bookmarked documents here", url: "https://www.viewbookmark.com"}, 
                     {title: "You also can delete any bookmarked documents here", url: "https://www.deletebookmark.com"}]
             }

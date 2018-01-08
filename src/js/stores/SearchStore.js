@@ -29,7 +29,7 @@ let state = {
     resultsNotFound: false
 };
 
-if (!localStorage.getItem("intro-done")) {
+if (!localStorage.getItem("intro-done-search")) {
     state.results = [{name: "You can view the search first result here", displayUrl: "https://www.result1.com" , snippet: "This is the first result result..."}, 
     {name: "You can view the search second result here", displayUrl: "https://www.result2.com" , snippet: "This is the second result result..."},
     {name: "You can view a search third result here", displayUrl: "https://www.result3.com" , snippet: "This is the third result result..."},

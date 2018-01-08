@@ -60,7 +60,7 @@ export default class PostTest extends React.Component {
             let finishedCode = localStorage.getItem("finishedCode");
             if (finishedCode === null) {
 
-                var switchTabs = -1;
+                var switchTabs = 0;
                 if (localStorage.getItem("switchTabsPostTest") !== null) {
                     switchTabs = localStorage.getItem("switchTabsPostTest");
                 }
