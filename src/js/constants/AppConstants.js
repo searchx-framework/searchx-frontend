@@ -6,10 +6,8 @@ export default {
     NEXT_PAGE: 'NEXT_PAGE',
     REFRESH_SEARCH: 'REFRESH_SEARCH',
 
-    /* Account constants */
-    UPDATE_ACCOUNT_DETAILS: 'UPDATE_ACCOUNT_DETAILS',
-
-    /* Bookmark constants */
+    /* Session constants */
+    GET_QUERY_HISTORY: 'GET_QUERY_HISTORY',
     GET_BOOKMARKS: 'GET_BOOKMARKS',
     ADD_BOOKMARK: 'ADD_BOOKMARK',
     REMOVE_BOOKMARK: 'REMOVE_BOOKMARK'

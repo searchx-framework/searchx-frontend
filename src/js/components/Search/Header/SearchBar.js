@@ -13,15 +13,6 @@ import SearchVerticals from './SearchVerticals';
 
 /*****************************/
 
-
-let getSearchState = () => {
-    return {
-        query: SearchStore.getQuery(),
-        vertical: SearchStore.getVertical(),
-        pageNumber: SearchStore.getPageNumber()
-    }
-};
-
 let getParameterByName = function(name, url) {
     if (!url) url = window.location.href;
     name = name.replace(/[\[\]]/g, "\\$&");
@@ -56,7 +47,7 @@ let updateUrl = function(query, vertical, page) {
 class SearchBar extends React.Component {
     constructor(props) {
         super(props);
-        this.state = Object.assign(getSearchState(), {
+        this.state = Object.assign(SearchStore.getSearchState(), {
             userId: this.props.userId
         });
 
@@ -101,7 +92,7 @@ class SearchBar extends React.Component {
     ////
 
     _onChange() {
-        this.setState(getSearchState);
+        this.setState(SearchStore.getSearchState());
     }
 
     queryChangeHandler(e) {

@@ -2,6 +2,8 @@
 
 .Sidebar {
     border-left: 2px solid $border-color;
+    padding-right: 25px;
+    height: inherit;
 
     h3 {
         font-size: 20px;
@@ -15,7 +17,7 @@
 
     .list {
         height: 150px;
-        overflow-y: scroll;
+        overflow-y: auto;
     }
 
     &-result {
@@ -31,13 +33,16 @@
         a {
             margin-left: 10px;
         }
+
+        .text {
+            margin-left: 10px;
+        }
     }
 }
 
 /* BOOKMARKS */
 
 .BookmarkResults {
-    padding-right: 5px;
 
     .trash {
         float: left;
@@ -53,7 +58,7 @@
 
     .list {
         height: 700px;
-        overflow-y: scroll;
+        overflow-y: auto;
     }
 
     &-result {

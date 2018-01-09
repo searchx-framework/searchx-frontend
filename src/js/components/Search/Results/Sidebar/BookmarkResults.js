@@ -3,10 +3,9 @@ import './Sidebar.css';
 import React from 'react';
 import AppActions from '../../../../AppActions';
 import BookmarkResult from './BookmarkResult';
-import BookmarkStore from '../../../../stores/BookmarkStore';
+import BookmarkStore from '../../../../stores/SessionStore';
 
 export default class BookmarkResults extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = {

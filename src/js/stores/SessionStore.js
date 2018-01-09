@@ -6,63 +6,83 @@ import request from 'superagent';
 import AccountStore from '../stores/AccountStore';
 import SyncStore from '../stores/SyncStore';
 import TaskStore from "./TaskStore";
+import SearchStore from "./SearchStore";
 
 const env = require('env');
-const CHANGE_EVENT = 'change_bookmark';
+const CHANGE_EVENT = 'change_session';
 
 ////
 
 let state = {
-    bookmarks: [],
+    queries: [],
+    bookmarks: []
 };
-
-if (!TaskStore.isIntroDone()) {
-    state.bookmarks = [
-        {title: "You can view your bookmarked documents here", url: "https://www.viewbookmark.com"},
-        {title: "You also can delete any bookmarked documents here", url: "https://www.deletebookmark.com"}
-    ]
-}
 
 ////
 
 let broadcastChange = function() {
     if (AccountStore.isCollaborative()) {
-        SyncStore.emitBookmarkUpdate();
+        SyncStore.emitBookmarkUpdate(SearchStore.getSearchState());
     }
 };
 
 ////
 
+let _get_query_history = () => {
+    request
+        .get(env.serverUrl + '/v1/session/' + AccountStore.getSessionId() + '/query')
+        .end((err, res) => {
+            if (!res.body.error) {
+                state.queries = res.body.results;
+            } else {
+                state.queries = [];
+            }
+
+            ////
+
+            if (!TaskStore.isIntroDone()) {
+                state.queries = [
+                    {query: "cats"},
+                    {query: "dogs"}
+                ];
+            }
+            SessionStore.emitChange();
+        });
+};
+
 let _get_bookmarks = () => {
     request
-        .get(env.serverUrl + '/v1/bookmark/' + AccountStore.getSessionId())
+        .get(env.serverUrl + '/v1/session/' + AccountStore.getSessionId() + '/bookmark')
         .end((err, res) => {
             if (!res.body.error) {
                 state.bookmarks = res.body.results;
             } else {
                 state.bookmarks = [];
             }
-            
-            if (!TaskStore.isIntroDone()) {
-                state.bookmarks = [{title: "You can view your bookmarked documents here", url: "https://www.viewbookmark.com"}, 
-                    {title: "You also can delete any bookmarked documents here", url: "https://www.deletebookmark.com"}]
-            }
 
-            BookmarkStore.emitChange();
+            ////
+
+            if (!TaskStore.isIntroDone()) {
+                state.bookmarks = [
+                    {title: "You can view your bookmarked documents here", url: "https://www.viewbookmark.com"},
+                    {title: "You also can delete any bookmarked documents here", url: "https://www.deletebookmark.com"}
+                ];
+            }
+            SessionStore.emitChange();
         });
 };
 
+////
+
 let _add_bookmark = function(url, title, userId){
     request
-        .post( env.serverUrl + '/v1/bookmark/')
+        .post(env.serverUrl + '/v1/session/' + AccountStore.getSessionId() + 'bookmark')
         .send({
-            sessionId: AccountStore.getSessionId(),
             userId: userId,
             url: url,
             title: title
         })
         .end((err, res) => {
-            //console.log(res.body);
             broadcastChange();
         });
 
@@ -72,18 +92,16 @@ let _add_bookmark = function(url, title, userId){
         userId: userId,
         date: new Date()
     });
-    BookmarkStore.emitChange();
+    SessionStore.emitChange();
 };
 
 let _remove_bookmark = function(url){
     request
-        .delete( env.serverUrl + '/v1/bookmark/')
+        .delete(env.serverUrl + '/v1/session/' + AccountStore.getSessionId() + 'bookmark')
         .send({
-            sessionId: AccountStore.getSessionId(),
             url: url
         })
         .end((err, res) => {
-            //console.log(res.body);
             broadcastChange();
         });
 
@@ -91,12 +109,12 @@ let _remove_bookmark = function(url){
         return item["url"] !== url
     });
 
-    BookmarkStore.emitChange();
+    SessionStore.emitChange();
 };
 
 ////
 
-const BookmarkStore = Object.assign(EventEmitter.prototype, {
+const SessionStore = Object.assign(EventEmitter.prototype, {
 
     emitChange() {
         this.emit(CHANGE_EVENT);
@@ -110,12 +128,20 @@ const BookmarkStore = Object.assign(EventEmitter.prototype, {
 
     ////
 
+    getQueryHistory() {
+        return state.queries.slice().reverse();
+    },
     getBookmarks() {
         return state.bookmarks;
     },
 
+    ////
+
     dispatcherIndex: register(action => {
         switch(action.actionType) {
+            case AppConstants.GET_QUERY_HISTORY:
+                _get_query_history();
+                break;
             case AppConstants.GET_BOOKMARKS:
                 _get_bookmarks();
                 break;
@@ -126,9 +152,9 @@ const BookmarkStore = Object.assign(EventEmitter.prototype, {
                 _remove_bookmark(action.url);
                 break;
         }
-        BookmarkStore.emitChange();
+        SessionStore.emitChange();
     })
 
 });
 
-export default BookmarkStore;
+export default SessionStore;

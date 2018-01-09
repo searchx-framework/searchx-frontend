@@ -6,8 +6,10 @@ import {log} from '../utils/Logger';
 import {LoggerEventTypes} from '../constants/LoggerEventTypes';
 import AccountStore from '../stores/AccountStore';
 import AppConstants from '../constants/AppConstants';
+
 import TaskStore from "./TaskStore";
 import SyncStore from "./SyncStore";
+import AppActions from "../AppActions";
 
 const env = require('env');
 const CHANGE_EVENT = 'change_search';
@@ -25,7 +27,6 @@ let state = {
     vertical: _getURLParameter('v') || 'web',
     pageNumber: parseInt(_getURLParameter('p')) || 1,
 
-    queryHistory: JSON.parse(localStorage.getItem('query-history')) || [],
     results: [],
     forum_results: [],
     matches: 0,
@@ -84,15 +85,19 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
     getVertical() {
         return state.vertical;
     },
-    getPageNumber(){
+    getPageNumber() {
         return state.pageNumber || 1;
+    },
+    getSearchState() {
+        return {
+            query: this.getQuery(),
+            vertical: this.getVertical(),
+            pageNumber: this.getPageNumber()
+        };
     },
 
     getResults() {
         return state.results;
-    },
-    getQueryHistory() {
-        return state.queryHistory.slice().reverse();
     },
     getElapsedTime(){
         return state.elapsedTime;
@@ -137,17 +142,6 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
         });
     },
 
-    pushQueryHistory(query, userId) {
-        if (state.queryHistory.filter(x => x.query === query).length === 0) {
-            state.queryHistory.push({
-                query: query,
-                userId: userId
-            });
-            localStorage.setItem('query-history', JSON.stringify(state.queryHistory));
-        }
-        this.emitChange()
-    },
-
     ////
 
     dispatcherIndex: register(action => {
@@ -190,15 +184,7 @@ const _search = (query, pageNumber) => {
         state.results = [];
     }
 
-    if (AccountStore.isCollaborative()) {
-        SyncStore.emitSearchState({
-            query: state.query,
-            vertical: state.vertical,
-            pageNumber: state.pageNumber
-        });
-    }
-
-    SearchStore.pushQueryHistory(state.query, AccountStore.getId());
+    SyncStore.emitSearchState(SearchStore.getSearchState());
     SearchStore.emitChange();
 
     request
@@ -248,6 +234,7 @@ const _search = (query, pageNumber) => {
             state.finished = true;
             SearchStore.emitChange();
             SearchStore.emitSubmit();
+            AppActions.getQueryHistory();
         });
 };
 

@@ -48,7 +48,7 @@ const stepsSearch = [
     {
         element: '#intro-bookmark-bar',
         intro: 'The starred documents will appear here. You can revisit them before completing the final test.',
-        position: 'bottom-middle-aligned'
+        position: 'top'
     }
 ];
 

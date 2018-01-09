@@ -3,7 +3,6 @@ import io from 'socket.io-client';
 
 import AccountStore from "./AccountStore";
 import AppActions from "../AppActions";
-import SearchStore from "./SearchStore";
 
 const env = require('env');
 const socket = io(env.serverUrl + '/group');
@@ -23,7 +22,7 @@ if (AccountStore.isCollaborative()) {
     });
 
     socket.on('searchState', (data) => {
-        SearchStore.pushQueryHistory(data.state.query, data.userId);
+        AppActions.getQueryHistory();
     });
 }
 
@@ -51,19 +50,16 @@ const SyncStore = Object.assign(EventEmitter.prototype, {
 
     ////
 
-    emitSearchState(state) {
+    emitSearchState(searchState) {
         socket.emit('pushSearchState', {
+            sessionId: AccountStore.getSessionId(),
             userId: AccountStore.getId(),
-            state: state
+            state: searchState
         });
     },
 
-    emitBookmarkUpdate() {
-        socket.emit('pushBookmarkUpdate', {
-            query: SearchStore.getQuery(),
-            vertical: SearchStore.getVertical(),
-            pageNumber: SearchStore.getPageNumber()
-        });
+    emitBookmarkUpdate(searchState) {
+        socket.emit('pushBookmarkUpdate', searchState);
     }
 });
 

@@ -29,21 +29,12 @@ export default {
         })
     },
 
-    /* Account actions */
-    updateAccountDetails() {
-        dispatch({
-            actionType: AppConstants.UPDATE_ACCOUNT_DETAILS
-        })
-    },
-    
-    /* Current user actions */
-    loadUser(handle) {
-        dispatch({
-            actionType: AppConstants.LOAD_USER, handle
-        })
-    },
-
     /* Search actions */
+    getQueryHistory() {
+        dispatch({
+            actionType: AppConstants.GET_QUERY_HISTORY
+        })
+    },
     getBookmarks() {
         dispatch({
             actionType: AppConstants.GET_BOOKMARKS

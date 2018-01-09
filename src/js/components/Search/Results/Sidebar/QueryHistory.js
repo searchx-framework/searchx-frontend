@@ -1,31 +1,33 @@
 import './Sidebar.css';
 
 import React from 'react';
-import SearchStore from '../../../../stores/SearchStore';
+import AppActions from "../../../../AppActions";
 import AccountStore from "../../../../stores/AccountStore";
 import TaskStore from "../../../../stores/TaskStore";
+import SessionStore from "../../../../stores/SessionStore";
 
 export default class QueryHistory extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            history: SearchStore.getQueryHistory()
+            history: SessionStore.getQueryHistory()
         };
 
+        AppActions.getQueryHistory();
         this._onChange = this._onChange.bind(this);
     }
 
     componentWillMount() {
-        SearchStore.addChangeListener(this._onChange);
+        SessionStore.addChangeListener(this._onChange);
     }
 
     componentWillUnmount() {
-        SearchStore.removeChangeListener(this._onChange);
+        SessionStore.removeChangeListener(this._onChange);
     }
 
     _onChange() {
         this.setState({
-            history: SearchStore.getQueryHistory()
+            history: SessionStore.getQueryHistory()
         });
     }
 
@@ -43,9 +45,10 @@ export default class QueryHistory extends React.Component {
 
             return (
                 <div className="QueryHistory-result" key={index} style={{borderColor: color}}>
-                    <a style={{color: color}} href={href}>
-                        {data.query}
-                    </a>
+                    <span className="text">
+                        <span style={{color: 'gray'}}>{new Date(data.created).toLocaleTimeString()}</span>
+                        <a style={{color: color}} href={href}>{data.query}</a>
+                    </span>
                 </div>
             );
         });

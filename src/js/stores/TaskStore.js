@@ -27,7 +27,7 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
         let url = '/pretest';
 
         request
-            .get(env.serverUrl + '/v1/task/' + Account.getId() + '/?collaborative=' + config.collaborative)
+            .get(env.serverUrl + '/v1/users/' + Account.getId() + '/task/?collaborative=' + config.collaborative)
             .end((err, res) => {
                 if(err) {
                     console.log(err);
