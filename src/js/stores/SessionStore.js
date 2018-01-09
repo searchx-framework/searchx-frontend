@@ -42,8 +42,8 @@ let _get_query_history = () => {
 
             if (!TaskStore.isIntroDone()) {
                 state.queries = [
-                    {query: "cats"},
-                    {query: "dogs"}
+                    {query: "first query", created: new Date() - 10000},
+                    {query: "second query", created: new Date()},
                 ];
             }
             SessionStore.emitChange();
