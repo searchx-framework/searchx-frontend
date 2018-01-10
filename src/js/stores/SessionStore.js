@@ -76,7 +76,7 @@ let _get_bookmarks = () => {
 
 let _add_bookmark = function(url, title, userId){
     request
-        .post(env.serverUrl + '/v1/session/' + AccountStore.getSessionId() + 'bookmark')
+        .post(env.serverUrl + '/v1/session/' + AccountStore.getSessionId() + '/bookmark')
         .send({
             userId: userId,
             url: url,
@@ -97,7 +97,7 @@ let _add_bookmark = function(url, title, userId){
 
 let _remove_bookmark = function(url){
     request
-        .delete(env.serverUrl + '/v1/session/' + AccountStore.getSessionId() + 'bookmark')
+        .delete(env.serverUrl + '/v1/session/' + AccountStore.getSessionId() + '/bookmark')
         .send({
             url: url
         })
