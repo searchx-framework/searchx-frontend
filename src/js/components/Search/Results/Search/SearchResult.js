@@ -58,8 +58,8 @@ export default class SearchResult extends React.Component {
     render(){
         let bookmarkButton = <Rating
             className="rating"
-            empty="fa fa-star-o medium"
-            full="fa fa-star medium"
+            empty="fa fa-bookmark-o"
+            full="fa fa-bookmark"
             onClick={this.handleOnClick}
             stop={1}
             initialRate={this.state.bookmark ? 1 : 0}

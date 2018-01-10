@@ -40,7 +40,7 @@ export default class ImagesSearchResult extends React.Component {
         ////
         
         return (
-            <div className="ImagesSearchResults-result">
+            <div className="SearchResults-image">
                 <VisibilitySensor onChange={viewUrlLog}
                         scrollCheck
                         delayedCall={true}
@@ -54,7 +54,7 @@ export default class ImagesSearchResult extends React.Component {
                     onClick={clickUrlLog}
                     onContextMenu={contextUrlLog}
                     onMouseEnter={hoverEnter} onMouseLeave={hoverLeave}>
-                    <div className="crop" style={{backgroundImage: `url(${this.props.result.thumbnailUrl})`}}/>
+                    <div className="image" style={{backgroundImage: `url(${this.props.result.thumbnailUrl})`}}/>
                 </a>
 
                 {this.props.bookmarkButton}

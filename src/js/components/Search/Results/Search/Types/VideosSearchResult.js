@@ -104,7 +104,7 @@ export default class VideosSearchResult extends React.Component {
         ////
 
         return (
-            <div className="VideosSearchResults-result">
+            <div className="SearchResults-video">
                 <VisibilitySensor onChange={viewUrlLog} 
                     scrollCheck
                     delayedCall={true}
@@ -113,22 +113,26 @@ export default class VideosSearchResult extends React.Component {
                 />
 
                 <div onMouseEnter={hoverEnter} onMouseLeave={hoverLeave}>
-                    <ReactPlayer url={this.props.result.contentUrl}
-                                 playing={false}
-                                 width={275}
-                                 height={150}
-                                 onPlay={playVideoLog}
-                                 onEnded={stopVideoLog}
-                                 onPause={pauseVideoLog}
-                                 controls={true}
-                    />
+                    <div className="player">
+                        <ReactPlayer url={this.props.result.contentUrl}
+                                     playing={false}
+                                     width={275}
+                                     height={150}
+                                     onPlay={playVideoLog}
+                                     onEnded={stopVideoLog}
+                                     onPause={pauseVideoLog}
+                                     controls={true}
+                        />
+                    </div>
 
-                    <div className="videoInfo" >
+                    <div className="info">
                         {this.props.bookmarkButton}
 
-                        <a href = {this.props.result.contentUrl} target="_blank" onClick={clickUrlLog} onContextMenu={contextUrlLog}>
-                            <h5> {this.getTitle(this.props.result.name)}</h5>
-                        </a>
+                        <h2>
+                            <a href = {this.props.result.contentUrl} target="_blank" onClick={clickUrlLog} onContextMenu={contextUrlLog}>
+                                 {this.getTitle(this.props.result.name)}
+                            </a>
+                        </h2>
 
                         <h6>{
                             this.getInfo(

@@ -40,7 +40,7 @@ export default class WebSearchResult extends React.Component {
         ////
 
         return  (
-            <div className="row WebSearchResults-result">
+            <div className="row SearchResults-web">
                 <VisibilitySensor
                     onChange={viewUrlLog}
                     scrollCheck
@@ -58,7 +58,7 @@ export default class WebSearchResult extends React.Component {
                         </a>
                     </h2>
 
-                    <span>
+                    <span className="source">
                         {this.props.result.displayUrl}
                     </span>
 

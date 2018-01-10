@@ -46,7 +46,7 @@ export default class NewsSearchResult extends React.Component {
         ////
 
         return (
-            <div className="row NewsSearchResults-result">
+            <div className="row SearchResults-news">
                 <VisibilitySensor onChange={viewUrlLog} 
                     scrollCheck
                     delayedCall={true}
@@ -55,28 +55,32 @@ export default class NewsSearchResult extends React.Component {
                 />
                 
                 <div className="newsContainer" onMouseEnter={hoverEnterSummary} onMouseLeave={hoverLeaveSummary}>
-                    {this.props.result.image ?
-                        <div> <img src={this.props.result.image.thumbnail.contentUrl} /></div> :
-                        <div> <img/> </div>
-                    }
+                    <div className="newsImage">
+                        {this.props.result.image ?
+                            <div> <img src={this.props.result.image.thumbnail.contentUrl} /></div> :
+                            <div> <img/> </div>
+                        }
+                    </div>
 
-                    {this.props.bookmarkButton}
+                    <div className="newsInfo">
+                        {this.props.bookmarkButton}
 
-                    <h2>
-                        <a href={this.props.result.url} title={this.props.result.name} target="_blank" onClick={clickUrlLog} onContextMenu={contextUrlLog}>
-                            {this.props.result.name}
-                        </a>
-                    </h2>
+                        <h2>
+                            <a href={this.props.result.url} title={this.props.result.name} target="_blank" onClick={clickUrlLog} onContextMenu={contextUrlLog}>
+                                {this.props.result.name}
+                            </a>
+                        </h2>
 
-                    <span>
-                        { this.props.result.provider[0].name + " - " + cdate.getDate().toString() + " "  + monthNames[cdate.getMonth()] + " " + cdate.getFullYear().toString() }
-                    </span>
+                        <span className="source">
+                            { this.props.result.provider[0].name + " - " + cdate.getDate().toString() + " "  + monthNames[cdate.getMonth()] + " " + cdate.getFullYear().toString() }
+                        </span>
 
-                    <p style={{marginTop: 5}}>
-                        {this.props.result.description}
-                    </p>
+                        <p>
+                            {this.props.result.description}
+                        </p>
 
-                    {this.props.bookmarkInfo}
+                        {this.props.bookmarkInfo}
+                    </div>
                 </div>
             </div>
         )

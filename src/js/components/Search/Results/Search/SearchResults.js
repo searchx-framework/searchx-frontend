@@ -5,12 +5,6 @@ import SearchResult from "./SearchResult";
 
 export default class SearchResults extends React.Component {
     render() {
-        let cName = "WebSearchResults";
-        if (this.props.vertical === 'news') cName = "NewsSearchResults";
-        if (this.props.vertical === 'images') cName = "ImagesSearchResults";
-        if (this.props.vertical === 'videos') cName = "VideosSearchResults";
-
-        ///
 
         let results = this.props.results.map((result, index) => {
             const props = {
@@ -26,10 +20,8 @@ export default class SearchResults extends React.Component {
         });
 
         return (
-            <div className={"row " + cName}>
-                <div className="col-xs-12" id="intro-search-results">
-                    {results}
-                </div>
+            <div className={"row SearchResults"} id="intro-search-results">
+                {results}
             </div>
         )
     }

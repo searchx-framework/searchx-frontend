@@ -41,7 +41,7 @@ export default class BookmarkResults extends React.Component {
 
         return (
             <div className="BookmarkResults" ref="myRef" id="intro-bookmark-bar">
-                <h3> <i className="fa fa-star medium"/> BOOKMARKS</h3>
+                <h3> <i className="fa fa-bookmark medium"/> BOOKMARKS</h3>
                 <div className="list">
                     {bookmarks}
                 </div>
