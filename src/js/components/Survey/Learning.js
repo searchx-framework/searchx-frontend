@@ -18,7 +18,7 @@ const stepsTask = [
     {
         element: '#intro-description',
         intro: 'Please take a minute to read your task description.',
-        position: 'bottom'
+        position: 'top'
     }
 ];
 
@@ -41,13 +41,18 @@ const stepsSearch = [
         intro: 'Use SearchX to search for webpages, publications, and other online sources about the topic.'
     },
     {
+        element: '#intro-query-history',
+        intro: 'You can view your query history to help reformulate your search queries.',
+        position: 'top'
+    },
+    {
         element: '#intro-search-results',
-        intro: 'To bookmark a resource that is useful for your term paper, star it.',
+        intro: 'To save a resource that is useful for your term paper, bookmark it.',
         position: 'top'
     },
     {
         element: '#intro-bookmark-bar',
-        intro: 'The starred documents will appear here. You can revisit them before completing the final test.',
+        intro: 'The bookmarked documents will appear here. You can revisit them before completing the final test.',
         position: 'top'
     }
 ];

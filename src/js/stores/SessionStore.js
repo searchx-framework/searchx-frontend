@@ -65,7 +65,8 @@ let _get_bookmarks = () => {
             if (!TaskStore.isIntroDone()) {
                 state.bookmarks = [
                     {title: "You can view your bookmarked documents here", url: "https://www.viewbookmark.com"},
-                    {title: "You also can delete any bookmarked documents here", url: "https://www.deletebookmark.com"}
+                    {title: "You also can delete any bookmarked documents here", url: "https://www.deletebookmark.com"},
+                    {title: "A starred bookmark will appear on top", url: "https://www.starredbookmark.com", starred: true}
                 ];
             }
             SessionStore.emitChange();

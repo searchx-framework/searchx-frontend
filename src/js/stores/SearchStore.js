@@ -40,14 +40,6 @@ let state = {
     serp_id: ''
 };
 
-if (!TaskStore.isIntroDone()) {
-    state.results = [{name: "You can view the search first result here", displayUrl: "https://www.result1.com" , snippet: "This is the first result result..."},
-    {name: "You can view the search second result here", displayUrl: "https://www.result2.com" , snippet: "This is the second result result..."},
-    {name: "You can view a search third result here", displayUrl: "https://www.result3.com" , snippet: "This is the third result result..."},
-    {name: "You can view a search fourth result here", displayUrl: "https://www.result4.com" , snippet: "This is the fourth result result..."},
-    {name: "You can view a search fifth result here", displayUrl: "https://www.result5.com" , snippet: "This is the fifth result result..."}]
-}
-
 ////
 
 const SearchStore = Object.assign(EventEmitter.prototype, {
@@ -229,6 +221,16 @@ const _search = (query, pageNumber) => {
                 elapsedTime: state.elapsedTime
             };
             log(LoggerEventTypes.SEARCHRESULT_ELAPSEDTIME, metaInfo);
+
+            if (!TaskStore.isIntroDone()) {
+                state.results = [
+                    {name: "You can view the first result here", displayUrl: "https://www.result1.com" , snippet: "This is the first result..."},
+                    {name: "You can view the second result here", displayUrl: "https://www.result2.com" , snippet: "This is the second result...", bookmark: true, bookmarkUserId: AccountStore.getId(), bookmarkTime: new Date()},
+                    {name: "You can view the third result here", displayUrl: "https://www.result3.com" , snippet: "This is the third result..."},
+                    {name: "You can view the fourth result here", displayUrl: "https://www.result4.com" , snippet: "This is the fourth result..."},
+                    {name: "You can view the fifth result here", displayUrl: "https://www.result5.com" , snippet: "This is the fifth result..."}
+                ]
+            }
 
             state.refreshing = false;
             state.finished = true;
