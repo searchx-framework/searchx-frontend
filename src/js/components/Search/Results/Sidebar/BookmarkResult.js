@@ -1,24 +1,31 @@
 import React from 'react';
+import Rating from 'react-rating';
+
+import AppActions from '../../../../AppActions';
+import SearchStore from '../../../../stores/SearchStore';
+import AccountStore from "../../../../stores/AccountStore";
+import TaskStore from "../../../../stores/TaskStore";
 
 import {log} from '../../../../utils/Logger';
 import {LoggerEventTypes} from '../../../../constants/LoggerEventTypes';
-import SearchStore from '../../../../stores/SearchStore';
-import AppActions from '../../../../AppActions';
-import Rating from 'react-rating';
-import AccountStore from "../../../../stores/AccountStore";
-import TaskStore from "../../../../stores/TaskStore";
 
 export default class BookmarkResult extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {bookmark: props.result};
-        this.handleOnClick = this.handleOnClick.bind(this);
+
+        this.handleOnRemove = this.handleOnRemove.bind(this);
+        this.handleOnStar = this.handleOnStar.bind(this);
     }
 
-    handleOnClick () {
+    handleOnRemove() {
        AppActions.removeBookmark(this.props.result.url);
        SearchStore.searchAndRemoveBookmark(this.props.result.url);
+    };
+
+    handleOnStar() {
+        AppActions.starBookmark(this.props.result.url);
     };
 
     ////
@@ -64,7 +71,16 @@ export default class BookmarkResult extends React.Component {
         return  (
             <div className="row BookmarkResults-result" style={rowStyle}>
                 <div onMouseEnter={hoverEnterSummary} onMouseLeave={hoverLeaveSummary} >
-                    <Rating stop={1} className="trash" empty="fa fa-trash-o" full="fa fa-trash-o" onClick={this.handleOnClick} initialRate={1}/>
+                    <div className="buttons">
+                        <Rating stop={1} className="star" empty="fa fa-star-o" full="fa fa-star"
+                                onClick={this.handleOnStar}
+                                initialRate={this.state.bookmark.starred ? 1 : 0}
+                        />
+                        <Rating stop={1} className="remove" empty="fa fa-trash-o" full="fa fa-trash"
+                                onClick={this.handleOnRemove}
+                                initialRate={0}
+                        />
+                    </div>
 
                     <h2>
                         <a href={this.props.result.url} title={this.props.result.title} target="_blank" onClick={clickUrlLog} onContextMenu={contextUrlLog}>

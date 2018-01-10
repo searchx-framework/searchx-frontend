@@ -14,7 +14,6 @@
 /* HISTORY */
 
 .QueryHistory {
-
     .list {
         height: 150px;
         overflow-y: auto;
@@ -43,17 +42,24 @@
 /* BOOKMARKS */
 
 .BookmarkResults {
-
-    .trash {
+    .buttons {
         float: left;
         margin-right: 6px;
         margin-left: 10px;
-    }
 
-    .trash .fa {
-        color: #000;
-        padding-top: 2px;
-        font-size: 15px;
+        .fa {
+            color: #000;
+            font-size: 15px;
+        }
+
+        .star {
+            padding-top: 3px;
+        }
+
+        .remove {
+            margin-top: -3px;
+            padding-left: 1px;
+        }
     }
 
     .list {

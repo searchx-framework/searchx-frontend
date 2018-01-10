@@ -74,7 +74,7 @@ let _get_bookmarks = () => {
 
 ////
 
-let _add_bookmark = function(url, title, userId){
+let _add_bookmark = function(url, title, userId) {
     request
         .post(env.serverUrl + '/v1/session/' + AccountStore.getSessionId() + '/bookmark')
         .send({
@@ -95,7 +95,7 @@ let _add_bookmark = function(url, title, userId){
     SessionStore.emitChange();
 };
 
-let _remove_bookmark = function(url){
+let _remove_bookmark = function(url) {
     request
         .delete(env.serverUrl + '/v1/session/' + AccountStore.getSessionId() + '/bookmark')
         .send({
@@ -105,11 +105,27 @@ let _remove_bookmark = function(url){
             broadcastChange();
         });
 
-    state.bookmarks = state.bookmarks.filter(function(item) { 
-        return item["url"] !== url
-    });
-
+    state.bookmarks = state.bookmarks.filter((item) => item.url !== url);
     SessionStore.emitChange();
+};
+
+let _star_bookmark = function(url) {
+    request
+        .post(env.serverUrl + '/v1/session/' + AccountStore.getSessionId() + '/bookmark/star')
+        .send({
+            url: url
+        })
+        .end((err, res) => {
+            broadcastChange();
+        });
+
+    state.bookmarks.forEach((item) => {
+        if (item.url === url) {
+            item.starred = !item.starred;
+        }
+    });
+    SessionStore.emitChange();
+
 };
 
 ////
@@ -132,7 +148,9 @@ const SessionStore = Object.assign(EventEmitter.prototype, {
         return state.queries.slice().reverse();
     },
     getBookmarks() {
-        return state.bookmarks;
+        const starred = state.bookmarks.filter(x => x.starred);
+        const notStarred = state.bookmarks.filter(x => !x.starred);
+        return starred.concat(notStarred);
     },
 
     ////
@@ -150,6 +168,9 @@ const SessionStore = Object.assign(EventEmitter.prototype, {
                 break;
             case AppConstants.REMOVE_BOOKMARK:
                 _remove_bookmark(action.url);
+                break;
+            case AppConstants.STAR_BOOKMARK:
+                _star_bookmark(action.url);
                 break;
         }
         SessionStore.emitChange();

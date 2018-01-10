@@ -49,5 +49,10 @@ export default {
         dispatch({
             actionType: AppConstants.REMOVE_BOOKMARK, url
         })
+    },
+    starBookmark(url) {
+        dispatch({
+            actionType: AppConstants.STAR_BOOKMARK, url
+        })
     }
 }
