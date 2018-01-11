@@ -74,12 +74,11 @@ class TimedSubmit extends React.Component {
         
         return (
             <div id="intro-counter">
-                { (AccountScore.getTaskType() == "search") ?
-                    <div className="counter">
-                        {minutes}:{this.padZero(seconds)}
-                    </div>
-                    : <div/>
-                }
+               
+                <div className="counter">
+                    {minutes}:{this.padZero(seconds)}
+                </div>
+                    
                 <Link className={"btn btn-primary " + active} to={ AccountScore.getTaskType() == "search" ? "/posttest": "/learning"} role="button" onClick={this.clickHandler}>
                     { AccountScore.getTaskType() == "video" ? "To Search Phase": "To Final Test"}
                 </Link>

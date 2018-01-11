@@ -127,7 +127,7 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
 
         localStorage.removeItem("intro-done-video");
         localStorage.removeItem("intro-done-search");
-        localStorage.removeItem("counter-start-search");
+        localStorage.removeItem("counter-start");
 
         state.task = {};
     }

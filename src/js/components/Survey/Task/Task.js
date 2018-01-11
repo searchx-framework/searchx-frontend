@@ -16,8 +16,8 @@ class Task extends React.Component {
     }
 
     render () {
-        
-        let start = localStorage.getItem("counter-start-search") || 0;
+
+        let start = localStorage.getItem("counter-start") || 0;
 
         return(
             <div className="Task row" id={this.state.task.topicId} >

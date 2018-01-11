@@ -116,14 +116,12 @@ class Learning extends React.Component {
         let start = Date.now(); 
         
         if (this.state.task.type == "video") {
-            start = localStorage.getItem("counter-start-video") || Date.now();
+            start = localStorage.getItem("counter-start") || Date.now();
             localStorage.setItem("intro-done-video", true);
-            localStorage.setItem("counter-start-video",start);
+            localStorage.setItem("counter-start",start);
 
-        } else if (this.state.task.type == "search") {    
-            start = localStorage.getItem("counter-start-search") || Date.now();       
+        } else if (this.state.task.type == "search") {        
             localStorage.setItem("intro-done-search", true);
-            localStorage.setItem("counter-start-search",start);
         }
 
         const metaInfo = {

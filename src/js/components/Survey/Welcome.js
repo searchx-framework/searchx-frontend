@@ -38,16 +38,17 @@ class Welcome extends React.Component {
                             <li> 
                             <b>Learning phase</b>. This phase is composed of two parts:
                                 <ol type="1">
-                                    <li> <b> Course video</b>. We want you to watch a course video about a given topic. The video will take around 10 minutes to watch. If the video takes longer than 10 minutes, you will receive a bonus payment. You must watch the entire video and not change tabs/windows during this phase. If you change tabs/windows, your participation will be cancelled.</li>
-                                    <li> <b> Searching</b>. We want you to use our custom Web search system (we call it "SearchX") to learn about a given topic. You are given 20 minutes to search for documents about that topic. You need to collect and save all the Web pages, publications, and other online sources that are helpful for you to learn about the topic. 
+                                    <li> <b> Course video</b>. We want you to watch a course video about a given topic. The video will take around 10 minutes to watch. You must watch the entire video and not change tabs/windows during this phase. If you change tabs/windows, your participation will be cancelled.</li>
+                                    <li> <b> Searching</b>. We want you to use our custom Web search system (we call it "SearchX") to learn about a given topic. You need to collect and save all the Web pages, publications, and other online sources that are helpful for you to learn about the topic. 
                                     Please use only SearchX to learn about the given topic. Do not use any other Web search engine or search for a different topic (e.g. your topic is <i>computer science</i>, we consider searches for <i>tomorrow's weather</i>, <i>the latest news</i>, <i>movie reviews</i>, etc. as severely off-topic). If you conduct such off-topic searches, we will cancel your participation. </li>
                                 </ol>
+                                You are given 20 minutes to watch the course video and search for documents about that topic.
                             </li>
                             <li><b>Final test</b>. We will give you 13 exercises to complete to see how much you have learned while watching the course video and searching; those exercises include questions about the given topic and the writing of an outline for your paper about this topic. 
                             Please answer honestly. Your payment is not affected by the number of correct or incorrect answers. Note that your answers must exceed a minimum word count and be on your assigned topic.</li>
                         </ol>  
                         <hr/>
-                        <h3>You will need approximately 55 minutes to complete the work.</h3>
+                        <h3>You will need approximately 45 minutes to complete the work.</h3>
                         <hr/>
 
                         <h3>IMPORTANT:</h3>
