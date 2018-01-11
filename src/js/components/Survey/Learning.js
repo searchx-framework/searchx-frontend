@@ -61,7 +61,7 @@ const stepsSubmit = [
     {
         element: '#intro-counter',
         intro: 'You will need to search and learn for 20 minutes. Afterwards, you can press the button to complete the final test. Good luck and have fun!',
-        position: 'top'
+        position: 'bottom'
     }
 ];
 
