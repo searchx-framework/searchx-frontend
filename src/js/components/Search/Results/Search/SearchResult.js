@@ -77,11 +77,8 @@ export default class SearchResult extends React.Component {
 
             bookmarkInfo =
                 <span style={{color: AccountStore.getMemberColor(this.state.bookmarkUserId), marginBottom: 10, marginTop: -5}}>
-                    <i className="fa fa-user-plus"/>
-                    {" " + AccountStore.getMemberName(this.state.bookmarkUserId)}
-                    &nbsp;&nbsp;
                     <i className="fa fa-clock-o"/>
-                    {" " + formattedTime}
+                    {" Bookmarked at " + formattedTime}
                 </span>;
         }
 

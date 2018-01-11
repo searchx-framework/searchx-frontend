@@ -20,9 +20,6 @@ class Task extends React.Component {
 
         return(
             <div className="Task">
-                <div className="Task-box name" style={{backgroundColor: AccountStore.getMemberColor(AccountStore.getId())}}>
-                    Name: {AccountStore.getMemberName(AccountStore.getId())}
-                </div>
 
                 <div className="Task-box instruction" id={this.state.task.topicId}>
                     <div className="Task-title">
