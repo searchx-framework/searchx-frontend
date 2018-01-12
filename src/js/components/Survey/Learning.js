@@ -19,11 +19,7 @@ const stepsTask = [
 ];
 
 const stepsVideo = [
-    {
-        element: '#intro-video',
-        intro: 'We want you to watch a course video on the given topic.',
-        position: 'bottom-middle-aligned'
-    }
+
 ];
 
 const stepsSearch = [
