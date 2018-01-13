@@ -5,6 +5,7 @@ import Account from "./AccountStore";
 import codes from '../../../dist/data/codes.json';
 import config from '../config';
 const env = require('env');
+import AccountStore from './AccountStore';
 
 ////
 
@@ -178,7 +179,7 @@ const registerInfoPage = function() {
     });
 
     elements.push({
-            title: "Copy and Past the User Code here",
+            title: "Insert your Prolific ID here",
             name : "userId",
             type :"text",
             inputType:"text",
@@ -306,7 +307,7 @@ const preTestPage = function(topics) {
 
             elements.push({
                 title: "In your own words, what do you think the meaning is?",
-                visibleIf: "{"+ name +"} > 2",
+                visibleIf: "{" + name + "} > 2",
                 name: "meaning-" + name,
                 type: "text",
                 inputType: "text",
@@ -361,10 +362,10 @@ const postTestPage = function(topic) {
 
         elements.push({
             title: "In your own words, what do you think the meaning is?",
-            visibleIf: "{"+ name +"} > 2",
-            name : "meaning-" + idx,
-            type :"text",
-            inputType:"text",
+            visibleIf: "{" + name + "} > 2",
+            name: "meaning-" + idx,
+            type: "text",
+            inputType: "text",
             width: 500,
             isRequired: true,
         });
@@ -379,7 +380,7 @@ const postTestPage = function(topic) {
     elements.push({
         type: "html",
         name: "outline-description",
-        html: "<b> Based on what you have learned from your searches, please write an outline for your paper. </b>" +
+        html: "<b> Based on what you have learned from the learning session, please write an outline for your paper. </b>" +
         "<p> Tip: An outline is an organizational plan to help you draft a paper. Here is a simple template example: </p>" +
 
         "<p> 1. Introduction</p>" +
@@ -396,9 +397,9 @@ const postTestPage = function(topic) {
 
     elements.push({
         title: "Write your outline here:",
-        name : "outline-paper",
-        type :"comment",
-        inputType:"text",
+        name: "outline-paper",
+        type: "comment",
+        inputType: "text",
         description: "",
         width: 600,
         rows: 6,
@@ -407,10 +408,10 @@ const postTestPage = function(topic) {
     });
 
     elements.push({
-        title: "Please write what you learned about this topic from your searches. Use at least 50 words.",
-        name : "summary",
-        type :"comment",
-        inputType:"text",
+        title: "Please write what you have learned about this topic from the learning session. Use at least 50 words.",
+        name: "summary",
+        type: "comment",
+        inputType: "text",
         width: 600,
         height: 1000,
         rows: 5,
@@ -422,13 +423,26 @@ const postTestPage = function(topic) {
         html: "<hr/>"
     });
 
+    if (AccountStore.getTaskType() == "search") {
+        elements.push({
+            title: "During your searches did you have difficulties finding information about something? If so, describe briefly what you were looking for.",
+            name: "difficulties",
+            type: "comment",
+            inputType: "text",
+            width: 600,
+            height: 300,
+            isRequired: true
+        });
+    }
+
     elements.push({
-        title: "During your searches did you have difficulties finding information about something? If so, describe briefly what you were looking for.",
-        name : "difficulties",
-        type :"comment",
-        inputType:"text",
+        title: "Do you have any additional comments?",
+        name: "additional-comment",
+        type: "comment",
+        inputType: "text",
         width: 600,
-        height: 300,
+        height: 200,
+        rows: 4,
         isRequired: true
     });
 

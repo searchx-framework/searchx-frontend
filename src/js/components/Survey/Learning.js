@@ -57,7 +57,15 @@ const stepsSearch = [
     }
 ];
 
-const stepsSubmit = [
+const stepsVideoSubmit = [
+    {
+        element: '#intro-counter',
+        intro: 'You will need to watch the entire video. Afterwards, you can press the button to start the searching. Good luck and have fun!',
+        position: 'left'
+    }
+];
+
+const stepsSearchSubmit = [
     {
         element: '#intro-counter',
         intro: 'You will need to search and learn for 20 minutes. Afterwards, you can press the button to complete the final test. Good luck and have fun!',
@@ -111,6 +119,17 @@ const initializeChat = function() {
             'converse-bookmarks'
         ]
     });
+};
+
+const isIntroDone = function() {
+    let introDone = false;
+    if (this.state.task.type === "video") {
+        if (localStorage.getItem("intro-done-video")) introDone = true;
+    } else if (this.state.task.type === "search") {
+        if (localStorage.getItem("intro-done-search")) introDone = true;
+    }
+
+    return introDone;
 };
 
 ////
@@ -179,14 +198,25 @@ class Learning extends React.Component {
     ////
 
     handleOnComplete () {
-        const start = localStorage.getItem("counter-start") || Date.now();
+        let start = Date.now();
+        if (this.state.task.type === "video") {
+            start = localStorage.getItem("counter-start-video") || Date.now();
+            localStorage.setItem("intro-done-video", true);
+            localStorage.setItem("counter-start-video", start);
+
+        } else if (this.state.task.type === "search") {
+            start = localStorage.getItem("counter-start-search") || Date.now();
+            localStorage.setItem("intro-done-search", true);
+            localStorage.setItem("counter-start-search", start);
+        }
+
+        ////
+
         const metaInfo = {
-            start: start
+            start: start,
+            step: this.state.task.type
         };
         log(LoggerEventTypes.SURVEY_LEARNING_START, metaInfo);
-
-        localStorage.setItem("intro-done", true);
-        localStorage.setItem("counter-start",start);
 
         window.location.reload(true);
     }
@@ -198,12 +228,59 @@ class Learning extends React.Component {
 
     ////
 
+    componentWillMount() {
+        let steps = stepsTask.concat(stepsSearch, stepsSearchSubmit);
+        let medium = <Search/>;
+
+        this.state.task = Account.getTask();
+        if (this.state.task.type === 'video') {
+            steps = stepsTask.concat(stepsVideo, stepsVideoSubmit);
+            medium = <Video/>;
+        }
+
+        this.state.medium = medium;
+        this.state.steps = steps;
+    }
+
+    componentWillUpdate() {
+        let steps = stepsTask.concat(stepsSearch, stepsSearchSubmit);
+        let medium = <Search/>;
+
+        this.state.task = Account.getTask();
+
+        if (this.state.task.type === 'video') {
+            steps = stepsTask.concat(stepsVideo, stepsVideoSubmit);
+            medium = <Video/>;
+        }
+
+        this.state.medium = medium;
+        this.state.steps = steps;
+
+        let introDone = false;
+        if (this.state.task.type == "video") {
+
+            if (localStorage.getItem("intro-done-video")) {
+                introDone = true;
+            }
+        } else if (this.state.task.type == "search") {
+            if (localStorage.getItem("intro-done-search")) {
+                introDone = true;
+            }
+        }
+
+        if (this.state.task.topicId && ! introDone) {
+
+            this.intro.setOption('steps', this.state.steps);
+            this.intro.start();
+            Alert.closeAll();
+        }
+
+        window.onpopstate = this.onBackButtonEvent;
+    }
+
     componentDidMount() {
         if (this.state.task.topicId) {
-            if (!AccountStore.isIntroDone()) {
-                document.addEventListener('visibilitychange', function(){
-                });
-
+            if (!isIntroDone()) {
                 this.intro.setOption('steps', this.state.steps);
                 this.intro.start();
                 Alert.closeAll();
@@ -221,15 +298,18 @@ class Learning extends React.Component {
     render() {
         const switchTabsPreTest = localStorage.getItem("switch-tabs-posttest");
         const switchTabsPostTest = localStorage.getItem("switch-tabs-posttest");
+        const switchTabsVideo = localStorage.getItem("switch-tabs-video");
 
-        if (AccountStore.getTopicId() === '' || switchTabsPreTest >= 3 || switchTabsPostTest >= 3) {
+        if (AccountStore.getTopicId() === '' || switchTabsPreTest >= 3 || switchTabsPostTest >= 3 || switchTabsVideo >= 3) {
             return (
                 <div/>
             );
         }
 
+        ////
+
         let style = {};
-        if (!AccountStore.isIntroDone()) {
+        if (!isIntroDone()) {
             style.position = 'relative'
         }
 

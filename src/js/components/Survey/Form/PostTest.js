@@ -9,9 +9,9 @@ import AccountStore from '../../../stores/AccountStore';
 
 import {log} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../constants/LoggerEventTypes';
+import config from '../../../config';
 
 export default class PostTest extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -56,7 +56,7 @@ export default class PostTest extends React.Component {
         log(LoggerEventTypes.SURVEY_POST_TEST_RESULTS, metaInfo);
 
         AccountStore.clearTask();
-        localStorage.setItem('finish', 'true');
+        localStorage.setItem('finish', true);
 
         this.setState({
             isComplete: true
@@ -86,46 +86,50 @@ export default class PostTest extends React.Component {
         ////
 
         if (document.hidden) {
-            let switchTabs = -1;
-            if (localStorage.getItem("switch-tabs-posttest") !== null) {
-                switchTabs = localStorage.getItem("switch-tabs-posttest");
+            const finishCode = localStorage.getItem("finished-code");
+
+            if (finishCode === null){
+                let switchTabs = 0;
+                if (localStorage.getItem("switch-tabs-posttest") !== null) {
+                    switchTabs = localStorage.getItem("switch-tabs-posttest");
+                }
+
+                switchTabs++;
+                localStorage.setItem("switch-tabs-posttest", switchTabs);
+
+                let times = '';
+                if (switchTabs === 1) {
+                    times = 'once.';
+                } else if (switchTabs === 2) {
+                    times = 'twice.';
+                } else {
+                    times = switchTabs + " times."
+                }
+
+                Alert.error('We have noticed that you have tried to change to a different window/tab.', {
+                    position: 'top-right',
+                    effect: 'scale',
+                    beep: true,
+                    timeout: "none",
+                    offset: 100
+                });
+
+                Alert.error('Please, focus on completing the final test.', {
+                    position: 'top-right',
+                    effect: 'scale',
+                    beep: true,
+                    timeout: "none",
+                    offset: 100
+                });
+
+                Alert.error('Remember that more than three tab changes result in non-payment. So far you have changed tabs ' + times, {
+                    position: 'top-right',
+                    effect: 'scale',
+                    beep: true,
+                    timeout: "none",
+                    offset: 100
+                });
             }
-
-            switchTabs++;
-            localStorage.setItem("switch-tabs-posttest", switchTabs);
-
-            let times = '';
-            if (switchTabs === 1) {
-                times = 'once.';
-            } else if (switchTabs === 2) {
-                times = 'twice.';
-            } else {
-                times = switchTabs + " times."
-            }
-
-            Alert.error('We have noticed that you have tried to change to a different window/tab.', {
-                position: 'top-right',
-                effect: 'scale',
-                beep: true,
-                timeout: "none",
-                offset: 100
-            });
-
-            Alert.error('Please, focus on completing the final test.', {
-                position: 'top-right',
-                effect: 'scale',
-                beep: true,
-                timeout: "none",
-                offset: 100
-            });
-
-            Alert.error('Remember that more than three tab changes result in non-payment. So far you have changed tabs ' + times, {
-                position: 'top-right',
-                effect: 'scale',
-                beep: true,
-                timeout: "none",
-                offset: 100
-            });
 
             if (switchTabs >= 3) {
                 window.location.reload();
@@ -145,7 +149,8 @@ export default class PostTest extends React.Component {
                     <div className="Survey-form">
                         <div className='Survey-complete' onCopy={this.handleCutCopyPasteDismute}>
                             <h2>Thanks!</h2>
-                            <h3>Please, copy and paste this code on CrowdFlower: {finishCode}</h3>
+                            <h2>Thanks for your participation!</h2>
+                            <h3>Follow this <a href={config.completionURL}> link</a> back to Prolific Academic to confirm your participation.</h3>
                         </div>
                     </div>
                 </div>
@@ -158,8 +163,8 @@ export default class PostTest extends React.Component {
                 <div className="Survey">
                     <div className="Survey-form">
                         <div className='Survey-complete'>
-                            <h2>Sorry!</h2>
-                            <h3>You have changed to a different tab/windows more than three times. We have cancelled your participation, we will not pay you.</h3>
+                            <h2>We are sorry!</h2>
+                            <h3>You have changed to a different tab/windows more than three times, we have cancelled your participation.</h3>
                         </div>
                     </div>
                 </div>

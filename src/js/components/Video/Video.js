@@ -4,8 +4,85 @@ import React from 'react';
 import VideoPlayer from './VideoPlayer';
 import AccountStore from '../../stores/AccountStore';
 import TaskStore from '../../stores/TaskStore';
+import Alert from 'react-s-alert';
+
+import {log} from '../../utils/Logger';
+import {LoggerEventTypes} from '../../constants/LoggerEventTypes';
+
 
 class Video extends React.Component {
+
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            isComplete: false
+        };
+    }
+
+    componentDidMount() {
+        document.addEventListener('visibilitychange', function(){
+            const metaInfo = {
+                step : "video",
+                hidden: document.hidden
+
+            };
+            log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo);
+            
+            if (document.hidden) {
+
+                var switchTabs = -1;
+                if (localStorage.getItem("switchTabsVideo") !== null) {
+                    switchTabs = localStorage.getItem("switchTabsVideo");
+                }
+                switchTabs++;
+                localStorage.setItem("switchTabsVideo", switchTabs);
+
+
+                var times = '';
+                if (switchTabs == 1) {
+                    times = 'once.';
+                } else if (switchTabs == 2) {
+                    times = 'twice.';
+                } else {
+                    times = switchTabs + " times." 
+                }
+                Alert.error('We have noticited that you have tried to change to a different window/tab.', {
+                    position: 'bottom-right',
+                    effect: 'scale',
+                    beep: true,
+                    timeout: "none",
+                    offset: 100
+                });
+
+                Alert.error('Please, focus on completing watching the course video.', {
+                    position: 'bottom-right',
+                    effect: 'scale',
+                    beep: true,
+                    timeout: "none",
+                    offset: 100
+                });
+
+                Alert.error('Remember that more than three tab changes result in non-payment. So far you have changed tabs ' + times, {
+                    position: 'bottom-right',
+                    effect: 'scale',
+                    beep: true,
+                    timeout: "none",
+                    offset: 100
+                });
+                
+                
+                if (switchTabs >= 3) {
+                    window.location.reload();
+                }
+
+            }
+
+            
+        })
+    }
+    
+      
 
     render () {
         const task = {
@@ -16,11 +93,8 @@ class Video extends React.Component {
 
         return(
             <div className="Video row text-center" id="intro-video">
+            
                 <div className="col-xs-12">
-                    <div className="Video-title">
-                        <span className="Video-title-course">{TaskStore.getCourseTitle(task.topicId) + " : "}</span>
-                        <span className="Video-title-topic">{TaskStore.getTopicTitle(task.topicId)}</span>
-                    </div>
 
                     <VideoPlayer src={TaskStore.getTopicVideo(task.topicId)}/>
                 </div>

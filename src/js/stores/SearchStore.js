@@ -222,6 +222,7 @@ const _search = (query, pageNumber) => {
             };
             log(LoggerEventTypes.SEARCHRESULT_ELAPSEDTIME, metaInfo);
 
+            //TODO: Change to intro done search
             if (!TaskStore.isIntroDone()) {
                 state.results = [
                     {name: "You can view the first result here", displayUrl: "https://www.result1.com" , snippet: "This is the first result..."},

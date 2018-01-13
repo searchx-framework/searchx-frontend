@@ -91,6 +91,12 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
         return state.finishCode;
     },
 
+    ////
+
+    getTask() {
+        return state.task;
+    },
+
     getTopicId() {
         return state.task.topicId;
     },
@@ -134,12 +140,19 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
         localStorage.removeItem("finish");
     },
 
+    setTaskType(type) {
+        localStorage.setItem("task-type", type);
+        state.task.type = type;
+    },
+
     clearTask() {
         localStorage.removeItem("topic-id");
         localStorage.removeItem("task-type");
         localStorage.removeItem("task-duration");
-        localStorage.removeItem("intro-done");
-        localStorage.removeItem("counter-start");
+
+        localStorage.removeItem("intro-done-video");
+        localStorage.removeItem("intro-done-search");
+        localStorage.removeItem("counter-start-search");
 
         state.task = {};
         this.clearGroup();

@@ -3,12 +3,13 @@ import './Form.css'
 import React from 'react';
 import Alert from 'react-s-alert';
 import * as Survey from 'survey-react';
+import $ from 'jquery';
 
 import TaskStore from '../../../stores/TaskStore';
 import AccountStore from '../../../stores/AccountStore';
 import SyncStore from '../../../stores/SyncStore';
 
-import {log_and_go, log} from '../../../utils/Logger';
+import {log} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../constants/LoggerEventTypes';
 import config from '../../../config';
 
@@ -103,7 +104,7 @@ export default class PreTest extends React.Component {
         ////
 
         if (document.hidden) {
-            let switchTabs = -1;
+            let switchTabs = 0;
             if (localStorage.getItem("switch-tabs-pretest") !== null) {
                 switchTabs = localStorage.getItem("switch-tabs-pretest");
             }
@@ -128,7 +129,7 @@ export default class PreTest extends React.Component {
                 offset: 100
             });
 
-            Alert.error('Please, focus on completing the final test.', {
+            Alert.error('Please, focus on completing the diagnostic test.', {
                 position: 'top-right',
                 effect: 'scale',
                 beep: true,

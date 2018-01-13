@@ -67,8 +67,9 @@ export default class Register extends React.Component {
 
         const switchTabsPreTest = localStorage.getItem("switch-tabs-pretest");
         const switchTabsPostTest = localStorage.getItem("switch-tabs-posttest");
+        const switchTabsVideo = localStorage.getItem("switch-tabs-video");
 
-        if (switchTabsPreTest >= 3 || switchTabsPostTest >=3) {
+        if (switchTabsPreTest >= 3 || switchTabsPostTest >=3 || switchTabsVideo >=3) {
             return (
                 <div/>
             );
@@ -86,7 +87,7 @@ export default class Register extends React.Component {
         return (
             <div className="Survey">
                 <div className="Survey-form">
-                    <Survey.Survey model={survey}   onValidateQuestion={TaskStore.surveyValidateUser} />
+                    <Survey.Survey model={survey}/>
                 </div>
             </div>    
         );

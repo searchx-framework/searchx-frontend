@@ -4,5 +4,6 @@ module.exports = {
     logTimeInterval: 5000,
 
     collaborative: true,
-    groupTimeout: 5 /* wait time for collaborative learning (minutes) */
+    groupTimeout: 5, /* wait time for collaborative learning (minutes) */
+    completionURL: "https://www.prolific.ac/submissions/complete?cc=DT3Q2IVP",
 };

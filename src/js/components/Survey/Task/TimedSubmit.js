@@ -2,6 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import {log} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../constants/LoggerEventTypes';
+import AccountScore from '../../../stores/AccountStore';
 
 class TimedSubmit extends React.Component {
 
@@ -39,10 +40,17 @@ class TimedSubmit extends React.Component {
     }
 
     clickHandler(){
+        
         const metaInfo = {
-            elapsedTime: Math.round(this.state.elapsed / 1000)
+            elapsedTime: Math.round(this.state.elapsed / 1000),
+            type: AccountScore.getTaskType()
         };
         log(LoggerEventTypes.SURVEY_LEARNING_DONE, metaInfo);
+        if (AccountScore.getTaskType("video")) {
+            AccountScore.setTaskType("search");
+            this.props.history.push('/learning');
+        }
+        
     }
 
     ////
@@ -57,16 +65,23 @@ class TimedSubmit extends React.Component {
             minutes = 0;
             seconds = 0;
         }
-       
-        const active = minutes < this.state.duration ? "disabled" : "active";
+        var active = minutes < this.state.duration ? "disabled" : "active";
 
+        if (AccountScore.getTaskType() == "video") {
+            active = "active";
+        }
+
+        
         return (
             <div id="intro-counter">
-                <div className="counter">
-                    {minutes}:{this.padZero(seconds)}
-                </div>
-                <Link className={"btn btn-primary " + active} to="/posttest" role="button" onClick={this.clickHandler}>
-                    To Final Test
+                { (AccountScore.getTaskType() == "search") ?
+                    <div className="counter">
+                        {minutes}:{this.padZero(seconds)}
+                    </div>
+                    : <div/>
+                }
+                <Link className={"btn btn-primary " + active} to={ AccountScore.getTaskType() == "search" ? "/posttest": "/learning"} role="button" onClick={this.clickHandler}>
+                    { AccountScore.getTaskType() == "video" ? "To Search Phase": "To Final Test"}
                 </Link>
                 {!started &&
                     <div>
