@@ -40,7 +40,7 @@ let _get_query_history = () => {
 
             ////
 
-            if (!TaskStore.isIntroDone()) {
+            if (!TaskStore.isIntroSearchDone()) {
                 state.queries = [
                     {query: "first query", created: new Date() - 10000},
                     {query: "second query", created: new Date()},
@@ -62,7 +62,7 @@ let _get_bookmarks = () => {
 
             ////
 
-            if (!TaskStore.isIntroDone()) {
+            if (!TaskStore.isIntroSearchDone()) {
                 state.bookmarks = [
                     {title: "You can view your bookmarked documents here", url: "https://www.viewbookmark.com"},
                     {title: "You also can delete any bookmarked documents here", url: "https://www.deletebookmark.com"},

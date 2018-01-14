@@ -222,17 +222,6 @@ const _search = (query, pageNumber) => {
             };
             log(LoggerEventTypes.SEARCHRESULT_ELAPSEDTIME, metaInfo);
 
-            //TODO: Change to intro done search
-            if (!TaskStore.isIntroDone()) {
-                state.results = [
-                    {name: "You can view the first result here", displayUrl: "https://www.result1.com" , snippet: "This is the first result..."},
-                    {name: "You can view the second result here", displayUrl: "https://www.result2.com" , snippet: "This is the second result...", bookmark: true, bookmarkUserId: AccountStore.getId(), bookmarkTime: new Date()},
-                    {name: "You can view the third result here", displayUrl: "https://www.result3.com" , snippet: "This is the third result..."},
-                    {name: "You can view the fourth result here", displayUrl: "https://www.result4.com" , snippet: "This is the fourth result..."},
-                    {name: "You can view the fifth result here", displayUrl: "https://www.result5.com" , snippet: "This is the fifth result..."}
-                ]
-            }
-
             state.refreshing = false;
             state.finished = true;
             SearchStore.emitChange();
@@ -264,6 +253,16 @@ const _refresh = (query, vertical, pageNumber) => {
 
 if (_getURLParameter('q')) {
     _search();
+}
+
+if (!TaskStore.isIntroSearchDone()) {
+    state.results = [
+        {name: "You can view the first result here", displayUrl: "https://www.result1.com" , snippet: "This is the first result..."},
+        {name: "You can view the second result here", displayUrl: "https://www.result2.com" , snippet: "This is the second result...", bookmark: true, bookmarkUserId: AccountStore.getId(), bookmarkTime: new Date()},
+        {name: "You can view the third result here", displayUrl: "https://www.result3.com" , snippet: "This is the third result..."},
+        {name: "You can view the fourth result here", displayUrl: "https://www.result4.com" , snippet: "This is the fourth result..."},
+        {name: "You can view the fifth result here", displayUrl: "https://www.result5.com" , snippet: "This is the fifth result..."}
+    ]
 }
 
 export default SearchStore;

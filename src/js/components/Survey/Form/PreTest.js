@@ -3,7 +3,6 @@ import './Form.css'
 import React from 'react';
 import Alert from 'react-s-alert';
 import * as Survey from 'survey-react';
-import $ from 'jquery';
 
 import TaskStore from '../../../stores/TaskStore';
 import AccountStore from '../../../stores/AccountStore';
@@ -36,7 +35,10 @@ export default class PreTest extends React.Component {
 
     componentDidMount() {
         document.addEventListener('visibilitychange', this.handleVisibilityChange);
-        SyncStore.listenToTopicId(this.handleTaskSetup);
+        SyncStore.listenToGrouping((data) => {
+            AccountStore.setGroup(data.group._id, data.group.members);
+            this.handleTaskSetup(data.group.assignedTopicId);
+        });
     }
 
     ////
@@ -50,32 +52,19 @@ export default class PreTest extends React.Component {
         ////
 
         const scores = TaskStore.getScoresFromResults(result.data);
-        const newState = {
-            isComplete: true,
-            scores: scores
-        };
-
         SyncStore.emitPretestScore(scores);
-        this.setState(newState, () => {
-            sleep(config.groupTimeout * 60 * 1000).then(() => {
-                SyncStore.emitGroupTimeout();
-            });
+        this.setState({
+            isComplete: true
+        });
+
+        sleep(config.groupTimeout * 60 * 1000).then(() => {
+            SyncStore.emitGroupTimeout();
+            this.handleTaskSetup(scores[0].topicId);
         });
     }
 
-    handleTaskSetup(topicId, sessionId) {
+    handleTaskSetup(topicId) {
         if(AccountStore.getTopicId !== '') {
-            if (topicId === '-1') {
-                topicId = 0;
-                AccountStore.clearGroup();
-
-                if (this.state.scores) {
-                    topicId = TaskStore.getMinScoreIndex(this.state.scores);
-                }
-            } else {
-                AccountStore.setSessionId(sessionId);
-            }
-
             AccountStore.setTask(topicId);
         }
 

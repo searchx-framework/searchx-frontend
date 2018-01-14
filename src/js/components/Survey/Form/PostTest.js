@@ -86,10 +86,10 @@ export default class PostTest extends React.Component {
         ////
 
         if (document.hidden) {
-            const finishCode = localStorage.getItem("finished-code");
+            let switchTabs = 0;
+            const finish = localStorage.getItem("finish");
 
-            if (finishCode === null){
-                let switchTabs = 0;
+            if (finish === null){
                 if (localStorage.getItem("switch-tabs-posttest") !== null) {
                     switchTabs = localStorage.getItem("switch-tabs-posttest");
                 }
@@ -141,7 +141,6 @@ export default class PostTest extends React.Component {
 
     render() {
         if (this.state.isComplete) {
-            const finishCode = AccountStore.getFinishCode();
             document.removeEventListener("visibilitychange", this.handleVisibilityChange);
 
             return (
@@ -156,6 +155,8 @@ export default class PostTest extends React.Component {
                 </div>
             );
         }
+
+        ////
 
         const switchTabs = localStorage.getItem("switch-tabs-posttest") || 0;
         if (switchTabs >= 3) {

@@ -9,7 +9,7 @@ import {LoggerEventTypes} from '../../../../../constants/LoggerEventTypes';
 export default class NewsSearchResult extends React.Component {
     render(){
         let metaInfo = {
-            url: this.props.result.displayUrl,
+            url: this.props.result.url,
             query: this.props.query,
             page: this.props.page,
             vertical: 'news',

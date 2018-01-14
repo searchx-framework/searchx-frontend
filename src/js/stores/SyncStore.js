@@ -30,8 +30,8 @@ if (AccountStore.isCollaborative()) {
 
 const SyncStore = Object.assign(EventEmitter.prototype, {
 
-    listenToTopicId(callback) {
-        socket.on('groupTopic', (data) => {
+    listenToGrouping(callback) {
+        socket.on('groupData', (data) => {
             callback(data.topicId, data.sessionId)
         });
     },

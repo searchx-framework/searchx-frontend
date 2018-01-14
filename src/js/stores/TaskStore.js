@@ -1,11 +1,8 @@
 import request from 'superagent';
 import EventEmitter from 'events';
-import Account from "./AccountStore";
+import AccountStore from "./AccountStore";
 
-import codes from '../../../dist/data/codes.json';
-import config from '../config';
 const env = require('env');
-import AccountStore from './AccountStore';
 
 ////
 
@@ -28,7 +25,7 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
         let url = '/pretest';
 
         request
-            .get(env.serverUrl + '/v1/users/' + Account.getId() + '/task/?collaborative=' + config.collaborative)
+            .get(env.serverUrl + '/v1/users/' + AccountStore.getId() + '/task')
             .end((err, res) => {
                 if(err) {
                     console.log(err);
@@ -36,17 +33,11 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
 
                 if(res) {
                     const data = res.body;
-
                     this.setTopics(data.topics);
-                    Account.setUserData(
-                        data.code,
-                        data.groupId,
-                        data.members
-                    );
 
-                    if(data.assignedTopicId) {
-                        Account.setTask(data.assignedTopicId);
-                        Account.setSessionId(data.sessionId);
+                    if(data.group !== null) {
+                        AccountStore.setTask(data.assignedTopicId);
+                        AccountStore.setGroup(data.group._id, data.group.members);
                         url = '/learning';
                     }
                 }
@@ -84,8 +75,22 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
         return terms;
     },
 
-    isIntroDone() {
-        return localStorage.getItem("intro-done");
+    ////
+
+    isIntroVideoDone() {
+        return localStorage.getItem("intro-done-video") === 'true';
+    },
+
+    isIntroSearchDone() {
+        return localStorage.getItem("intro-done-search") === 'true';
+    },
+
+    isOverSwitchTabsLimit() {
+        const switchTabsPreTest = localStorage.getItem("switch-tabs-posttest");
+        const switchTabsPostTest = localStorage.getItem("switch-tabs-posttest");
+        const switchTabsVideo = localStorage.getItem("switch-tabs-video");
+
+        return switchTabsPreTest >= 3 || switchTabsPostTest >= 3 || switchTabsVideo >= 3;
     },
 
     ////
@@ -104,21 +109,19 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
             }
         });
 
-        return scores;
+        return this.formatScores(scores);
     },
 
-    getMinScoreIndex(scores) {
-        const items = Object.keys(scores)
-            .filter((key) => key === '1')
-            .map((key) => {
-                return [key, scores[key]];
-            });
-
-        items.sort((a,b) => {
-            return a[1] - b[1];
-        });
-
-        return items[0][0];
+    formatScores(scores) {
+        return Object.keys(scores)
+            .filter((key) => key !== '0')
+            .map(key => {
+                return {
+                    topicId: key,
+                    score: scores[key]
+                };
+            })
+            .sort((a,b) => a.score - b.score);
     },
 
     ////
@@ -136,16 +139,6 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
     },
 
     ////
-
-    surveyValidateUser (s, options) {
-        if (options.name === 'userId') {
-            const userId = options.value.replace(/\s/g, '');
-
-            if(!codes[userId]) {
-                options.error = "This User Code is not valid, please check if you have copied and pasted the code correctly.";
-            }
-        }
-    },
 
     surveyValidateWordCount (s, options) {
         if (options.name === 'summary') {
@@ -278,7 +271,7 @@ const registerInfoPage = function() {
 const preTestPage = function(topics) {
     let pages = [];
 
-    topics.forEach((topic, topicId) => {
+    topics.forEach(topic => {
         let elements = [];
 
         elements.push({
@@ -286,11 +279,11 @@ const preTestPage = function(topics) {
             name: "topic",
             html: "<h2>Diagnostic Test</h2> " +
             "<h3>Let's find out what you already know first.</h3>" +
-            "<h3>Answer these questions about <b>" + topics[topicId]["title"] + "</b>:</h3>"
+            "<h3>Answer these questions about <b>" + topic.title + "</b>:</h3>"
         });
 
-        topic["terms"].forEach((term, idx) => {
-            const name = "Q-"+ topicId +"-"+ idx;
+        topic.terms.forEach((term, idx) => {
+            const name = "Q-"+ topic.id +"-"+ idx;
 
             elements.push({
                 type: "html",
@@ -341,11 +334,11 @@ const postTestPage = function(topic) {
         name: "topic",
         html: "<h2>Final Exercises</h2>" +
         "<h3>Let's see how much you've learned.</h3>" +
-        "<h3>Answer these questions about <b>" + topic["title"] + "</b>:</h3>"
+        "<h3>Answer these questions about <b>" + topic.title + "</b>:</h3>"
     });
 
-    topic["terms"].forEach((term, idx) => {
-        const name = "Q-" + idx;
+    topic.terms.forEach((term, idx) => {
+        const name = "Q-"+ topic.id +"-"+ idx;
 
         elements.push({
             type: "html",
@@ -423,7 +416,7 @@ const postTestPage = function(topic) {
         html: "<hr/>"
     });
 
-    if (AccountStore.getTaskType() == "search") {
+    if (AccountStore.getTaskType() === "search") {
         elements.push({
             title: "During your searches did you have difficulties finding information about something? If so, describe briefly what you were looking for.",
             name: "difficulties",

@@ -39,7 +39,7 @@ export default class QueryHistory extends React.Component {
             const href = url + "?q=" + data.query;
 
             let color = "DarkSlateGray";
-            if (AccountStore.isCollaborative() && TaskStore.isIntroDone()) {
+            if (AccountStore.isCollaborative() && TaskStore.isIntroSearchDone()) {
                 color = AccountStore.getMemberColor(data.userId);
             }
 

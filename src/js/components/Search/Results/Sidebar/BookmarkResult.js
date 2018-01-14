@@ -64,7 +64,7 @@ export default class BookmarkResult extends React.Component {
             borderColor: 'DarkSlateGray'
         };
 
-        if (AccountStore.isCollaborative() && TaskStore.isIntroDone()) {
+        if (AccountStore.isCollaborative() && TaskStore.isIntroSearchDone()) {
             rowStyle.borderColor = AccountStore.getMemberColor(this.state.bookmark.userId);
         }
 

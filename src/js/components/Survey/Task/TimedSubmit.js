@@ -65,24 +65,22 @@ class TimedSubmit extends React.Component {
             minutes = 0;
             seconds = 0;
         }
-        var active = minutes < this.state.duration ? "disabled" : "active";
 
-        if (AccountScore.getTaskType() == "video") {
+        let active = minutes < this.state.duration ? "disabled" : "active";
+        if (AccountScore.getTaskType() === "video") {
             active = "active";
         }
 
-        
         return (
             <div id="intro-counter">
-                { (AccountScore.getTaskType() == "search") ?
-                    <div className="counter">
-                        {minutes}:{this.padZero(seconds)}
-                    </div>
-                    : <div/>
-                }
-                <Link className={"btn btn-primary " + active} to={ AccountScore.getTaskType() == "search" ? "/posttest": "/learning"} role="button" onClick={this.clickHandler}>
-                    { AccountScore.getTaskType() == "video" ? "To Search Phase": "To Final Test"}
+                <div className="counter">
+                    {minutes}:{this.padZero(seconds)}
+                </div>
+
+                <Link className={"btn btn-primary " + active} to={AccountScore.getTaskType() === "search" ? "/posttest": "/learning"} role="button" onClick={this.clickHandler}>
+                    {AccountScore.getTaskType() === "video" ? "To Search Phase": "To Final Test"}
                 </Link>
+
                 {!started &&
                     <div>
                         <br/>

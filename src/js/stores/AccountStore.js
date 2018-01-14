@@ -28,7 +28,6 @@ const generateUUID = function() {
 let state = {
     userId: localStorage.getItem("user-id") || '' ,
     sessionId: localStorage.getItem("session-id") || '',
-    finishCode: localStorage.getItem("code") || '',
 
     task: {
         topicId: localStorage.getItem("topic-id") || '',
@@ -37,7 +36,6 @@ let state = {
     },
 
     group: {
-        id: localStorage.getItem("group-id") || '',
         members: JSON.parse(localStorage.getItem("group-members")) || [],
     }
 };
@@ -87,10 +85,6 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
         return state.sessionId;
     },
 
-    getFinishCode() {
-        return state.finishCode;
-    },
-
     ////
 
     getTask() {
@@ -111,19 +105,6 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
 
     ////
 
-    setUserData(finishCode, groupId, groupMembers) {
-        localStorage.setItem("code", finishCode);
-        state.finishCode = finishCode;
-
-        if (groupId) {
-            localStorage.setItem("group-id", groupId);
-            localStorage.setItem("group-members", JSON.stringify(groupMembers));
-
-            state.group.id = groupId;
-            state.group.members = groupMembers;
-        }
-    },
-
     setTask(topicId) {
         const type = 'search';
         const minutes = 20;
@@ -138,6 +119,13 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
         state.task.sessionId = localStorage.getItem('session-id');
 
         localStorage.removeItem("finish");
+    },
+
+    setGroup(groupId, groupMembers) {
+        localStorage.setItem("group-members", JSON.stringify(groupMembers));
+        state.group.members = groupMembers;
+
+        this.setSessionId(groupId);
     },
 
     setTaskType(type) {
@@ -159,9 +147,7 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
     },
 
     clearGroup() {
-        localStorage.removeItem("group-id");
         localStorage.removeItem("group-members");
-
         state.group = {}
     }
 });

@@ -9,7 +9,7 @@ import {LoggerEventTypes} from '../../../../../constants/LoggerEventTypes';
 export default class ImagesSearchResult extends React.Component {
     render(){
         let metaInfo = {
-            url: this.props.result.displayUrl,
+            url: this.props.result.contentUrl,
             query: this.props.query,
             page: this.props.page,
             vertical: 'images',
