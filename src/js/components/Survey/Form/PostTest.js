@@ -147,7 +147,6 @@ export default class PostTest extends React.Component {
                 <div className="Survey">
                     <div className="Survey-form">
                         <div className='Survey-complete' onCopy={this.handleCutCopyPasteDismute}>
-                            <h2>Thanks!</h2>
                             <h2>Thanks for your participation!</h2>
                             <h3>Follow this <a href={config.completionURL}> link</a> back to Prolific Academic to confirm your participation.</h3>
                         </div>
