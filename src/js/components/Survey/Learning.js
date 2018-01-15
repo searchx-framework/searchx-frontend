@@ -69,8 +69,7 @@ const stepsSubmit = [
 ////
 
 const initializeChat = function() {
-    const group = AccountStore.getGroup();
-    const room = 'searchx-' + group.id + '@conference.nomnom.im';
+    const chatRoom = 'searchx-' + AccountStore.getSessionId() + '@conference.nomnom.im';
 
     converse.initialize({
         authentication: 'anonymous',
@@ -84,9 +83,9 @@ const initializeChat = function() {
         allow_registration: false,
         allow_muc: false,
 
-        auto_join_rooms: [room],
-        notify_all_room_messages: [room],
-        bosh_service_url: 'https://conversejs.org/http-bind/',
+        auto_join_rooms: [chatRoom],
+        notify_all_room_messages: [chatRoom],
+        bosh_service_url: 'https://conversejs.org/http-bind/', //TODO: change to own server
         jid: 'nomnom.im',
 
         keepalive: true,
@@ -110,6 +109,10 @@ const initializeChat = function() {
             'converse-notification',
             'converse-register',
             'converse-bookmarks'
+        ],
+
+        whitelisted_plugins: [
+            'searchx-archive'
         ]
     });
 };
@@ -141,14 +144,14 @@ class Learning extends React.Component {
         });
 
         this.isIntroDone = this.isIntroDone.bind(this);
-        this.handleOnComplete = this.handleOnComplete.bind(this);
+        this.handleOnIntroDone = this.handleOnIntroDone.bind(this);
         this.handleOnBackButtonEvent = this.handleOnBackButtonEvent.bind(this);
-        this.intro.oncomplete(this.handleOnComplete);
+        this.intro.oncomplete(this.handleOnIntroDone);
     }
 
     ////
 
-    handleOnComplete () {
+    handleOnIntroDone () {
         const start = localStorage.getItem("counter-start") || Date.now();
         localStorage.setItem("counter-start", start);
 
@@ -232,6 +235,21 @@ class Learning extends React.Component {
 
         window.onpopstate = this.handleOnBackButtonEvent;
     }
+
+    componentWillUnmount() {
+        if (AccountStore.isCollaborative()) {
+            const messages = document.querySelector(".chat-content").innerHTML;
+            const metaInfo = {
+                messages: messages
+            };
+            log(LoggerEventTypes.CHAT_ARCHIVE, metaInfo);
+
+            const element = document.querySelector("#conversejs");
+            element.parentElement.removeChild(element);
+        }
+    }
+
+    ////
 
     render() {
         if (this.state.task.topic === '' || TaskStore.isOverSwitchTabsLimit()) {
