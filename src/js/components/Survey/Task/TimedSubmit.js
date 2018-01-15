@@ -40,17 +40,16 @@ class TimedSubmit extends React.Component {
     }
 
     clickHandler(){
-        
         const metaInfo = {
             elapsedTime: Math.round(this.state.elapsed / 1000),
             type: AccountScore.getTaskType()
         };
         log(LoggerEventTypes.SURVEY_LEARNING_DONE, metaInfo);
-        if (AccountScore.getTaskType("video")) {
+
+        if (AccountScore.getTaskType() === "video") {
             AccountScore.setTaskType("search");
             this.props.history.push('/learning');
         }
-        
     }
 
     ////
