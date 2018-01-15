@@ -21,6 +21,7 @@ export default class PreTest extends React.Component {
         };
 
         this.handleComplete = this.handleComplete.bind(this);
+        this.handleSingleSetup = this.handleSingleSetup.bind(this);
         this.handleTaskSetup = this.handleTaskSetup.bind(this);
         this.handleCutCopyPaste = this.handleCutCopyPaste.bind(this);
         this.handleVisibilityChange = this.handleVisibilityChange.bind(this);
@@ -35,9 +36,9 @@ export default class PreTest extends React.Component {
 
     componentDidMount() {
         document.addEventListener('visibilitychange', this.handleVisibilityChange);
-        SyncStore.listenToGrouping((data) => {
-            AccountStore.setGroup(data.group._id, data.group.members);
-            this.handleTaskSetup(data.group.assignedTopicId);
+        SyncStore.listenToGrouping((group) => {
+            AccountStore.setGroup(group._id, group.members);
+            this.handleTaskSetup(group.topic);
         });
     }
 
@@ -52,20 +53,32 @@ export default class PreTest extends React.Component {
         ////
 
         const scores = TaskStore.getScoresFromResults(result.data);
-        SyncStore.emitPretestScore(scores);
-        this.setState({
-            isComplete: true
-        });
 
-        sleep(config.groupTimeout * 60 * 1000).then(() => {
-            SyncStore.emitGroupTimeout();
-            this.handleTaskSetup(scores[0].topicId);
-        });
+        if (AccountStore.isCollaborative()) {
+            SyncStore.emitPretestScore(scores);
+            this.setState({
+                isComplete: true
+            });
+
+            sleep(config.groupTimeout * 60 * 1000).then(() => {
+                SyncStore.emitGroupTimeout();
+                this.handleSingleSetup(scores);
+            });
+        } else {
+            this.handleSingleSetup(scores);
+        }
     }
 
-    handleTaskSetup(topicId) {
-        if(AccountStore.getTopicId !== '') {
-            AccountStore.setTask(topicId);
+    handleSingleSetup(scores) {
+        const topicId = scores[0].topicId;
+        const topic = TaskStore.getTopicById(topicId);
+
+        this.handleTaskSetup(topic);
+    }
+
+    handleTaskSetup(topic) {
+        if(AccountStore.getTaskTopic() === '') {
+            AccountStore.setTask(topic);
         }
 
         this.props.history.push('/learning')

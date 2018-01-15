@@ -173,8 +173,13 @@ export default class PostTest extends React.Component {
 
         ////
 
-        const topicId = AccountStore.getTopicId();
-        const data = TaskStore.getPostTest(topicId);
+        if (AccountStore.getTaskTopic() === '') {
+            return <div/>;
+        }
+
+        ////
+
+        const data = TaskStore.getPostTest();
         const survey = new Survey.Model(data);
 
         survey.requiredText = "";

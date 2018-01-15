@@ -66,7 +66,7 @@ export default class SearchResult extends React.Component {
         />;
 
         let bookmarkInfo = "";
-        if (AccountStore.isCollaborative() && this.state.bookmark) {
+        if (this.state.bookmark) {
             const date = new Date(this.state.bookmarkTime);
             const now = new Date().toLocaleDateString();
 

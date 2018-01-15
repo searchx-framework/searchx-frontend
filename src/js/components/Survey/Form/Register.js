@@ -73,7 +73,7 @@ export default class Register extends React.Component {
 
         ////
 
-        localStorage.clear();
+        AccountStore.clearUserData();
         const data = TaskStore.getRegisterInfo();
         let survey = new Survey.Model(data);
 

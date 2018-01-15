@@ -35,8 +35,8 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
                     const data = res.body;
                     this.setTopics(data.topics);
 
-                    if(data.group !== null) {
-                        AccountStore.setTask(data.assignedTopicId);
+                    if(data.group) {
+                        AccountStore.setTask(data.group.topic);
                         AccountStore.setGroup(data.group._id, data.group.members);
                         url = '/learning';
                     }
@@ -53,26 +53,19 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
 
     ////
 
-    getTopicDescription(topicId) {
-        return state.topics[topicId]["task"];
+    getTopicDescription(topic) {
+        return topic.task;
     },
 
-    getTopicTitle(topicId) {
-        return state.topics[topicId]["title"];
-    },
-
-    getTopicVideo(topicId) {
+    getTopicVideo(topic) {
         const prefix = "https://www.youtube.com/watch?v=";
-        return prefix + state.topics[topicId]["youtube"];
+        return prefix + topic.youtube;
     },
 
-    getTopicTerms(topicId) {
-        let terms = "";
-        state.topics[topicId]['terms'].forEach(term => {
-            terms += term.toLowerCase() + ";  "
-        });
-
-        return terms;
+    getTopicById(topicId) {
+        const topic = state.topics.filter(x => x.id === topicId);
+        if (topic.length > 0) return topic[0];
+        return null;
     },
 
     ////
@@ -134,8 +127,8 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
         return preTestPage(state.topics);
     },
 
-    getPostTest(topicId) {
-        return postTestPage(state.topics[topicId]);
+    getPostTest() {
+        return postTestPage(AccountStore.getTaskTopic());
     },
 
     ////

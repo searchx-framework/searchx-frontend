@@ -30,49 +30,28 @@ let state = {
     sessionId: localStorage.getItem("session-id") || '',
 
     task: {
-        topicId: localStorage.getItem("topic-id") || '',
+        topic: JSON.parse(localStorage.getItem("task-topic")) || '',
         type : localStorage.getItem("task-type") || '',
         duration: localStorage.getItem("task-duration")|| ''
     },
 
     group: {
-        members: JSON.parse(localStorage.getItem("group-members")) || [],
+        members: JSON.parse(localStorage.getItem("group-members")) || '',
     }
 };
 
 const AccountStore = Object.assign(EventEmitter.prototype, {
-
     setId(userId) {
-        const sessionId = generateUUID();
-        this.setSessionId(sessionId);
-
         localStorage.setItem("user-id", userId);
         state.userId = userId;
+
+        const sessionId = generateUUID();
+        this.setSessionId(sessionId);
     },
 
     setSessionId(sessionId) {
         localStorage.setItem("session-id", sessionId);
         state.task.sessionId = sessionId;
-    },
-
-    ////
-
-    isCollaborative() {
-        if (!config.collaborative) return false;
-        if (state.task.topicId === '') return true;
-        return state.group.id !== '';
-    },
-
-    getGroup() {
-        return state.group;
-    },
-
-    getMemberName(userId) {
-        return state.group.members[userId].name;
-    },
-
-    getMemberColor(userId) {
-        return state.group.members[userId].color;
     },
 
     ////
@@ -91,8 +70,8 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
         return state.task;
     },
 
-    getTopicId() {
-        return state.task.topicId;
+    getTaskTopic() {
+        return state.task.topic;
     },
 
     getTaskType() {
@@ -105,25 +84,52 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
 
     ////
 
-    setTask(topicId) {
-        const type = 'search';
-        const minutes = 20;
+    isCollaborative() {
+        if (!config.collaborative) return false;
+        if (state.task.topic === '') return true;
+        return state.group.members !== '';
+    },
 
-        localStorage.setItem("topic-id", topicId);
+    getGroup() {
+        return state.group;
+    },
+
+    getMemberName(userId) {
+        if (state.group.members === '' || state.group.members[userId] === undefined) return 'Anonymous';
+        return state.group.members[userId].name;
+    },
+
+    getMemberColor(userId) {
+        if (state.group.members === '' || state.group.members[userId] === undefined) return 'DarkSlateGray';
+        return state.group.members[userId].color;
+    },
+
+    ////
+
+    setTask(topic) {
+        const type = 'search';
+        const minutes = '20';
+
+        localStorage.setItem("task-topic", JSON.stringify(topic));
         localStorage.setItem("task-type", type);
         localStorage.setItem("task-duration", minutes);
 
-        state.task.topicId = topicId;
+        state.task.topic = topic;
         state.task.type = type;
         state.task.duration = minutes;
-        state.task.sessionId = localStorage.getItem('session-id');
 
+        localStorage.removeItem("intro-done-video");
+        localStorage.removeItem("intro-done-search");
+        localStorage.removeItem("counter-start-search");
         localStorage.removeItem("finish");
     },
 
     setGroup(groupId, groupMembers) {
-        localStorage.setItem("group-members", JSON.stringify(groupMembers));
-        state.group.members = groupMembers;
+        let members = {};
+        groupMembers.forEach(member => members[member.userId] = member);
+
+        localStorage.setItem("group-members", JSON.stringify(members));
+        state.group.members = members;
 
         this.setSessionId(groupId);
     },
@@ -133,8 +139,10 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
         state.task.type = type;
     },
 
+    ////
+
     clearTask() {
-        localStorage.removeItem("topic-id");
+        localStorage.removeItem("task-topic");
         localStorage.removeItem("task-type");
         localStorage.removeItem("task-duration");
 
@@ -142,13 +150,19 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
         localStorage.removeItem("intro-done-search");
         localStorage.removeItem("counter-start-search");
 
-        state.task = {};
+        state.task = '';
         this.clearGroup();
     },
 
     clearGroup() {
         localStorage.removeItem("group-members");
-        state.group = {}
+        state.group.members = '';
+    },
+
+    clearUserData() {
+        localStorage.clear();
+        state.userId = '';
+        state.sessionId = '';
     }
 });
 

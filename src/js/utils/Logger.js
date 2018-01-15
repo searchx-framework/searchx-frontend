@@ -6,15 +6,16 @@ let eventQueue = [];
 
 export function log(event, meta) {
     let task = {};
-    const topicId = AccountStore.getTopicId() || '';
+    const topic = AccountStore.getTaskTopic();
 
-    if (topicId !== '') {
+    if (topic !== '') {
         task = {
-            topicId: topicId,
+            userCode: AccountStore.getId() || '',
             sessionId: AccountStore.getSessionId() || '',
+
+            topicId: topic.id,
             type: AccountStore.getTaskType() || '',
             duration: AccountStore.getTaskDuration() || '',
-            userCode: AccountStore.getId() || '',
         }
     }
 
@@ -37,7 +38,6 @@ export function log(event, meta) {
     eventQueue = [];
 
 }
-
 
 export function flush() {
     if (eventQueue.length === 0) {

@@ -11,7 +11,8 @@ const socket = io(env.serverUrl + '/group');
 
 if (AccountStore.getId() !== '') {
     socket.emit('register', {
-        userId: AccountStore.getId()
+        userId: AccountStore.getId(),
+        groupId: AccountStore.getSessionId()
     });
 }
 
@@ -32,7 +33,7 @@ const SyncStore = Object.assign(EventEmitter.prototype, {
 
     listenToGrouping(callback) {
         socket.on('groupData', (data) => {
-            callback(data.topicId, data.sessionId)
+            callback(data.group)
         });
     },
 
@@ -45,7 +46,9 @@ const SyncStore = Object.assign(EventEmitter.prototype, {
     },
 
     emitGroupTimeout() {
-        socket.emit('pushGroupTimeout', {});
+        socket.emit('pushGroupTimeout', {
+            userId: AccountStore.getId()
+        });
     },
 
     ////

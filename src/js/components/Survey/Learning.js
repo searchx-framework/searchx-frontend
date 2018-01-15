@@ -217,7 +217,7 @@ class Learning extends React.Component {
     }
 
     componentDidMount() {
-        if (this.state.task.topicId) {
+        if (this.state.task.topic !== '') {
             if (!this.isIntroDone()) {
                 this.intro.setOption('steps', this.state.steps);
                 this.intro.start();
@@ -234,7 +234,7 @@ class Learning extends React.Component {
     }
 
     render() {
-        if (AccountStore.getTopicId() === '' || TaskStore.isOverSwitchTabsLimit()) {
+        if (this.state.task.topic === '' || TaskStore.isOverSwitchTabsLimit()) {
             return (
                 <div/>
             );
