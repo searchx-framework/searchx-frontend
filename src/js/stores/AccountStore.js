@@ -90,10 +90,6 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
         return state.group.members !== '';
     },
 
-    getGroup() {
-        return state.group;
-    },
-
     getMemberName(userId) {
         if (state.group.members === '' || state.group.members[userId] === undefined) return 'Anonymous';
         return state.group.members[userId].name;
@@ -107,8 +103,8 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
     ////
 
     setTask(topic) {
-        const type = 'search';
-        const minutes = '20';
+        const type = config.taskType;
+        const minutes = config.taskDuration;
 
         localStorage.setItem("task-topic", JSON.stringify(topic));
         localStorage.setItem("task-type", type);
