@@ -27,7 +27,9 @@
 
          border-left: 2px solid $border-color;
          border-width: 4px;
-         background-color: #F5F5F5;
+
+         background: #F5F5F5;
+         border-color: $primary-color;
 
         a {
             margin-left: 10px;
@@ -74,6 +76,9 @@
         margin-left: 0px;
         border-left: 2px solid $border-color;
         border-width: 4px;
+
+        background: #F5F5F5;
+        border-color: $primary-color;
 
         h2 {
             font-size: 15px;
