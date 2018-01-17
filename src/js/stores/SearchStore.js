@@ -143,8 +143,6 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
                 break;
         }
 
-        console.log(action);
-
         SearchStore.emitChange();
     })
 });
