@@ -1,8 +1,9 @@
 import './Sidebar.css';
 
 import React from 'react';
-import AppActions from '../../../../AppActions';
 import BookmarkResult from './BookmarkResult';
+
+import SessionActions from '../../../../actions/SessionActions';
 import BookmarkStore from '../../../../stores/SessionStore';
 
 export default class BookmarkResults extends React.Component {
@@ -12,7 +13,7 @@ export default class BookmarkResults extends React.Component {
             bookmarks: BookmarkStore.getBookmarks()
          };
 
-        AppActions.getBookmarks();
+        SessionActions.getBookmarks();
         this._onChange = this._onChange.bind(this);
     }
 

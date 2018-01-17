@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {log} from '../../../utils/Logger';
-import {LoggerEventTypes} from '../../../constants/LoggerEventTypes';
+import {LoggerEventTypes} from '../../../utils/LoggerEventTypes';
 import AccountScore from '../../../stores/AccountStore';
 
 class TimedSubmit extends React.Component {

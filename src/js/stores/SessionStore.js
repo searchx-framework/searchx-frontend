@@ -1,7 +1,8 @@
-import {register} from '../utils/Dispatcher';
-import AppConstants from '../constants/AppConstants';
-import EventEmitter from 'events';
 import request from 'superagent';
+import EventEmitter from 'events'
+
+import {register} from '../AppDispatcher';
+import AppConstants from '../AppConstants';
 
 import AccountStore from '../stores/AccountStore';
 import SyncStore from '../stores/SyncStore';
@@ -16,14 +17,6 @@ const CHANGE_EVENT = 'change_session';
 let state = {
     queries: [],
     bookmarks: []
-};
-
-////
-
-let broadcastChange = function() {
-    if (AccountStore.isCollaborative()) {
-        SyncStore.emitBookmarkUpdate(SearchStore.getSearchState());
-    }
 };
 
 ////
@@ -157,7 +150,7 @@ const SessionStore = Object.assign(EventEmitter.prototype, {
     ////
 
     dispatcherIndex: register(action => {
-        switch(action.actionType) {
+        switch(action.type) {
             case AppConstants.GET_QUERY_HISTORY:
                 _get_query_history();
                 break;
@@ -165,18 +158,27 @@ const SessionStore = Object.assign(EventEmitter.prototype, {
                 _get_bookmarks();
                 break;
             case AppConstants.ADD_BOOKMARK:
-                _add_bookmark(action.url, action.title, action.userId);
+                _add_bookmark(action.payload.url, action.payload.title, action.payload.userId);
                 break;
             case AppConstants.REMOVE_BOOKMARK:
-                _remove_bookmark(action.url);
+                _remove_bookmark(action.payload.url);
                 break;
             case AppConstants.STAR_BOOKMARK:
-                _star_bookmark(action.url);
+                _star_bookmark(action.payload.url);
                 break;
         }
         SessionStore.emitChange();
     })
-
 });
+
+////
+
+let broadcastChange = function() {
+    if (AccountStore.isCollaborative()) {
+        SyncStore.emitBookmarkUpdate(SearchStore.getSearchState());
+    }
+};
+
+////
 
 export default SessionStore;

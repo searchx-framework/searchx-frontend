@@ -9,7 +9,7 @@ import AccountStore from '../../../stores/AccountStore';
 import SyncStore from '../../../stores/SyncStore';
 
 import {log} from '../../../utils/Logger';
-import {LoggerEventTypes} from '../../../constants/LoggerEventTypes';
+import {LoggerEventTypes} from '../../../utils/LoggerEventTypes';
 import config from '../../../config';
 
 export default class PreTest extends React.Component {

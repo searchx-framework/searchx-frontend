@@ -1,11 +1,13 @@
 import './SearchBar.css'
 import React from 'react';
 
-import history from '../../History';
-import AppActions from '../../../AppActions';
+import SearchActions from '../../../actions/SearchActions';
+import SessionActions from '../../../actions/SessionActions';
 import SearchStore from '../../../stores/SearchStore';
+
+import history from '../../History';
 import {log} from '../../../utils/Logger';
-import {LoggerEventTypes} from '../../../constants/LoggerEventTypes';
+import {LoggerEventTypes} from '../../../utils/LoggerEventTypes';
 
 import SearchBox from './SearchBox';
 import SearchVerticals from './SearchVerticals';
@@ -52,7 +54,6 @@ class SearchBar extends React.Component {
         });
 
         this._onChange = this._onChange.bind(this);
-
     }
 
     ////
@@ -79,7 +80,7 @@ class SearchBar extends React.Component {
                 );
 
                 updateUrl(this.state.query, 'web', 1);
-                AppActions.search(query, "web",1);
+                SearchActions.search(query, "web",1);
                 this.setState({query: query, vertical: "site-search"})
             }
         }
@@ -97,7 +98,7 @@ class SearchBar extends React.Component {
 
     queryChangeHandler(e) {
         const query = e.target.value;
-        AppActions.changeQuery(query);
+        SearchActions.changeQuery(query);
     }
     
     verticalChangeHandler(vertical) {
@@ -106,10 +107,11 @@ class SearchBar extends React.Component {
             vertical: vertical.toLowerCase(),
             current_vertical: this.state.vertical
         });
-        AppActions.changeVertical(vertical.toLowerCase());
+
+        SearchActions.changeVertical(vertical.toLowerCase());
         if (this.state.query.length > 0) {
             updateUrl(this.state.query, vertical, 1);
-            AppActions.search(this.state.query, vertical.toLowerCase(),1);
+            SearchActions.search(this.state.query, vertical.toLowerCase(),1);
         }
     }
 
@@ -120,10 +122,11 @@ class SearchBar extends React.Component {
                 vertical: this.state.vertical
             }
         );
+
         e.preventDefault();
         updateUrl(this.state.query, this.state.vertical, 1);
-        AppActions.search(this.state.query, this.state.vertical,1);
-        AppActions.getBookmarks();
+        SearchActions.search(this.state.query, this.state.vertical,1);
+        SessionActions.getBookmarks();
     }
 
     ////

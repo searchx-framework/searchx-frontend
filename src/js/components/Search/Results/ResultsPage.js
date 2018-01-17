@@ -9,10 +9,10 @@ import SearchResultsNotFound from './SearchResultsNotFound';
 
 import SearchStore from '../../../stores/SearchStore'
 import AccountStore from '../../../stores/AccountStore';
-import AppActions from '../../../AppActions';
+import SearchActions from '../../../actions/SearchActions';
 
 import {log} from '../../../utils/Logger';
-import {LoggerEventTypes} from '../../../constants/LoggerEventTypes';
+import {LoggerEventTypes} from '../../../utils/LoggerEventTypes';
 import {updateUrl} from '../Header/SearchBar';
 import QueryHistory from "./Sidebar/QueryHistory";
 
@@ -74,7 +74,7 @@ export default class ResultsPage extends React.Component {
         log(LoggerEventTypes.SEARCHRESULTS_NEXT_PAGE, metaInfo);
 
         updateUrl(this.state.query, this.state.vertical, pageNumber);
-        AppActions.nextPage(this.state.query, this.state.vertical, pageNumber);
+        SearchActions.nextPage(this.state.query, this.state.vertical, pageNumber);
 
         this.setState({
             activePage: pageNumber,
@@ -84,13 +84,7 @@ export default class ResultsPage extends React.Component {
 
     ////
 
-    showPopup(url) {
-        "called";
-        this.setState({showPopup:true});
-    }
-
     render() {
-        //only if more than X search results are returned do we enter approximate numbering
         let prefix = "About ";
         if (this.state.matches < config.aboutPrefixAt) {
             prefix = "";

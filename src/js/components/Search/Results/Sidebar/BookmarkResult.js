@@ -1,13 +1,13 @@
 import React from 'react';
 import Rating from 'react-rating';
 
-import AppActions from '../../../../AppActions';
+import SessionActions from '../../../../actions/SessionActions';
 import SearchStore from '../../../../stores/SearchStore';
 import AccountStore from "../../../../stores/AccountStore";
 import TaskStore from "../../../../stores/TaskStore";
 
 import {log} from '../../../../utils/Logger';
-import {LoggerEventTypes} from '../../../../constants/LoggerEventTypes';
+import {LoggerEventTypes} from '../../../../utils/LoggerEventTypes';
 
 export default class BookmarkResult extends React.Component {
 
@@ -20,12 +20,12 @@ export default class BookmarkResult extends React.Component {
     }
 
     handleOnRemove() {
-       AppActions.removeBookmark(this.props.result.url);
+       SessionActions.removeBookmark(this.props.result.url);
        SearchStore.searchAndRemoveBookmark(this.props.result.url);
     };
 
     handleOnStar() {
-        AppActions.starBookmark(this.props.result.url);
+        SessionActions.starBookmark(this.props.result.url);
     };
 
     ////

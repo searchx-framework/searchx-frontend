@@ -7,7 +7,7 @@ import TaskStore from '../../stores/TaskStore';
 import Alert from 'react-s-alert';
 
 import {log} from '../../utils/Logger';
-import {LoggerEventTypes} from '../../constants/LoggerEventTypes';
+import {LoggerEventTypes} from '../../utils/LoggerEventTypes';
 
 class Video extends React.Component {
     constructor(props) {

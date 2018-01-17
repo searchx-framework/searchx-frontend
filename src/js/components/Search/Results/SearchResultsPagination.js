@@ -23,7 +23,7 @@ function validatePagination(vertical,length) {
 export default (props) => {
     return (
         <div className={isImagesOrVideos(props.vertical)? 'col-xs-12 text-center' :  'col-xs-12 text-center'}>
-            {validatePagination (props.vertical, props.length) && props.finished ?
+            {validatePagination (props.vertical, props.length) && props.finished &&
                 <Pagination className="pagination"
 
                     activePage={props.activePage}
@@ -38,8 +38,7 @@ export default (props) => {
                     nextPageText={<i className='glyphicon glyphicon-menu-right '/>}
 
                 />
-
-            : "" }
+            }
         </div> 
     )
 }

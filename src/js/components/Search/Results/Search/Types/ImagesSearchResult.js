@@ -2,7 +2,7 @@ import React from 'react';
 import VisibilitySensor from 'react-visibility-sensor';
 
 import {log} from '../../../../../utils/Logger';
-import {LoggerEventTypes} from '../../../../../constants/LoggerEventTypes';
+import {LoggerEventTypes} from '../../../../../utils/LoggerEventTypes';
 
 ////
 

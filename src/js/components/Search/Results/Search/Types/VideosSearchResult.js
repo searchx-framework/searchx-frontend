@@ -3,15 +3,11 @@ import VisibilitySensor from 'react-visibility-sensor';
 import ReactPlayer from 'react-player'
 
 import {log} from '../../../../../utils/Logger';
-import {LoggerEventTypes} from '../../../../../constants/LoggerEventTypes';
+import {LoggerEventTypes} from '../../../../../utils/LoggerEventTypes';
 
 ////
 
 export default class VideosSearchResult extends React.Component {
-
-    rawMarkup(content){
-        return { __html: content };
-    }
 
     getTitle(str){
         if (str.length < 32) {

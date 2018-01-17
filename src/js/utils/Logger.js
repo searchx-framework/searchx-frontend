@@ -27,16 +27,7 @@ export function log(event, meta) {
         task: task
     });
     
-    request.post(env.serverUrl + '/v1/users/' + AccountStore.getSessionId() + '/logs')
-    .send({
-        data: eventQueue
-    })
-    .end((err, res) => {
-        //console.log(res.body);
-    });
-
-    eventQueue = [];
-
+    flush();
 }
 
 export function flush() {
@@ -48,9 +39,7 @@ export function flush() {
         .send({
             data: eventQueue
         })
-        .end((err, res) => {
-            //console.log(res.body);
-        });
+        .end((err, res) => {});
 
     eventQueue = [];
 }

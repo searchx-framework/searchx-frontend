@@ -7,7 +7,7 @@ import Video from "../Video/Video";
 import Task from "./Task/Task";
 
 import {log} from '../../utils/Logger';
-import {LoggerEventTypes} from '../../constants/LoggerEventTypes';
+import {LoggerEventTypes} from '../../utils/LoggerEventTypes';
 import $ from 'jquery';
 
 import AccountStore from "../../stores/AccountStore";

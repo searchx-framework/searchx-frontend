@@ -19,7 +19,7 @@ class About extends React.Component {
                                 If you have questions or issues please contact <a href="http://www.wis.ewi.tudelft.nl/moraes/">Felipe Moraes</a> at f.moraes@tudelft.nl.
                             </p>
                          </div>
-                        <img className="TUDLogo" src='/img/TUDLogo.png'/>
+                        <img className="TUDLogo" src='/img/tud_logo.png'/>
 
                     </div>
                 </div>

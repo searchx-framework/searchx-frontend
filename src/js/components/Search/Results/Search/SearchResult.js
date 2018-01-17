@@ -3,7 +3,7 @@ import Rating from 'react-rating';
 
 import AccountStore from "../../../../stores/AccountStore";
 import SearchStore from '../../../../stores/SearchStore';
-import AppActions from '../../../../AppActions';
+import SessionActions from '../../../../actions/SessionActions';
 
 import WebSearchResult from './Types/WebSearchResult';
 import NewsSearchResult from './Types/NewsSearchResult';
@@ -29,13 +29,13 @@ export default class SearchResult extends React.Component {
 
     handleOnClick () {
         if (this.state.bookmark) {
-            AppActions.removeBookmark(this.props.result.url);
+            SessionActions.removeBookmark(this.props.result.url);
             SearchStore.removeBookmark(this.props.result.position);
             this.setState({
                 bookmark: false
             });
         } else {
-            AppActions.addBookmark(this.props.result.url, this.props.result.name, AccountStore.getId());
+            SessionActions.addBookmark(this.props.result.url, this.props.result.name, AccountStore.getId());
             SearchStore.addBookmark(this.props.result.position);
             this.setState({
                 bookmark: true,

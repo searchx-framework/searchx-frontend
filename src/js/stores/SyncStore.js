@@ -2,7 +2,8 @@ import EventEmitter from 'events';
 import io from 'socket.io-client';
 
 import AccountStore from "./AccountStore";
-import AppActions from "../AppActions";
+import SearchActions from "../actions/SearchActions";
+import SessionActions from "../actions/SessionActions";
 
 const env = require('env');
 const socket = io(env.serverUrl + '/group');
@@ -18,12 +19,12 @@ if (AccountStore.getId() !== '') {
 
 if (AccountStore.isCollaborative()) {
     socket.on('bookmarkUpdate', (data) => {
-        AppActions.getBookmarks();
-        AppActions.refreshSearch(data.query, data.vertical, data.pageNumber);
+        SessionActions.getBookmarks();
+        SearchActions.refreshSearch(data.query, data.vertical, data.pageNumber);
     });
 
     socket.on('searchState', (data) => {
-        AppActions.getQueryHistory();
+        SessionActions.getQueryHistory();
     });
 }
 

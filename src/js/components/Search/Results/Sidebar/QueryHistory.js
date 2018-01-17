@@ -1,7 +1,7 @@
 import './Sidebar.css';
-
 import React from 'react';
-import AppActions from "../../../../AppActions";
+
+import SessionActions from "../../../../actions/SessionActions";
 import AccountStore from "../../../../stores/AccountStore";
 import TaskStore from "../../../../stores/TaskStore";
 import SessionStore from "../../../../stores/SessionStore";
@@ -13,7 +13,7 @@ export default class QueryHistory extends React.Component {
             history: SessionStore.getQueryHistory()
         };
 
-        AppActions.getQueryHistory();
+        SessionActions.getQueryHistory();
         this._onChange = this._onChange.bind(this);
     }
 

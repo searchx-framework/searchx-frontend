@@ -1,7 +1,7 @@
 import './App.css'
 
 import React from 'react'
-import {Router, Route} from 'react-router-dom'
+import {Route, Router} from 'react-router-dom'
 import {flush} from '../utils/Logger';
 import history from '../components/History';
 
@@ -19,9 +19,8 @@ const config = require('../config');
 ////
 
 export class App extends React.Component {
-
     componentWillMount(){
-        setInterval( flush, config.logTimeInterval);
+        setInterval(flush, config.logTimeInterval);
     };
 
     render() {
@@ -39,7 +38,6 @@ export class App extends React.Component {
 
                     <Route path="/learning" component={Learning}/>
                     <Route path="/page" component={Page}/>
-
                 </div>
             </Router>
         );

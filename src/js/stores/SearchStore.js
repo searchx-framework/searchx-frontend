@@ -1,19 +1,19 @@
-import {register} from '../utils/Dispatcher';
-import EventEmitter from 'events';
 import request from 'superagent';
+import EventEmitter from 'events';
+
+import {register} from '../AppDispatcher';
+import AppConstants from '../AppConstants';
+import SessionActions from '../actions/SessionActions';
 
 import {log} from '../utils/Logger';
-import {LoggerEventTypes} from '../constants/LoggerEventTypes';
-import AccountStore from '../stores/AccountStore';
-import AppConstants from '../constants/AppConstants';
+import {LoggerEventTypes} from '../utils/LoggerEventTypes';
 
-import TaskStore from "./TaskStore";
-import SyncStore from "./SyncStore";
-import AppActions from "../AppActions";
+import TaskStore from './TaskStore';
+import SyncStore from './SyncStore';
+import AccountStore from './AccountStore';
 
 const env = require('env');
 const CHANGE_EVENT = 'change_search';
-const SUBMIT_EVENT = 'submit_search';
 
 ////
 
@@ -52,18 +52,6 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
     },
     removeChangeListener(callback) {
         this.removeListener(CHANGE_EVENT, callback);
-    },
-
-    ////
-
-    emitSubmit() {
-        this.emit(SUBMIT_EVENT)
-    },
-    addSubmitListener(callback) {
-        this.on(SUBMIT_EVENT, callback)
-    },
-    removeSubmitListener(callback) {
-        this.removeListener(SUBMIT_EVENT, callback);
     },
 
     ////
@@ -137,23 +125,25 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
     ////
 
     dispatcherIndex: register(action => {
-        switch(action.actionType) {
+        switch(action.type) {
             case AppConstants.SEARCH:
-                _search(action.query, action.pageNumber);
+                _search(action.payload.query, action.payload.pageNumber);
                 break;
             case AppConstants.NEXT_PAGE:
-                _search(action.query, action.pageNumber);
+                _search(action.payload.query, action.payload.pageNumber);
                 break;
             case AppConstants.CHANGE_VERTICAL:
-                _changeVertical(action.vertical);
+                _changeVertical(action.payload.vertical);
                 break;
             case AppConstants.CHANGE_QUERY:
-                _changeQuery(action.query);
+                _changeQuery(action.payload.query);
                 break;
             case AppConstants.REFRESH_SEARCH:
-                _refresh(action.query, action.vertical, action.pageNumber);
+                _refresh(action.payload.query, action.payload.vertical, action.payload.pageNumber);
                 break;
         }
+
+        console.log(action);
 
         SearchStore.emitChange();
     })
@@ -225,8 +215,7 @@ const _search = (query, pageNumber) => {
             state.refreshing = false;
             state.finished = true;
             SearchStore.emitChange();
-            SearchStore.emitSubmit();
-            AppActions.getQueryHistory();
+            SessionActions.getQueryHistory();
         });
 };
 
@@ -234,8 +223,6 @@ const _changeVertical = (vertical) => {
     state.vertical = vertical;
     state.results = [];
     state.pageNumber = 1;
-
-    SearchStore.emitSubmit();
 };
 
 const _changeQuery = (query) => {
