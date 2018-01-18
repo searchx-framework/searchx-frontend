@@ -7,12 +7,8 @@ let eventQueue = [];
 export function log(event, meta) {
     let task = {};
     const topic = AccountStore.getTaskTopic();
-
     if (topic !== '') {
         task = {
-            userCode: AccountStore.getId() || '',
-            sessionId: AccountStore.getSessionId() || '',
-
             topicId: topic.id,
             type: AccountStore.getTaskType() || '',
             duration: AccountStore.getTaskDuration() || '',
@@ -20,11 +16,12 @@ export function log(event, meta) {
     }
 
     eventQueue.push({
-        userId: AccountStore.getSessionId() || '',
+        userId: AccountStore.getId() || '',
+        sessionId: AccountStore.getSessionId() || '',
         date: new Date().toLocaleString("en-US", {timeZone: "Europe/Amsterdam"}),
+        task: task,
         event: event || '',
-        meta: meta || {},
-        task: task
+        meta: meta || {}
     });
     
     flush();
@@ -35,7 +32,7 @@ export function flush() {
         return;
     }
 
-    request.post(env.serverUrl + '/v1/users/' + AccountStore.getSessionId() + '/logs')
+    request.post(env.serverUrl + '/v1/users/' + AccountStore.getId() + '/logs')
         .send({
             data: eventQueue
         })

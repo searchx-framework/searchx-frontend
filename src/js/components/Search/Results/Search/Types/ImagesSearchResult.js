@@ -9,7 +9,7 @@ import {LoggerEventTypes} from '../../../../../utils/LoggerEventTypes';
 export default class ImagesSearchResult extends React.Component {
     render(){
         let metaInfo = {
-            url: this.props.result.contentUrl,
+            url: this.props.result.url,
             query: this.props.query,
             page: this.props.page,
             vertical: 'images',
@@ -48,7 +48,7 @@ export default class ImagesSearchResult extends React.Component {
                         intervalDelay={2000}
                 />
 
-                <a  href={this.props.result.contentUrl}
+                <a  href={this.props.result.url}
                     title={this.props.result.name}
                     target="_blank"
                     onClick={clickUrlLog}

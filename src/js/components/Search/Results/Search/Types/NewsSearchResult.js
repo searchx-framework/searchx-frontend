@@ -58,7 +58,7 @@ export default class NewsSearchResult extends React.Component {
                     <div className="newsImage">
                         {this.props.result.image ?
                             <div> <img src={this.props.result.image.thumbnail.contentUrl} /></div> :
-                            <div> <img/> </div>
+                            <div> <img src='/img/image_placeholder.png'/> </div>
                         }
                     </div>
 

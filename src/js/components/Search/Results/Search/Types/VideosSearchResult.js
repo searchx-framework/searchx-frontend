@@ -43,7 +43,7 @@ export default class VideosSearchResult extends React.Component {
 
     render(){
         let metaInfo = {
-            url: this.props.result.contentUrl,
+            url: this.props.result.url,
             query: this.props.query,
             page: this.props.page,
             vertical: 'videos',
@@ -110,7 +110,7 @@ export default class VideosSearchResult extends React.Component {
 
                 <div onMouseEnter={hoverEnter} onMouseLeave={hoverLeave}>
                     <div className="player">
-                        <ReactPlayer url={this.props.result.contentUrl}
+                        <ReactPlayer url={this.props.result.url}
                                      playing={false}
                                      width={275}
                                      height={150}

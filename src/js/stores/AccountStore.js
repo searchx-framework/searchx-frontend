@@ -51,7 +51,7 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
 
     setSessionId(sessionId) {
         localStorage.setItem("session-id", sessionId);
-        state.task.sessionId = sessionId;
+        state.sessionId = sessionId;
     },
 
     ////
