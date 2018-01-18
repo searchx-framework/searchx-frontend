@@ -6,7 +6,6 @@ import {flush} from '../utils/Logger';
 import history from '../components/History';
 
 import About from './Pages/About';
-import Page from './Pages/Page';
 import Search from './Search/Search';
 import Learning from './Survey/Learning';
 import PreTest from './Survey/Form/PreTest';
@@ -37,7 +36,6 @@ export class App extends React.Component {
                     <Route exact path="/posttest" component={PostTest}/>
 
                     <Route path="/learning" component={Learning}/>
-                    <Route path="/page" component={Page}/>
                 </div>
             </Router>
         );
