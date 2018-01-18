@@ -17,7 +17,8 @@ export default class PreTest extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isComplete: false
+            isComplete: false,
+            willTimeout: true
         };
 
         this.handleComplete = this.handleComplete.bind(this);
@@ -36,10 +37,21 @@ export default class PreTest extends React.Component {
 
     componentDidMount() {
         document.addEventListener('visibilitychange', this.handleVisibilityChange);
-        SyncStore.listenToGrouping((group) => {
-            AccountStore.setGroup(group._id, group.members);
-            this.handleTaskSetup(group.topic);
-        });
+
+        if (AccountStore.isCollaborative()) {
+            SyncStore.emitStartPretest();
+
+            SyncStore.listenToGrouping((group) => {
+                AccountStore.setGroup(group._id, group.members);
+                this.handleTaskSetup(group.topic);
+            });
+
+            SyncStore.listenToGroupPretestStart(() => {
+                this.setState({
+                    willTimeout: false
+                });
+            });
+        }
     }
 
     ////
@@ -54,18 +66,20 @@ export default class PreTest extends React.Component {
 
         const scores = TaskStore.getScoresFromResults(result.data);
 
-        if (AccountStore.isCollaborative()) {
+        if (!AccountStore.isCollaborative()) {
+            this.handleSingleSetup(scores);
+        } else {
             SyncStore.emitPretestScore(scores);
             this.setState({
                 isComplete: true
             });
 
             sleep(config.groupTimeout * 60 * 1000).then(() => {
-                SyncStore.emitGroupTimeout();
-                this.handleSingleSetup(scores);
+                if (this.state.willTimeout) {
+                    SyncStore.emitGroupTimeout();
+                    //this.handleSingleSetup(scores);
+                }
             });
-        } else {
-            this.handleSingleSetup(scores);
         }
     }
 
@@ -158,14 +172,21 @@ export default class PreTest extends React.Component {
     render() {
         if (this.state.isComplete) {
             document.removeEventListener("visibilitychange", this.handleVisibilityChange);
-
             return (
                 <div className="Survey">
                     <div className="Survey-form">
                         <div className='Survey-complete'>
-                            <h2>Waiting for other members...</h2>
-                            <h3>You have been assigned to a collaborative search experiment. We are still waiting for your partners to finish the Pretest.</h3>
-                            <h3>If after {config.groupTimeout} minutes there is still no update, we will fallback to a single user experiment. Please do not close this page.</h3>
+                            <h2>Waiting for other members to join...</h2>
+                            <h3>You will be doing a collaborative search study. We are still waiting for your partner to join.</h3>
+                            <h3>Please do not exit this page yet.</h3>
+                            <h3>If after {config.groupTimeout} minutes there is still no update, please exit the study.</h3>
+                            {!this.state.willTimeout &&
+                                <div>
+                                    <hr/>
+                                    <h2>Your partner has just started their pretest...</h2>
+                                    <h3>Please wait a bit longer :)</h3>
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>

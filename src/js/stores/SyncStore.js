@@ -38,6 +38,20 @@ const SyncStore = Object.assign(EventEmitter.prototype, {
         });
     },
 
+    listenToGroupPretestStart(callback) {
+        socket.on('startPretest', () => {
+            callback()
+        });
+    },
+
+    ////
+
+    emitStartPretest() {
+        socket.emit('pushStartPretest', {
+            userId: AccountStore.getId()
+        });
+    },
+
     emitPretestScore(scores) {
         socket.emit('pushPretestScores', {
             userId: AccountStore.getId(),

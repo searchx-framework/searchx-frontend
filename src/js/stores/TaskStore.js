@@ -20,12 +20,11 @@ let state = {
 ////
 
 const TaskStore = Object.assign(EventEmitter.prototype, {
-
     initializeTask(callback) {
         let url = '/pretest';
 
         request
-            .get(env.serverUrl + '/v1/users/' + AccountStore.getId() + '/task')
+            .get(env.serverUrl + '/v1/users/' + AccountStore.getId() + '/task/?collaborative=' + AccountStore.isCollaborative())
             .end((err, res) => {
                 if(err) {
                     console.log(err);
@@ -35,9 +34,9 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
                     const data = res.body;
                     this.setTopics(data.topics);
 
-                    if(data.group) {
-                        AccountStore.setTask(data.group.topic);
-                        AccountStore.setGroup(data.group._id, data.group.members);
+                    if(data.topic) {
+                        AccountStore.setTask(data.topic);
+                        AccountStore.setGroup(data._id, data.members);
                         url = '/learning';
                     }
                 }
