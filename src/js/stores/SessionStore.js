@@ -35,8 +35,10 @@ let _get_query_history = () => {
 
             if (!TaskStore.isIntroSearchDone()) {
                 state.queries = [
-                    {query: "first query", created: new Date() - 10000},
-                    {query: "second query", created: new Date()},
+                    {query: "first query", created: new Date() - 20000},
+                    {query: "first query", created: new Date() - 20000, userId: AccountStore.getId()},
+                    {query: "second query", created: new Date() - 10000},
+                    {query: "third query", created: new Date()},
                 ];
             }
             SessionStore.emitChange();
@@ -57,9 +59,9 @@ let _get_bookmarks = () => {
 
             if (!TaskStore.isIntroSearchDone()) {
                 state.bookmarks = [
-                    {title: "You can view your bookmarked documents here", url: "https://www.viewbookmark.com"},
+                    {title: "You can view your bookmarked documents here", url: "https://www.viewbookmark.com", userId: AccountStore.getId()},
                     {title: "You also can delete any bookmarked documents here", url: "https://www.deletebookmark.com"},
-                    {title: "A starred bookmark will appear on top", url: "https://www.starredbookmark.com", starred: true}
+                    {title: "A starred bookmark will appear on top", url: "https://www.starredbookmark.com", starred: true, userId: AccountStore.getId()}
                 ];
             }
             SessionStore.emitChange();

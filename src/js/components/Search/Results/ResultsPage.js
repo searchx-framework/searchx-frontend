@@ -128,7 +128,7 @@ export default class ResultsPage extends React.Component {
         ////
 
         return (
-            <div className="row">
+            <div className="row" id="intro-collab-color">
                 <div className="col-md-8 col-sm-12 col-xs-12">
                     {mainPage}
                 </div>

@@ -43,7 +43,7 @@ const stepsSearch = [
     },
     {
         element: '#intro-query-history',
-        intro: 'You can view your query history to help reformulate your search queries.',
+        intro: 'You can view the query history to help plan your next search queries.',
         position: 'top'
     },
     {
@@ -55,6 +55,19 @@ const stepsSearch = [
         element: '#intro-bookmark-bar',
         intro: 'The bookmarked documents will appear here. You can revisit them before completing the final test.',
         position: 'top'
+    }
+];
+
+const stepsCollaborative = [
+    {
+        element: '#intro-collab-color',
+        intro: 'The query history and bookmarks will be color coded to show which user initiated the action.',
+        position: 'top'
+    },
+    {
+        element: '#intro-collab-chat',
+        intro: 'You can use the provided chat window to coordinate with your learning partner',
+        position: 'auto'
     }
 ];
 
@@ -196,16 +209,16 @@ class Learning extends React.Component {
     componentWillMount() {
         const task = AccountStore.getTask();
 
-        let steps = stepsTask.concat(stepsSearch, stepsSubmit);
+        let steps = stepsTask.concat(stepsSearch);
         let medium = <Search/>;
 
         if (task.type === 'video') {
-            steps = stepsTask.concat(stepsVideo, stepsSubmit);
+            steps = stepsTask.concat(stepsVideo);
             medium = <Video/>;
         }
 
         if (task.type === 'both') {
-            steps = stepsTask.concat(stepsVideo, stepsSubmit);
+            steps = stepsTask.concat(stepsVideo);
             medium =
                 <div>
                     <Video/>
@@ -214,6 +227,11 @@ class Learning extends React.Component {
                 </div>;
         }
 
+        if (AccountStore.isCollaborative()) {
+            steps = steps.concat(stepsCollaborative);
+        }
+        steps = steps.concat(stepsSubmit);
+
         this.state.task = task;
         this.state.medium = medium;
         this.state.steps = steps;
@@ -221,15 +239,15 @@ class Learning extends React.Component {
 
     componentDidMount() {
         if (this.state.task.topic !== '') {
+            if (AccountStore.isCollaborative()) {
+                initializeChat();
+            }
+
             if (!this.isIntroDone()) {
                 this.intro.setOption('steps', this.state.steps);
                 this.intro.start();
                 Alert.closeAll();
 
-            } else {
-                if (AccountStore.isCollaborative()) {
-                    initializeChat();
-                }
             }
         }
 
