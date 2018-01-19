@@ -67,7 +67,6 @@ const IntroStore = Object.assign(EventEmitter.prototype, {
     },
 
     isIntroDone() {
-        console.log(state);
         let introDone = false;
 
         if (AccountStore.getTaskType() === "search") {
