@@ -7,6 +7,7 @@ import config from "../../config";
 
 const NUM_EXERCISES = 13;
 const WAITING_TIME = config.groupTimeout;
+const TASK_DURATION = config.taskDuration;
 
 ////
 
@@ -23,9 +24,6 @@ class Welcome extends React.Component {
                 <div className="row">
                     <div className="col-md-12"> 
                         <div className="Info" >
-                            <h2 className="text-center">Collaborative Learning</h2>
-
-                            <hr/>
                             <h3>Requirements:</h3>
                             <ol type="1">
                                 <li>
@@ -35,18 +33,21 @@ class Welcome extends React.Component {
                             </ol>
 
                             <hr/>
-                            <h3>In this study, you are tasked with learning about a given topic. This study is composed of three parts:</h3>
+                            <h3>
+                                In this study, you are tasked with learning about a given topic in collaboration with a fellow Prolific worker.
+                                This study is composed of three parts:
+                            </h3>
                             <ol type="1">
-                                <li><b>Diagnostic Test</b>.
+                                <li><b>Diagnostic Test (by yourself)</b>.
                                     <p>
                                         This is a multiple-choice question test to find out what you already know.
                                         Please answer honestly. Your payment is not affected by the number of correct or incorrect answers.
                                     </p>
                                 </li>
-                                <li><b>Learning Session</b>.
+                                <li><b>Collaborative Learning Phase</b>.
                                     <p>
-                                        We want you to use our custom web search system (we call it "SearchX") to learn about a given topic.
-                                        You are given 20 minutes to search for documents about that topic.
+                                        We want you, together with your assigned partner (another Prolific worker), to use our custom web search system (we call it "SearchX") to learn about a given topic.
+                                        You are given {TASK_DURATION} minutes to search for documents about that topic.
                                         You need to collect and save all the Web pages, publications, and other online sources that are helpful for you to learn about the topic.
                                     </p>
                                     <p>
@@ -56,11 +57,13 @@ class Welcome extends React.Component {
                                         If you conduct such off-topic searches, we will cancel your participation.
                                     </p>
                                     <p>
-                                        You are expected to interact with your collaboration partner during the learning session.
-                                        Try to help each other in learning more effectively.
+                                        In order to learn and search together, we provide you with:
+                                        a chat window so that you can communicate with your partner (when asked for a chat name, choose any name you like),
+                                        a shared query history so that you can see what your partner is currently searching for
+                                        and a shared bookmarking list so that you can easily share worthwhile documents.
                                     </p>
                                 </li>
-                                <li><b>Final Test</b>.
+                                <li><b>Final Test (by yourself)</b>.
                                     <p>
                                         We will give you {NUM_EXERCISES} exercises to complete to see how much you have learned through the learning phase;
                                         those exercises include questions about the given topic and the writing of an outline for your paper about this topic.
@@ -71,15 +74,15 @@ class Welcome extends React.Component {
                             </ol>
 
                             <hr/>
-                            <h3>During the study, you will be paired up with another user.</h3>
+                            <h3>It might take some time for us to find you a learning partner.</h3>
                             <p>
-                                We ask you to wait for a maximum of {WAITING_TIME} minutes for us to assign you a partner.
+                                We ask you to wait a maximum of {WAITING_TIME} minutes after finishing the Diagnostic test.
                                 In the case that you have not received a partner after the waiting time, please stop the study without completion.
-                                We will still give you part of the compensation for finishing the pretest.
+                                We will still give you part of the payment for finishing the pretest.
                             </p>
 
                             <hr/>
-                            <h3>You will need approximately 60 minutes to complete the whole study.</h3>
+                            <h3>You will need approximately 55 minutes to complete the whole study.</h3>
 
                             <hr/>
                             <h3>IMPORTANT!</h3>
