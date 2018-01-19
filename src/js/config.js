@@ -4,7 +4,7 @@ module.exports = {
     logTimeInterval: 5000,
 
     completionURL: "https://www.prolific.ac/submissions/complete?cc=DT3Q2IVP", /* url for completion of deployed prolific study */
-    groupTimeout: 10, /* wait time for collaborative learning (minutes) */
+    groupTimeout: 15, /* wait time for collaborative learning (minutes) */
 
     collaborative: true,
     taskType: 'search',

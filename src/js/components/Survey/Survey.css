@@ -2,6 +2,15 @@
 
 .Welcome {
     margin-bottom: 50px;
+
+    .Info {
+        text-align: left;
+        font-size: 1.4em;
+
+        h2 {
+            font-size: 2em;
+        }
+    }
 }
 
 .Learning {
