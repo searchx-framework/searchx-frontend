@@ -10,27 +10,15 @@ const socket = io(env.serverUrl + '/group');
 
 ////
 
-if (AccountStore.getId() !== '') {
-    socket.emit('register', {
-        userId: AccountStore.getId(),
-        groupId: AccountStore.getSessionId()
-    });
-}
-
-if (AccountStore.isCollaborative()) {
-    socket.on('bookmarkUpdate', (data) => {
-        SessionActions.getBookmarks();
-        SearchActions.refreshSearch(data.query, data.vertical, data.pageNumber);
-    });
-
-    socket.on('searchState', (data) => {
-        SessionActions.getQueryHistory();
-    });
-}
-
-////
-
 const SyncStore = Object.assign(EventEmitter.prototype, {
+    registerSocket() {
+        socket.emit('register', {
+            userId: AccountStore.getId(),
+            groupId: AccountStore.getSessionId()
+        });
+    },
+
+    ////
 
     listenToGrouping(callback) {
         socket.on('groupData', (data) => {
@@ -60,8 +48,8 @@ const SyncStore = Object.assign(EventEmitter.prototype, {
         });
     },
 
-    emitGroupTimeout() {
-        socket.emit('pushGroupTimeout', {
+    emitUserLeave() {
+        socket.emit('pushUserLeave', {
             userId: AccountStore.getId()
         });
     },
@@ -80,5 +68,22 @@ const SyncStore = Object.assign(EventEmitter.prototype, {
         socket.emit('pushBookmarkUpdate', searchState);
     }
 });
+
+////
+
+if (AccountStore.getId() !== '') {
+    SyncStore.registerSocket();
+}
+
+if (AccountStore.isCollaborative()) {
+    socket.on('bookmarkUpdate', (data) => {
+        SessionActions.getBookmarks();
+        SearchActions.refreshSearch(data.query, data.vertical, data.pageNumber);
+    });
+
+    socket.on('searchState', (data) => {
+        SessionActions.getQueryHistory();
+    });
+}
 
 export default SyncStore;

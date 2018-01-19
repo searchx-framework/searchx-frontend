@@ -14,7 +14,7 @@ const choices = [
 ];
 
 let state = {
-    topics: JSON.parse(localStorage.getItem("topics")) || []
+    topics: JSON.parse(localStorage.getItem("topics")) || ''
 };
 
 ////
@@ -27,7 +27,7 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
             .get(env.serverUrl + '/v1/users/' + AccountStore.getId() + '/task/?collaborative=' + AccountStore.isCollaborative())
             .end((err, res) => {
                 if(err) {
-                    console.log(err);
+                    callback('/register');
                 }
 
                 if(res) {
@@ -48,6 +48,15 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
     setTopics(topics) {
         localStorage.setItem("topics", JSON.stringify(topics));
         state.topics = topics;
+    },
+
+    clearTopics() {
+        localStorage.removeItem("topics");
+        state.topics = '';
+    },
+
+    isTopicsPresent() {
+        return state.topics !== '';
     },
 
     ////

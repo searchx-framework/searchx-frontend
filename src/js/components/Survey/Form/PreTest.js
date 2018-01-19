@@ -11,6 +11,7 @@ import SyncStore from '../../../stores/SyncStore';
 import {log} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../utils/LoggerEventTypes';
 import config from '../../../config';
+import IntroStore from "../../../stores/IntroStore";
 
 export default class PreTest extends React.Component {
 
@@ -18,10 +19,16 @@ export default class PreTest extends React.Component {
         super(props);
         this.state = {
             isComplete: false,
-            willTimeout: true
+            sessionReady: false,
+            partnerJoined: false,
+            timedOut: false
         };
 
+        this.handleBeforeUnload = this.handleBeforeUnload.bind(this);
+        this.handleUnload = this.handleUnload.bind(this);
+        this.handleTimeout = this.handleTimeout.bind(this);
         this.handleComplete = this.handleComplete.bind(this);
+
         this.handleSingleSetup = this.handleSingleSetup.bind(this);
         this.handleTaskSetup = this.handleTaskSetup.bind(this);
         this.handleCutCopyPaste = this.handleCutCopyPaste.bind(this);
@@ -37,6 +44,8 @@ export default class PreTest extends React.Component {
 
     componentDidMount() {
         document.addEventListener('visibilitychange', this.handleVisibilityChange);
+        window.addEventListener('beforeunload', this.handleBeforeUnload);
+        window.addEventListener('unload', this.handleUnload);
 
         if (AccountStore.isCollaborative()) {
             SyncStore.emitStartPretest();
@@ -47,10 +56,44 @@ export default class PreTest extends React.Component {
             });
 
             SyncStore.listenToGroupPretestStart(() => {
-                this.setState({
-                    willTimeout: false
-                });
+                this.setState({partnerJoined: true});
+                sleep(config.groupTimeout * 60 * 1000).then(this.handleTimeout);
             });
+        }
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('beforeunload', this.handleBeforeUnload);
+        window.removeEventListener('unload', this.handleUnload);
+        this.handleUnload();
+    }
+
+    ////
+
+    handleTimeout() {
+        window.removeEventListener('beforeunload', this.handleBeforeUnload);
+        SyncStore.emitUserLeave();
+        this.setState({timedOut: true});
+    }
+
+    handleBeforeUnload(e) {
+        if (!this.state.sessionReady) {
+            const dialogText = 'Changes you made may not be saved. Are you sure?';
+            e.returnValue = dialogText;
+            return dialogText;
+        }
+    }
+
+    handleUnload(e) {
+        if (!this.state.sessionReady) {
+            const metaInfo = {
+                step : "pretest",
+                state : this.state
+            };
+            log(LoggerEventTypes.SURVEY_EXIT, metaInfo);
+
+            TaskStore.clearTopics();
+            SyncStore.emitUserLeave();
         }
     }
 
@@ -70,15 +113,10 @@ export default class PreTest extends React.Component {
             this.handleSingleSetup(scores);
         } else {
             SyncStore.emitPretestScore(scores);
-            this.setState({
-                isComplete: true
-            });
+            this.setState({isComplete: true});
 
             sleep(config.groupTimeout * 60 * 1000).then(() => {
-                if (this.state.willTimeout) {
-                    SyncStore.emitGroupTimeout();
-                    //this.handleSingleSetup(scores);
-                }
+                if (!this.state.partnerJoined) this.handleTimeout()
             });
         }
     }
@@ -91,11 +129,11 @@ export default class PreTest extends React.Component {
     }
 
     handleTaskSetup(topic) {
-        if(AccountStore.getTaskTopic() === '') {
-            AccountStore.setTask(topic);
-        }
-
-        this.props.history.push('/learning')
+        IntroStore.clearIntro();
+        AccountStore.setTask(topic);
+        this.setState({sessionReady: true}, () => {
+            this.props.history.push('/learning')
+        });
     }
 
     handleCutCopyPaste(e){
@@ -162,6 +200,7 @@ export default class PreTest extends React.Component {
             });
 
             if (switchTabs >= 3) {
+                SyncStore.emitUserLeave();
                 window.location.reload();
             }
         }
@@ -170,21 +209,35 @@ export default class PreTest extends React.Component {
     ////
 
     render() {
+        if (!TaskStore.isTopicsPresent()) {
+            this.props.history.push('/register');
+            this.props.history.go();
+        }
+
         if (this.state.isComplete) {
             document.removeEventListener("visibilitychange", this.handleVisibilityChange);
             return (
                 <div className="Survey">
                     <div className="Survey-form">
                         <div className='Survey-complete'>
-                            <h2>Waiting for other members to join...</h2>
+                            <h2>Waiting for another Prolific worker to join...</h2>
                             <h3>You will be doing a collaborative search study. We are still waiting for your partner to join.</h3>
-                            <h3>Please do not exit this page yet.</h3>
-                            <h3>If after {config.groupTimeout} minutes there is still no update, please exit the study.</h3>
-                            {!this.state.willTimeout &&
+                            <h3>Please do not refresh/exit this page yet.</h3>
+                            <h3>If after {config.groupTimeout} minutes there is still no update, please stop the study.</h3>
+                            <h3>Once you drop out after waiting, we will provide you with a partial payment for completing the Diagnostic test.</h3>
+                            {this.state.partnerJoined &&
                                 <div>
                                     <hr/>
                                     <h2>Your partner has just started their pretest...</h2>
                                     <h3>Please wait a bit longer :)</h3>
+                                </div>
+                            }
+                            {this.state.timedOut &&
+                                <div>
+                                    <hr/>
+                                    <h2>Sorry, we weren't able to find you a partner in time.</h2>
+                                    <h3>Please stop the study. We will still provide you with a partial payment.</h3>
+                                    <h3>Thank you for taking part in our study.</h3>
                                 </div>
                             }
                         </div>

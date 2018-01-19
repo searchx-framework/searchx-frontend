@@ -114,8 +114,6 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
         state.task.type = type;
         state.task.duration = minutes;
 
-        localStorage.removeItem("intro-done-video");
-        localStorage.removeItem("intro-done-search");
         localStorage.removeItem("counter-start-search");
         localStorage.removeItem("finish");
     },
@@ -141,9 +139,6 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
         localStorage.removeItem("task-topic");
         localStorage.removeItem("task-type");
         localStorage.removeItem("task-duration");
-
-        localStorage.removeItem("intro-done-video");
-        localStorage.removeItem("intro-done-search");
         localStorage.removeItem("counter-start-search");
 
         state.task = '';

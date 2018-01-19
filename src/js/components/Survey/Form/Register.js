@@ -5,6 +5,7 @@ import * as Survey from 'survey-react';
 
 import TaskStore from '../../../stores/TaskStore';
 import AccountStore from '../../../stores/AccountStore';
+import SyncStore from '../../../stores/SyncStore';
 
 import {log, log_and_go} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../utils/LoggerEventTypes';
@@ -30,6 +31,7 @@ export default class Register extends React.Component {
     handleComplete(result) {
         const userId = TaskStore.getUserIdFromResults(result.data);
         AccountStore.setId(userId);
+        SyncStore.registerSocket();
 
         const metaInfo = {
             results: result.data
@@ -44,7 +46,6 @@ export default class Register extends React.Component {
 
         TaskStore.initializeTask((url) => {
             this.props.history.push(url);
-            this.props.history.go();
         });
     }
 

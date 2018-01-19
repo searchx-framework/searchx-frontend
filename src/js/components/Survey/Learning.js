@@ -77,12 +77,12 @@ class Learning extends React.Component {
 
     componentDidMount() {
         if (this.state.task.topic !== '') {
-            if (AccountStore.isCollaborative()) {
-                initializeChat();
-            }
-
             if (!IntroStore.isIntroDone()) {
                 IntroStore.startIntro();
+            } else {
+                if (AccountStore.isCollaborative()) {
+                    initializeChat();
+                }
             }
         }
 

@@ -56,6 +56,14 @@ const IntroStore = Object.assign(EventEmitter.prototype, {
         Alert.closeAll();
     },
 
+    clearIntro() {
+        localStorage.removeItem('intro-done-search');
+        localStorage.removeItem('intro-done-video');
+
+        state.introSearchDone = false;
+        state.introVideoDone = false;
+    },
+
     ////
 
     isIntroSearchDone() {
