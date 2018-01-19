@@ -6,8 +6,8 @@ import AppConstants from '../AppConstants';
 
 import AccountStore from '../stores/AccountStore';
 import SyncStore from '../stores/SyncStore';
-import TaskStore from "./TaskStore";
 import SearchStore from "./SearchStore";
+import IntroStore from "./IntroStore";
 
 const env = require('env');
 const CHANGE_EVENT = 'change_session';
@@ -33,7 +33,7 @@ let _get_query_history = () => {
 
             ////
 
-            if (!TaskStore.isIntroSearchDone()) {
+            if (!IntroStore.isIntroSearchDone()) {
                 state.queries = [
                     {query: "first query", created: new Date() - 20000},
                     {query: "first query", created: new Date() - 20000, userId: AccountStore.getId()},
@@ -57,7 +57,7 @@ let _get_bookmarks = () => {
 
             ////
 
-            if (!TaskStore.isIntroSearchDone()) {
+            if (!IntroStore.isIntroSearchDone()) {
                 state.bookmarks = [
                     {title: "You can view your bookmarked documents here", url: "https://www.viewbookmark.com", userId: AccountStore.getId()},
                     {title: "You also can delete any bookmarked documents here", url: "https://www.deletebookmark.com"},

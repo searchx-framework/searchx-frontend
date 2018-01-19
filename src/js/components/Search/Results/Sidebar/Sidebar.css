@@ -65,7 +65,7 @@
     }
 
     .list {
-        height: 500px;
+        max-height: 750px;
         overflow-y: auto;
     }
 

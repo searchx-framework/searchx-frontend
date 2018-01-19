@@ -8,9 +8,9 @@ import SessionActions from '../actions/SessionActions';
 import {log} from '../utils/Logger';
 import {LoggerEventTypes} from '../utils/LoggerEventTypes';
 
-import TaskStore from './TaskStore';
 import SyncStore from './SyncStore';
 import AccountStore from './AccountStore';
+import IntroStore from "./IntroStore";
 
 const env = require('env');
 const CHANGE_EVENT = 'change_search';
@@ -240,7 +240,7 @@ if (_getURLParameter('q')) {
     _search();
 }
 
-if (!TaskStore.isIntroSearchDone()) {
+if (!IntroStore.isIntroSearchDone()) {
     state.results = [
         {name: "You can view the first result here", displayUrl: "https://www.result1.com" , snippet: "This is the first result..."},
         {name: "You can view the second result here", displayUrl: "https://www.result2.com" , snippet: "This is the second result...", bookmark: true, bookmarkUserId: AccountStore.getId(), bookmarkTime: new Date()},

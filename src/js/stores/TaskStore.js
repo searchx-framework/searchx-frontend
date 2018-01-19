@@ -69,14 +69,6 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
 
     ////
 
-    isIntroVideoDone() {
-        return localStorage.getItem("intro-done-video") === 'true';
-    },
-
-    isIntroSearchDone() {
-        return localStorage.getItem("intro-done-search") === 'true';
-    },
-
     isOverSwitchTabsLimit() {
         const switchTabsPreTest = localStorage.getItem("switch-tabs-posttest");
         const switchTabsPostTest = localStorage.getItem("switch-tabs-posttest");
