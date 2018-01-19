@@ -43,6 +43,13 @@ class Welcome extends React.Component {
                                         This is a multiple-choice question test to find out what you already know.
                                         Please answer honestly. Your payment is not affected by the number of correct or incorrect answers.
                                     </p>
+                                    <p>
+                                        Since this is a collaborative task, after the Diagnostic test you will need to wait for a partner.
+                                        How much time that takes depends on how many other Prolific workers are active right now.
+                                        We ask you to wait for {WAITING_TIME} minutes.
+                                        In the case that you have not received a partner in that time, please stop the study.
+                                        Once you drop out (after the {WAITING_TIME} minutes of waiting are up), we will provide you with a partial payment for completing the Diagnostic test.
+                                    </p>
                                 </li>
                                 <li><b>Collaborative Learning Phase</b>.
                                     <p>
@@ -66,7 +73,7 @@ class Welcome extends React.Component {
                                 <li><b>Final Test (by yourself)</b>.
                                     <p>
                                         We will give you {NUM_EXERCISES} exercises to complete to see how much you have learned through the learning phase;
-                                        those exercises include questions about the given topic and the writing of an outline for your paper about this topic.
+                                        those exercises include questions about the given topic and the writing of an outline for your paper about the given topic.
                                         Please answer honestly. Your payment is not affected by the number of correct or incorrect answers.
                                         Note that your answers must exceed a minimum word count and be on your assigned topic.
                                     </p>
@@ -74,15 +81,7 @@ class Welcome extends React.Component {
                             </ol>
 
                             <hr/>
-                            <h3>It might take some time for us to find you a learning partner.</h3>
-                            <p>
-                                We ask you to wait a maximum of {WAITING_TIME} minutes after finishing the Diagnostic test.
-                                In the case that you have not received a partner after the waiting time, please stop the study without completion.
-                                We will still give you part of the payment for finishing the pretest.
-                            </p>
-
-                            <hr/>
-                            <h3>You will need approximately 55 minutes to complete the whole study.</h3>
+                            <h3>You will need approximately 50 minutes to complete the whole study.</h3>
 
                             <hr/>
                             <h3>IMPORTANT!</h3>
