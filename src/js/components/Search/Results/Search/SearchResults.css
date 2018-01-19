@@ -1,6 +1,16 @@
 @import '../../variables.css';
 
 .SearchResults {
+    padding: 15px;
+    margin: 0px;
+    min-height: 750px;
+
+    &-pagination {
+
+         background-color: $primary-color;
+         border-color: $primary-color;
+    }
+
     .rating {
         float : left;
         margin-right: 5px;

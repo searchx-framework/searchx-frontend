@@ -128,15 +128,15 @@ export default class ResultsPage extends React.Component {
         ////
 
         return (
-            <div className="row" id="intro-collab-color">
-                <div className="col-md-8 col-sm-12 col-xs-12">
+            <div className="row ResultsPage" id="intro-collab-color">
+                <div className="MainPage col-md-8 col-sm-12 col-xs-12">
                     {mainPage}
                 </div>
 
                 <div className="Sidebar col-md-4 col-sm-12 col-xs-12">
                     <QueryHistory/>
                     <BookmarkResults/>
-                </div >
+                </div>
 
                 <div className="w-100"/>
                 <div className="col-xs-12 text-center" >

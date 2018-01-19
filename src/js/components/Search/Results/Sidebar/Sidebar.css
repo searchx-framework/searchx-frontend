@@ -3,7 +3,7 @@
 .Sidebar {
     border-left: 2px solid $border-color;
     padding-right: 25px;
-    height: inherit;
+    min-height: 750px;
 
     h3 {
         font-size: 20px;
@@ -65,7 +65,7 @@
     }
 
     .list {
-        max-height: 750px;
+        max-height: 700px;
         overflow-y: auto;
     }
 

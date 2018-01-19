@@ -1,17 +1,5 @@
 @import '../../variables.css';
 
-.SearchResults {
-    padding: 15px;
-    margin: 0px;
-
-    min-height: 500px;
-&-pagination {
-
-     background-color: $primary-color;
-     border-color: $primary-color;
- }
-}
-
 .TimeIndicator {
     color: $description-grey;
     display: block;
