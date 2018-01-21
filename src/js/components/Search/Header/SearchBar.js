@@ -5,15 +5,13 @@ import SearchActions from '../../../actions/SearchActions';
 import SessionActions from '../../../actions/SessionActions';
 import SearchStore from '../../../stores/SearchStore';
 
-import history from '../../History';
 import {log} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../utils/LoggerEventTypes';
 
 import SearchBox from './SearchBox';
 import SearchVerticals from './SearchVerticals';
 
-
-/*****************************/
+////
 
 let getParameterByName = function(name, url) {
     if (!url) url = window.location.href;
@@ -27,24 +25,7 @@ let getParameterByName = function(name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 };
 
-let updateUrl = function(query, vertical, page) {
-    let url = window.location.href;
-    let params = '?q='+ query +'&v='+ vertical.toLowerCase() +'&p='+ page;
-
-    // TODO : automatically extract api string
-
-    if(url.includes('/search')) {
-        history.push({pathname: '/search/' + params});
-    }
-
-    if(url.includes('/learning')) {
-        history.push({pathname: '/learning/' + params});
-    }
-};
-
-
-/*****************************/
-
+////
 
 class SearchBar extends React.Component {
     constructor(props) {
@@ -79,7 +60,6 @@ class SearchBar extends React.Component {
                     }
                 );
 
-                updateUrl(this.state.query, 'web', 1);
                 SearchActions.search(query, "web",1);
                 this.setState({query: query, vertical: "site-search"})
             }
@@ -110,7 +90,6 @@ class SearchBar extends React.Component {
 
         SearchActions.changeVertical(vertical.toLowerCase());
         if (this.state.query.length > 0) {
-            updateUrl(this.state.query, vertical, 1);
             SearchActions.search(this.state.query, vertical.toLowerCase(),1);
         }
     }
@@ -124,7 +103,6 @@ class SearchBar extends React.Component {
         );
 
         e.preventDefault();
-        updateUrl(this.state.query, this.state.vertical, 1);
         SearchActions.search(this.state.query, this.state.vertical,1);
         SessionActions.getBookmarks();
     }
@@ -150,4 +128,3 @@ class SearchBar extends React.Component {
 }
 
 export default SearchBar;
-exports.updateUrl = updateUrl;

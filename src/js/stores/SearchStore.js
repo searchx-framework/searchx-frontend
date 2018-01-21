@@ -11,6 +11,7 @@ import {LoggerEventTypes} from '../utils/LoggerEventTypes';
 import SyncStore from './SyncStore';
 import AccountStore from './AccountStore';
 import IntroStore from "./IntroStore";
+import history from "../components/History";
 
 const env = require('env');
 const CHANGE_EVENT = 'change_search';
@@ -127,9 +128,11 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
     dispatcherIndex: register(action => {
         switch(action.type) {
             case AppConstants.SEARCH:
+                _updateUrl(state.query, state.vertical, state.pageNumber);
                 _search(action.payload.query, action.payload.pageNumber);
                 break;
-            case AppConstants.NEXT_PAGE:
+            case AppConstants.CHANGE_PAGE:
+                _updateUrl(state.query, state.vertical, state.pageNumber);
                 _search(action.payload.query, action.payload.pageNumber);
                 break;
             case AppConstants.CHANGE_VERTICAL:
@@ -150,22 +153,23 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
 ////
 
 const _search = (query, pageNumber) => {
-    const elapsedTime = new Date().getTime();
+    const startTime = new Date().getTime();
 
     state.submittedQuery = true;
     state.finished = false;
     state.resultsNotFound = false;
+    if (!state.refreshing) {
+        state.results = [];
+    }
 
     pageNumber = pageNumber || state.pageNumber || 1;
     state.pageNumber = pageNumber;
     state.query = query || state.query;
 
-    if (!state.refreshing) {
-        state.results = [];
-    }
-
     SyncStore.emitSearchState(SearchStore.getSearchState());
     SearchStore.emitChange();
+
+    ////
 
     request
         .get(env.serverUrl + '/v1/search/'+state.vertical
@@ -176,7 +180,6 @@ const _search = (query, pageNumber) => {
         )
         .end((err, res) => {
             if (!res.body.error) {
-
                 const results = res.body.results;
                 for (let i = 0; i < results.length; i++) {
                     results[i].position = i;
@@ -187,7 +190,6 @@ const _search = (query, pageNumber) => {
                 state.pageNumber = pageNumber;
                 state.serp_id = res.body.id;
 
-
             } else {
                 state.results = [];
                 state.pageNumber = pageNumber;
@@ -197,9 +199,9 @@ const _search = (query, pageNumber) => {
                 state.resultsNotFound = true;
             }
 
-            state.elapsedTime = (new Date().getTime()) - elapsedTime;
-
-            ////
+            state.elapsedTime = (new Date().getTime()) - startTime;
+            state.refreshing = false;
+            state.finished = true;
 
             log(LoggerEventTypes.SEARCHRESULT_ELAPSEDTIME, {
                 query: state.query,
@@ -209,8 +211,6 @@ const _search = (query, pageNumber) => {
                 elapsedTime: state.elapsedTime
             });
 
-            state.refreshing = false;
-            state.finished = true;
             SearchStore.emitChange();
             SessionActions.getQueryHistory();
         });
@@ -224,6 +224,19 @@ const _changeVertical = (vertical) => {
 
 const _changeQuery = (query) => {
     state.query = query;
+};
+
+////
+
+const _updateUrl = function(query, vertical, page) {
+    const url = window.location.href;
+    const route = url.split("/").pop().split("?")[0];
+    const params = 'q='+ query +'&v='+ vertical.toLowerCase() +'&p='+ page;
+
+    history.push({
+        pathname: route,
+        search: params
+    });
 };
 
 const _refresh = (query, vertical, pageNumber) => {

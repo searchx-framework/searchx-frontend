@@ -2,8 +2,8 @@ export default {
     /* Search constants */
     SEARCH: 'SEARCH',
     CHANGE_VERTICAL: 'CHANGE_VERTICAL',
+    CHANGE_PAGE: 'CHANGE_PAGE',
     CHANGE_QUERY: 'CHANGE_QUERY',
-    NEXT_PAGE: 'NEXT_PAGE',
     REFRESH_SEARCH: 'REFRESH_SEARCH',
 
     /* Session constants */

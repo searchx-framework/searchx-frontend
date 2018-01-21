@@ -12,9 +12,9 @@ export default {
         })
     },
 
-    nextPage(query, vertical, pageNumber) {
+    changePage(query, vertical, pageNumber) {
         dispatch({
-            type: AppConstants.NEXT_PAGE,
+            type: AppConstants.CHANGE_PAGE,
             payload: {
                 query: query,
                 pageNumber: pageNumber

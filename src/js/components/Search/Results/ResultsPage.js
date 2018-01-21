@@ -13,7 +13,6 @@ import SearchActions from '../../../actions/SearchActions';
 
 import {log} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../utils/LoggerEventTypes';
-import {updateUrl} from '../Header/SearchBar';
 import QueryHistory from "./Sidebar/QueryHistory";
 
 const config = require('../../../config');
@@ -72,8 +71,7 @@ export default class ResultsPage extends React.Component {
             serp_id: this.state.serp_id
         });
 
-        updateUrl(this.state.query, this.state.vertical, pageNumber);
-        SearchActions.nextPage(this.state.query, this.state.vertical, pageNumber);
+        SearchActions.changePage(this.state.query, this.state.vertical, pageNumber);
 
         this.setState({
             activePage: pageNumber,
