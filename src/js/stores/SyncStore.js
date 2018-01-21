@@ -49,9 +49,11 @@ const SyncStore = Object.assign(EventEmitter.prototype, {
     },
 
     emitUserLeave() {
-        socket.emit('pushUserLeave', {
-            userId: AccountStore.getId()
-        });
+        if (AccountStore.isCollaborative()) {
+            socket.emit('pushUserLeave', {
+                userId: AccountStore.getId()
+            });
+        }
     },
 
     ////

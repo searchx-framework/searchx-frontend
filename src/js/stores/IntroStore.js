@@ -43,7 +43,7 @@ const IntroStore = Object.assign(EventEmitter.prototype, {
         }
 
         if (AccountStore.isCollaborative()) {
-            steps = steps.concat(stepsCollaborative);
+            steps = stepsTask.concat(stepsSearchCollaborative, stepsCollaborative);
         }
 
         steps = steps.concat(stepsSubmit);
@@ -143,15 +143,42 @@ const stepsSearch = [
     }
 ];
 
+const stepsSearchCollaborative = [
+    {
+        element: '#intro-system',
+        intro: 'We want you to use our custom web search system SearchX.',
+        position: 'bottom-middle-aligned'
+    },
+    {
+        element: '#intro-search-bar',
+        intro: 'Use SearchX to search for webpages, publications, and other online sources about the topic.'
+    },
+    {
+        element: '#intro-query-history',
+        intro: 'The query history shows your and your partner\'s past search queries. In this manner you both see what the other is doing.',
+        position: 'top'
+    },
+    {
+        element: '#intro-search-results',
+        intro: 'To save a resource that is useful for your term paper, bookmark it. You also see your partner\'s bookmarks here.',
+        position: 'top'
+    },
+    {
+        element: '#intro-bookmark-bar',
+        intro: 'The documents you and your partner bookmarked will appear here. You can revisit them before completing the final test.',
+        position: 'top'
+    }
+];
+
 const stepsCollaborative = [
     {
         element: '#intro-collab-color',
-        intro: 'The query history and bookmarks will be color coded to show which user initiated the action.',
+        intro: 'The query history and bookmarks are color-coded to show who (you or your partner) initiated the action.',
         position: 'top'
     },
     {
         element: '#intro-collab-chat',
-        intro: 'You can use the provided chat window to coordinate with your learning partner',
+        intro: 'Please use the provided  chat window to collaborate with your partner during the learning phase.',
         position: 'auto'
     }
 ];

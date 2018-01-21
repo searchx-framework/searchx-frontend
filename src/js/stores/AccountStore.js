@@ -96,7 +96,7 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
     },
 
     getMemberColor(userId) {
-        if (state.group.members === '' || state.group.members[userId] === undefined) return 'DarkSlateGray';
+        if (state.group.members === '' || state.group.members[userId] === undefined) return 'LightSlateGray';
         return state.group.members[userId].color;
     },
 
