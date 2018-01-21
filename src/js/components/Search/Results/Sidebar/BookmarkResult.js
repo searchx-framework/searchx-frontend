@@ -37,7 +37,8 @@ export default class BookmarkResult extends React.Component {
 
     render(){
         let metaInfo = {
-            url: this.props.result.url
+            url: this.props.result.url,
+            userId: this.props.result.userId
         };
 
         let clickUrlLog = (e) => log(LoggerEventTypes.BOOKMARK_CLICK_URL, metaInfo);

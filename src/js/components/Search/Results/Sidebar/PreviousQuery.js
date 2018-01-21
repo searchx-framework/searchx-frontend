@@ -15,7 +15,8 @@ export default class PreviousQuery extends React.Component {
 
     render() {
         let metaInfo = {
-            url: this.props.data.query
+            url: this.props.data.query,
+            userId: this.props.data.userId
         };
 
         let clickUrlLog = (e) => log(LoggerEventTypes.QUERYHISTORY_CLICK_URL, metaInfo);

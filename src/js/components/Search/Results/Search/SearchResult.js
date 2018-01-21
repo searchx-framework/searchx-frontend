@@ -10,6 +10,9 @@ import NewsSearchResult from './Types/NewsSearchResult';
 import ImagesSearchResult from './Types/ImagesSearchResult';
 import VideosSearchResult from './Types/VideosSearchResult';
 
+import {log} from '../../../../utils/Logger';
+import {LoggerEventTypes} from '../../../../utils/LoggerEventTypes';
+
 ////
 
 export default class SearchResult extends React.Component {
@@ -28,21 +31,29 @@ export default class SearchResult extends React.Component {
     ////
 
     handleOnClick () {
+        let metaInfo = {
+            url: this.props.result.url
+        };
+
         if (this.state.bookmark) {
             SessionActions.removeBookmark(this.props.result.url);
             SearchStore.removeBookmark(this.props.result.position);
+            metaInfo.action = "remove";
             this.setState({
                 bookmark: false
             });
         } else {
             SessionActions.addBookmark(this.props.result.url, this.props.result.name, AccountStore.getId());
             SearchStore.addBookmark(this.props.result.position);
+            metaInfo.action = "add";
             this.setState({
                 bookmark: true,
                 bookmarkUserId: AccountStore.getId(),
                 bookmarkTime: new Date()
             });
         }
+
+        log(LoggerEventTypes.BOOKMARK_ACTION, metaInfo);
     };
 
     componentWillReceiveProps(nextProps) {
