@@ -7,7 +7,7 @@ import TaskStore from '../../../stores/TaskStore';
 import AccountStore from '../../../stores/AccountStore';
 import SyncStore from '../../../stores/SyncStore';
 
-import {log, log_and_go} from '../../../utils/Logger';
+import {log} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../utils/LoggerEventTypes';
 
 export default class Register extends React.Component {
