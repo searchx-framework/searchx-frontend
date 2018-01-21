@@ -64,7 +64,7 @@ export default class ResultsPage extends React.Component {
     }
 
     handlePageChange(pageNumber) {
-        log(LoggerEventTypes.SEARCHRESULTS_NEXT_PAGE, {
+        log(LoggerEventTypes.SEARCH_CHANGE_PAGE, {
             query: this.state.query,
             page: pageNumber,
             previous_page: this.state.activePage,

@@ -77,6 +77,10 @@ export default class PreTest extends React.Component {
         window.removeEventListener('beforeunload', this.handleBeforeUnload);
         SyncStore.emitUserLeave();
         this.setState({timedOut: true});
+
+        log(LoggerEventTypes.SURVEY_GROUPING_TIMEOUT, {
+            state: this.state
+        });
     }
 
     handleBeforeUnload(e) {
@@ -154,7 +158,7 @@ export default class PreTest extends React.Component {
     }
 
     handleVisibilityChange() {
-        log(LoggerEventTypes.CHANGE_VISIBILITY, {
+        log(LoggerEventTypes.WINDOW_CHANGE_VISIBILITY, {
             step : "pretest",
             hidden: document.hidden
         });

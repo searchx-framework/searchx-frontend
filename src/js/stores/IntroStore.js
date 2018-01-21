@@ -3,6 +3,8 @@ import Alert from "react-s-alert";
 import $ from "jquery";
 
 import AccountStore from "./AccountStore";
+import {LoggerEventTypes} from "../utils/LoggerEventTypes";
+import {log} from "../utils/Logger";
 
 ////
 
@@ -51,6 +53,10 @@ const IntroStore = Object.assign(EventEmitter.prototype, {
     },
 
     startIntro() {
+        log(LoggerEventTypes.SURVEY_INTRO_START, {
+            start: Date.now()
+        });
+
         this.setupSteps();
         intro.start();
         Alert.closeAll();

@@ -73,7 +73,7 @@ class SearchBar extends React.Component {
             if (splitedUrl.length === 2) {
                 const query = getParameterByName("query",url);
 
-                log(LoggerEventTypes.SEARCHBOX_SEARCH, {
+                log(LoggerEventTypes.SEARCH_QUERY, {
                     query: query,
                     vertical: "site-search"
                     }
@@ -102,7 +102,7 @@ class SearchBar extends React.Component {
     }
     
     verticalChangeHandler(vertical) {
-        log(LoggerEventTypes.SEARCHBOX_CHANGE_VERTICAL, {
+        log(LoggerEventTypes.SEARCH_CHANGE_VERTICAL, {
             query: this.state.query,
             vertical: vertical.toLowerCase(),
             current_vertical: this.state.vertical
@@ -116,7 +116,7 @@ class SearchBar extends React.Component {
     }
 
     searchHandler(e) {    
-        log(LoggerEventTypes.SEARCHBOX_SEARCH,
+        log(LoggerEventTypes.SEARCH_QUERY,
             {
                 query: this.state.query,
                 vertical: this.state.vertical

@@ -38,7 +38,7 @@ export default class PostTest extends React.Component {
     componentDidUpdate() {
         if (this.state.isComplete) {
             document.addEventListener('visibilitychange', function(){
-                log(LoggerEventTypes.CHANGE_VISIBILITY, {
+                log(LoggerEventTypes.WINDOW_CHANGE_VISIBILITY, {
                     step : "posttest",
                     hidden: document.hidden
                 });
@@ -74,7 +74,7 @@ export default class PostTest extends React.Component {
     }
 
     handleVisibilityChange(){
-        log(LoggerEventTypes.CHANGE_VISIBILITY, {
+        log(LoggerEventTypes.WINDOW_CHANGE_VISIBILITY, {
             step : "posttest",
             hidden: document.hidden
         });

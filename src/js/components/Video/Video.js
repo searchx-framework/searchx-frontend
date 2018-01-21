@@ -19,7 +19,7 @@ class Video extends React.Component {
 
     componentDidMount() {
         document.addEventListener('visibilitychange', function(){
-            log(LoggerEventTypes.CHANGE_VISIBILITY, {
+            log(LoggerEventTypes.WINDOW_CHANGE_VISIBILITY, {
                 step : "video",
                 hidden: document.hidden
 

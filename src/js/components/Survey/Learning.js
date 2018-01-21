@@ -36,8 +36,6 @@ class Learning extends React.Component {
         const start = localStorage.getItem("counter-start") || Date.now();
         localStorage.setItem("counter-start", start);
 
-        ////
-
         log(LoggerEventTypes.SURVEY_LEARNING_START, {
             start: start,
             step: this.state.task.type
