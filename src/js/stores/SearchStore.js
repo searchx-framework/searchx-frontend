@@ -128,12 +128,12 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
     dispatcherIndex: register(action => {
         switch(action.type) {
             case AppConstants.SEARCH:
-                _updateUrl(state.query, state.vertical, state.pageNumber);
                 _search(action.payload.query, action.payload.pageNumber);
+                _updateUrl(state.query, state.vertical, state.pageNumber);
                 break;
             case AppConstants.CHANGE_PAGE:
-                _updateUrl(state.query, state.vertical, state.pageNumber);
                 _search(action.payload.query, action.payload.pageNumber);
+                _updateUrl(state.query, state.vertical, state.pageNumber);
                 break;
             case AppConstants.CHANGE_VERTICAL:
                 _changeVertical(action.payload.vertical);
