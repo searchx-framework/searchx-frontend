@@ -13,7 +13,7 @@ import SearchActions from '../../../actions/SearchActions';
 
 import {log} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../utils/LoggerEventTypes';
-import QueryHistory from "./Sidebar/QueryHistory";
+import PreviousQueries from "./Sidebar/PreviousQueries";
 
 const config = require('../../../config');
 const Loader = require('react-loader');
@@ -131,7 +131,7 @@ export default class ResultsPage extends React.Component {
                 </div>
 
                 <div className="Sidebar col-md-4 col-sm-12 col-xs-12">
-                    <QueryHistory/>
+                    <PreviousQueries/>
                     <BookmarkResults/>
                 </div>
 

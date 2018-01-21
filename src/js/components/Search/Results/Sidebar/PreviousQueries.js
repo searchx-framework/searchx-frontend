@@ -2,9 +2,8 @@ import './Sidebar.css';
 import React from 'react';
 
 import SessionActions from "../../../../actions/SessionActions";
-import AccountStore from "../../../../stores/AccountStore";
-import TaskStore from "../../../../stores/TaskStore";
 import SessionStore from "../../../../stores/SessionStore";
+import PreviousQuery from "./PreviousQuery";
 
 export default class QueryHistory extends React.Component {
     constructor(props) {
@@ -35,28 +34,13 @@ export default class QueryHistory extends React.Component {
 
     render() {
         let history = this.state.history.map((data, index) => {
-            const url = window.location.href.split("?")[0];
-            const href = url + "?q=" + data.query;
-
-            let color = "";
-            if (AccountStore.isCollaborative()) {
-                color = AccountStore.getMemberColor(data.userId);
-            }
-
-            return (
-                <div className="QueryHistory-result" key={index} style={{borderColor: color}}>
-                    <span className="text">
-                        <span style={{color: 'gray'}}>{new Date(data.created).toLocaleTimeString()}</span>
-                        <a style={{color: color}} href={href}>{data.query}</a>
-                    </span>
-                </div>
-            );
+            return <PreviousQuery data={data} key={index}/>
         });
 
         ////
 
         return (
-            <div className="QueryHistory" id="intro-query-history">
+            <div className="PreviousQueries" id="intro-query-history">
                 <h3> <i className="fa fa-history medium"/> QUERY HISTORY</h3>
                 <div className="list">
                     {history}

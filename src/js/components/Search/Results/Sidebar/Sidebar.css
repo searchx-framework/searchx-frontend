@@ -13,7 +13,7 @@
 
 /* HISTORY */
 
-.QueryHistory {
+.PreviousQueries {
     .list {
         height: 150px;
         overflow-y: auto;
