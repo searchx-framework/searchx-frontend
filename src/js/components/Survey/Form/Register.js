@@ -35,10 +35,9 @@ export default class Register extends React.Component {
         AccountStore.setId(userId);
         SyncStore.registerSocket();
 
-        const metaInfo = {
+        log(LoggerEventTypes.SURVEY_REGISTER_RESULTS, {
             results: result.data
-        };
-        log(LoggerEventTypes.SURVEY_REGISTER_RESULTS, metaInfo);
+        });
 
         ////
 

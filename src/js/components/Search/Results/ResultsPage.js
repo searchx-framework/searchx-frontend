@@ -64,14 +64,13 @@ export default class ResultsPage extends React.Component {
     }
 
     handlePageChange(pageNumber) {
-        const metaInfo = {
+        log(LoggerEventTypes.SEARCHRESULTS_NEXT_PAGE, {
             query: this.state.query,
             page: pageNumber,
             previous_page: this.state.activePage,
             vertical: this.state.vertical,
             serp_id: this.state.serp_id
-        };
-        log(LoggerEventTypes.SEARCHRESULTS_NEXT_PAGE, metaInfo);
+        });
 
         updateUrl(this.state.query, this.state.vertical, pageNumber);
         SearchActions.nextPage(this.state.query, this.state.vertical, pageNumber);

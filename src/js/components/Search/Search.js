@@ -7,12 +7,11 @@ import {LoggerEventTypes} from '../../utils/LoggerEventTypes';
 
 export default class Template extends React.Component {
     componentDidMount(){
-        document.addEventListener('visibilitychange', function(){
-            const metaInfo = {
+        document.addEventListener('visibilitychange', function() {
+            log(LoggerEventTypes.CHANGE_VISIBILITY, {
                 step : "search",
                 hidden: document.hidden
-            };
-            log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo);
+            });
         })
     }
 

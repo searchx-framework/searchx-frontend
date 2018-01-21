@@ -201,14 +201,13 @@ const _search = (query, pageNumber) => {
 
             ////
 
-            const metaInfo = {
+            log(LoggerEventTypes.SEARCHRESULT_ELAPSEDTIME, {
                 query: state.query,
                 page: pageNumber,
                 vertical: state.vertical,
                 serp_id: state.serp_id,
                 elapsedTime: state.elapsedTime
-            };
-            log(LoggerEventTypes.SEARCHRESULT_ELAPSEDTIME, metaInfo);
+            });
 
             state.refreshing = false;
             state.finished = true;

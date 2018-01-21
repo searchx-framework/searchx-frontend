@@ -38,11 +38,10 @@ export default class PostTest extends React.Component {
     componentDidUpdate() {
         if (this.state.isComplete) {
             document.addEventListener('visibilitychange', function(){
-                const metaInfo = {
+                log(LoggerEventTypes.CHANGE_VISIBILITY, {
                     step : "posttest",
                     hidden: document.hidden
-                };
-                log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo);
+                });
             })
         }
     }
@@ -50,10 +49,9 @@ export default class PostTest extends React.Component {
     ////
 
     handleComplete(result){
-        const metaInfo = {
+        log(LoggerEventTypes.SURVEY_POST_TEST_RESULTS, {
             results: result.data
-        };
-        log(LoggerEventTypes.SURVEY_POST_TEST_RESULTS, metaInfo);
+        });
 
         AccountStore.clearTask();
         localStorage.setItem('finish', true);
@@ -76,12 +74,10 @@ export default class PostTest extends React.Component {
     }
 
     handleVisibilityChange(){
-        const metaInfo = {
+        log(LoggerEventTypes.CHANGE_VISIBILITY, {
             step : "posttest",
             hidden: document.hidden
-
-        };
-        log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo);
+        });
 
         ////
 

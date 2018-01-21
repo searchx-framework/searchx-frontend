@@ -38,11 +38,10 @@ class Learning extends React.Component {
 
         ////
 
-        const metaInfo = {
+        log(LoggerEventTypes.SURVEY_LEARNING_START, {
             start: start,
             step: this.state.task.type
-        };
-        log(LoggerEventTypes.SURVEY_LEARNING_START, metaInfo);
+        });
 
         window.location.reload(true);
     }
@@ -92,10 +91,9 @@ class Learning extends React.Component {
     componentWillUnmount() {
         if (AccountStore.isCollaborative()) {
             const messages = document.querySelector(".chat-content").innerHTML;
-            const metaInfo = {
+            log(LoggerEventTypes.CHAT_ARCHIVE, {
                 messages: messages
-            };
-            log(LoggerEventTypes.CHAT_ARCHIVE, metaInfo);
+            });
 
             const element = document.querySelector("#conversejs");
             element.parentElement.removeChild(element);

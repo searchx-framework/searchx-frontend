@@ -19,17 +19,17 @@ class VideoPlayer extends React.Component {
 
         let playVideoLog = (e) => {
             const metaInfoVideo = {metaInfo, action:'play'};
-            log(LoggerEventTypes.SURVEY_LEARNING_VIDEO,metaInfoVideo)
+            log(LoggerEventTypes.SURVEY_LEARNING_VIDEO, metaInfoVideo)
         };
 
         let pauseVideoLog = (e) => {
             const metaInfoVideo = {metaInfo, action:'pause'};
-            log(LoggerEventTypes.SURVEY_LEARNING_VIDEO,metaInfoVideo)
+            log(LoggerEventTypes.SURVEY_LEARNING_VIDEO, metaInfoVideo)
         };
 
         let stopVideoLog = (e) => {
             const metaInfoVideo = {metaInfo, action:'stop'};
-            log(LoggerEventTypes.SURVEY_LEARNING_VIDEO,metaInfoVideo)
+            log(LoggerEventTypes.SURVEY_LEARNING_VIDEO, metaInfoVideo)
         };
 
         let viewVideoLog = (isVisible) => {

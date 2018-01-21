@@ -19,12 +19,11 @@ class Video extends React.Component {
 
     componentDidMount() {
         document.addEventListener('visibilitychange', function(){
-            const metaInfo = {
+            log(LoggerEventTypes.CHANGE_VISIBILITY, {
                 step : "video",
                 hidden: document.hidden
 
-            };
-            log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo);
+            });
             
             if (document.hidden) {
                 let switchTabs = -1;

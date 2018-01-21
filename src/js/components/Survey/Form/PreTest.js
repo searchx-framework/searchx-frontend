@@ -97,20 +97,18 @@ export default class PreTest extends React.Component {
         SyncStore.emitUserLeave();
         TaskStore.clearTopics();
 
-        const metaInfo = {
+        log(LoggerEventTypes.SURVEY_EXIT, {
             step : "pretest",
             state : this.state
-        };
-        log(LoggerEventTypes.SURVEY_EXIT, metaInfo);
+        });
     }
 
     ////
 
     handleComplete(result) {
-        const metaInfo = {
+        log(LoggerEventTypes.SURVEY_PRE_TEST_RESULTS, {
             results: result.data
-        };
-        log(LoggerEventTypes.SURVEY_PRE_TEST_RESULTS, metaInfo);
+        });
 
         ////
 
@@ -156,11 +154,10 @@ export default class PreTest extends React.Component {
     }
 
     handleVisibilityChange() {
-        const metaInfo = {
+        log(LoggerEventTypes.CHANGE_VISIBILITY, {
             step : "pretest",
             hidden: document.hidden
-        };
-        log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo);
+        });
 
         ////
 
