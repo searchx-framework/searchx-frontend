@@ -26,6 +26,7 @@ export default class PreTest extends React.Component {
 
         this.handleBeforeUnload = this.handleBeforeUnload.bind(this);
         this.handleUnload = this.handleUnload.bind(this);
+        this.handleLeave = this.handleLeave.bind(this);
         this.handleTimeout = this.handleTimeout.bind(this);
         this.handleComplete = this.handleComplete.bind(this);
 
@@ -46,6 +47,7 @@ export default class PreTest extends React.Component {
         document.addEventListener('visibilitychange', this.handleVisibilityChange);
         window.addEventListener('beforeunload', this.handleBeforeUnload);
         window.addEventListener('unload', this.handleUnload);
+        window.addEventListener('popstate', this.handleLeave);
 
         if (AccountStore.isCollaborative()) {
             SyncStore.emitStartPretest();
@@ -65,6 +67,7 @@ export default class PreTest extends React.Component {
     componentWillUnmount() {
         window.removeEventListener('beforeunload', this.handleBeforeUnload);
         window.removeEventListener('unload', this.handleUnload);
+        window.removeEventListener('popstate', this.handleLeave);
         this.handleUnload();
     }
 
@@ -86,15 +89,19 @@ export default class PreTest extends React.Component {
 
     handleUnload(e) {
         if (!this.state.sessionReady) {
-            const metaInfo = {
-                step : "pretest",
-                state : this.state
-            };
-            log(LoggerEventTypes.SURVEY_EXIT, metaInfo);
-
-            TaskStore.clearTopics();
-            SyncStore.emitUserLeave();
+            this.handleLeave(e);
         }
+    }
+
+    handleLeave(e) {
+        SyncStore.emitUserLeave();
+        TaskStore.clearTopics();
+
+        const metaInfo = {
+            step : "pretest",
+            state : this.state
+        };
+        log(LoggerEventTypes.SURVEY_EXIT, metaInfo);
     }
 
     ////
