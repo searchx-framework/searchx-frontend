@@ -38,7 +38,7 @@ export default class PreTest extends React.Component {
 
     ////
 
-    componentWillMount() {    
+    componentWillMount() {
         Survey.Survey.cssType = "bootstrap";
         Survey.defaultBootstrapCss.navigationButton = "btn btn-green";
     }
@@ -74,13 +74,16 @@ export default class PreTest extends React.Component {
     ////
 
     handleTimeout() {
-        window.removeEventListener('beforeunload', this.handleBeforeUnload);
-        SyncStore.emitUserLeave();
-        this.setState({timedOut: true});
+        if (!this.state.sessionReady) {
+            window.removeEventListener('beforeunload', this.handleBeforeUnload);
+            this.setState({timedOut: true}, () => {
+                SyncStore.emitUserLeave();
 
-        log(LoggerEventTypes.SURVEY_GROUPING_TIMEOUT, {
-            state: this.state
-        });
+                log(LoggerEventTypes.SURVEY_GROUPING_TIMEOUT, {
+                    state: this.state
+                });
+            });
+        }
     }
 
     handleBeforeUnload(e) {
@@ -286,7 +289,7 @@ export default class PreTest extends React.Component {
                 <div className="Survey-form" onPaste={this.handleCutCopyPaste} onCut={this.handleCutCopyPaste} onCopy={this.handleCutCopyPaste} >
                     <Survey.Survey model={survey}/>
                 </div>
-            </div>    
+            </div>
         );
     }
 }
