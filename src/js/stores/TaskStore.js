@@ -263,9 +263,10 @@ const registerInfoPage = function() {
 
 const preTestPage = function(topics) {
     let pages = [];
+    let elements = [];
 
     topics.forEach(topic => {
-        let elements = [];
+        elements = [];
 
         elements.push({
             type: "html",
@@ -307,6 +308,122 @@ const preTestPage = function(topics) {
 
     ////
 
+    if (AccountStore.isCollaborative()) {
+        elements = [];
+
+        elements.push({
+            type: "html",
+                html: `
+<b> Collaborative search is when participants work together to complete a search task. </b>
+
+<br/>
+
+Collaborating with other people can take many forms, a few examples are shown here: 
+two people searching together on a single machine, 
+several people searching towards a common goal on separate machines either in the same location or in different locations.
+
+<br/><br/>
+
+<div align="center">
+    <div style="height: 220px; width: 220px; display: inline-block; background-image: url('img/collab_1.jpg'); background-size: cover; background-position: center center;"></div>
+    <div style="height: 220px; width: 220px; display: inline-block; background-image: url('img/collab_2.jpg'); background-size: cover; background-position: center center;"></div>
+    <div style="height: 220px; width: 220px; display: inline-block; background-image: url('img/collab_3.jpg'); background-size: cover; background-position: center center;"></div>
+</div>
+                `
+        });
+
+        elements.push({
+            title: "Have you ever collaborated with other people to search the Web?",
+            name: "collab-previous",
+            type: "radiogroup",
+            isRequired: true,
+            choices: [
+                {value: 0, text: "No"},
+                {value: 1, text: "Yes"},
+            ]
+        });
+
+        elements.push({
+            title: "How often do you engage in collaborative Web search?",
+            visibleIf: "{collab-previous} == 1",
+            name: "collab-frequency",
+            type: "radiogroup",
+            isRequired: true,
+            choices: [
+                {value: 0, text: "Daily"},
+                {value: 1, text: "Weekly"},
+                {value: 2, text: "Monthly"},
+                {value: 3, text: "Less often"},
+            ]
+        });
+
+        elements.push({
+            type: "html",
+            html: "<hr/>"
+        });
+
+        elements.push({
+            type: "html",
+            html: "<b> Think about the most recent time you collaborated with others to search the web. </b>"
+        });
+
+        elements.push({
+            title: "Describe the nature of the information need that prompted this collaborative search episode. " +
+            "(e.g. husband and wife planning a trip for the family, a group of students working on a writing assignment and sharing search results/findings, a couple shopping for a new sofa, etc.)",
+            name: "collab-information-need",
+            type: "comment",
+            inputType: "text",
+            width: 600,
+            rows: 4,
+            isRequired: true
+        });
+
+        elements.push({
+            title: "Which tools did you use to communicate with your collaborators" +
+            "(e.g. email, chat, Skype, Whatsapp, talking on the phone, etc)?",
+            name: "collab-tools",
+            type: "comment",
+            inputType: "text",
+            width: 600,
+            rows: 4,
+            isRequired: true
+        });
+
+        elements.push({
+            title: "With how many others did you collaborate with (i.e. not counting yourself)?",
+            name: "collab-members",
+            type: "text",
+            width: 600,
+            inputType: "number",
+            isRequired: true
+        });
+
+        elements.push({
+            type: "html",
+            html: "<hr/>"
+        });
+
+        elements.push({
+            title: "How satisfied were you with the quality of the answer(s)?",
+            name: "collab-answer-satisfaction",
+            type: "rating",
+            minRateDescription: "Not Satisfied",
+            maxRateDescription: "Completely satisfied"
+        });
+
+        elements.push({
+            title: "How satisfied were you with the ease of working collaboratively?",
+            name: "collab-ease-satisfaction",
+            type: "rating",
+            minRateDescription: "Not Satisfied",
+            maxRateDescription: "Completely satisfied"
+        });
+
+        pages.push({elements:  elements});
+    }
+
+    ////
+
     return {
         pages: pages,
         showProgressBar: "top",
@@ -317,10 +434,9 @@ const preTestPage = function(topics) {
 
 const postTestPage = function(topic) {
     let pages = [];
+    let elements = [];
 
     ////
-
-    let elements = [];
 
     elements.push({
         type: "html",
@@ -389,7 +505,6 @@ const postTestPage = function(topic) {
         description: "",
         width: 600,
         rows: 6,
-        height: 1000,
         isRequired: true
     });
 
@@ -399,8 +514,7 @@ const postTestPage = function(topic) {
         type: "comment",
         inputType: "text",
         width: 600,
-        height: 1000,
-        rows: 5,
+        rows: 6,
         isRequired: true
     });
 
@@ -416,23 +530,95 @@ const postTestPage = function(topic) {
             type: "comment",
             inputType: "text",
             width: 600,
-            height: 300,
+            rows: 4,
             isRequired: true
         });
     }
 
     elements.push({
-        title: "Do you have any additional comments?",
+        title: "Do you have any additional comments regarding the learning phase?",
         name: "additional-comment",
         type: "comment",
         inputType: "text",
         width: 600,
-        height: 200,
         rows: 4,
         isRequired: true
     });
 
     pages.push({elements:  elements});
+
+    ////
+
+    if (AccountStore.isCollaborative()) {
+        elements = [];
+
+        elements.push({
+            type: "html",
+            name: "collab-feedback-description",
+            html: "<b> We would also like you to describe your experience in collaborating with your partner. </b>"
+        });
+
+        elements.push({
+            title: "Did you find the collaborative features useful?",
+            name: "collab-rating",
+            type: "matrix",
+            isRequired: true,
+            isAllRowRequired: true,
+
+            columns: [
+                {
+                    value: 1,
+                    text: "Strongly Disagree"
+                }, {
+                    value: 2,
+                    text: "Disagree"
+                }, {
+                    value: 3,
+                    text: "Neutral"
+                }, {
+                    value: 4,
+                    text: "Agree"
+                }, {
+                    value: 5,
+                    text: "Strongly Agree"
+                }
+            ],
+            rows: [
+                {
+                    value: "query-history",
+                    text: "Shared Query History"
+                }, {
+                    value: "bookmarks",
+                    text: "Shared Bookmarks"
+                }, {
+                    value: "chat",
+                    text: "Group Chat"
+                }
+            ]
+        });
+
+        elements.push({
+            title: "How did you make use of the collaborative features and the information from your partner to help in doing your task?",
+            name: "collab-usage",
+            type: "comment",
+            inputType: "text",
+            width: 600,
+            rows: 4,
+            isRequired: true
+        });
+
+        elements.push({
+            title: "Do you have any additional comments regarding collaborating with your partner?",
+            name: "collab-comments",
+            type: "comment",
+            inputType: "text",
+            width: 600,
+            rows: 4,
+            isRequired: true
+        });
+
+        pages.push({elements:  elements});
+    }
 
     ////
 
