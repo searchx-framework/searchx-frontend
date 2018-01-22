@@ -28,8 +28,8 @@ class Welcome extends React.Component {
                             <h3>Requirements:</h3>
                             <ol type="1">
                                 <li>
-                                    <a href="https://www.whatismybrowser.com/" target="_blank">
-                                    Check here</a> if the version of your browser meets our requirements: Google Chrome version 47 (or higher) and Mozilla Firefox version 44 (or higher).
+                                    <a href="https://www.whatismybrowser.com/" target="_blank">Check here</a> if the version of your browser meets our requirements:
+                                    Google Chrome version 47 (or higher) and Mozilla Firefox version 44 (or higher).
                                 </li>
                             </ol>
 
@@ -47,7 +47,7 @@ class Welcome extends React.Component {
                                         <li><b>Partial Payment</b>
                                             <p>
                                                 If you completed the Diagnostic test and waited, but did not receive a partner.
-                                                You will only receive partial payment if you clicked on <b>"Stop without completing"</b> (instead of "I've finished" or "Submit study").
+                                                You will only receive the partial payment if you clicked on <b>"Stop without completing"</b> (instead of "I've finished" or "Submit study").
                                                 This payment will be delivered through a bonus payment which doesn't require you to finish the study.
                                             </p>
                                         </li>
@@ -69,9 +69,8 @@ class Welcome extends React.Component {
                                     <p>
                                         Since this is a collaborative task, after the Diagnostic test you will need to wait for a partner.
                                         How much time that takes depends on how many other Prolific workers are active right now.
-                                        We ask you to wait for {WAITING_TIME} minutes.
-                                        In the case that you have not received a partner in that time (we will notify you), please <b>stop the study without completion</b>.
-                                        Once you drop out (after the {WAITING_TIME} minutes of waiting are up), we will provide you with a partial payment for completing the Diagnostic test.
+                                        We ask you to wait for {WAITING_TIME} minutes. We will notify you when you have waited long enough.
+                                        Then, please follow the instructions for a partial payment.
                                     </p>
                                 </li>
                                 <li><b>Collaborative Learning Phase</b>.
