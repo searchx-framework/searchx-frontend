@@ -12,7 +12,8 @@ const intro = introJs().setOptions({
     doneLabel:  "Ok!",
     showStepNumbers: false,
     showBullets: false,
-    exitOnOverlayClick: false
+    exitOnOverlayClick: false,
+    disableInteraction: true,
 });
 
 let state = {
