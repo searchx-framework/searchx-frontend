@@ -41,40 +41,17 @@ class SearchBar extends React.Component {
 
     componentWillMount() {
         SearchStore.addChangeListener(this._onChange);
-        
-        const url = (window.location !== window.parent.location)
-            ? document.referrer
-            : document.location.href;
-        
-        const re = new RegExp('(edx\.org)');
-        
-        if (re.test(url)) {
-            let splitedUrl = url.split("?query=");
-          
-            if (splitedUrl.length === 2) {
-                const query = getParameterByName("query",url);
-
-                log(LoggerEventTypes.SEARCH_QUERY, {
-                    query: query,
-                    vertical: "site-search"
-                    }
-                );
-
-                SearchActions.search(query, "web",1);
-                this.setState({query: query, vertical: "site-search"})
-            }
-        }
     }
     
     componentWillUnmount() {
         SearchStore.removeChangeListener(this._onChange);
     }
 
-    ////
-
     _onChange() {
         this.setState(SearchStore.getSearchState());
     }
+
+    ////
 
     queryChangeHandler(e) {
         const query = e.target.value;
@@ -95,32 +72,24 @@ class SearchBar extends React.Component {
     }
 
     searchHandler(e) {    
-        log(LoggerEventTypes.SEARCH_QUERY,
-            {
-                query: this.state.query,
-                vertical: this.state.vertical
-            }
-        );
+        log(LoggerEventTypes.SEARCH_QUERY, {
+            query: this.state.query,
+            vertical: this.state.vertical
+        });
 
         e.preventDefault();
-        SearchActions.search(this.state.query, this.state.vertical,1);
+        SearchActions.search(this.state.query, this.state.vertical, 1);
         SessionActions.getBookmarks();
     }
 
     ////
 
     render() {
-        const url = (window.location !== window.parent.location)
-            ? document.referrer
-            : document.location.href;
-        const re = new RegExp('(edx\.org)');
-        
         return (
             <div className="Search">
                 <form action="/" method="GET" onSubmit={this.searchHandler.bind(this)}>
                     <SearchBox query={this.state.query} changeHandler={this.queryChangeHandler.bind(this)}/>
-                    <SearchVerticals vertical={this.state.vertical} changeHandler={this.verticalChangeHandler.bind(this)}
-                     edX={re.test(url)}/>
+                    <SearchVerticals vertical={this.state.vertical} changeHandler={this.verticalChangeHandler.bind(this)}/>
                 </form>
             </div>
         )
