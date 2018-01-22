@@ -244,8 +244,10 @@ export default class PreTest extends React.Component {
                                 <div>
                                     <hr/>
                                     <h2>Sorry, we weren't able to find you a partner in time.</h2>
-                                    <h3>PLEASE <b>stop the study without completion</b>. We will still provide you with a partial payment through the bonus payment system.</h3>
-                                    <h3>DO NOT submit a completion without a code, or else we would have to reject your completion.</h3>
+                                    <h3>PLEASE <b>stop the study without completion</b> (option 'Stop without completing').
+                                        We will still provide you with a partial payment through the bonus payment system.</h3>
+                                    <h3>DO NOT submit a completion (option 'I've finished' or 'Submit study'),
+                                        or else we would have to reject your completion (which would decrease your rating).</h3>
                                     <h3>Thank you for taking part in our study.</h3>
                                 </div>
                             }
