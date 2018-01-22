@@ -47,7 +47,7 @@ class Welcome extends React.Component {
                                         Since this is a collaborative task, after the Diagnostic test you will need to wait for a partner.
                                         How much time that takes depends on how many other Prolific workers are active right now.
                                         We ask you to wait for {WAITING_TIME} minutes.
-                                        In the case that you have not received a partner in that time, please stop the study.
+                                        In the case that you have not received a partner in that time (we will notify you), please <b>stop the study without completion</b>.
                                         Once you drop out (after the {WAITING_TIME} minutes of waiting are up), we will provide you with a partial payment for completing the Diagnostic test.
                                     </p>
                                 </li>
