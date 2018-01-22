@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom';
 
 import TaskStore from "../../stores/TaskStore";
 import config from "../../config";
+import AccountStore from "../../stores/AccountStore";
 
 const NUM_EXERCISES = 13;
 const WAITING_TIME = config.groupTimeout;
@@ -31,6 +32,28 @@ class Welcome extends React.Component {
                                     Check here</a> if the version of your browser meets our requirements: Google Chrome version 47 (or higher) and Mozilla Firefox version 44 (or higher).
                                 </li>
                             </ol>
+
+                            {AccountStore.isCollaborative() &&
+                                <div>
+                                    <hr/>
+                                    <h3>Payment:</h3>
+                                    <ol type="1">
+                                        <li><b>Full Payment</b>
+                                            <p>
+                                                If you finished the study through the completion link.
+                                                This is only possible if you were assigned a partner and together completed the learning phase and final test.
+                                            </p>
+                                        </li>
+                                        <li><b>Partial Payment</b>
+                                            <p>
+                                                If you completed the Diagnostic test and waited, but did not receive a partner.
+                                                You will only receive partial payment if you clicked on <b>"Stop without completing"</b> (instead of "I've finished" or "Submit study").
+                                                This payment will be delivered through a bonus payment which doesn't require you to finish the study.
+                                            </p>
+                                        </li>
+                                    </ol>
+                                </div>
+                            }
 
                             <hr/>
                             <h3>
@@ -81,11 +104,11 @@ class Welcome extends React.Component {
                             </ol>
 
                             <hr/>
-                            <h3>You will need approximately 50 minutes to complete the whole study.</h3>
+                            <h3>You will need approximately 60 minutes to complete the whole study.</h3>
 
                             <hr/>
                             <h3>IMPORTANT!</h3>
-                            <h4>We will cancel your participation if:</h4>
+                            <h4>We will reject your participation if:</h4>
                             <ul>
                                 <li> your answers are shorter than the required word count </li>
                                 <li> your answers are off-topic </li>
