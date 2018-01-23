@@ -58,8 +58,10 @@ export default class PreTest extends React.Component {
             });
 
             SyncStore.listenToGroupPretestStart(() => {
-                this.setState({partnerJoined: true});
-                sleep(config.groupTimeout * 60 * 1000).then(this.handleTimeout);
+                if (this.state.isComplete) {
+                    this.setState({partnerJoined: true});
+                    sleep(config.groupTimeout * 60 * 1000).then(this.handleTimeout);
+                }
             });
         }
     }
