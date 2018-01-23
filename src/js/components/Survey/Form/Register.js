@@ -46,7 +46,9 @@ export default class Register extends React.Component {
         });
 
         TaskStore.initializeTask((url) => {
-            this.props.history.push(url);
+            sleep(500).then(() => {
+                this.props.history.push(url);
+            });
         });
     }
 
@@ -90,3 +92,7 @@ export default class Register extends React.Component {
         );
     }
 }
+
+const sleep = function(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+};

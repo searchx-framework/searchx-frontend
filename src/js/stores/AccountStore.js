@@ -42,16 +42,16 @@ let state = {
 
 const AccountStore = Object.assign(EventEmitter.prototype, {
     setId(userId) {
-        localStorage.setItem("user-id", userId);
         state.userId = userId;
+        localStorage.setItem("user-id", userId);
 
         const sessionId = generateUUID();
         this.setSessionId(sessionId);
     },
 
     setSessionId(sessionId) {
-        localStorage.setItem("session-id", sessionId);
         state.sessionId = sessionId;
+        localStorage.setItem("session-id", sessionId);
     },
 
     ////
@@ -106,13 +106,13 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
         const type = config.taskType;
         const minutes = config.taskDuration;
 
-        localStorage.setItem("task-topic", JSON.stringify(topic));
-        localStorage.setItem("task-type", type);
-        localStorage.setItem("task-duration", minutes);
-
         state.task.topic = topic;
         state.task.type = type;
         state.task.duration = minutes;
+
+        localStorage.setItem("task-topic", JSON.stringify(topic));
+        localStorage.setItem("task-type", type);
+        localStorage.setItem("task-duration", minutes);
 
         localStorage.removeItem("counter-start-search");
         localStorage.removeItem("finish");
@@ -122,38 +122,38 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
         let members = {};
         groupMembers.forEach(member => members[member.userId] = member);
 
-        localStorage.setItem("group-members", JSON.stringify(members));
         state.group.members = members;
+        localStorage.setItem("group-members", JSON.stringify(members));
 
         this.setSessionId(groupId);
     },
 
     setTaskType(type) {
-        localStorage.setItem("task-type", type);
         state.task.type = type;
+        localStorage.setItem("task-type", type);
     },
 
     ////
 
     clearTask() {
+        state.task = '';
+        this.clearGroup();
+
         localStorage.removeItem("task-topic");
         localStorage.removeItem("task-type");
         localStorage.removeItem("task-duration");
         localStorage.removeItem("counter-start-search");
-
-        state.task = '';
-        this.clearGroup();
     },
 
     clearGroup() {
-        localStorage.removeItem("group-members");
         state.group.members = '';
+        localStorage.removeItem("group-members");
     },
 
     clearUserData() {
-        localStorage.clear();
         state.userId = '';
         state.sessionId = '';
+        localStorage.clear();
     }
 });
 

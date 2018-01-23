@@ -144,7 +144,9 @@ export default class PreTest extends React.Component {
         IntroStore.clearIntro();
         AccountStore.setTask(topic);
         this.setState({sessionReady: true}, () => {
-            this.props.history.push('/learning')
+            sleep(500).then(() => {
+                this.props.history.push('/learning');
+            });
         });
     }
 
@@ -227,6 +229,19 @@ export default class PreTest extends React.Component {
 
         if (this.state.isComplete) {
             document.removeEventListener("visibilitychange", this.handleVisibilityChange);
+
+            if (this.state.sessionReady) {
+                return (
+                    <div className="Survey">
+                        <div className="Survey-form">
+                            <div className='Survey-complete'>
+                                <h2>Starting session...</h2>
+                            </div>
+                        </div>
+                    </div>
+                )
+            }
+
             return (
                 <div className="Survey">
                     <div className="Survey-form">
