@@ -103,7 +103,7 @@ class Welcome extends React.Component {
                             </ol>
 
                             <hr/>
-                            <h3>You will need approximately 60 minutes to complete the whole study.</h3>
+                            <h3>You will need approximately 55 minutes to complete the whole study.</h3>
 
                             <hr/>
                             <h3>IMPORTANT!</h3>
