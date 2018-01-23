@@ -69,6 +69,10 @@ class TimedSubmit extends React.Component {
             active = "active";
         }
 
+        let message = null;
+        if (active !== 'active') message = "Please continue learning for at least " + this.state.duration + " minutes.";
+        if (!started) message = "Finish the introduction tour to start the counter. You may need to reload this page to start the tour.";
+
         return (
             <div id="intro-counter">
                 <div className="counter">
@@ -79,12 +83,10 @@ class TimedSubmit extends React.Component {
                     {AccountScore.getTaskType() === "video" ? "To Search Phase": "To Final Test"}
                 </Link>
 
-                {!started &&
-                    <div>
-                        <br/>
-                        Finish the guide tour to start the counter. You may need to reload this page to restart the guide tour.
-                    </div>
-                }
+                <div>
+                    <br/>
+                    {message !== null && message}
+                </div>
             </div>
         )
     }
