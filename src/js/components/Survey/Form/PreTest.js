@@ -143,8 +143,13 @@ export default class PreTest extends React.Component {
     }
 
     handleTaskSetup(topic) {
+        window.removeEventListener('beforeunload', this.handleBeforeUnload);
+        window.removeEventListener('unload', this.handleUnload);
+        window.removeEventListener('popstate', this.handleLeave);
+
         IntroStore.clearIntro();
         AccountStore.setTask(topic);
+
         this.setState({sessionReady: true}, () => {
             sleep(500).then(() => {
                 this.props.history.push('/learning');
