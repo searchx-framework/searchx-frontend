@@ -18,7 +18,6 @@ export function log(event, meta) {
     eventQueue.push({
         userId: AccountStore.getId() || '',
         sessionId: AccountStore.getSessionId() || '',
-        date: new Date().toLocaleString("en-US", {timeZone: "Europe/Amsterdam"}),
         task: task,
         event: event || '',
         meta: meta || {}
