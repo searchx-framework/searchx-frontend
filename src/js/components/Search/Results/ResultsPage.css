@@ -1,0 +1,27 @@
+@import '../../variables.css';
+
+.TimeIndicator {
+    color: $description-grey;
+    display: block;
+    font-size: 13px;
+    font-weight: normal;
+    height: auto;
+    max-height: 35px;
+    overflow: hidden;
+    line-height: 18px;
+    max-width: 500px;
+    word-wrap: break-word;
+    margin-left: 14px
+}
+
+.Footer {
+    color: $description-grey;
+    display: block;
+    font-size: 13px;
+    font-weight: normal;
+    height: auto;
+    max-height: 40px;
+    overflow: inherit;
+    line-height: 18px;
+    margin-left: 14px
+}

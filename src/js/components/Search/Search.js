@@ -1,19 +1,17 @@
 import React from 'react';
 import SearchHeader from './Header/SearchHeader';
-import SearchResults from './Results/SearchResults';
-import {log} from '../../utils/Logger';
-import {LoggerEventTypes} from '../../constants/LoggerEventTypes';
+import ResultsPage from "./Results/ResultsPage";
 
+import {log} from '../../utils/Logger';
+import {LoggerEventTypes} from '../../utils/LoggerEventTypes';
 
 export default class Template extends React.Component {
-
     componentDidMount(){
-        document.addEventListener('visibilitychange', function(){
-            const metaInfo = {
+        document.addEventListener('visibilitychange', function() {
+            log(LoggerEventTypes.WINDOW_CHANGE_VISIBILITY, {
                 step : "search",
                 hidden: document.hidden
-            };
-            log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo);
+            });
         })
     }
 
@@ -21,7 +19,7 @@ export default class Template extends React.Component {
         return (
             <div >
                 <SearchHeader/>
-                <SearchResults/>
+                <ResultsPage/>
             </div>
         )
     }

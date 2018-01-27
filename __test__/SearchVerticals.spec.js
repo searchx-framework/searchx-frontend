@@ -1,25 +1,18 @@
 import React from 'react'
 import { shallow, mount, render } from 'enzyme';
-import renderer from 'react-test-renderer'
 
 
-import SearchVerticals from '../src/js/components/Header/SearchVerticals';
+import SearchVerticals from '../src/js/components/Search/Header/SearchVerticals';
 
 describe('SearchVerticals',()=>{
-    let wrapper
-     const edX = false
+    let wrapper;
 
     beforeEach(()=>{
-        wrapper = shallow(<SearchVerticals vertical={"web"} changeHandler={function(){}} edX={edX}/>)       
-    })
-
-    it('should load four tabs when outside edX', () => {
-        expect(wrapper.find(".Search-vertical").length).toEqual(4);
+        wrapper = shallow(<SearchVerticals vertical={"web"} changeHandler={function(){}}/>)
     });
 
-    it('should load five tabs when outside edX', () => {
-        wrapper = shallow(<SearchVerticals vertical={"web"} changeHandler={function(){}} edX={!edX}/>)
-        expect(wrapper.find(".Search-vertical").length).toEqual(5);
+    it('should load four tabs', () => {
+        expect(wrapper.find(".Search-vertical").length).toEqual(4);
     });
     
 });

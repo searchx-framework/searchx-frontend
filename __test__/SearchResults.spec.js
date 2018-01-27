@@ -3,18 +3,11 @@ import { shallow, mount, render } from 'enzyme';
 import renderer from 'react-test-renderer'
 
 jest.mock('../src/js/dispatchers/AppDispatcher');
- jest.mock('config');
+jest.mock('config');
 
-import SearchResults from '../src/js/components/SearchResults/SearchResults';
+import SearchResults from '../src/js/components/Search/Results/Search/SearchResults';
 
 describe('SearchResults',()=>{
-   
-    let wrapper
-     const edX = false
-
-    beforeEach(()=>{
-            
-    })
 
     it('should show a message if server is down or respond with error', () => {
         

@@ -3,12 +3,7 @@ import React from 'react';
 export default class SearchVerticals extends React.Component {
 
     render () {
-        let verticals_list = [ 'Web', 'Images', 'Videos','News','Forums'];
-
-        if (!this.props.edX) {
-            verticals_list = [ 'Web', 'Images', 'Videos','News'];
-        }
-        
+        const verticals_list = [ 'Web', 'Images', 'Videos','News'];
         let verticals = verticals_list.map((vertical, index) => {
             let cn = 'Search-vertical';
             

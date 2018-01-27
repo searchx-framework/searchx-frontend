@@ -1,12 +1,11 @@
 import './App.css'
 
 import React from 'react'
-import {Router, Route} from 'react-router-dom'
+import {Route, Router} from 'react-router-dom'
 import {flush} from '../utils/Logger';
 import history from '../components/History';
 
 import About from './Pages/About';
-import Page from './Pages/Page';
 import Search from './Search/Search';
 import Learning from './Survey/Learning';
 import PreTest from './Survey/Form/PreTest';
@@ -14,14 +13,13 @@ import PostTest from './Survey/Form/PostTest';
 import Register from './Survey/Form/Register';
 import Welcome from './Survey/Welcome';
 
-const config = require('config');
+const config = require('../config');
 
 ////
 
 export class App extends React.Component {
-
     componentWillMount(){
-        setInterval( flush, config.logTimeInterval);
+        setInterval(flush, config.logTimeInterval);
     };
 
     render() {
@@ -38,8 +36,6 @@ export class App extends React.Component {
                     <Route exact path="/posttest" component={PostTest}/>
 
                     <Route path="/learning" component={Learning}/>
-                    <Route path="/page" component={Page}/>
-
                 </div>
             </Router>
         );

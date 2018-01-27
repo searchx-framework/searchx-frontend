@@ -5,4 +5,11 @@ import Alert from 'react-s-alert';
 import 'react-s-alert/dist/s-alert-default.css';
 import 'react-s-alert/dist/s-alert-css-effects/scale.css';
 
-ReactDOM.render((<div> <App />  <Alert stack={{limit: 3}} /> </div>), document.getElementById('main'));
+const app = (
+    <div>
+        <App />
+        <Alert stack={{limit: 3}} />
+    </div>
+);
+
+ReactDOM.render(app, document.getElementById('main'));

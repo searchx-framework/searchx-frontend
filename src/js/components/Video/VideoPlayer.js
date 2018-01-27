@@ -4,7 +4,7 @@ import ReactPlayer from 'react-player';
 import VisibilitySensor from 'react-visibility-sensor';
 
 import {log} from '../../utils/Logger';
-import {LoggerEventTypes} from '../../constants/LoggerEventTypes';
+import {LoggerEventTypes} from '../../utils/LoggerEventTypes';
 
 class VideoPlayer extends React.Component {
 
@@ -19,17 +19,17 @@ class VideoPlayer extends React.Component {
 
         let playVideoLog = (e) => {
             const metaInfoVideo = {metaInfo, action:'play'};
-            log(LoggerEventTypes.SURVEY_LEARNING_VIDEO,metaInfoVideo)
+            log(LoggerEventTypes.SURVEY_LEARNING_VIDEO, metaInfoVideo)
         };
 
         let pauseVideoLog = (e) => {
             const metaInfoVideo = {metaInfo, action:'pause'};
-            log(LoggerEventTypes.SURVEY_LEARNING_VIDEO,metaInfoVideo)
+            log(LoggerEventTypes.SURVEY_LEARNING_VIDEO, metaInfoVideo)
         };
 
         let stopVideoLog = (e) => {
             const metaInfoVideo = {metaInfo, action:'stop'};
-            log(LoggerEventTypes.SURVEY_LEARNING_VIDEO,metaInfoVideo)
+            log(LoggerEventTypes.SURVEY_LEARNING_VIDEO, metaInfoVideo)
         };
 
         let viewVideoLog = (isVisible) => {

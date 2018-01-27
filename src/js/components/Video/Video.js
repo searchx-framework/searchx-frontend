@@ -7,12 +7,9 @@ import TaskStore from '../../stores/TaskStore';
 import Alert from 'react-s-alert';
 
 import {log} from '../../utils/Logger';
-import {LoggerEventTypes} from '../../constants/LoggerEventTypes';
-
+import {LoggerEventTypes} from '../../utils/LoggerEventTypes';
 
 class Video extends React.Component {
-
-
     constructor(props) {
         super(props);
         this.state = {
@@ -22,31 +19,32 @@ class Video extends React.Component {
 
     componentDidMount() {
         document.addEventListener('visibilitychange', function(){
-            const metaInfo = {
+            log(LoggerEventTypes.WINDOW_CHANGE_VISIBILITY, {
                 step : "video",
                 hidden: document.hidden
 
-            };
-            log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo);
+            });
             
             if (document.hidden) {
-
-                var switchTabs = -1;
+                let switchTabs = -1;
                 if (localStorage.getItem("switchTabsVideo") !== null) {
                     switchTabs = localStorage.getItem("switchTabsVideo");
                 }
+
                 switchTabs++;
                 localStorage.setItem("switchTabsVideo", switchTabs);
 
+                ////
 
-                var times = '';
-                if (switchTabs == 1) {
+                let times = '';
+                if (switchTabs === 1) {
                     times = 'once.';
-                } else if (switchTabs == 2) {
+                } else if (switchTabs === 2) {
                     times = 'twice.';
                 } else {
                     times = switchTabs + " times." 
                 }
+
                 Alert.error('We have noticited that you have tried to change to a different window/tab.', {
                     position: 'bottom-right',
                     effect: 'scale',
@@ -70,38 +68,30 @@ class Video extends React.Component {
                     timeout: "none",
                     offset: 100
                 });
-                
+
+                ////
                 
                 if (switchTabs >= 3) {
                     window.location.reload();
                 }
-
             }
-
-            
         })
     }
-    
-      
 
     render () {
         const task = {
-            topicId: AccountStore.getTopicId(),
+            topic: AccountStore.getTaskTopic(),
             type: AccountStore.getTaskType(),
             duration: AccountStore.getTaskDuration()
         };
 
         return(
             <div className="Video row text-center" id="intro-video">
-            
                 <div className="col-xs-12">
-
-                    <VideoPlayer src={TaskStore.getTopicVideo(task.topicId)}/>
+                    <VideoPlayer src={TaskStore.getTopicVideo(task.topic)}/>
                 </div>
 
                 <hr/>
-
-
             </div>
         );
     }

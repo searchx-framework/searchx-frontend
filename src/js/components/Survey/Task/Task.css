@@ -1,17 +1,29 @@
 @import url('../../variables.css');
 
 .Task {
-    padding: 15px;
-    margin: 0px;
-    
-
-    background-color: #ffffff;
-    border: 1px;
-    border-style: solid;
-    border-color: lightgrey;
-    border-radius: 5px;
-
+    height: 100%;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+
+    &-box {
+         padding: 15px;
+         margin: 0px;
+
+         background-color: #ffffff;
+         border: 1px;
+         border-style: solid;
+         border-color: lightgrey;
+         border-radius: 5px;
+    }
+
+    .timer {
+        margin-bottom: 15px;
+    }
+
+    .instruction {
+        flex-grow: 1;
+    }
 
     &-title {
          font-weight: 700;

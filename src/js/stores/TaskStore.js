@@ -1,12 +1,10 @@
-import {register} from '../utils/Dispatcher';
+import request from 'superagent';
 import EventEmitter from 'events';
-import underscore from 'underscore';
+import AccountStore from "./AccountStore";
 
-import topics from '../../../dist/data/topics.json';
-import codes from '../../../dist/data/codes.json';
-import AccountStore from './AccountStore';
+const env = require('env');
 
-const CHANGE_EVENT = 'change_task';
+////
 
 const choices = [
     {value: 1, text: "I don't remember having seen this term/phrase before." }, 
@@ -15,51 +13,77 @@ const choices = [
     {value: 4, text: "I know this term/phrase."}
 ];
 
-function sample(a, n) {
-    return underscore.take(underscore.shuffle(a), n);
-}
+let state = {
+    topics: JSON.parse(localStorage.getItem("topics")) || ''
+};
 
 ////
 
 const TaskStore = Object.assign(EventEmitter.prototype, {
-    emitChange() {
-        this.emit(CHANGE_EVENT);
-    },
-    
-    dispatcherIndex: register(action => {
-        TaskStore.emitChange();
-    }),
+    initializeTask(callback) {
+        let url = '/pretest';
 
-    addChangeListener(callback) {
-        this.on(CHANGE_EVENT, callback)
+        request
+            .get(env.serverUrl + '/v1/users/' + AccountStore.getId() + '/task/?collaborative=' + AccountStore.isCollaborative())
+            .end((err, res) => {
+                if(err) {
+                    callback('/register');
+                }
+
+                if(res) {
+                    const data = res.body;
+                    this.setTopics(data.topics);
+
+                    if(data.topic) {
+                        AccountStore.setTask(data.topic);
+                        AccountStore.setGroup(data._id, data.members);
+                        url = '/learning';
+                    }
+                }
+
+                callback(url);
+            })
+    },
+
+    setTopics(topics) {
+        localStorage.setItem("topics", JSON.stringify(topics));
+        state.topics = topics;
+    },
+
+    clearTopics() {
+        localStorage.removeItem("topics");
+        state.topics = '';
+    },
+
+    isTopicsPresent() {
+        return state.topics !== '';
     },
 
     ////
 
-    getTopicDescription(topicId) {
-        
-        return topics[topicId]["task"];
-    },
-    getTopicTitle(topicId) {
-        return topics[topicId]["title"];
+    getTopicDescription(topic) {
+        return topic.task;
     },
 
-    getTopicVideo(topicId) {
+    getTopicVideo(topic) {
         const prefix = "https://www.youtube.com/watch?v=";
-        return prefix + topics[topicId]["youtube"];
+        return prefix + topic.youtube;
     },
 
-    getTopicTerms(topicId) {
-        let terms = "";
-        topics[topicId]['terms'].forEach(term => {
-            terms += term.toLowerCase() + ";  "
-        });
-
-        return terms;
+    getTopicById(topicId) {
+        const topic = state.topics.filter(x => x.id === topicId);
+        if (topic.length > 0) return topic[0];
+        return null;
     },
 
-    getFinishCode(userId) {
-        return codes[userId];
+    ////
+
+    isOverSwitchTabsLimit() {
+        const switchTabsPreTest = localStorage.getItem("switch-tabs-posttest");
+        const switchTabsPostTest = localStorage.getItem("switch-tabs-posttest");
+        const switchTabsVideo = localStorage.getItem("switch-tabs-video");
+
+        return switchTabsPreTest >= 3 || switchTabsPostTest >= 3 || switchTabsVideo >= 3;
     },
 
     ////
@@ -68,259 +92,192 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
         return results["userId"].replace(/\s/g, '');
     },
 
-    getTopicFromResults(results) {
-        let topicResults = {};
-
-        for (let result in results) {
+    getScoresFromResults(results) {
+        let scores = {};
+        Object.keys(results).forEach((result) => {
             const v = result.split("-");
             if (v[0] === "Q") {
-                topicResults[v[1]] = 0;
+                if(!scores[v[1]]) scores[v[1]] = 0;
+                scores[v[1]] += parseInt(results[result]);
             }
-        }
-
-        for (let result in results) {
-            const v = result.split("-");
-            if (v[0] === "Q") {
-                topicResults[v[1]] += parseInt(results[result]);
-            }
-        }
-
-        const items = Object.keys(topicResults).map(function(key) {
-            return [key, topicResults[key]];
         });
-        
-        // Sort the array based on the second element
-        items.sort(function(first, second) {
-            return first[1] - second[1];
-        });
-   
-        if (items[0][0] == "0") {
-            return items[1][0];
-        }
-        
-        return items[0][0];
+
+        return this.formatScores(scores);
+    },
+
+    formatScores(scores) {
+        return Object.keys(scores)
+            .filter((key) => key !== '0')
+            .map(key => {
+                return {
+                    topicId: key,
+                    score: scores[key]
+                };
+            })
+            .sort((a,b) => a.score - b.score);
     },
 
     ////
 
     getRegisterInfo() {
-        let pages = [];
-        let elements = [];
+        return registerInfoPage();
+    },
 
-        elements.push({ 
-            type: "html", 
-            name: "topic",
-            html: "<h2>Registration</h2>" +
-                "<h3>Let's find out what you already know first.</h3>" +
-                "<h3>First fill out this basic information about you.</h3>"
-        });
+    getPreTest() {
+        return preTestPage(state.topics);
+    },
 
-        elements.push({
-            type: "html",
-            html: "<hr/>"
-        });
+    getPostTest() {
+        return postTestPage(AccountStore.getTaskTopic());
+    },
 
-        // elements.push({ 
-        //     title: "Copy and Past the User Code here", 
-        //     name : "userId", 
-        //     type :"text", 
-        //     inputType:"text", 
-        //     width: 300, 
-        //     isRequired: true
-        //    }
-        // );
-
-        elements.push({ 
-            title: "Insert your Prolific ID here", 
-            name : "userId", 
-            type :"text", 
-            inputType:"text", 
-            width: 300, 
-            isRequired: true
-           }
-        );
-
-        
-
-        elements.push({
-            type: "html",
-            html: "<hr/>"
-        });
-
-        elements.push({
-            title: "What is your highest academic degree so far?",
-            name: "degree",
-            type: "radiogroup",
-            isRequired: true,
-            choices: [
-                {value: 0, text: "High School"}, 
-                {value: 1, text: "Bachelor"}, 
-                {value: 2, text: "Master"}, 
-                {value: 3, text: "Doctorate"}
-            ]
-        });
-
-        elements.push({ 
-            title: "Which subject areas you have university degree(s)?",
-            visibleIf: "{degree} > 0",
-            name : "background", 
-            type :"text", 
-            inputType:"text", 
-            width: 500, 
-            isRequired: true
-        });
-
-        // elements.push({
-        //     title: "Are you an English native speaker?",
-        //     name: "english",
-        //     type: "radiogroup",
-        //     isRequired: true,
-        //     choices: [
-        //         {value: 0, text: "No"}, 
-        //         {value: 1, text: "Yes"}, 
-        //     ]
-        // });
-
-        // elements.push({ 
-        //     title: "What is your level of English?",
-        //     visibleIf: "{english} == 0",
-        //     name : "english-level", 
-        //     type: "radiogroup",
-        //     isRequired: true,
-        //     choices: [
-        //         {value: 0, text: "Beginner"}, 
-        //         {value: 1, text: "Elementary"}, 
-        //         {value: 2, text: "Intermediate"}, 
-        //         {value: 3, text: "Upper-intermediate"}, 
-        //         {value: 4, text: "Advanced"}, 
-        //         {value: 5, text: "Proficiency"}
-        //     ],
-        //     isRequired: true
-        // });
-
-
-        elements.push({ 
-            title: "How often do you use Web search engine (e.g., Google, Bing, Yahoo) when you want to learn about something?",
-            name: "search-frequency",
-            type: "radiogroup",
-            isRequired: true,
-            choices: [
-                {value: 0, text: "More than 10 times a day"},
-                {value: 1, text: "1-10 times a day"},  
-                {value: 2, text: "Once a day"},
-                {value: 3, text: "Every few days"}, 
-                {value: 4, text: "Never"}
-            ]
-        });
-
-
-        pages.push({elements:  elements});
-
-        return {
-            pages: pages, 
-            showQuestionNumbers: "off",
-            completedHtml: "    "
-        }
-    }, 
-
-    surveyValidateQuestion (s, options) {
-        if (options.name === 'userId') {
-            const userId = options.value.replace(/\s/g, '');
-            
-            if(!codes[userId]) {
-                options.error = "This User Code is not valid, please check if you have copied and pasted the code correctly.";
-            }
-        }
-    }, 
+    ////
 
     surveyValidateWordCount (s, options) {
         if (options.name === 'summary') {
             const text = options.value;
-            var c = text.split(" ").length
+            const c = text.split(" ").length;
+
             if (c < 50) {
                 options.error = "You have written only " + c + " words, you need to write at least 50 words to complete the exercises.";
             }
         }
-    }, 
+    }
+});
 
+////
 
+const registerInfoPage = function() {
+    let pages = [];
+    let elements = [];
 
-    getPreTest() {
- 
-        let sampledTopics = sample(["1", "2","3","4","5", "6", "7","8","9", "10"], 4);
-        
-        sampledTopics[1] = "0";
-        let pages = [];
+    elements.push({
+        type: "html",
+        name: "topic",
+        html: "<h2>Registration</h2>" +
+        "<h3>Let's find out what you already know first.</h3>" +
+        "<h3>First fill out this basic information about you.</h3>"
+    });
 
-        
+    elements.push({
+        type: "html",
+        html: "<hr/>"
+    });
 
-        sampledTopics.forEach(topicId => {
-            let elements = [];
-
-            elements.push({
-                type: "html",
-                name: "topic",
-                html: "<h2>Diagonistic Test</h2> " +
-                "<h3>Let's find out what you already know first.</h3>" +
-                "<h3>Answer these questions about <b>" + topics[topicId]["title"] + "</b>:</h3>"
-            });
-
-            topics[topicId]["terms"].forEach((term, idx) => {
-                const name = "Q-"+ topicId +"-"+ idx;
-
-                elements.push({
-                    type: "html",
-                    html: "<hr/>"
-                });
-
-                elements.push({
-                    title: "How much do you know about \"" + term + "\"?",
-                    type: "radiogroup",
-                    isRequired: true,
-                    name: name,
-                    choices: choices
-                });
-
-                elements.push({
-                    title: "In your own words, what do you think the meaning is?",
-                    visibleIf: "{"+ name +"} > 2",
-                    name: "meaning-" + name,
-                    type: "text",
-                    inputType: "text",
-                    width: 500,
-                    isRequired: true
-                });
-            });
-
-            
-
-            pages.push({elements:  elements});
-        });
-
-        ////
-
-        return {
-            pages: pages, 
-            showProgressBar: "top",
-            showQuestionNumbers: "off",
-            completedHtml: "<p> </p>  "
+    elements.push({
+            title: "Insert your Prolific ID here",
+            name : "userId",
+            type :"text",
+            inputType:"text",
+            width: 300,
+            isRequired: true
         }
-    },
+    );
 
-    getPostTest(userId, topicId) {
-        let pages = [];
-        let elements = [];
+    elements.push({
+        type: "html",
+        html: "<hr/>"
+    });
 
-        elements.push({ 
-            type: "html", 
+    elements.push({
+        title: "What is your highest academic degree so far?",
+        name: "degree",
+        type: "radiogroup",
+        isRequired: true,
+        choices: [
+            {value: 0, text: "High School"},
+            {value: 1, text: "Bachelor"},
+            {value: 2, text: "Master"},
+            {value: 3, text: "Doctorate"}
+        ]
+    });
+
+    elements.push({
+        title: "Which subject areas you have university degree(s)?",
+        visibleIf: "{degree} > 0",
+        name : "background",
+        type :"text",
+        inputType:"text",
+        width: 500,
+        isRequired: true
+    });
+
+    elements.push({
+        type: "html",
+        html: "<hr/>"
+    });
+
+    elements.push({
+        title: "Are you an English native speaker?",
+        name: "english",
+        type: "radiogroup",
+        isRequired: true,
+        choices: [
+            {value: 0, text: "No"},
+            {value: 1, text: "Yes"},
+        ]
+    });
+
+    elements.push({
+        title: "What is your level of English?",
+        visibleIf: "{english} == 0",
+        name : "english-level",
+        type: "radiogroup",
+        isRequired: true,
+        choices: [
+            {value: 0, text: "Beginner"},
+            {value: 1, text: "Elementary"},
+            {value: 2, text: "Intermediate"},
+            {value: 3, text: "Upper-intermediate"},
+            {value: 4, text: "Advanced"},
+            {value: 5, text: "Proficiency"}
+        ]
+    });
+
+    elements.push({
+        type: "html",
+        html: "<hr/>"
+    });
+
+    elements.push({
+        title: "How often do you use Web search engine (e.g., Google, Bing, Yahoo) when you want to learn about something?",
+        name: "search-frequency",
+        type: "radiogroup",
+        isRequired: true,
+        choices: [
+            {value: 0, text: "More than 10 times a day"},
+            {value: 1, text: "1-10 times a day"},
+            {value: 2, text: "Once a day"},
+            {value: 3, text: "Every few days"},
+            {value: 4, text: "Never"}
+        ]
+    });
+
+    pages.push({elements:  elements});
+    return {
+        pages: pages,
+        showQuestionNumbers: "off",
+        completedHtml: "    "
+    }
+};
+
+const preTestPage = function(topics) {
+    let pages = [];
+    let elements = [];
+
+    topics.forEach(topic => {
+        elements = [];
+
+        elements.push({
+            type: "html",
             name: "topic",
-            html: "<h2>Final Exercises</h2>" +
-                "<h3>Let's see how much you've learned.</h3>" +
-                "<h3>Answer these questions about <b>" + topics[topicId]["title"] + "</b>:</h3>"
+            html: "<h2>Diagnostic Test</h2> " +
+            "<h3>Let's find out what you already know first.</h3>" +
+            "<h3>Answer these questions about <b>" + topic.title + "</b>:</h3>"
         });
 
-        topics[topicId]["terms"].forEach((term, idx) => {
-            const name = "Q-"+topicId +"-"+ idx;
+        topic.terms.forEach((term, idx) => {
+            const name = "Q-"+ topic.id +"-"+ idx;
 
             elements.push({
                 type: "html",
@@ -337,94 +294,340 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
 
             elements.push({
                 title: "In your own words, what do you think the meaning is?",
-                visibleIf: "{"+ name +"} > 2",
-                name : "meaning-"+ topicId +"-"+ idx,
-                type :"text",
-                inputType:"text",
+                visibleIf: "{" + name + "} > 2",
+                name: "meaning-" + name,
+                type: "text",
+                inputType: "text",
                 width: 500,
-                isRequired: true,
-            });
-        });
-
-        var mean =   AccountStore.getTaskType() == "video" ? "the course video" : "your searches";
-        elements.push({ 
-            type: "html", 
-            name: "outline-description",
-            html: "</br> <b> Based on what you have learned from the course video and your searches, please write an outline for your paper. </b>" +
-                "<p> Tip: An outline is an organizational plan to help you draft a paper. Here is a simple template example: </p>" +
-    
-                "<p> 1. Introduction</p>" +
-                "<p> 1.1. Main argument: ...</p>" + 
-                "<p> 1.2 Purpose of the paper: ... </p>" +
-                
-                "<p> 2. Body </p>" +
-                "<p> 2.1 Argument 1: ....</p>" +
-                "<p> 2.2 Argument 2: .... </p>" +
-                 
-                "<p> 3. Conclusions</p>" +
-                "<p> Summary: ....</p>" 
-        });
-
-
-        elements.push({ 
-            title: "Write your outline here:",
-            name : "outline-paper", 
-            type :"comment", 
-            inputType:"text", 
-            description: "",
-            width: 600, 
-            rows: 6,
-            height: 1000,
-            isRequired: true
-        });
-
-        elements.push({ 
-            title: "Please write what you learned about this topic from the course video and your searches. Use at least 50 words.",
-            name : "summary", 
-            type :"comment", 
-            inputType:"text", 
-            width: 600, 
-            height: 1000,
-            rows: 5,
-            isRequired: true
-        });
-
-        if (AccountStore.getTaskType() == "search")  {
-            elements.push({ 
-                title: "During your searches did you have difficulties finding information about something? If so, describe briefly what you were looking for.",
-                name : "difficulties", 
-                type :"comment",  
-                inputType:"text", 
-                width: 600, 
-                height: 300,
-                rows: 4,
                 isRequired: true
             });
-        }
+        });
 
-        elements.push({ 
-            title: "Do you have any additional comments?",
-            name : "additional-comment", 
-            type :"comment",  
-            inputType:"text", 
-            width: 600, 
-            height: 200,
+        pages.push({elements:  elements});
+    });
+
+    ////
+
+    if (AccountStore.isCollaborative()) {
+        elements = [];
+
+        elements.push({
+            type: "html",
+                html: `
+<b> Collaborative search is when participants work together to complete a search task. </b>
+
+<br/>
+
+Collaborating with other people can take many forms, a few examples are shown here: 
+two people searching together on a single machine, 
+several people searching towards a common goal on separate machines either in the same location or in different locations.
+
+<br/><br/>
+
+<div align="center">
+    <div style="height: 220px; width: 220px; display: inline-block; background-image: url('img/collab_1.jpg'); background-size: cover; background-position: center center;"></div>
+    <div style="height: 220px; width: 220px; display: inline-block; background-image: url('img/collab_2.jpg'); background-size: cover; background-position: center center;"></div>
+    <div style="height: 220px; width: 220px; display: inline-block; background-image: url('img/collab_3.jpg'); background-size: cover; background-position: center center;"></div>
+</div>
+                `
+        });
+
+        elements.push({
+            title: "Have you ever collaborated with other people to search the Web?",
+            name: "collab-previous",
+            type: "radiogroup",
+            isRequired: true,
+            choices: [
+                {value: 0, text: "No"},
+                {value: 1, text: "Yes"},
+            ]
+        });
+
+        elements.push({
+            title: "How often do you engage in collaborative Web search?",
+            visibleIf: "{collab-previous} == 1",
+            name: "collab-frequency",
+            type: "radiogroup",
+            isRequired: true,
+            choices: [
+                {value: 0, text: "Daily"},
+                {value: 1, text: "Weekly"},
+                {value: 2, text: "Monthly"},
+                {value: 3, text: "Less often"},
+            ]
+        });
+
+        elements.push({
+            type: "html",
+            html: "<hr/>"
+        });
+
+        elements.push({
+            type: "html",
+            html: "<b> Think about the most recent time you collaborated with others to search the web. </b>"
+        });
+
+        elements.push({
+            title: "Describe the nature of the information need that prompted this collaborative search episode. " +
+            "(e.g. husband and wife planning a trip for the family, a group of students working on a writing assignment and sharing search results/findings, a couple shopping for a new sofa, etc.)",
+            name: "collab-information-need",
+            type: "comment",
+            inputType: "text",
+            width: 600,
+            rows: 4,
+            isRequired: true
+        });
+
+        elements.push({
+            title: "Which tools did you use to communicate with your collaborators" +
+            "(e.g. email, chat, Skype, Whatsapp, talking on the phone, etc)?",
+            name: "collab-tools",
+            type: "comment",
+            inputType: "text",
+            width: 600,
+            rows: 4,
+            isRequired: true
+        });
+
+        elements.push({
+            title: "With how many others did you collaborate with (i.e. not counting yourself)?",
+            name: "collab-members",
+            type: "text",
+            width: 600,
+            inputType: "number",
+            isRequired: true
+        });
+
+        elements.push({
+            type: "html",
+            html: "<hr/>"
+        });
+
+        elements.push({
+            title: "How satisfied were you with the quality of the answer(s)?",
+            name: "collab-answer-satisfaction",
+            type: "rating",
+            minRateDescription: "Not Satisfied",
+            maxRateDescription: "Completely satisfied"
+        });
+
+        elements.push({
+            title: "How satisfied were you with the ease of working collaboratively?",
+            name: "collab-ease-satisfaction",
+            type: "rating",
+            minRateDescription: "Not Satisfied",
+            maxRateDescription: "Completely satisfied"
+        });
+
+        pages.push({elements:  elements});
+    }
+
+    ////
+
+    return {
+        pages: pages,
+        showProgressBar: "top",
+        showQuestionNumbers: "off",
+        completedHtml: "<p> </p>  "
+    }
+};
+
+const postTestPage = function(topic) {
+    let pages = [];
+    let elements = [];
+
+    ////
+
+    elements.push({
+        type: "html",
+        name: "topic",
+        html: "<h2>Final Exercises</h2>" +
+        "<h3>Let's see how much you've learned.</h3>" +
+        "<h3>Answer these questions about <b>" + topic.title + "</b>:</h3>"
+    });
+
+    topic.terms.forEach((term, idx) => {
+        const name = "Q-"+ topic.id +"-"+ idx;
+
+        elements.push({
+            type: "html",
+            html: "<hr/>"
+        });
+
+        elements.push({
+            title: "How much do you know about \"" + term + "\"?",
+            type: "radiogroup",
+            isRequired: true,
+            name: name,
+            choices: choices
+        });
+
+        elements.push({
+            title: "In your own words, what do you think the meaning is?",
+            visibleIf: "{" + name + "} > 2",
+            name: "meaning-" + idx,
+            type: "text",
+            inputType: "text",
+            width: 500,
+            isRequired: true,
+        });
+    });
+
+    pages.push({elements:  elements});
+
+    ////
+
+    elements = [];
+
+    elements.push({
+        type: "html",
+        name: "outline-description",
+        html: "<b> Based on what you have learned from the learning session, please write an outline for your paper. </b>" +
+        "<p> Tip: An outline is an organizational plan to help you draft a paper. Here is a simple template example: </p>" +
+
+        "<p> 1. Introduction</p>" +
+        "<p> 1.1. Main argument: ...</p>" +
+        "<p> 1.2 Purpose of the paper: ... </p>" +
+
+        "<p> 2. Body </p>" +
+        "<p> 2.1 Argument 1: ....</p>" +
+        "<p> 2.2 Argument 2: .... </p>" +
+
+        "<p> 3. Conclusions</p>" +
+        "<p> Summary: ....</p>"
+    });
+
+    elements.push({
+        title: "Write your outline here:",
+        name: "outline-paper",
+        type: "comment",
+        inputType: "text",
+        description: "",
+        width: 600,
+        rows: 6,
+        isRequired: true
+    });
+
+    elements.push({
+        title: "Please write what you have learned about this topic from the learning session. Use at least 50 words.",
+        name: "summary",
+        type: "comment",
+        inputType: "text",
+        width: 600,
+        rows: 6,
+        isRequired: true
+    });
+
+    elements.push({
+        type: "html",
+        html: "<hr/>"
+    });
+
+    if (AccountStore.getTaskType() === "search") {
+        elements.push({
+            title: "During your searches did you have difficulties finding information about something? If so, describe briefly what you were looking for.",
+            name: "difficulties",
+            type: "comment",
+            inputType: "text",
+            width: 600,
+            rows: 4,
+            isRequired: true
+        });
+    }
+
+    elements.push({
+        title: "Do you have any additional comments regarding the learning phase?",
+        name: "additional-comment",
+        type: "comment",
+        inputType: "text",
+        width: 600,
+        rows: 4,
+        isRequired: true
+    });
+
+    pages.push({elements:  elements});
+
+    ////
+
+    if (AccountStore.isCollaborative()) {
+        elements = [];
+
+        elements.push({
+            type: "html",
+            name: "collab-feedback-description",
+            html: "<b> We would also like you to describe your experience in collaborating with your partner. </b>"
+        });
+
+        elements.push({
+            title: "Did you find the collaborative features useful?",
+            name: "collab-rating",
+            type: "matrix",
+            isRequired: true,
+            isAllRowRequired: true,
+
+            columns: [
+                {
+                    value: 1,
+                    text: "Strongly Disagree"
+                }, {
+                    value: 2,
+                    text: "Disagree"
+                }, {
+                    value: 3,
+                    text: "Neutral"
+                }, {
+                    value: 4,
+                    text: "Agree"
+                }, {
+                    value: 5,
+                    text: "Strongly Agree"
+                }
+            ],
+            rows: [
+                {
+                    value: "query-history",
+                    text: "Shared Query History"
+                }, {
+                    value: "bookmarks",
+                    text: "Shared Bookmarks"
+                }, {
+                    value: "chat",
+                    text: "Group Chat"
+                }
+            ]
+        });
+
+        elements.push({
+            title: "How did you make use of the collaborative features and the information from your partner to help in doing your task?",
+            name: "collab-usage",
+            type: "comment",
+            inputType: "text",
+            width: 600,
+            rows: 4,
+            isRequired: true
+        });
+
+        elements.push({
+            title: "Do you have any additional comments regarding collaborating with your partner?",
+            name: "collab-comments",
+            type: "comment",
+            inputType: "text",
+            width: 600,
             rows: 4,
             isRequired: true
         });
 
         pages.push({elements:  elements});
-
-        ////
-            
-        return {
-            pages: pages,
-            showQuestionNumbers: "off", 
-            completedHtml: "<p> </p>"
-        }
     }
-});
 
+    ////
 
+    return {
+        pages: pages,
+        showProgressBar: "top",
+        showQuestionNumbers: "off",
+        completedHtml: "<p> </p>"
+    }
+};
 
 export default TaskStore;

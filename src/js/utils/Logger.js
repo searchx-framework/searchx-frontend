@@ -1,56 +1,41 @@
 import AccountStore from '../stores/AccountStore';
 import request from 'superagent';
 
-const config = require('config');
+const env = require('env');
 let eventQueue = [];
 
 export function log(event, meta) {
     let task = {};
-    const topicId = AccountStore.getTopicId() || '';
-
-    if (topicId !== '') {
+    const topic = AccountStore.getTaskTopic();
+    if (topic !== '') {
         task = {
-            topicId: topicId,
-            sessionId: AccountStore.getTaskSessionId() || '',
-            userCode: AccountStore.getTaskType() || '',
+            topicId: topic.id,
+            type: AccountStore.getTaskType() || '',
             duration: AccountStore.getTaskDuration() || '',
-            userCode: AccountStore.getId() || '',
         }
     }
 
     eventQueue.push({
-        userId: AccountStore.getTaskSessionId() || '',
-        date: new Date().toLocaleString("en-US", {timeZone: "Europe/Amsterdam"}),
+        userId: AccountStore.getId() || '',
+        sessionId: AccountStore.getSessionId() || '',
+        task: task,
         event: event || '',
-        meta: meta || {},
-        task: task
+        meta: meta || {}
     });
     
-    request.post(config.serverUrl + '/v1/users/' + AccountStore.getTaskSessionId() + '/logs')
-    .send({
-        data: eventQueue
-    })
-    .end((err, res) => {
-        //console.log(res.body);
-    });
-
-    eventQueue = [];
-
+    flush();
 }
-
 
 export function flush() {
     if (eventQueue.length === 0) {
         return;
     }
 
-    request.post(config.serverUrl + '/v1/users/' + AccountStore.getTaskSessionId() + '/logs')
+    request.post(env.serverUrl + '/v1/users/' + AccountStore.getId() + '/logs')
         .send({
             data: eventQueue
         })
-        .end((err, res) => {
-            //console.log(res.body);
-        });
+        .end((err, res) => {});
 
     eventQueue = [];
 }

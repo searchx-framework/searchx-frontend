@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {log} from '../../../utils/Logger';
-import {LoggerEventTypes} from '../../../constants/LoggerEventTypes';
+import {LoggerEventTypes} from '../../../utils/LoggerEventTypes';
 import AccountScore from '../../../stores/AccountStore';
 
 class TimedSubmit extends React.Component {
@@ -40,17 +40,15 @@ class TimedSubmit extends React.Component {
     }
 
     clickHandler(){
-        
-        const metaInfo = {
+        log(LoggerEventTypes.SURVEY_LEARNING_DONE, {
             elapsedTime: Math.round(this.state.elapsed / 1000),
             type: AccountScore.getTaskType()
-        };
-        log(LoggerEventTypes.SURVEY_LEARNING_DONE, metaInfo);
-        if (AccountScore.getTaskType("video")) {
+        });
+
+        if (AccountScore.getTaskType() === "video") {
             AccountScore.setTaskType("search");
             this.props.history.push('/learning');
         }
-        
     }
 
     ////
@@ -65,30 +63,30 @@ class TimedSubmit extends React.Component {
             minutes = 0;
             seconds = 0;
         }
-        var active = minutes < this.state.duration ? "disabled" : "active";
 
-        if (AccountScore.getTaskType() == "video") {
+        let active = minutes < this.state.duration ? "disabled" : "active";
+        if (AccountScore.getTaskType() === "video") {
             active = "active";
         }
 
-        
+        let message = null;
+        if (active !== 'active') message = "Please continue learning for at least " + this.state.duration + " minutes.";
+        if (!started) message = "Finish the introduction tour to start the counter. You may need to reload this page to start the tour.";
+
         return (
             <div id="intro-counter">
-                { (AccountScore.getTaskType() == "search") ?
-                    <div className="counter">
-                        {minutes}:{this.padZero(seconds)}
-                    </div>
-                    : <div/>
-                }
-                <Link className={"btn btn-primary " + active} to={ AccountScore.getTaskType() == "search" ? "/posttest": "/learning"} role="button" onClick={this.clickHandler}>
-                    { AccountScore.getTaskType() == "video" ? "To Search Phase": "To Final Test"}
+                <div className="counter">
+                    {minutes}:{this.padZero(seconds)}
+                </div>
+
+                <Link className={"btn btn-primary " + active} to={AccountScore.getTaskType() === "search" ? "/posttest": "/learning"} role="button" onClick={this.clickHandler}>
+                    {AccountScore.getTaskType() === "video" ? "To Search Phase": "To Final Test"}
                 </Link>
-                {!started &&
-                    <div>
-                        <br/>
-                        Finish the guide tour to start the counter. You may need to reload this page to restart the guide tour.
-                    </div>
-                }
+
+                <div>
+                    <br/>
+                    {message !== null && message}
+                </div>
             </div>
         )
     }

@@ -2,6 +2,15 @@
 
 .Welcome {
     margin-bottom: 50px;
+
+    .Info {
+        text-align: left;
+        font-size: 1.4em;
+
+        h2 {
+            font-size: 2em;
+        }
+    }
 }
 
 .Learning {
@@ -10,21 +19,50 @@
 
     &-medium {
         padding: 0px;
-        height: 100%;
-
         border: 0px;
-        
+
         border-style: solid;
         border-color: lightgrey;
     }
 
     &-task {
         background-color: $primary-color;
-        
         padding: 20px;
+
+        @media (min-width: 992px) {
+            height: 100%;
+            position: fixed;
+            right:0;
+        }
     }
 }
 
 .introjs-skipbutton {
     display: none;
+}
+
+/* Chat */
+
+.toggle-controlbox {
+    display: none !important;
+}
+
+.configure-chatroom-button {
+    display: none !important;
+}
+
+.close-chatbox-button {
+    display: none !important;
+}
+
+.chat-title {
+    display: none !important;
+}
+
+#toggle-minimized-chats {
+    display: none !important;
+}
+
+#conversejs #minimized-chats .minimized-chats-flyout {
+    bottom: 0px !important;
 }

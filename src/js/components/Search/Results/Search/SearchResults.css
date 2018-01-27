@@ -1,0 +1,148 @@
+@import '../../variables.css';
+
+.SearchResults {
+    padding: 15px;
+    margin: 0px;
+    min-height: 750px;
+
+    &-pagination {
+
+         background-color: $primary-color;
+         border-color: $primary-color;
+    }
+
+    .rating {
+        float : left;
+        margin-right: 5px;
+        padding-top: 1px;
+
+        .fa-bookmark {
+            font-size: 18px;
+            color: #ffd700;
+        }
+
+        .fa-bookmark-o {
+            font-size: 18px;
+            color: #e5c100;
+        }
+    }
+
+    h2 {
+        font-size: 18px;
+        line-height: 21px;
+
+        margin-bottom: 1px;
+        margin-top: 0px;
+        max-width: 500px;
+
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -webkit-text-overflow: ellipsis;
+        white-space: nowrap;
+
+        a, a:hover, a:focus {
+            color: $ link-blue;
+            text-decoration: none;
+        }
+
+        a:visited {
+            color: $ visited-blue;
+            text-decoration: none;
+        }
+    }
+
+    .source {
+        color: $link-green;
+
+        line-height: 16px;
+        font-size: 14px;
+        max-width: 500px;
+
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -webkit-text-overflow: ellipsis;
+        white-space: nowrap;
+
+        margin-top: 3px;
+        margin-bottom: 3px;
+    }
+
+    p {
+        color: $description-grey;
+
+        font-size: 13px;
+        font-weight: normal;
+        line-height: 17px;
+        height: auto;
+
+        display: block;
+        word-wrap: break-word;
+        margin-top: 0px;
+        margin-bottom: 3px;
+    }
+
+    /* TYPES */
+
+    &-web {
+         margin-bottom: 15px;
+         margin-left: 0px;
+
+        p {
+            max-width: 500px;
+        }
+    }
+
+    &-news {
+        margin-bottom: 15px;
+        margin-left: 0px;
+
+        p {
+            max-width: 700px;
+        }
+
+        img {
+            float: left;
+            height: 100px;
+            width: 100px;
+            margin-right: 10px;
+            margin-bottom: 15px;
+        }
+    }
+
+    &-image {
+        float: left;
+        margin-bottom: 20px;
+        margin-right: 15px;
+
+        .image {
+            height: 150px;
+            width: 275px;
+            background-position: center;
+            background-size: cover;
+
+            margin-bottom: 5px;
+            display: block;
+        }
+    }
+
+    &-video {
+        float: left;
+        margin-bottom: 20px;
+        margin-right: 15px;
+
+        width: 275px;
+        height: 230px;
+
+        h6 {
+            margin-top: 3px;
+            margin-bottom: 3px;
+        }
+
+        .player {
+            margin-bottom: 10px;
+            background-color: black;
+        }
+    }
+}

@@ -1,11 +1,7 @@
-import {register} from '../utils/Dispatcher';
 import EventEmitter from 'events';
+import config from '../config';
 
-
-/*****************************/
-
-
-const CHANGE_EVENT = 'change_account';
+////
 
 const getParameterByName = function(name, url) {
     if (!url) url = window.location.href;
@@ -27,31 +23,35 @@ const generateUUID = function() {
     )
 };
 
-
-/*****************************/
-
+////
 
 let state = {
-    userId: localStorage.getItem("userId") || '' ,
+    userId: localStorage.getItem("user-id") || '' ,
+    sessionId: localStorage.getItem("session-id") || '',
+
     task: {
-        topicId: localStorage.getItem('topicId') || '',
-        sessionId: localStorage.getItem('taskSessionId') || '',
-        type : localStorage.getItem("taskType") || '',
-        duration: localStorage.getItem("taskDuration")|| ''
+        topic: JSON.parse(localStorage.getItem("task-topic")) || '',
+        type : localStorage.getItem("task-type") || '',
+        duration: localStorage.getItem("task-duration")|| ''
+    },
+
+    group: {
+        members: JSON.parse(localStorage.getItem("group-members")) || '',
     }
 };
 
 const AccountStore = Object.assign(EventEmitter.prototype, {
-    emitChange() {
-        this.emit(CHANGE_EVENT);
-    },
-    
-    dispatcherIndex: register(action => {
-        AccountStore.emitChange();
-    }),
+    setId(userId) {
+        state.userId = userId;
+        localStorage.setItem("user-id", userId);
 
-    addChangeListener(callback) {
-        this.on(CHANGE_EVENT, callback)
+        const sessionId = generateUUID();
+        this.setSessionId(sessionId);
+    },
+
+    setSessionId(sessionId) {
+        state.sessionId = sessionId;
+        localStorage.setItem("session-id", sessionId);
     },
 
     ////
@@ -60,37 +60,18 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
         return state.userId;
     },
 
-    getTask() {
-        return state.task;
-    },
-
-    setTaskType(type) {
-        localStorage.setItem("taskType", type);
-        state.task.type = type;
-    },
-
-    setId(userId) {
-        
-
-        localStorage.setItem("userId", userId);
-
-        const sessionId = generateUUID();
-        localStorage.setItem("taskSessionId", sessionId);
-        
-
-        state.userId = userId;
-        state.task.sessionId = sessionId;
-        return state.userId;
+    getSessionId() {
+        return state.sessionId;
     },
 
     ////
 
-    getTopicId() {
-        return state.task.topicId;
+    getTask() {
+        return state.task;
     },
 
-    getTaskSessionId() {
-        return state.task.sessionId;
+    getTaskTopic() {
+        return state.task.topic;
     },
 
     getTaskType() {
@@ -103,33 +84,76 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
 
     ////
 
-    setTask(topicId, type, minutes) {
-        
-
-        localStorage.setItem("topicId", topicId);
-       
-        localStorage.setItem("taskType", type);
-        localStorage.setItem("taskDuration", minutes);
-
-        state.task.topicId = topicId;
-        state.task.type = type;
-        state.task.duration = minutes;
-        state.task.sessionId = localStorage.getItem('taskSessionId');
-
-        localStorage.removeItem("finish-code");
+    isCollaborative() {
+        if (!config.collaborative) return false;
+        if (state.task.topic === '') return true;
+        return state.group.members !== '';
     },
 
-    clearTask() {
-        localStorage.removeItem("topicId");
+    getMemberName(userId) {
+        if (state.group.members === '' || state.group.members[userId] === undefined) return 'Anonymous';
+        return state.group.members[userId].name;
+    },
 
-        localStorage.removeItem("taskType");
-        localStorage.removeItem("taskDuration");
+    getMemberColor(userId) {
+        if (state.group.members === '' || state.group.members[userId] === undefined) return 'LightSlateGray';
+        return state.group.members[userId].color;
+    },
 
-        localStorage.removeItem("intro-done-video");
-        localStorage.removeItem("intro-done-search");
+    ////
+
+    setTask(topic) {
+        const type = config.taskType;
+        const minutes = config.taskDuration;
+
+        state.task.topic = topic;
+        state.task.type = type;
+        state.task.duration = minutes;
+
+        localStorage.setItem("task-topic", JSON.stringify(topic));
+        localStorage.setItem("task-type", type);
+        localStorage.setItem("task-duration", minutes);
+
         localStorage.removeItem("counter-start-search");
+        localStorage.removeItem("finish");
+    },
 
-        state.task = {};
+    setGroup(groupId, groupMembers) {
+        let members = {};
+        groupMembers.forEach(member => members[member.userId] = member);
+
+        state.group.members = members;
+        localStorage.setItem("group-members", JSON.stringify(members));
+
+        this.setSessionId(groupId);
+    },
+
+    setTaskType(type) {
+        state.task.type = type;
+        localStorage.setItem("task-type", type);
+    },
+
+    ////
+
+    clearTask() {
+        state.task = '';
+        this.clearGroup();
+
+        localStorage.removeItem("task-topic");
+        localStorage.removeItem("task-type");
+        localStorage.removeItem("task-duration");
+        localStorage.removeItem("counter-start-search");
+    },
+
+    clearGroup() {
+        state.group.members = '';
+        localStorage.removeItem("group-members");
+    },
+
+    clearUserData() {
+        state.userId = '';
+        state.sessionId = '';
+        localStorage.clear();
     }
 });
 

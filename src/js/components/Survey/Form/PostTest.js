@@ -1,84 +1,108 @@
 import './Form.css'
 
 import React from 'react';
+import Alert from 'react-s-alert';
 import * as Survey from 'survey-react';
 
 import TaskStore from '../../../stores/TaskStore';
 import AccountStore from '../../../stores/AccountStore';
 
-import {log, flush} from '../../../utils/Logger';
-import {LoggerEventTypes} from '../../../constants/LoggerEventTypes';
-import Alert from 'react-s-alert';
-
+import {log} from '../../../utils/Logger';
+import {LoggerEventTypes} from '../../../utils/LoggerEventTypes';
 import config from '../../../config';
 
-
 export default class PostTest extends React.Component {
-
     constructor(props) {
         super(props);
-
         this.state = {
-            finish: false
+            isComplete: localStorage.getItem('finish') === 'true'
         };
 
         this.handleComplete = this.handleComplete.bind(this);
-
         this.handleCutCopyPaste = this.handleCutCopyPaste.bind(this);
-
-        this.handleCutCopyPasteDismute = this.handleCutCopyPasteDismute.bind(this);
-
-        this.forceSetState = this.forceSetState.bind(this);
- 
     }
 
+    ////
 
-    componentWillMount() {    
+    componentWillMount() {
         Survey.Survey.cssType = "bootstrap";
         Survey.defaultBootstrapCss.navigationButton = "btn btn-green";
     }
 
-
-
-    
     componentDidMount() {
-        let finishedCode = localStorage.getItem("finishedCode");
-        
-        if (this.state.finish || finishedCode === null) {
+        if (!this.state.isComplete) {
             document.addEventListener('visibilitychange', this.handleVisibilityChange);
-        } 
+        }
+    }
+
+    componentDidUpdate() {
+        if (this.state.isComplete) {
+            document.addEventListener('visibilitychange', function(){
+                log(LoggerEventTypes.WINDOW_CHANGE_VISIBILITY, {
+                    step : "posttest",
+                    hidden: document.hidden
+                });
+            })
+        }
+    }
+
+    ////
+
+    handleComplete(result){
+        log(LoggerEventTypes.SURVEY_POST_TEST_RESULTS, {
+            results: result.data
+        });
+
+        AccountStore.clearTask();
+        localStorage.setItem('finish', true);
+
+        this.setState({
+            isComplete: true
+        });
+    }
+
+    handleCutCopyPaste(e){
+        Alert.warning('You cannot copy and paste in this step.', {
+            position: 'top-right',
+            effect: 'scale',
+            beep: true,
+            timeout: "none",
+            offset: 100
+        });
+
+        e.preventDefault();
     }
 
     handleVisibilityChange(){
-        const metaInfo = {
+        log(LoggerEventTypes.WINDOW_CHANGE_VISIBILITY, {
             step : "posttest",
             hidden: document.hidden
+        });
 
-        };
-        log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo);
+        ////
+
         if (document.hidden) {
-            let finishedCode = localStorage.getItem("finishedCode");
-            if (finishedCode === null) {
+            let switchTabs = 0;
+            const finish = localStorage.getItem("finish");
 
-                var switchTabs = 0;
-                if (localStorage.getItem("switchTabsPostTest") !== null) {
-                    switchTabs = localStorage.getItem("switchTabsPostTest");
+            if (finish === null){
+                if (localStorage.getItem("switch-tabs-posttest") !== null) {
+                    switchTabs = localStorage.getItem("switch-tabs-posttest");
                 }
 
-                
                 switchTabs++;
-                localStorage.setItem("switchTabsPostTest", switchTabs);
-                
+                localStorage.setItem("switch-tabs-posttest", switchTabs);
 
-                var times = '';
-                if (switchTabs == 1) {
+                let times = '';
+                if (switchTabs === 1) {
                     times = 'once.';
-                } else if (switchTabs == 2) {
+                } else if (switchTabs === 2) {
                     times = 'twice.';
                 } else {
-                    times = switchTabs + " times." 
+                    times = switchTabs + " times."
                 }
-                Alert.error('We have noticited that you have tried to change to a different window/tab.', {
+
+                Alert.error('We have noticed that you have tried to change to a different window/tab.', {
                     position: 'top-right',
                     effect: 'scale',
                     beep: true,
@@ -103,77 +127,18 @@ export default class PostTest extends React.Component {
                 });
             }
 
-            
             if (switchTabs >= 3) {
                 window.location.reload();
             }
-
         }
     }
 
-    componentDidUpdate() {
-        let finishedCode = localStorage.getItem("finishedCode");
-        
-        if (this.state.finish || finishedCode !== null) {
-            
-            document.addEventListener('visibilitychange', function(){
-                const metaInfo = {
-                    step : "posttest",
-                    hidden: document.hidden
-    
-                };
-                log(LoggerEventTypes.CHANGE_VISIBILITY, metaInfo);
-            })
-        } 
-    }
-
-
-    forceSetState() {
-        
-        this.setState(this.state);
-    }
-
-    handleComplete(result){
-        const metaInfo = {
-            results: result.data
-        };
-        log(LoggerEventTypes.SURVEY_POST_TEST_RESULTS, metaInfo);
-
-        AccountStore.clearTask();
-        //localStorage.setItem("finishedCode", TaskStore.getFinishCode(AccountStore.getId()));
-        localStorage.setItem("finishedCode", true);
-        this.forceSetState();
-    }
-        
-        
-    handleCutCopyPaste(e){
-        Alert.warning('You cannot copy and paste in this step.', {
-            position: 'top-right',
-            effect: 'scale',
-            beep: true,
-            timeout: "none",
-            offset: 100
-        });
-
-        e.preventDefault();
-    }
-
-    handleCutCopyPasteDismute(e){
-        
-    }
-
-
+    ////
 
     render() {
-
-        var switchTabs = localStorage.getItem("switchTabsPostTest") || 0;
-
-        
-        const userId = AccountStore.getId();
-        let finishedCode = localStorage.getItem("finishedCode");
-        if (this.state.finish || finishedCode !== null) {
+        if (this.state.isComplete) {
             document.removeEventListener("visibilitychange", this.handleVisibilityChange);
-           
+
             return (
                 <div className="Survey">
                     <div className="Survey-form">
@@ -184,38 +149,44 @@ export default class PostTest extends React.Component {
                     </div>
                 </div>
             );
-        }  else if (switchTabs >= 3) {
+        }
+
+        ////
+
+        const switchTabs = localStorage.getItem("switch-tabs-posttest") || 0;
+        if (switchTabs >= 3) {
             return (
                 <div className="Survey">
                     <div className="Survey-form">
                         <div className='Survey-complete'>
                             <h2>We are sorry!</h2>
-                            <h3>You have changed to a different tab/windows than three times, we have cancelled your participation.</h3>
+                            <h3>You have changed to a different tab/windows more than three times, we have cancelled your participation.</h3>
                         </div>
                     </div>
                 </div>
             );
         }
-        
-        
-        else {
 
-            const topicId = AccountStore.getTopicId();
-        
+        ////
 
-            const data = TaskStore.getPostTest(userId, topicId);
-            const survey = new Survey.Model(data);
+        if (AccountStore.getTaskTopic() === '') {
+            return <div/>;
+        }
 
-            survey.requiredText = "";
-            survey.onComplete.add(this.handleComplete);
+        ////
 
-            return (
-                <div className="Survey">
-                    <div className="Survey-form" onPaste={this.handleCutCopyPaste} onCut={this.handleCutCopyPaste} onCopy={this.handleCutCopyPaste}>
-                        <Survey.Survey model={survey} onValidateQuestion={TaskStore.surveyValidateWordCount}/>
-                    </div>
-                </div>            
-            );
-    }
+        const data = TaskStore.getPostTest();
+        const survey = new Survey.Model(data);
+
+        survey.requiredText = "";
+        survey.onComplete.add(this.handleComplete);
+
+        return (
+            <div className="Survey">
+                <div className="Survey-form" onPaste={this.handleCutCopyPaste} onCut={this.handleCutCopyPaste} onCopy={this.handleCutCopyPaste}>
+                    <Survey.Survey model={survey} onValidateQuestion={TaskStore.surveyValidateWordCount}/>
+                </div>
+            </div>
+        );
     }
 }
