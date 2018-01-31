@@ -1,38 +1,48 @@
-# SearchX installation instructions
+# SearchX Frontend
 
-Set SearchX backend API:
-In webpack.config.js set in externals the host of the production or development:
+SearchX is a scalable collaborative search system being developed by [Lambda Lab](http://www.wis.ewi.tudelft.nl/projects/learning-analytics/) of [TU Delft](https://www.tudelft.nl/).
+It is based on [Pineapple Search](http://onlinelibrary.wiley.com/doi/10.1002/pra2.2016.14505301122/full) and is further developed to facilitate collaborative search and sensemaking.
+
+Apart from serving the interface, the frontend also manages user data and defines the logs sent back to the backend.
+It is built on NodeJS using the [React](https://reactjs.org/) + [Flux](https://facebook.github.io/flux/) framework and is served through [webpack](https://webpack.js.org/).
+
+# Setup
+
+- Configure SearchX backend API in `webpack.config.js`
 ```
-    externals: {
-        'config': JSON.stringify(process.env.ENV === 'production' ? {
+externals: {
+    'config': JSON.stringify(process.env.ENV === 'production' ? {
         serverUrl: "https://myserver.com"
-        } : {
-        serverUrl: "http://localhost:3001"
-  })
+    } : {
+        serverUrl: "http://localhost:4443"
+    })
+}
 ```
 
-Install all dependencies:
+- Install all dependencies:
 
 ```
+// Install webpack
 npm i babel webpack webpack-dev-server
+
+// Install rest of dependencies
 npm update
 ```
-Make sure the versions are:
-- babel: 6.23.0
-- webpack 2.6.1
-- webpack-dev-server: 2.4.5
 
-Start the development server:
+- Start the development server:
 
 ```
 npm start
 ```
 
-# Notes
+# Modifications
 
-## Tutorial
+### Adding additional Logs
+TODO
 
-The tutorial texts are hardcoded right now, something that needs to be fixed in subsequent version. The texts are in
-- `src/js/components/Header/Search.js` (explains the search box)
-- `src/js/components/SearchVerticals.js` (explains the verticals)
-- `src/js/components/SearchResults/WebSearchResults.js` (explains the rating system)
+### Customize search task
+TODO
+
+# License
+
+[MIT](https://opensource.org/licenses/MIT)`
