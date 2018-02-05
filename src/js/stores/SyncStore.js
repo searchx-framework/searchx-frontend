@@ -6,14 +6,14 @@ import SearchActions from "../actions/SearchActions";
 import SessionActions from "../actions/SessionActions";
 
 const env = require('env');
-const socket = io(env.serverUrl + '/group');
+const socket = io(env.serverUrl + '/session');
 
 ////
 
 const SyncStore = Object.assign(EventEmitter.prototype, {
     registerSocket() {
         socket.emit('register', {
-            userId: AccountStore.getId(),
+            userId: AccountStore.getUserId(),
             groupId: AccountStore.getSessionId()
         });
     },
@@ -36,13 +36,13 @@ const SyncStore = Object.assign(EventEmitter.prototype, {
 
     emitStartPretest() {
         socket.emit('pushStartPretest', {
-            userId: AccountStore.getId()
+            userId: AccountStore.getUserId()
         });
     },
 
     emitPretestScore(scores) {
         socket.emit('pushPretestScores', {
-            userId: AccountStore.getId(),
+            userId: AccountStore.getUserId(),
             sessionId: AccountStore.getSessionId(),
             scores: scores
         });
@@ -51,7 +51,7 @@ const SyncStore = Object.assign(EventEmitter.prototype, {
     emitUserLeave() {
         if (AccountStore.isCollaborative()) {
             socket.emit('pushUserLeave', {
-                userId: AccountStore.getId()
+                userId: AccountStore.getUserId()
             });
         }
     },
@@ -61,7 +61,7 @@ const SyncStore = Object.assign(EventEmitter.prototype, {
     emitSearchState(searchState) {
         socket.emit('pushSearchState', {
             sessionId: AccountStore.getSessionId(),
-            userId: AccountStore.getId(),
+            userId: AccountStore.getUserId(),
             state: searchState
         });
     },
@@ -73,14 +73,14 @@ const SyncStore = Object.assign(EventEmitter.prototype, {
 
 ////
 
-if (AccountStore.getId() !== '') {
+if (AccountStore.getUserId() !== '') {
     SyncStore.registerSocket();
 }
 
 if (AccountStore.isCollaborative()) {
     socket.on('bookmarkUpdate', (data) => {
         SessionActions.getBookmarks();
-        SearchActions.refreshSearch(data.query, data.vertical, data.pageNumber);
+        SearchActions.refreshSearch(data.query, data.vertical, data.page);
     });
 
     socket.on('searchState', (data) => {

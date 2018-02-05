@@ -1,0 +1,88 @@
+import React from 'react';
+import VisibilitySensor from 'react-visibility-sensor';
+
+import {log} from '../../../../../utils/Logger';
+import {LoggerEventTypes} from '../../../../../utils/LoggerEventTypes';
+
+////
+
+const NewsSearchResult = function({searchState, serpId, result, bookmarkButton, bookmarkInfo}) {
+    let metaInfo = {
+        url: result.url,
+        query: searchState.query,
+        page: searchState.page,
+        vertical: 'news',
+        serpId: serpId,
+    };
+
+    let clickUrlLog = () => {
+        log(LoggerEventTypes.SEARCHRESULT_CLICK_URL,metaInfo);
+    };
+
+    let viewUrlLog = (isVisible) => {
+        const metaInfoView = {metaInfo, isVisible: isVisible};
+        log(LoggerEventTypes.SEARCHRESULT_VIEW_URL, metaInfoView);
+    };
+
+    let contextUrlLog = () => {
+        log(LoggerEventTypes.SEARCHRESULT_CONTEXT_URL, metaInfo);
+    };
+
+    let hoverEnterSummary = () => {
+        log(LoggerEventTypes.SEARCHRESULT_HOVERENTER, metaInfo);
+    };
+
+    let hoverLeaveSummary = () => {
+        log(LoggerEventTypes.SEARCHRESULT_HOVERLEAVE, metaInfo);
+    };
+
+    ////
+
+    const cts = result.datePublished;
+    const cdate = (new Date(cts));
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+    ////
+
+    return (
+        <div className="SearchResults-news">
+            <VisibilitySensor onChange={viewUrlLog}
+                scrollCheck
+                delayedCall={true}
+                scrollThrottle={50}
+                intervalDelay={2000}
+            />
+
+            <div onMouseEnter={hoverEnterSummary} onMouseLeave={hoverLeaveSummary}>
+                <div className="image">
+                    {result.image ?
+                        <div> <img src={result.image.thumbnail.contentUrl} /></div> :
+                        <div> <img src='/img/image_placeholder.png'/> </div>
+                    }
+                </div>
+
+                <div className="info">
+                    {bookmarkButton}
+
+                    <h2>
+                        <a href={result.url} title={result.name} target="_blank" onClick={clickUrlLog} onContextMenu={contextUrlLog}>
+                            {result.name}
+                        </a>
+                    </h2>
+
+                    <span className="source">
+                        { result.provider[0].name + " - " + cdate.getDate().toString() + " "  + monthNames[cdate.getMonth()] + " " + cdate.getFullYear().toString() }
+                    </span>
+
+                    <p>
+                        {result.description}
+                    </p>
+
+                    {bookmarkInfo}
+                </div>
+            </div>
+        </div>
+    )
+};
+
+export default NewsSearchResult;

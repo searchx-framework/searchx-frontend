@@ -1,5 +1,5 @@
-import AppConstants from "../AppConstants";
-import {dispatch} from "../AppDispatcher";
+import AppConstants from "./ActionTypes";
+import {dispatch} from "../utils/Dispatcher";
 
 export default {
     getQueryHistory() {

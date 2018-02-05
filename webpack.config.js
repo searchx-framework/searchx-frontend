@@ -1,9 +1,10 @@
-const postcssImport = require('postcss-import');
-const autoprefixer = require('autoprefixer');
-const simpleVars = require('postcss-simple-vars');
-const postcssNested = require('postcss-nested');
 const webpack = require('webpack');
 const path = require('path');
+
+const postcssImport = require('postcss-import');
+const postcssAutoprefixer = require('autoprefixer');
+const postcssNested = require('postcss-nested');
+const postcssSimpleVars = require('postcss-simple-vars');
 
 module.exports = {
     entry: "./src/js/main.js",
@@ -35,7 +36,7 @@ module.exports = {
                 }
             },
             {
-                test:   /\.css$/,
+                test:   /\.(css|pcss)$/,
                 loader: "style-loader!css-loader!postcss-loader"
             },
             {
@@ -50,8 +51,10 @@ module.exports = {
             options: {
                 context: __dirname,
                 postcss: [
-                    postcssImport({ addDependencyTo: webpack}),
-                    simpleVars, postcssNested, autoprefixer
+                    postcssImport({addDependencyTo: webpack}),
+                    postcssAutoprefixer,
+                    postcssNested,
+                    postcssSimpleVars,
                 ]
             }
         }
@@ -59,7 +62,7 @@ module.exports = {
 
     externals: {
         'env': JSON.stringify(process.env.ENV === 'production' ? {
-            serverUrl: "http://127.0.0.1:4443"
+            serverUrl: "http://csal.ewi.tudelft.nl:4443"
         } : {
             serverUrl: "http://127.0.0.1:4443"
         })

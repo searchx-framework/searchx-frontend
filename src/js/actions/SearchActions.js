@@ -1,23 +1,23 @@
-import AppConstants from '../AppConstants';
-import {dispatch} from '../AppDispatcher';
+import AppConstants from './ActionTypes';
+import {dispatch} from '../utils/Dispatcher';
 
 export default {
-    search(query, vertical, pageNumber) {
+    search(query, vertical, page) {
         dispatch({
             type: AppConstants.SEARCH,
             payload: {
                 query: query,
-                pageNumber: pageNumber
+                page: page
             },
         })
     },
 
-    changePage(query, vertical, pageNumber) {
+    changePage(query, vertical, page) {
         dispatch({
             type: AppConstants.CHANGE_PAGE,
             payload: {
                 query: query,
-                pageNumber: pageNumber
+                page: page
             },
         })
     },
@@ -40,13 +40,13 @@ export default {
         })
     },
 
-    refreshSearch(query, vertical, pageNumber) {
+    refreshSearch(query, vertical, page) {
         dispatch({
             type: AppConstants.REFRESH_SEARCH,
             payload: {
                 query: query,
                 vertical: vertical,
-                pageNumber: pageNumber
+                page: page
             }
         })
     },

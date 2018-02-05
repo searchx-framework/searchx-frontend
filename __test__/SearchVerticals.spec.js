@@ -1,8 +1,7 @@
 import React from 'react'
 import { shallow, mount, render } from 'enzyme';
 
-
-import SearchVerticals from '../src/js/components/Search/Header/SearchVerticals';
+import SearchVerticals from '../src/js/app/search/header/components/SearchVerticals';
 
 describe('SearchVerticals',()=>{
     let wrapper;

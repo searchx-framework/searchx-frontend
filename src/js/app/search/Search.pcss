@@ -1,0 +1,47 @@
+@import url('../../../../node_modules/normalize.css/normalize.css');
+@import url('../Variables.pcss');
+
+body {
+    color: $text-color;
+}
+
+.no-padding {
+    padding: 0 !important;
+}
+
+.no-margin {
+    margin: 0 !important;
+}
+
+.invisible {
+    visibility: hidden;
+}
+
+.Search {
+    .Content {
+        display: flex;
+        min-height: 750px;
+
+        .Main {
+            width: 70%;
+        }
+
+        .Side {
+            width: 30%;
+
+            padding-left: 10px;
+            padding-right: 10px;
+            border-left: 2px solid $border-color;
+
+            h3 {
+                font-size: 20px;
+                margin-left: 5px;
+            }
+        }
+    }
+
+    .Footer {
+        font-size: 13px;
+        font-weight: normal;
+    }
+}

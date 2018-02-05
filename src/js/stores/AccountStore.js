@@ -3,19 +3,6 @@ import config from '../config';
 
 ////
 
-const getParameterByName = function(name, url) {
-    if (!url) url = window.location.href;
-    name = name.replace(/[\[\]]/g, "\\$&");
-
-    const regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)");
-    const results = regex.exec(url);
-    
-    if (!results) return null;
-    if (!results[2]) return '';
-
-    return decodeURIComponent(results[2].replace(/\+/g, " "));
-};
-
 const generateUUID = function() {
     // https://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
     return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
@@ -23,16 +10,14 @@ const generateUUID = function() {
     )
 };
 
-////
-
 let state = {
     userId: localStorage.getItem("user-id") || '' ,
     sessionId: localStorage.getItem("session-id") || '',
 
     task: {
-        topic: JSON.parse(localStorage.getItem("task-topic")) || '',
-        type : localStorage.getItem("task-type") || '',
-        duration: localStorage.getItem("task-duration")|| ''
+        topic: JSON.parse(localStorage.getItem("tasks-topic")) || '',
+        type : localStorage.getItem("tasks-type") || '',
+        duration: localStorage.getItem("tasks-duration")|| ''
     },
 
     group: {
@@ -40,8 +25,10 @@ let state = {
     }
 };
 
+////
+
 const AccountStore = Object.assign(EventEmitter.prototype, {
-    setId(userId) {
+    setUserId(userId) {
         state.userId = userId;
         localStorage.setItem("user-id", userId);
 
@@ -56,7 +43,7 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
 
     ////
 
-    getId() {
+    getUserId() {
         return state.userId;
     },
 
@@ -90,13 +77,8 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
         return state.group.members !== '';
     },
 
-    getMemberName(userId) {
-        if (state.group.members === '' || state.group.members[userId] === undefined) return 'Anonymous';
-        return state.group.members[userId].name;
-    },
-
     getMemberColor(userId) {
-        if (state.group.members === '' || state.group.members[userId] === undefined) return 'LightSlateGray';
+        if (state.group.members === '' || state.group.members[userId] === undefined) return 'Black';
         return state.group.members[userId].color;
     },
 
@@ -110,9 +92,9 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
         state.task.type = type;
         state.task.duration = minutes;
 
-        localStorage.setItem("task-topic", JSON.stringify(topic));
-        localStorage.setItem("task-type", type);
-        localStorage.setItem("task-duration", minutes);
+        localStorage.setItem("tasks-topic", JSON.stringify(topic));
+        localStorage.setItem("tasks-type", type);
+        localStorage.setItem("tasks-duration", minutes);
 
         localStorage.removeItem("counter-start-search");
         localStorage.removeItem("finish");
@@ -130,7 +112,7 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
 
     setTaskType(type) {
         state.task.type = type;
-        localStorage.setItem("task-type", type);
+        localStorage.setItem("tasks-type", type);
     },
 
     ////
@@ -139,9 +121,9 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
         state.task = '';
         this.clearGroup();
 
-        localStorage.removeItem("task-topic");
-        localStorage.removeItem("task-type");
-        localStorage.removeItem("task-duration");
+        localStorage.removeItem("tasks-topic");
+        localStorage.removeItem("tasks-type");
+        localStorage.removeItem("tasks-duration");
         localStorage.removeItem("counter-start-search");
     },
 
@@ -156,5 +138,9 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
         localStorage.clear();
     }
 });
+
+if (state.userId === '') {
+    AccountStore.setUserId("_anonymous_");
+}
 
 export default AccountStore;

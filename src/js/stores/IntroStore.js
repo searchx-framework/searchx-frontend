@@ -2,9 +2,13 @@ import EventEmitter from "events";
 import Alert from "react-s-alert";
 import $ from "jquery";
 
-import AccountStore from "./AccountStore";
 import {LoggerEventTypes} from "../utils/LoggerEventTypes";
 import {log} from "../utils/Logger";
+
+import AccountStore from "./AccountStore";
+import SearchStore from "../app/search/SearchStore";
+import QueryHistoryStore from "../app/search/features/queryhistory/QueryHistoryStore";
+import BookmarksStore from "../app/search/features/bookmarks/BookmarksStore";
 
 ////
 
@@ -14,6 +18,13 @@ const intro = introJs().setOptions({
     showBullets: false,
     exitOnOverlayClick: false,
     disableInteraction: true,
+});
+
+$('.introjs-skipbutton').hide();
+intro.onafterchange(function(){
+    if (this._introItems.length - 1 === this._currentStep || this._introItems.length === 1) {
+        $('.introjs-skipbutton').show();
+    }
 });
 
 let state = {
@@ -32,35 +43,28 @@ const IntroStore = Object.assign(EventEmitter.prototype, {
                 localStorage.setItem("intro-done-video", true.toString());
             }
 
+            SearchStore.removeSearchTutorialData();
+            QueryHistoryStore.removeQueryHistoryTutorialData();
+            BookmarksStore.removeBookmarksTutorialData();
+
             callback();
         })
     },
 
     ////
 
-    setupSteps() {
-        let steps = stepsTask.concat(stepsSearch);
-
-        if (AccountStore.getTaskType() === 'video') {
-            steps = stepsTask.concat(stepsVideo);
-        }
-
-        if (AccountStore.isCollaborative()) {
-            steps = stepsTask.concat(stepsSearchCollaborative, stepsCollaborative);
-        }
-
-        steps = steps.concat(stepsSubmit);
-        intro.setOption('steps', steps);
-    },
-
     startIntro() {
         log(LoggerEventTypes.SURVEY_INTRO_START, {
             start: Date.now()
         });
 
-        this.setupSteps();
-        intro.start();
+        SearchStore.setSearchTutorialData();
+        QueryHistoryStore.setQueryHistoryTutorialData();
+        BookmarksStore.setBookmarksTutorialData();
+
+        setupSteps();
         Alert.closeAll();
+        intro.start();
     },
 
     clearIntro() {
@@ -98,19 +102,25 @@ const IntroStore = Object.assign(EventEmitter.prototype, {
 
 ////
 
-$('.introjs-skipbutton').hide();
-intro.onafterchange(function(){
-    if (this._introItems.length - 1 === this._currentStep || this._introItems.length === 1) {
-        $('.introjs-skipbutton').show();
-    }
-});
+function setupSteps() {
+    let steps = stepsTask.concat(stepsSearch);
 
-////
+    if (AccountStore.getTaskType() === 'video') {
+        steps = stepsTask.concat(stepsVideo);
+    }
+
+    if (AccountStore.isCollaborative()) {
+        steps = stepsTask.concat(stepsSearchCollaborative, stepsCollaborative);
+    }
+
+    steps = steps.concat(stepsSubmit);
+    intro.setOption('steps', steps);
+}
 
 const stepsTask = [
     {
         element: '#intro-description',
-        intro: 'Please take a minute to read your task description.',
+        intro: 'Please take a minute to read your tasks description.',
         position: 'top'
     }
 ];
@@ -144,7 +154,7 @@ const stepsSearch = [
         position: 'top'
     },
     {
-        element: '#intro-bookmark-bar',
+        element: '#intro-bookmarks-bar',
         intro: 'The bookmarked documents will appear here. You can revisit them before completing the final test.',
         position: 'top'
     }
@@ -171,7 +181,7 @@ const stepsSearchCollaborative = [
         position: 'top'
     },
     {
-        element: '#intro-bookmark-bar',
+        element: '#intro-bookmarks-bar',
         intro: 'The documents you and your partner bookmarked will appear here. You can revisit them before completing the final test.',
         position: 'top'
     }

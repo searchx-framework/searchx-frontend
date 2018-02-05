@@ -16,7 +16,7 @@ export function log(event, meta) {
     }
 
     eventQueue.push({
-        userId: AccountStore.getId() || '',
+        userId: AccountStore.getUserId() || '',
         sessionId: AccountStore.getSessionId() || '',
         task: task,
         event: event || '',
@@ -31,7 +31,7 @@ export function flush() {
         return;
     }
 
-    request.post(env.serverUrl + '/v1/users/' + AccountStore.getId() + '/logs')
+    request.post(env.serverUrl + '/v1/users/' + AccountStore.getUserId() + '/logs')
         .send({
             data: eventQueue
         })
