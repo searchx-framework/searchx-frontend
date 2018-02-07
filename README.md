@@ -1,14 +1,16 @@
-# SearchX Frontend
+# SearchX Front End
 
 SearchX is a scalable collaborative search system being developed by [Lambda Lab](http://www.wis.ewi.tudelft.nl/projects/learning-analytics/) of [TU Delft](https://www.tudelft.nl/).
 It is based on [Pineapple Search](http://onlinelibrary.wiley.com/doi/10.1002/pra2.2016.14505301122/full) and is further developed to facilitate collaborative search and sensemaking.
 
-Apart from serving the interface, the frontend also manages user data and defines the logs sent back to the backend.
+Apart from serving the interface, the front end also manages user data and defines the logs sent back to the back end.
 It is built on NodeJS using the [React](https://reactjs.org/) + [Flux](https://facebook.github.io/flux/) framework and is served through [webpack](https://webpack.js.org/).
 
 # Setup
 
-- Configure SearchX backend API in `webpack.config.js`
+- Make sure the [SearchX back end](https://github.com/felipemoraes/searchx-api) is up and running.
+
+- Configure the back end API address in `webpack.config.js`:
 ```
 externals: {
     'config': JSON.stringify(process.env.ENV === 'production' ? {
@@ -20,7 +22,6 @@ externals: {
 ```
 
 - Install all dependencies:
-
 ```
 // Install webpack
 npm i babel webpack webpack-dev-server
@@ -30,9 +31,10 @@ npm update
 ```
 
 - Start the development server:
-
 ```
 npm start
+
+// Now check http://localhost:8080/search
 ```
 
 # Modifications
@@ -45,8 +47,8 @@ Any action specific log data can be inserted as an argument when calling the `lo
 
 ### Modifying the learning task
 The learning task is defined inside `app/tasks/learning`.
-The forms and interface is defined in the frontend, whereas the learning topics and group creation is managed by the backend.
-All form uses [surveyjs](https://surveyjs.io/Overview/Library/) and the results are sent to the backend as logs.
+The forms and interface is defined in the front end, whereas the learning topics and group creation is managed by the back end.
+All form uses [surveyjs](https://surveyjs.io/Overview/Library/) and the results are sent to the back end as logs.
 
 1. Changing task duration and type  
 To change the task duration and task type, you can modify the values inside `config.js`.
@@ -101,7 +103,7 @@ export default class NewComponent extends React.Component {
     constructor() {
         super();
         this.state = {
-            //component state
+            // component data
         };
     }
 
