@@ -2,7 +2,7 @@ import request from 'superagent';
 import EventEmitter from 'events'
 
 import {register} from '../../../../utils/Dispatcher';
-import AppConstants from '../../../../actions/ActionTypes';
+import Actiontypes from '../../../../actions/ActionTypes';
 
 import AccountStore from '../../../../stores/AccountStore';
 import SyncStore from '../../../../stores/SyncStore';
@@ -51,16 +51,16 @@ const BookmarkStore = Object.assign(EventEmitter.prototype, {
 
     dispatcherIndex: register(action => {
         switch(action.type) {
-            case AppConstants.GET_BOOKMARKS:
+            case Actiontypes.GET_BOOKMARKS:
                 _get_bookmarks();
                 break;
-            case AppConstants.ADD_BOOKMARK:
+            case Actiontypes.ADD_BOOKMARK:
                 _add_bookmark(action.payload.url, action.payload.title, action.payload.userId);
                 break;
-            case AppConstants.REMOVE_BOOKMARK:
+            case Actiontypes.REMOVE_BOOKMARK:
                 _remove_bookmark(action.payload.url);
                 break;
-            case AppConstants.STAR_BOOKMARK:
+            case Actiontypes.STAR_BOOKMARK:
                 _star_bookmark(action.payload.url);
                 break;
         }

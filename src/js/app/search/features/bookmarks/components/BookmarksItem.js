@@ -4,16 +4,19 @@ import Rating from 'react-rating';
 import {log} from '../../../../../utils/Logger';
 import {LoggerEventTypes} from '../../../../../utils/LoggerEventTypes';
 
-const BookmarksItem = function({data, removeHandler, starHandler}) {
+const BookmarksItem = function({data, removeHandler, starHandler, clickHandler}) {
     let metaInfo = {
         url: data.url,
         userId: data.userId
     };
 
-    let clickUrlLog = () => log(LoggerEventTypes.BOOKMARK_CLICK_URL, metaInfo);
-    let contextUrlLog = () => log(LoggerEventTypes.BOOKMARK_CONTEXT_URL,metaInfo);
     let hoverEnterSummary = () => log(LoggerEventTypes.BOOKMARK_HOVERENTER, metaInfo);
     let hoverLeaveSummary = () => log(LoggerEventTypes.BOOKMARK_HOVERLEAVE,metaInfo);
+    let contextUrl = () => log(LoggerEventTypes.BOOKMARK_CONTEXT_URL,metaInfo);
+    let clickUrl = () => {
+        clickHandler(data.url);
+        log(LoggerEventTypes.BOOKMARK_CLICK_URL, metaInfo);
+    };
 
     ////
 
@@ -35,7 +38,7 @@ const BookmarksItem = function({data, removeHandler, starHandler}) {
             </div>
 
             <h2>
-                <a href={data.url} title={data.title} target="_blank" onClick={clickUrlLog} onContextMenu={contextUrlLog}>
+                <a title={data.title} target="_blank" onClick={clickUrl} onContextMenu={contextUrl} style={{cursor: "pointer"}}>
                     {data.title}
                 </a>
             </h2>

@@ -2,7 +2,7 @@ import request from 'superagent';
 import EventEmitter from 'events'
 
 import {register} from '../../../../utils/Dispatcher';
-import AppConstants from '../../../../actions/ActionTypes';
+import ActionTypes from '../../../../actions/ActionTypes';
 import AccountStore from '../../../../stores/AccountStore';
 
 const env = require('env');
@@ -63,7 +63,7 @@ const QueryHistoryStore = Object.assign(EventEmitter.prototype, {
 
     dispatcherIndex: register(action => {
         switch(action.type) {
-            case AppConstants.GET_QUERY_HISTORY:
+            case ActionTypes.GET_QUERY_HISTORY:
                 _get_query_history();
                 break;
         }

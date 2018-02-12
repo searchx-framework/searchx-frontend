@@ -1,24 +1,24 @@
-import AppConstants from "./ActionTypes";
+import ActionTypes from "./ActionTypes";
 import {dispatch} from "../utils/Dispatcher";
 
 export default {
     getQueryHistory() {
         dispatch({
-            type: AppConstants.GET_QUERY_HISTORY,
+            type: ActionTypes.GET_QUERY_HISTORY,
             payload: {}
         })
     },
 
     getBookmarks() {
         dispatch({
-            type: AppConstants.GET_BOOKMARKS,
+            type: ActionTypes.GET_BOOKMARKS,
             payload: {}
         })
     },
 
     addBookmark(url, title, userId) {
         dispatch({
-            type: AppConstants.ADD_BOOKMARK,
+            type: ActionTypes.ADD_BOOKMARK,
             payload: {
                 url: url,
                 title: title,
@@ -29,7 +29,7 @@ export default {
 
     removeBookmark(url) {
         dispatch({
-            type: AppConstants.REMOVE_BOOKMARK,
+            type: ActionTypes.REMOVE_BOOKMARK,
             payload: {
                 url: url
             }
@@ -38,10 +38,10 @@ export default {
 
     starBookmark(url) {
         dispatch({
-            type: AppConstants.STAR_BOOKMARK,
+            type: ActionTypes.STAR_BOOKMARK,
             payload: {
                 url: url
             }
         })
-    }
+    },
 }

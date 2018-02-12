@@ -37,10 +37,10 @@ const SearchResults = function({searchState, progress, serpId, results, matches,
                 }
 
                 {results.length > 0 &&
-                    <div className="SearchResults-time"> {timeIndicator} </div>
+                    <div className="time"> {timeIndicator} </div>
                 }
 
-                <div className={"SearchResults-list"}>
+                <div className="list">
                     {list}
                 </div>
             </div>

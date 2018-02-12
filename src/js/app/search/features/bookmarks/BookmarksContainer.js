@@ -5,6 +5,7 @@ import SessionActions from "../../../../actions/SessionActions";
 import SearchStore from "../../SearchStore";
 import BookmarkStore from "./BookmarksStore";
 import AccountStore from "../../../../stores/AccountStore";
+import SearchActions from "../../../../actions/SearchActions";
 
 function removeHandler(url) {
     SessionActions.removeBookmark(url);
@@ -13,6 +14,10 @@ function removeHandler(url) {
 
 function starHandler(url) {
     SessionActions.starBookmark(url);
+}
+
+function clickHandler(url) {
+    SearchActions.openUrl(url);
 }
 
 export default class BookmarksContainer extends React.Component {
@@ -42,6 +47,7 @@ export default class BookmarksContainer extends React.Component {
             bookmarks={this.state.bookmarks}
             removeHandler={removeHandler}
             starHandler={starHandler}
+            clickHandler={clickHandler}
         />
     }
 }

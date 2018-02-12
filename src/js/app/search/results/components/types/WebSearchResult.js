@@ -6,7 +6,7 @@ import {LoggerEventTypes} from '../../../../../utils/LoggerEventTypes';
 
 ////
 
-const WebSearchResult = function({searchState, serpId, result, bookmarkButton, bookmarkInfo}) {
+const WebSearchResult = function({searchState, serpId, result, bookmarkButton, bookmarkInfo, urlClickHandler}) {
     let metaInfo = {
         url: result.url,
         query: searchState.query,
@@ -15,33 +15,34 @@ const WebSearchResult = function({searchState, serpId, result, bookmarkButton, b
         serpId: serpId,
     };
 
-    let clickUrlLog = () => {
-        log(LoggerEventTypes.SEARCHRESULT_CLICK_URL, metaInfo)
+    let clickUrl = () => {
+        urlClickHandler(result.url);
+        log(LoggerEventTypes.SEARCHRESULT_CLICK_URL, metaInfo);
     };
 
-    let viewUrlLog = (isVisible) => {
+    let viewUrl = (isVisible) => {
         metaInfo.isVisible = isVisible;
-        log(LoggerEventTypes.SEARCHRESULT_VIEW_URL, metaInfo)
+        log(LoggerEventTypes.SEARCHRESULT_VIEW_URL, metaInfo);
     };
 
-    let contextUrlLog = () => {
-        log(LoggerEventTypes.SEARCHRESULT_CONTEXT_URL,metaInfo)
+    let contextUrl = () => {
+        log(LoggerEventTypes.SEARCHRESULT_CONTEXT_URL,metaInfo);
     };
 
     let hoverEnterSummary = () => {
-        log(LoggerEventTypes.SEARCHRESULT_HOVERENTER, metaInfo)
+        log(LoggerEventTypes.SEARCHRESULT_HOVERENTER, metaInfo);
     };
 
     let hoverLeaveSummary = () => {
-        log(LoggerEventTypes.SEARCHRESULT_HOVERLEAVE,metaInfo)
+        log(LoggerEventTypes.SEARCHRESULT_HOVERLEAVE,metaInfo);
     };
 
     ////
 
     return  (
-        <div className="SearchResults-web">
+        <div className="result-web">
             <VisibilitySensor
-                onChange={viewUrlLog}
+                onChange={viewUrl}
                 scrollCheck
                 delayedCall={true}
                 scrollThrottle={50}
@@ -52,7 +53,7 @@ const WebSearchResult = function({searchState, serpId, result, bookmarkButton, b
 
             <div onMouseEnter={hoverEnterSummary} onMouseLeave={hoverLeaveSummary} >
                 <h2>
-                    <a href={result.url} title={result.name} target="_blank" onClick={clickUrlLog} onContextMenu={contextUrlLog}>
+                    <a title={result.name} target="_blank" onClick={clickUrl} onContextMenu={contextUrl}>
                         {result.name}
                     </a>
                 </h2>

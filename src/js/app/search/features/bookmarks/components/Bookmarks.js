@@ -2,13 +2,14 @@ import './Bookmarks.pcss';
 import React from 'react';
 import BookmarksItem from './BookmarksItem';
 
-const Bookmarks = function({bookmarks, removeHandler, starHandler}) {
+const Bookmarks = function({bookmarks, removeHandler, starHandler, clickHandler}) {
     const list = bookmarks.map((data, index) => {
         return <BookmarksItem
             key={index}
             data={data}
             removeHandler={removeHandler}
             starHandler={starHandler}
+            clickHandler={clickHandler}
         />
     });
 

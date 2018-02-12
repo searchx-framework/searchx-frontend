@@ -1,6 +1,7 @@
 import React from 'react';
 
 import SessionActions from '../../../actions/SessionActions';
+import SearchActions from "../../../actions/SearchActions";
 import SearchStore from "../SearchStore";
 import AccountStore from "../../../stores/AccountStore";
 import SearchResult from "./components/SearchResult";
@@ -29,6 +30,10 @@ export default class SearchResultContainer extends React.Component {
     }
 
     ////
+
+    urlClickHandler(url) {
+        SearchActions.openUrl(url);
+    }
 
     bookmarkClickHandler() {
         let action = "";
@@ -67,7 +72,8 @@ export default class SearchResultContainer extends React.Component {
             searchState={this.props.searchState}
             serpId={this.props.serpId}
             result={this.props.result}
-            clickHandler={this.bookmarkClickHandler}
+            urlClickHandler={this.urlClickHandler}
+            bookmarkClickHandler={this.bookmarkClickHandler}
         />
     }
 }

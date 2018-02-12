@@ -23,9 +23,9 @@ function validatePagination(vertical, length) {
 
 const SearchResultsPagination = function({searchState, finished, matches, changeHandler}) {
     return (
-        <div className="col-xs-12 text-center">
+        <div className="text-center">
             {validatePagination(searchState.vertical, searchState.matches) && finished &&
-                <Pagination className="SearchResults-pagination"
+                <Pagination className="pagination"
                             activePage={searchState.page}
                             onChange={changeHandler}
 

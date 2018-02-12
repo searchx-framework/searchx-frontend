@@ -1,10 +1,10 @@
-import AppConstants from './ActionTypes';
+import ActionTypes from './ActionTypes';
 import {dispatch} from '../utils/Dispatcher';
 
 export default {
     search(query, vertical, page) {
         dispatch({
-            type: AppConstants.SEARCH,
+            type: ActionTypes.SEARCH,
             payload: {
                 query: query,
                 page: page
@@ -14,7 +14,7 @@ export default {
 
     changePage(query, vertical, page) {
         dispatch({
-            type: AppConstants.CHANGE_PAGE,
+            type: ActionTypes.CHANGE_PAGE,
             payload: {
                 query: query,
                 page: page
@@ -24,7 +24,7 @@ export default {
 
     changeVertical(vertical) {
         dispatch({
-            type: AppConstants.CHANGE_VERTICAL,
+            type: ActionTypes.CHANGE_VERTICAL,
             payload: {
                 vertical: vertical
             }
@@ -33,7 +33,7 @@ export default {
 
     changeQuery(query) {
         dispatch({
-            type: AppConstants.CHANGE_QUERY,
+            type: ActionTypes.CHANGE_QUERY,
             payload: {
                 query: query
             }
@@ -42,11 +42,28 @@ export default {
 
     refreshSearch(query, vertical, page) {
         dispatch({
-            type: AppConstants.REFRESH_SEARCH,
+            type: ActionTypes.REFRESH_SEARCH,
             payload: {
                 query: query,
                 vertical: vertical,
                 page: page
+            }
+        })
+    },
+
+    openUrl(url) {
+        dispatch({
+            type: ActionTypes.OPEN_URL,
+            payload: {
+                url: url
+            }
+        })
+    },
+
+    closeUrl() {
+        dispatch({
+            type: ActionTypes.CLOSE_URL,
+            payload: {
             }
         })
     },

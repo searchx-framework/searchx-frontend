@@ -6,7 +6,7 @@ import NewsSearchResult from './types/NewsSearchResult';
 import ImagesSearchResult from './types/ImagesSearchResult';
 import VideosSearchResult from './types/VideosSearchResult';
 
-const SearchResult = function({searchState, serpId, result, clickHandler}) {
+const SearchResult = function({searchState, serpId, result, bookmarkClickHandler, urlClickHandler}) {
     const bookmark = result.bookmark;
     const bookmarkTime = result.bookmarkTime;
     const bookmarkUserColor = result.bookmarkUserColor;
@@ -15,7 +15,7 @@ const SearchResult = function({searchState, serpId, result, clickHandler}) {
         className="rating"
         empty="fa fa-bookmark-o"
         full="fa fa-bookmark"
-        onClick={clickHandler}
+        onClick={bookmarkClickHandler}
         stop={1}
         initialRate={bookmark ? 1 : 0}
     />;
@@ -45,10 +45,11 @@ const SearchResult = function({searchState, serpId, result, clickHandler}) {
         result: result,
         bookmarkButton: bookmarkButton,
         bookmarkInfo: bookmarkInfo,
+        urlClickHandler: urlClickHandler
     };
 
     return (
-        <div>
+        <div className="SearchResult">
             {searchState.vertical === 'web' && <WebSearchResult {...props}/>}
             {searchState.vertical === 'news' && <NewsSearchResult {...props}/>}
             {searchState.vertical === 'images' && <ImagesSearchResult {...props}/>}

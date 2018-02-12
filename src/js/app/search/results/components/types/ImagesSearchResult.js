@@ -6,7 +6,7 @@ import {LoggerEventTypes} from '../../../../../utils/LoggerEventTypes';
 
 ////
 
-const ImagesSearchResult = function({searchState, serpId, result, bookmarkButton, bookmarkInfo}) {
+const ImagesSearchResult = function({searchState, serpId, result, bookmarkButton, bookmarkInfo, urlClickHandler}) {
     let metaInfo = {
         url: result.url,
         query: searchState.query,
@@ -15,16 +15,17 @@ const ImagesSearchResult = function({searchState, serpId, result, bookmarkButton
         serpId: serpId,
     };
 
-    let clickUrlLog = () => {
+    let clickUrl = () => {
+        urlClickHandler(result.url);
         log(LoggerEventTypes.SEARCHRESULT_CLICK_URL, metaInfo);
     };
 
-    let viewUrlLog = (isVisible) => {
+    let viewUrl = (isVisible) => {
         const metaInfoView = {metaInfo, isVisible: isVisible};
-        log(LoggerEventTypes.SEARCHRESULT_VIEW_URL, metaInfoView)
+        log(LoggerEventTypes.SEARCHRESULT_VIEW_URL, metaInfoView);
     };
 
-    let contextUrlLog = () => {
+    let contextUrl = () => {
         log(LoggerEventTypes.SEARCHRESULT_CONTEXT_URL, metaInfo);
     };
 
@@ -39,20 +40,15 @@ const ImagesSearchResult = function({searchState, serpId, result, bookmarkButton
     ////
 
     return (
-        <div className="SearchResults-image">
-            <VisibilitySensor onChange={viewUrlLog}
+        <div className="result-image">
+            <VisibilitySensor onChange={viewUrl}
                 scrollCheck
                 delayedCall={true}
                 scrollThrottle={50}
                 intervalDelay={2000}
             />
 
-            <a  href={result.url}
-                title={result.name}
-                target="_blank"
-                onClick={clickUrlLog}
-                onContextMenu={contextUrlLog}
-                onMouseEnter={hoverEnter} onMouseLeave={hoverLeave}>
+            <a title={result.name} target="_blank" onClick={clickUrl} onContextMenu={contextUrl} onMouseEnter={hoverEnter} onMouseLeave={hoverLeave}>
                 <div className="image" style={{backgroundImage: `url(${result.thumbnailUrl})`}}/>
             </a>
 

@@ -42,7 +42,7 @@ function formatInfo(publisher, views, creator) {
 
 ////
 
-const VideosSearchResult = function({searchState, serpId, result, bookmarkButton, bookmarkInfo}) {
+const VideosSearchResult = function({searchState, serpId, result, bookmarkButton, bookmarkInfo, urlClickHandler}) {
     const metaInfo = {
         url: result.url,
         query: searchState.query,
@@ -51,40 +51,41 @@ const VideosSearchResult = function({searchState, serpId, result, bookmarkButton
         serpId: serpId,
     };
 
-    const clickUrlLog = () => {
-        log(LoggerEventTypes.SEARCHRESULT_CLICK_URL, metaInfo)
+    const clickUrl = () => {
+        urlClickHandler(result.url);
+        log(LoggerEventTypes.SEARCHRESULT_CLICK_URL, metaInfo);
     };
 
-    const playVideoLog = () => {
+    const playVideo = () => {
         const metaInfoVideo = {metaInfo, action:'play'};
-        log(LoggerEventTypes.SEARCHRESULT_VIDEO,metaInfoVideo)
+        log(LoggerEventTypes.SEARCHRESULT_VIDEO,metaInfoVideo);
     };
 
-    const pauseVideoLog = () => {
+    const pauseVideo = () => {
         const metaInfoVideo = {metaInfo, action:'pause'};
-        log(LoggerEventTypes.SEARCHRESULT_VIDEO,metaInfoVideo)
+        log(LoggerEventTypes.SEARCHRESULT_VIDEO,metaInfoVideo);
     };
 
-    const stopVideoLog = () => {
+    const stopVideo = () => {
         const metaInfoVideo = {metaInfo, action:'stop'};
-        log(LoggerEventTypes.SEARCHRESULT_VIDEO,metaInfoVideo)
+        log(LoggerEventTypes.SEARCHRESULT_VIDEO,metaInfoVideo);
     };
 
-    const viewUrlLog = (isVisible) => {
+    const viewUrl = (isVisible) => {
         const metaInfoView = {metaInfo, isVisible: isVisible};
-        log(LoggerEventTypes.SEARCHRESULT_VIEW_URL, metaInfoView)
+        log(LoggerEventTypes.SEARCHRESULT_VIEW_URL, metaInfoView);
     };
 
-    const contextUrlLog = () => {
-        log(LoggerEventTypes.SEARCHRESULT_CONTEXT_URL, metaInfo)
+    const contextUrl = () => {
+        log(LoggerEventTypes.SEARCHRESULT_CONTEXT_URL, metaInfo);
     };
 
     const hoverEnter = () => {
-        log(LoggerEventTypes.SEARCHRESULT_HOVERENTER, metaInfo)
+        log(LoggerEventTypes.SEARCHRESULT_HOVERENTER, metaInfo);
     };
 
     const hoverLeave = () => {
-        log(LoggerEventTypes.SEARCHRESULT_HOVERLEAVE, metaInfo)
+        log(LoggerEventTypes.SEARCHRESULT_HOVERLEAVE, metaInfo);
     };
 
     ////
@@ -92,8 +93,8 @@ const VideosSearchResult = function({searchState, serpId, result, bookmarkButton
     const creator = result.creator ? result.creator : {name: false};
 
     return (
-        <div className="SearchResults-video">
-            <VisibilitySensor onChange={viewUrlLog}
+        <div className="result-video">
+            <VisibilitySensor onChange={viewUrl}
                 scrollCheck
                 delayedCall={true}
                 scrollThrottle={50}
@@ -106,9 +107,9 @@ const VideosSearchResult = function({searchState, serpId, result, bookmarkButton
                                  playing={false}
                                  width={275}
                                  height={150}
-                                 onPlay={playVideoLog}
-                                 onEnded={stopVideoLog}
-                                 onPause={pauseVideoLog}
+                                 onPlay={playVideo}
+                                 onEnded={stopVideo}
+                                 onPause={pauseVideo}
                                  controls={true}
                     />
                 </div>
@@ -117,7 +118,7 @@ const VideosSearchResult = function({searchState, serpId, result, bookmarkButton
                     {bookmarkButton}
 
                     <h2>
-                        <a href = {result.contentUrl} target="_blank" onClick={clickUrlLog} onContextMenu={contextUrlLog}>
+                        <a target="_blank" onClick={clickUrl} onContextMenu={contextUrl}>
                              {getTitle(result.name)}
                         </a>
                     </h2>

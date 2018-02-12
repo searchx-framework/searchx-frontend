@@ -3,7 +3,9 @@ import React from 'react';
 import SearchActions from '../../../actions/SearchActions';
 import SearchStore from "../SearchStore";
 import AccountStore from "../../../stores/AccountStore";
+
 import SearchResults from "./components/SearchResults";
+import DocumentViewer from "./components/DocumentViewer";
 
 import {log} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../utils/LoggerEventTypes';
@@ -21,6 +23,7 @@ const getState = function() {
         results: results,
         matches: SearchStore.getMatches(),
         elapsedTime : ((SearchStore.getElapsedTime())/1000).toFixed(2).toString(),
+        activeUrl: SearchStore.getActiveUrl()
     }
 };
 
@@ -59,9 +62,20 @@ export default class SearchResultsContainer extends React.Component {
         });
     }
 
+    documentCloseHandler() {
+        SearchActions.closeUrl();
+    }
+
     ////
 
     render() {
-        return <SearchResults {...this.state} pageChangeHandler={this.pageChangeHandler}/>
+        return <div>
+            <SearchResults {...this.state} pageChangeHandler={this.pageChangeHandler} />
+            <DocumentViewer searchState={this.state.searchState}
+                            serpId={this.state.serpId}
+                            url={this.state.activeUrl}
+                            documentCloseHandler={this.documentCloseHandler}
+            />
+        </div>
     }
 };

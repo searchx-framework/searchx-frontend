@@ -1,9 +1,10 @@
 import React from 'react'
 import {Route, Router} from 'react-router-dom'
+import MobileDetect from 'mobile-detect';
 
 import {flush} from '../utils/Logger';
 import history from './History';
-import About from './search/pages/About';
+import About from './pages/About';
 import Search from './search/Search';
 
 import Learning from './tasks/learning/Learning';
@@ -20,6 +21,11 @@ export class App extends React.Component {
     };
 
     render() {
+        const md = new MobileDetect(window.navigator.userAgent);
+        if (md.mobile() !== null) {
+            return (<div/>)
+        }
+
         return (
             <Router history={history}>
                 <div>

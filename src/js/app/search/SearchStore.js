@@ -2,7 +2,7 @@ import request from 'superagent';
 import EventEmitter from 'events';
 
 import {register} from '../../utils/Dispatcher';
-import AppConstants from '../../actions/ActionTypes';
+import ActionTypes from '../../actions/ActionTypes';
 import SessionActions from '../../actions/SessionActions';
 
 import {log} from '../../utils/Logger';
@@ -37,7 +37,8 @@ let state = {
     elapsedTime: 0,
     serpId: '',
 
-    tutorial: false
+    tutorial: false,
+    activeUrl: ""
 };
 
 ////
@@ -113,6 +114,9 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
             resultsNotFound: state.resultsNotFound
         }
     },
+    getActiveUrl() {
+        return state.activeUrl
+    },
 
     ////
 
@@ -139,22 +143,28 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
 
     dispatcherIndex: register(action => {
         switch(action.type) {
-            case AppConstants.SEARCH:
+            case ActionTypes.SEARCH:
                 _search(action.payload.query, action.payload.page);
                 _updateUrl(state.query, state.vertical, state.page);
                 break;
-            case AppConstants.CHANGE_PAGE:
+            case ActionTypes.CHANGE_PAGE:
                 _search(action.payload.query, action.payload.page);
                 _updateUrl(state.query, state.vertical, state.page);
                 break;
-            case AppConstants.CHANGE_VERTICAL:
+            case ActionTypes.CHANGE_VERTICAL:
                 _changeVertical(action.payload.vertical);
                 break;
-            case AppConstants.CHANGE_QUERY:
+            case ActionTypes.CHANGE_QUERY:
                 _changeQuery(action.payload.query);
                 break;
-            case AppConstants.REFRESH_SEARCH:
+            case ActionTypes.REFRESH_SEARCH:
                 _refresh(action.payload.query, action.payload.vertical, action.payload.page);
+                break;
+            case ActionTypes.OPEN_URL:
+                state.activeUrl = action.payload.url;
+                break;
+            case ActionTypes.CLOSE_URL:
+                state.activeUrl = "";
                 break;
         }
 
