@@ -48,25 +48,43 @@
             }
         }
 
-        .result {
+        .body {
+            display: flex;
             height: 96%;
             width: 100%;
-            background-color: gray;
 
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            .page {
+                width: 80%;
+                background-color: gray;
 
-            iframe {
-                height: 100%;
-                width: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+
+                #modal-loader {
+                    position: relative;
+                    top: 50%;
+
+                    .loader {
+                        position: relative;
+                    }
+                }
+
+                iframe {
+                    height: 100%;
+                    width: 100%;
+                }
+
+                img {
+                    display: block;
+                    margin: 0 auto;
+                    max-height: 100%;
+                    max-width: 100%;
+                }
             }
 
-            img {
-                display: block;
-                margin: 0 auto;
-                max-height: 100%;
-                max-width: 100%;
+            .sidebar {
+                width: 20%;
             }
         }
     }

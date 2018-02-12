@@ -5,7 +5,7 @@ import SearchStore from "../SearchStore";
 import AccountStore from "../../../stores/AccountStore";
 
 import SearchResults from "./components/SearchResults";
-import DocumentViewer from "./components/DocumentViewer";
+import DocumentViewer from "./components/viewer/Viewer";
 
 import {log} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../utils/LoggerEventTypes';

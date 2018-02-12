@@ -1,15 +1,13 @@
-import './DocumentViewer.pcss';
-
+import './Viewer.pcss';
 import React from 'react';
-import Loader from 'react-loader';
 
-const env = require('env');
-const isImage = require('is-image');
+import {log} from '../../../../../utils/Logger';
+import {LoggerEventTypes} from '../../../../../utils/LoggerEventTypes';
 
-import {log} from '../../../../utils/Logger';
-import {LoggerEventTypes} from '../../../../utils/LoggerEventTypes';
+import ViewerPage from "./ViewerPage";
+import ViewerSidebar from "./ViewerSidebar";
 
-const DocumentViewer = function({searchState, serpId, url, documentCloseHandler}) {
+const Viewer = function({searchState, serpId, url, documentCloseHandler}) {
     if (url === "") {
         return <div/>
     }
@@ -53,25 +51,13 @@ const DocumentViewer = function({searchState, serpId, url, documentCloseHandler}
                     <span className="forward" onClick={openInBrowser}>open in browser</span>
                 </div>
 
-                <div id="modal-loader">
-                    <Loader/>
-                </div>
-                <div className="result">
-                    {url !== "" && !isImage(url) &&
-                        <iframe scrolling="yes"
-                                frameBorder="0"
-                                src={env.renderUrl + '/' + url}
-                                onLoad={loadDocument}>
-                        </iframe>
-                    }
-
-                    {url !== "" && isImage(url) &&
-                        <img src={url} onLoad={loadDocument}/>
-                    }
+                <div className="body">
+                    <ViewerPage url={url} loadHandler={loadDocument} />
+                    <ViewerSidebar url={url} />
                 </div>
             </div>
         </div>
     );
 };
 
-export default DocumentViewer;
+export default Viewer;
