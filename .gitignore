@@ -1,6 +1,9 @@
 # ES Lint
 .eslintrc.json
 
+# Bundle js
+dist/js/bundle.js
+
 ###########################################################
 
 # Created by https://www.gitignore.io/api/node
