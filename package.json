@@ -1,8 +1,7 @@
 {
-  "name": "searchx-front",
+  "name": "searchx-frontend",
   "version": "2.0.0",
   "description": "",
-  "private": true,
   "main": "gulpfile.js",
   "scripts": {
     "postinstall": "webpack --config webpack.config.js --progress --colors",
