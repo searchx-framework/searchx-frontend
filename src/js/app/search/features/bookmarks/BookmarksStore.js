@@ -2,7 +2,7 @@ import request from 'superagent';
 import EventEmitter from 'events'
 
 import {register} from '../../../../utils/Dispatcher';
-import Actiontypes from '../../../../actions/ActionTypes';
+import ActionTypes from '../../../../actions/ActionTypes';
 
 import AccountStore from '../../../../stores/AccountStore';
 import SyncStore from '../../../../stores/SyncStore';
@@ -16,7 +16,7 @@ let state = {
     tutorial: false
 };
 
-const BookmarkStore = Object.assign(EventEmitter.prototype, {
+const BookmarksStore = Object.assign(EventEmitter.prototype, {
     emitChange() {
         this.emit(CHANGE_EVENT);
     },
@@ -51,27 +51,26 @@ const BookmarkStore = Object.assign(EventEmitter.prototype, {
 
     dispatcherIndex: register(action => {
         switch(action.type) {
-            case Actiontypes.GET_BOOKMARKS:
+            case ActionTypes.GET_BOOKMARKS:
                 _get_bookmarks();
                 break;
-            case Actiontypes.ADD_BOOKMARK:
-                _add_bookmark(action.payload.url, action.payload.title, action.payload.userId);
+            case ActionTypes.ADD_BOOKMARK:
+                _add_bookmark(action.payload.url, action.payload.title);
                 break;
-            case Actiontypes.REMOVE_BOOKMARK:
+            case ActionTypes.REMOVE_BOOKMARK:
                 _remove_bookmark(action.payload.url);
                 break;
-            case Actiontypes.STAR_BOOKMARK:
+            case ActionTypes.STAR_BOOKMARK:
                 _star_bookmark(action.payload.url);
                 break;
         }
-        BookmarkStore.emitChange();
+        BookmarksStore.emitChange();
     })
 });
 
 ////
 
 let _get_bookmarks = function() {
-    state.block = true;
     request
         .get(env.serverUrl + '/v1/session/' + AccountStore.getSessionId() + '/bookmark')
         .end((err, res) => {
@@ -79,12 +78,12 @@ let _get_bookmarks = function() {
             if (!res.body.error) {
                 state.bookmarks = res.body.results;
             }
-            BookmarkStore.emitChange();
-            state.block = false;
+            BookmarksStore.emitChange();
         });
 };
 
-let _add_bookmark = function(url, title, userId) {
+let _add_bookmark = function(url, title) {
+    const userId = AccountStore.getUserId();
     request
         .post(env.serverUrl + '/v1/session/' + AccountStore.getSessionId() + '/bookmark')
         .send({
@@ -102,7 +101,7 @@ let _add_bookmark = function(url, title, userId) {
         userId: userId,
         date: new Date()
     });
-    BookmarkStore.emitChange();
+    BookmarksStore.emitChange();
 };
 
 let _remove_bookmark = function(url) {
@@ -116,7 +115,7 @@ let _remove_bookmark = function(url) {
         });
 
     state.bookmarks = state.bookmarks.filter((item) => item.url !== url);
-    BookmarkStore.emitChange();
+    BookmarksStore.emitChange();
 };
 
 let _star_bookmark = function(url) {
@@ -134,7 +133,7 @@ let _star_bookmark = function(url) {
             item.starred = !item.starred;
         }
     });
-    BookmarkStore.emitChange();
+    BookmarksStore.emitChange();
 };
 
 let _broadcast_change = function() {
@@ -145,4 +144,4 @@ let _broadcast_change = function() {
 
 ////
 
-export default BookmarkStore;
+export default BookmarksStore;

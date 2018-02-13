@@ -49,7 +49,7 @@ export default class SearchResultContainer extends React.Component {
         }
         else {
             action = "add";
-            SessionActions.addBookmark(this.props.result.url, this.props.result.name, AccountStore.getUserId());
+            SessionActions.addBookmark(this.props.result.url, this.props.result.name);
             SearchStore.addBookmark(this.props.result.position);
 
             this.setState({

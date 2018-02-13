@@ -18,13 +18,12 @@ export default {
         })
     },
 
-    addBookmark(url, title, userId) {
+    addBookmark(url, title) {
         dispatch({
             type: ActionTypes.ADD_BOOKMARK,
             payload: {
                 url: url,
-                title: title,
-                userId: userId
+                title: title
             }
         })
     },
