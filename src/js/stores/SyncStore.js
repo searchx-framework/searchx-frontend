@@ -70,8 +70,10 @@ const SyncStore = Object.assign(EventEmitter.prototype, {
         socket.emit('pushBookmarkUpdate', searchState);
     },
 
-    emitDocumentUpdate(activeUrl) {
-        socket.emit('pushDocumentUpdate', activeUrl);
+    emitPageMetadataUpdate(activeUrl) {
+        socket.emit('pushPageMetadataUpdate', {
+            url: activeUrl
+        });
     },
 });
 
@@ -82,13 +84,17 @@ if (AccountStore.getUserId() !== '') {
 }
 
 if (AccountStore.isCollaborative()) {
+    socket.on('searchState', (data) => {
+        SessionActions.getQueryHistory();
+    });
+
     socket.on('bookmarkUpdate', (data) => {
         SessionActions.getBookmarks();
         SearchActions.refreshSearch(data.query, data.vertical, data.page);
     });
 
-    socket.on('searchState', (data) => {
-        SessionActions.getQueryHistory();
+    socket.on('pageMetadataUpdate', (data) => {
+        SessionActions.getAnnotations(data.url);
     });
 }
 

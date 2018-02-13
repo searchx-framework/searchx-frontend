@@ -32,7 +32,9 @@ const AnnotationsStore = Object.assign(EventEmitter.prototype, {
     dispatcherIndex: register(action => {
         switch(action.type) {
             case ActionTypes.GET_ANNOTATIONS:
-                _get_annotations(action.payload.url);
+                if (SearchStore.getActiveUrl() === action.payload.url) {
+                    _get_annotations(action.payload.url)
+                }
                 break;
             case ActionTypes.ADD_ANNOTATION:
                 _add_annotation(action.payload.url, action.payload.annotation);
@@ -61,7 +63,6 @@ let _get_annotations = function(url) {
 
 let _add_annotation = function(url, annotation) {
     const userId = AccountStore.getUserId();
-
     request
         .post(`${env.serverUrl}/v1/session/${AccountStore.getSessionId()}/annotation`)
         .send({
@@ -84,7 +85,6 @@ let _add_annotation = function(url, annotation) {
 
 let _remove_annotation = function(url, position) {
     const data = state.annotations[position];
-
     request
         .delete(`${env.serverUrl}/v1/session/${AccountStore.getSessionId()}/annotation`)
         .send({
@@ -101,7 +101,7 @@ let _remove_annotation = function(url, position) {
 
 let _broadcast_change = function() {
     if (AccountStore.isCollaborative()) {
-        SyncStore.emitDocumentUpdate(SearchStore.getActiveUrl());
+        SyncStore.emitPageMetadataUpdate(SearchStore.getActiveUrl());
     }
 };
 
