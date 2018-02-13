@@ -68,7 +68,11 @@ const SyncStore = Object.assign(EventEmitter.prototype, {
 
     emitBookmarkUpdate(searchState) {
         socket.emit('pushBookmarkUpdate', searchState);
-    }
+    },
+
+    emitDocumentUpdate(activeUrl) {
+        socket.emit('pushDocumentUpdate', activeUrl);
+    },
 });
 
 ////

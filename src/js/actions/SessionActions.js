@@ -9,6 +9,8 @@ export default {
         })
     },
 
+    ////
+
     getBookmarks() {
         dispatch({
             type: ActionTypes.GET_BOOKMARKS,
@@ -44,4 +46,35 @@ export default {
             }
         })
     },
+
+    ////
+
+    getAnnotations(url) {
+        dispatch({
+            type: ActionTypes.GET_ANNOTATIONS,
+            payload: {
+                url: url
+            }
+        })
+    },
+
+    addAnnotation(url, annotation) {
+        dispatch({
+            type: ActionTypes.ADD_ANNOTATION,
+            payload: {
+                url: url,
+                annotation: annotation
+            }
+        })
+    },
+
+    removeAnnotation(url, position) {
+        dispatch({
+            type: ActionTypes.REMOVE_ANNOTATION,
+            payload: {
+                url: url,
+                position: position
+            }
+        })
+    }
 }
