@@ -40,7 +40,7 @@ class Task extends React.Component {
         return(
             <div className="Task">
                 <div className="Task-box timer">
-                    <div className="Task-submit no-padding">
+                    <div className="Task-submit">
                         <TimedSubmit start={start} duration={this.state.task.duration}/>
                     </div>
                 </div>
@@ -50,7 +50,7 @@ class Task extends React.Component {
                         Task Description
                     </div>
 
-                    <div className="Task-info no-padding" id="intro-description">
+                    <div className="Task-info" id="intro-description">
                         <div className="Task-instruction-specific">
                             <div dangerouslySetInnerHTML={{__html: LearningStore.getTopicDescription(this.state.task.topic)}} />
                         </div>
