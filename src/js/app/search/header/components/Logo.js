@@ -4,9 +4,9 @@ import {Link} from 'react-router-dom';
 
 const Logo = function() {
     return (
-        <div className="SearchHeader-logo">
+        <div className="logo">
             <Link to="/">
-                <div className="SearchHeader-logo-image"/>
+                <div className="image"/>
             </Link>
         </div>
     )

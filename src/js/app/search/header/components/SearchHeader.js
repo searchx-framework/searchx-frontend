@@ -9,7 +9,7 @@ const Header = function({query, vertical, searchHandler, queryChangeHandler, ver
     return (
         <div className="SearchHeader" id="intro-system">
             <Logo />
-            <form action="/" method="GET" className="SearchHeader-form" onSubmit={e => {e.preventDefault();searchHandler();}}>
+            <form action="/" method="GET" className="form" onSubmit={e => {e.preventDefault();searchHandler();}}>
                 <SearchBox query={query} changeHandler={queryChangeHandler}/>
                 <SearchVerticals query={query} activeVertical={vertical} changeHandler={verticalChangeHandler}/>
             </form>
