@@ -18,7 +18,7 @@ const Annotations = function({annotations, submitHandler, removeHandler, userId}
         <div className="Annotations">
             <AnnotationsForm onSubmit={submitHandler}/>
             <div className="list">
-                {list}
+                {list.reverse()}
             </div>
         </div>
     );
