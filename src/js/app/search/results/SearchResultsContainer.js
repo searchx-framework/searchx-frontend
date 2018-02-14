@@ -2,7 +2,7 @@ import React from 'react';
 
 import SearchActions from '../../../actions/SearchActions';
 import SearchStore from "../SearchStore";
-import AccountStore from "../../../stores/AccountStore";
+import SessionStore from "../../../stores/SessionStore";
 
 import SearchResults from "./components/SearchResults";
 import DocumentViewer from "./components/viewer/Viewer";
@@ -12,7 +12,7 @@ import {LoggerEventTypes} from '../../../utils/LoggerEventTypes';
 
 const getState = function() {
     const results = SearchStore.getSearchResults().map(result => {
-        if (result.bookmark) result.bookmarkUserColor = AccountStore.getMemberColor(result.bookmarkUserId);
+        if (result.bookmark) result.bookmarkUserColor = SessionStore.getMemberColor(result.bookmarkUserId);
         return result;
     });
 

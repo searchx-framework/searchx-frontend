@@ -4,7 +4,7 @@ import Bookmarks from "./components/Bookmarks";
 import SessionActions from "../../../../actions/SessionActions";
 import SearchStore from "../../SearchStore";
 import BookmarkStore from "./BookmarksStore";
-import AccountStore from "../../../../stores/AccountStore";
+import SessionStore from "../../../../stores/SessionStore";
 import SearchActions from "../../../../actions/SearchActions";
 
 function removeHandler(url) {
@@ -36,7 +36,7 @@ export default class BookmarksContainer extends React.Component {
     _onChange() {
         this.setState({
             bookmarks: BookmarkStore.getBookmarks().map((data) => {
-                data.userColor = AccountStore.getMemberColor(data.userId);
+                data.userColor = SessionStore.getMemberColor(data.userId);
                 return data;
             })
         });

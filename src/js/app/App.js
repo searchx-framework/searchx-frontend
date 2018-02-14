@@ -7,11 +7,9 @@ import history from './History';
 import About from './pages/About';
 import Search from './search/Search';
 
-import Learning from './tasks/learning/Learning';
-import Welcome from './tasks/learning/forms/Welcome';
-import Register from './tasks/learning/forms/Register';
-import PreTest from './tasks/learning/forms/PreTest';
-import PostTest from './tasks/learning/forms/PostTest';
+import Session from './tasks/puzzle/Puzzle';
+import Register from './tasks/puzzle/forms/Register';
+import Feedback from './tasks/puzzle/forms/Feedback';
 
 const config = require('../config');
 
@@ -33,11 +31,9 @@ export class App extends React.Component {
                     <Route exact path="/about" component={About}/>
                     <Route path="/search" component={Search}/>
 
-                    <Route exact path="/start" component={Welcome}/>
                     <Route exact path="/register" component={Register}/>
-                    <Route exact path="/pretest" component={PreTest}/>
-                    <Route exact path="/posttest" component={PostTest}/>
-                    <Route path="/learning" component={Learning}/>
+                    <Route exact path="/feedback" component={Feedback}/>
+                    <Route path="/session" component={Session}/>
                 </div>
             </Router>
         );
