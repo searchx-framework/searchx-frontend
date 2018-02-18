@@ -7,6 +7,7 @@ export default {
             type: ActionTypes.SEARCH,
             payload: {
                 query: query,
+                vertical: vertical,
                 page: page
             },
         })
@@ -36,17 +37,6 @@ export default {
             type: ActionTypes.CHANGE_QUERY,
             payload: {
                 query: query
-            }
-        })
-    },
-
-    refreshSearch(query, vertical, page) {
-        dispatch({
-            type: ActionTypes.REFRESH_SEARCH,
-            payload: {
-                query: query,
-                vertical: vertical,
-                page: page
             }
         })
     },

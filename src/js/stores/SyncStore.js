@@ -34,26 +34,27 @@ const SyncStore = Object.assign(EventEmitter.prototype, {
 
     ////
 
-    emitStartPretest() {
-        socket.emit('pushStartPretest', {
+    emitPretestStart() {
+        socket.emit('pushPretestStart', {
+            taskId: AccountStore.getTaskId(),
             userId: AccountStore.getUserId()
         });
     },
 
-    emitPretestScore(scores) {
-        socket.emit('pushPretestScores', {
+    emitPretestSubmit(results) {
+        socket.emit('pushPretestSubmit', {
+            taskId: AccountStore.getTaskId(),
             userId: AccountStore.getUserId(),
             sessionId: AccountStore.getSessionId(),
-            scores: scores
+            results: results
         });
     },
 
-    emitUserLeave() {
-        if (AccountStore.isCollaborative()) {
-            socket.emit('pushUserLeave', {
-                userId: AccountStore.getUserId()
-            });
-        }
+    emitPretestLeave() {
+        socket.emit('pushPretestLeave', {
+            taskId: AccountStore.getTaskId(),
+            userId: AccountStore.getUserId()
+        });
     },
 
     ////
@@ -100,7 +101,7 @@ if (AccountStore.isCollaborative()) {
 
     socket.on('bookmarkUpdate', (data) => {
         SessionActions.getBookmarks();
-        SearchActions.refreshSearch(data.query, data.vertical, data.page);
+        SearchActions.search(data.query, data.vertical, data.page);
     });
 
     socket.on('pageMetadataUpdate', (data) => {

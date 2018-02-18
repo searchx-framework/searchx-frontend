@@ -29,7 +29,6 @@ let state = {
 
     submittedQuery: false,
     finished: false,
-    refresing: false,
     resultsNotFound: false,
 
     results: [],
@@ -110,7 +109,6 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
         return {
             submittedQuery: state.submittedQuery,
             finished: state.finished,
-            refreshing: state.refreshing,
             resultsNotFound: state.resultsNotFound
         }
     },
@@ -148,9 +146,6 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
             case ActionTypes.CHANGE_QUERY:
                 _changeQuery(action.payload.query);
                 break;
-            case ActionTypes.REFRESH_SEARCH:
-                _refresh(action.payload.query, action.payload.vertical, action.payload.page);
-                break;
             case ActionTypes.OPEN_URL:
                 state.activeUrl = action.payload.url;
                 SyncStore.emitViewState(action.payload.url);
@@ -167,19 +162,18 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
 
 ////
 
-const _search = (query, page) => {
+const _search = (query, vertical, page) => {
     const startTime = new Date().getTime();
 
-    state.submittedQuery = true;
-    state.finished = false;
-    state.resultsNotFound = false;
-    if (!state.refreshing) {
+    if (!(query === state.query && vertical === state.vertical && page === state.page)) {
         state.results = [];
     }
 
-    page = page || state.page || 1;
-    state.page = page;
+    state.page = page || state.page || 1;
     state.query = query || state.query;
+    state.submittedQuery = true;
+    state.finished = false;
+    state.resultsNotFound = false;
 
     SyncStore.emitSearchState(SearchStore.getSearchState());
     SearchStore.emitChange();
@@ -189,7 +183,7 @@ const _search = (query, page) => {
     request
         .get(env.serverUrl + '/v1/search/'+state.vertical
             + '/?query='+ state.query
-            + '&page='+ page
+            + '&page='+ state.page
             + '&userId='+ AccountStore.getUserId()
             + '&sessionId='+ AccountStore.getSessionId()
         )
@@ -202,12 +196,9 @@ const _search = (query, page) => {
 
                 state.results = results;
                 state.matches = res.body.matches;
-                state.page = page;
                 state.serpId = res.body.id;
-
             } else {
                 state.results = [];
-                state.page = page;
             }
 
             if (state.results.length === 0) {
@@ -215,12 +206,11 @@ const _search = (query, page) => {
             }
 
             state.elapsedTime = (new Date().getTime()) - startTime;
-            state.refreshing = false;
             state.finished = true;
 
             log(LoggerEventTypes.SEARCHRESULT_ELAPSEDTIME, {
                 query: state.query,
-                page: page,
+                page: state.page,
                 vertical: state.vertical,
                 serpId: state.serpId,
                 elapsedTime: state.elapsedTime
@@ -252,13 +242,6 @@ const _updateUrl = function(query, vertical, page) {
         pathname: route,
         search: params
     });
-};
-
-const _refresh = (query, vertical, page) => {
-    if (query === state.query && vertical === state.vertical && page === state.page) {
-        state.refreshing = true;
-        _search();
-    }
 };
 
 ////
