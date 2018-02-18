@@ -1,6 +1,7 @@
 import request from 'superagent';
 import EventEmitter from 'events';
 import AccountStore from "./AccountStore";
+import Helpers from "../utils/Helpers";
 
 const env = require('env');
 
@@ -13,9 +14,9 @@ let state = {
 };
 
 const SessionStore = Object.assign(EventEmitter.prototype, {
-    initializeTask(task, callback) {
+    initializeTask(task, params, callback) {
         let ok = false;
-        _getUserTask(AccountStore.getUserId(), task, AccountStore.isCollaborative(), (data) => {
+        _getUserTask(AccountStore.getUserId(), task, params, (data) => {
             if (data) {
                 AccountStore.setTask(data.task, data.topic);
                 AccountStore.setGroup(data._id, data.members);
@@ -69,9 +70,10 @@ const SessionStore = Object.assign(EventEmitter.prototype, {
     },
 });
 
-function _getUserTask(userId, task, collaborative, callback) {
+function _getUserTask(userId, task, params, callback) {
+    console.log(`${env.serverUrl}/v1/users/${userId}/task/${task}/?${Helpers.generateQueryString(params)}`);
     request
-        .get(`${env.serverUrl}/v1/users/${userId}/task/${task}/?collaborative=${collaborative}`)
+        .get(`${env.serverUrl}/v1/users/${userId}/task/${task}/?${Helpers.generateQueryString(params)}`)
         .end((err, res) => {
             if(!err && res) {
                 const data = res.body.results;

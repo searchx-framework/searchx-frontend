@@ -29,11 +29,7 @@ export default class PreTest extends React.Component {
         this.handleLeave = this.handleLeave.bind(this);
         this.handleTimeout = this.handleTimeout.bind(this);
         this.handleComplete = this.handleComplete.bind(this);
-
-        this.handleSingleSetup = this.handleSingleSetup.bind(this);
         this.handleTaskSetup = this.handleTaskSetup.bind(this);
-        this.handleCutCopyPaste = this.handleCutCopyPaste.bind(this);
-        this.handleVisibilityChange = this.handleVisibilityChange.bind(this);
     }
 
     ////
@@ -49,21 +45,19 @@ export default class PreTest extends React.Component {
         window.addEventListener('unload', this.handleUnload);
         window.addEventListener('popstate', this.handleLeave);
 
-        if (AccountStore.isCollaborative()) {
-            SyncStore.emitStartPretest();
+        SyncStore.emitPretestStart();
 
-            SyncStore.listenToGrouping((group) => {
-                AccountStore.setGroup(group._id, group.members);
-                this.handleTaskSetup(group.topic);
-            });
+        SyncStore.listenToGrouping((group) => {
+            AccountStore.setGroup(group._id, group.members);
+            this.handleTaskSetup(group.topic);
+        });
 
-            SyncStore.listenToGroupPretestStart(() => {
-                if (this.state.isComplete) {
-                    this.setState({partnerJoined: true});
-                    Helpers.sleep(config.groupTimeout * 60 * 1000).then(this.handleTimeout);
-                }
-            });
-        }
+        SyncStore.listenToGroupPretestStart(() => {
+            if (this.state.isComplete) {
+                this.setState({partnerJoined: true});
+                Helpers.sleep(config.groupTimeout * 60 * 1000).then(this.handleTimeout);
+            }
+        });
     }
 
     componentWillUnmount() {
@@ -79,7 +73,7 @@ export default class PreTest extends React.Component {
         if (!this.state.sessionReady) {
             window.removeEventListener('beforeunload', this.handleBeforeUnload);
             this.setState({timedOut: true}, () => {
-                SyncStore.emitUserLeave();
+                SyncStore.emitPretestLeave();
 
                 log(LoggerEventTypes.SURVEY_GROUPING_TIMEOUT, {
                     state: this.state
@@ -103,7 +97,7 @@ export default class PreTest extends React.Component {
     }
 
     handleLeave() {
-        SyncStore.emitUserLeave();
+        SyncStore.emitPretestLeave();
         LearningStore.clearTopics();
 
         log(LoggerEventTypes.SURVEY_EXIT, {
@@ -115,31 +109,17 @@ export default class PreTest extends React.Component {
     ////
 
     handleComplete(result) {
+        const results = result.data;
         log(LoggerEventTypes.SURVEY_PRE_TEST_RESULTS, {
-            results: result.data
+            results: results
         });
 
-        ////
+        SyncStore.emitPretestSubmit(results);
+        this.setState({isComplete: true});
 
-        const scores = LearningStore.getScoresFromResults(result.data);
-
-        if (!AccountStore.isCollaborative()) {
-            this.handleSingleSetup(scores);
-        } else {
-            SyncStore.emitPretestScore(scores);
-            this.setState({isComplete: true});
-
-            Helpers.sleep(config.groupTimeout * 60 * 1000).then(() => {
-                if (!this.state.partnerJoined) this.handleTimeout()
-            });
-        }
-    }
-
-    handleSingleSetup(scores) {
-        const topicId = scores[0].topicId;
-        const topic = LearningStore.getTopicById(topicId);
-
-        this.handleTaskSetup(topic);
+        Helpers.sleep(config.groupTimeout * 60 * 1000).then(() => {
+            if (!this.state.partnerJoined) this.handleTimeout()
+        });
     }
 
     handleTaskSetup(topic) {
@@ -220,7 +200,7 @@ export default class PreTest extends React.Component {
             });
 
             if (switchTabs >= 3) {
-                SyncStore.emitUserLeave();
+                SyncStore.emitPretestLeave();
                 window.location.reload();
             }
         }

@@ -10,5 +10,15 @@ export default {
         return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
             (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
         )
+    },
+
+    generateQueryString: function(object) {
+        let parts = [];
+        Object.entries(object).forEach(pair => {
+            const param = encodeURIComponent(pair[0]) + "=" + encodeURIComponent(pair[1]);
+            parts.push(param);
+        });
+
+        return parts.join('&');
     }
 }

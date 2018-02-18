@@ -42,7 +42,7 @@ export default class Register extends React.Component {
             isComplete: true
         });
 
-        SessionStore.initializeTask("lecture-puzzle", (ok) => {
+        SessionStore.initializeTask("lecture-puzzle", {}, (ok) => {
             if (ok) {
                 Helpers.sleep(500).then(() => {
                     this.props.history.push('/session');

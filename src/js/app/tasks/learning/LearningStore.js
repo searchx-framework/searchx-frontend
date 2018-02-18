@@ -79,35 +79,8 @@ const LearningStore = Object.assign(EventEmitter.prototype, {
         return switchTabsPreTest >= 3 || switchTabsPostTest >= 3 || switchTabsVideo >= 3;
     },
 
-    ////
-
     getUserIdFromResults(results) {
         return results["userId"].replace(/\s/g, '');
-    },
-
-    getScoresFromResults(results) {
-        let scores = {};
-        Object.keys(results).forEach((result) => {
-            const v = result.split("-");
-            if (v[0] === "Q") {
-                if(!scores[v[1]]) scores[v[1]] = 0;
-                scores[v[1]] += parseInt(results[result]);
-            }
-        });
-
-        return this.formatScores(scores);
-    },
-
-    formatScores(scores) {
-        return Object.keys(scores)
-            .filter((key) => key !== '0')
-            .map(key => {
-                return {
-                    topicId: key,
-                    score: scores[key]
-                };
-            })
-            .sort((a,b) => a.score - b.score);
     },
 
     ////
