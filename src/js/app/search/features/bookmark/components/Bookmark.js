@@ -1,6 +1,6 @@
-import './Bookmarks.pcss';
+import './Bookmark.pcss';
 import React from 'react';
-import BookmarksItem from './BookmarksItem';
+import BookmarksItem from './BookmarkItem';
 
 const Bookmarks = function({bookmarks, removeHandler, starHandler, clickHandler}) {
     const list = bookmarks.map((data, index) => {

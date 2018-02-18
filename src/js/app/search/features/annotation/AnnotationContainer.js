@@ -1,9 +1,9 @@
 import React from 'react';
 
-import Annotations from './components/Annotations';
+import Annotations from './components/Annotation';
 import SessionActions from "../../../../actions/SessionActions";
 import AccountStore from "../../../../stores/AccountStore";
-import AnnotationsStore from "./AnnotationsStore";
+import AnnotationsStore from "./AnnotationStore";
 
 export default class AnnotationsContainer extends React.Component {
     constructor(props) {

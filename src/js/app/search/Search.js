@@ -8,7 +8,7 @@ import AccountStore from "../../stores/AccountStore";
 import SearchHeaderContainer from './header/SearchHeaderContainer';
 import SearchResultsContainer from "./results/SearchResultsContainer";
 import QueryHistoryContainer from "./features/queryhistory/QueryHistoryContainer";
-import BookmarksContainer from "./features/bookmarks/BookmarksContainer";
+import BookmarkContainer from "./features/bookmark/BookmarkContainer";
 import Chat from "./features/chat/Chat";
 
 export default class Search extends React.Component {
@@ -51,7 +51,7 @@ export default class Search extends React.Component {
 
                     <div className="Side">
                         <QueryHistoryContainer/>
-                        <BookmarksContainer/>
+                        <BookmarkContainer/>
                     </div>
                 </div>
 
