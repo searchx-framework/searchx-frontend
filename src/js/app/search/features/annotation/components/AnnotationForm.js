@@ -1,6 +1,6 @@
 import React from 'react';
 
-class AnnotationsForm extends React.PureComponent {
+class AnnotationForm extends React.PureComponent {
     constructor() {
         super();
         this.state = {
@@ -38,4 +38,4 @@ class AnnotationsForm extends React.PureComponent {
     }
 }
 
-export default AnnotationsForm;
+export default AnnotationForm;

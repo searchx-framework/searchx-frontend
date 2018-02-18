@@ -4,7 +4,7 @@ import Rating from 'react-rating';
 import {log} from '../../../../../utils/Logger';
 import {LoggerEventTypes} from '../../../../../utils/LoggerEventTypes';
 
-const BookmarksItem = function({data, removeHandler, starHandler, clickHandler}) {
+const BookmarkItem = function({data, removeHandler, starHandler, clickHandler}) {
     let metaInfo = {
         url: data.url,
         userId: data.userId
@@ -50,4 +50,4 @@ const BookmarksItem = function({data, removeHandler, starHandler, clickHandler})
     )
 };
 
-export default BookmarksItem;
+export default BookmarkItem;

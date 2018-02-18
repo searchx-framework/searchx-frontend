@@ -1,12 +1,12 @@
 import './Annotation.pcss';
 import React from 'react';
 
-import AnnotationsForm from "./AnnotationForm";
-import AnnotationsItem from "./AnnotationItem";
+import AnnotationForm from "./AnnotationForm";
+import AnnotationItem from "./AnnotationItem";
 
 const Annotations = function({annotations, submitHandler, removeHandler, userId}) {
     const list = annotations.map((data, index) => {
-        return <AnnotationsItem
+        return <AnnotationItem
             key={index} index={index}
             data={data}
             removeHandler={removeHandler}
@@ -16,7 +16,7 @@ const Annotations = function({annotations, submitHandler, removeHandler, userId}
 
     return (
         <div className="Annotations">
-            <AnnotationsForm onSubmit={submitHandler}/>
+            <AnnotationForm onSubmit={submitHandler}/>
             <div className="list">
                 {list.reverse()}
             </div>

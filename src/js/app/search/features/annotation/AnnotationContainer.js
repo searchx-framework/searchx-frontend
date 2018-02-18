@@ -6,7 +6,7 @@ import AccountStore from "../../../../stores/AccountStore";
 import SessionStore from "../../../../stores/SessionStore";
 import AnnotationStore from "./AnnotationStore";
 
-export default class AnnotationsContainer extends React.Component {
+export default class AnnotationContainer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
