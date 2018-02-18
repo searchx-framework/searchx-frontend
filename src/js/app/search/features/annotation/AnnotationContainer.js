@@ -3,9 +3,9 @@ import React from 'react';
 import Annotations from './components/Annotation';
 import SessionActions from "../../../../actions/SessionActions";
 import AccountStore from "../../../../stores/AccountStore";
-import AnnotationsStore from "./AnnotationStore";
+import AnnotationStore from "./AnnotationStore";
 
-export default class AnnotationsContainer extends React.Component {
+export default class AnnotationContainer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -18,11 +18,11 @@ export default class AnnotationsContainer extends React.Component {
         this.removeHandler = this.removeHandler.bind(this);
     }
 
-    componentWillMount() {AnnotationsStore.addChangeListener(this._onChange);}
-    componentWillUnmount() {AnnotationsStore.removeChangeListener(this._onChange);}
+    componentWillMount() {AnnotationStore.addChangeListener(this._onChange);}
+    componentWillUnmount() {AnnotationStore.removeChangeListener(this._onChange);}
     _onChange() {
         this.setState({
-            annotations: AnnotationsStore.getActiveUrlAnnotations().map((data) => {
+            annotations: AnnotationStore.getActiveUrlAnnotations().map((data) => {
                 data.userColor = AccountStore.getMemberColor(data.userId);
                 return data;
             })

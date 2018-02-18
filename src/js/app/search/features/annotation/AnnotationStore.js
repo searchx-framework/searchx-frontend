@@ -15,7 +15,7 @@ let state = {
     annotations: []
 };
 
-const AnnotationsStore = Object.assign(EventEmitter.prototype, {
+const AnnotationStore = Object.assign(EventEmitter.prototype, {
     emitChange() {
         this.emit(CHANGE_EVENT);
     },
@@ -43,7 +43,7 @@ const AnnotationsStore = Object.assign(EventEmitter.prototype, {
                 _remove_annotation(action.payload.url, action.payload.position);
                 break;
         }
-        AnnotationsStore.emitChange();
+        AnnotationStore.emitChange();
     })
 });
 
@@ -57,7 +57,7 @@ let _get_annotations = function(url) {
             if (!err && !res.body.error) {
                 state.annotations = res.body.results;
             }
-            AnnotationsStore.emitChange();
+            AnnotationStore.emitChange();
         });
 };
 
@@ -80,7 +80,7 @@ let _add_annotation = function(url, annotation) {
         userId: userId,
         created: new Date()
     });
-    AnnotationsStore.emitChange();
+    AnnotationStore.emitChange();
 };
 
 let _remove_annotation = function(url, position) {
@@ -96,7 +96,7 @@ let _remove_annotation = function(url, position) {
         });
 
     state.annotations = state.annotations.filter((item) => item._id !== data._id);
-    AnnotationsStore.emitChange();
+    AnnotationStore.emitChange();
 };
 
 let _broadcast_change = function() {
@@ -107,4 +107,4 @@ let _broadcast_change = function() {
 
 ////
 
-export default AnnotationsStore;
+export default AnnotationStore;
