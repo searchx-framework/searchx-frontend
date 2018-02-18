@@ -1,10 +1,10 @@
 import React from 'react';
-import Bookmarks from "./components/Bookmarks";
+import Bookmark from "./components/Bookmark";
 
 import SessionActions from "../../../../actions/SessionActions";
 import SearchStore from "../../SearchStore";
-import BookmarkStore from "./BookmarksStore";
 import SessionStore from "../../../../stores/SessionStore";
+import BookmarkStore from "./BookmarkStore";
 import SearchActions from "../../../../actions/SearchActions";
 
 function removeHandler(url) {
@@ -20,7 +20,7 @@ function clickHandler(url) {
     SearchActions.openUrl(url);
 }
 
-export default class BookmarksContainer extends React.Component {
+export default class BookmarkContainer extends React.Component {
     constructor() {
         super();
         this.state = {
@@ -43,7 +43,7 @@ export default class BookmarksContainer extends React.Component {
     }
 
     render() {
-        return <Bookmarks
+        return <Bookmark
             bookmarks={this.state.bookmarks}
             removeHandler={removeHandler}
             starHandler={starHandler}

@@ -1,10 +1,10 @@
 import React from 'react';
-import AnnotationsContainer from "../../../features/annotations/AnnotationsContainer";
+import AnnotationContainer from "../../../features/annotation/AnnotationContainer";
 
 const ViewerSidebar = function({url}) {
     return (
         <div className="sidebar">
-            <AnnotationsContainer url={url}/>
+            <AnnotationContainer url={url}/>
         </div>
     );
 };

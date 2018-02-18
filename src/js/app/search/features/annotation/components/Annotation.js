@@ -1,8 +1,8 @@
-import './Annotations.pcss';
+import './Annotation.pcss';
 import React from 'react';
 
-import AnnotationsForm from "./AnnotationsForm";
-import AnnotationsItem from "./AnnotationsItem";
+import AnnotationsForm from "./AnnotationForm";
+import AnnotationsItem from "./AnnotationItem";
 
 const Annotations = function({annotations, submitHandler, removeHandler, userId}) {
     const list = annotations.map((data, index) => {
