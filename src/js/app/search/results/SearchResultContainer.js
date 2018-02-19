@@ -13,6 +13,7 @@ import {LoggerEventTypes} from '../../../utils/LoggerEventTypes';
 export default class SearchResultContainer extends React.Component {
     constructor(props) {
         super(props);
+        this.urlClickHandler = this.urlClickHandler.bind(this);
         this.bookmarkClickHandler = this.bookmarkClickHandler.bind(this);
     }
 
@@ -26,6 +27,9 @@ export default class SearchResultContainer extends React.Component {
 
     urlClickHandler(url) {
         SearchActions.openUrl(url);
+        SearchStore.modifyMetadata(url, {
+            views: this.props.result.metadata.views + 1
+        });
     }
 
     bookmarkClickHandler() {
@@ -33,13 +37,20 @@ export default class SearchResultContainer extends React.Component {
 
         if (this.props.result.metadata.bookmark !== null) {
             action = "remove";
-            SearchStore.removeBookmark(this.props.result.position);
             SessionActions.removeBookmark(this.props.result.url);
+            SearchStore.modifyMetadata(this.props.result.url, {
+                bookmark: null
+            });
         }
         else {
             action = "add";
-            SearchStore.addBookmark(this.props.result.position);
             SessionActions.addBookmark(this.props.result.url, this.props.result.name);
+            SearchStore.modifyMetadata(this.props.result.url, {
+                bookmark: {
+                    userId: AccountStore.getUserId(),
+                    date: new Date()
+                }
+            });
         }
 
         log(LoggerEventTypes.BOOKMARK_ACTION, {

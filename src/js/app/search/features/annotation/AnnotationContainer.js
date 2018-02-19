@@ -4,6 +4,7 @@ import Annotations from './components/Annotation';
 import SessionActions from "../../../../actions/SessionActions";
 import AccountStore from "../../../../stores/AccountStore";
 import AnnotationStore from "./AnnotationStore";
+import SearchStore from "../../SearchStore";
 
 export default class AnnotationContainer extends React.Component {
     constructor(props) {
@@ -31,10 +32,16 @@ export default class AnnotationContainer extends React.Component {
 
     submitHandler(annotation) {
         SessionActions.addAnnotation(this.props.url, annotation);
+        SearchStore.modifyMetadata(this.props.url, {
+            annotations: this.state.annotations.length + 1
+        });
     }
 
     removeHandler(position) {
         SessionActions.removeAnnotation(this.props.url, position);
+        SearchStore.modifyMetadata(this.props.url, {
+            annotations: this.state.annotations.length - 1
+        });
     }
 
     render() {
