@@ -66,6 +66,16 @@ const SyncStore = Object.assign(EventEmitter.prototype, {
         });
     },
 
+    emitViewState(url) {
+        socket.emit('pushViewState', {
+            sessionId: AccountStore.getSessionId(),
+            userId: AccountStore.getUserId(),
+            state: {
+                url: url
+            }
+        });
+    },
+
     emitBookmarkUpdate(searchState) {
         socket.emit('pushBookmarkUpdate', searchState);
     },

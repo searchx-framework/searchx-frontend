@@ -6,7 +6,7 @@ import {LoggerEventTypes} from '../../../../../utils/LoggerEventTypes';
 
 ////
 
-const WebSearchResult = function({searchState, serpId, result, bookmarkButton, bookmarkInfo, urlClickHandler}) {
+const WebSearchResult = function({searchState, serpId, result, metadata, bookmarkButton, urlClickHandler}) {
     let metaInfo = {
         url: result.url,
         query: searchState.query,
@@ -66,7 +66,7 @@ const WebSearchResult = function({searchState, serpId, result, bookmarkButton, b
                     {result.snippet}
                 </p>
 
-                {bookmarkInfo}
+                {metadata}
             </div>
         </div>
     )
