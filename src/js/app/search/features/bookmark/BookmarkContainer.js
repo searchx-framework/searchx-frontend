@@ -9,7 +9,9 @@ import SearchActions from "../../../../actions/SearchActions";
 
 function removeHandler(url) {
     SessionActions.removeBookmark(url);
-    SearchStore.searchAndRemoveBookmark(url);
+    SearchStore.modifyMetadata(url, {
+        bookmark: null
+    });
 }
 
 function starHandler(url) {

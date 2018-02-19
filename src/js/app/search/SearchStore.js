@@ -120,23 +120,14 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
 
     ////
 
-    addBookmark(position) {
-        state.results[position].metadata.bookmark = {
-            userId: AccountStore.getUserId(),
-            date: new Date()
-        };
-        SearchStore.emitChange();
-    },
-    removeBookmark(position){
-        state.results[position].metadata.bookmark = null;
-        SearchStore.emitChange();
-    },
-    searchAndRemoveBookmark(url){
+    modifyMetadata(url, newData) {
         state.results.forEach((item) => {
-            if (item["url"] === url ) {
-                item.metadata.bookmark = null;
+            if (item.url === url ) {
+                item.metadata = Object.assign(item.metadata, newData);
             }
         });
+
+        SearchStore.emitChange();
     },
 
     ////

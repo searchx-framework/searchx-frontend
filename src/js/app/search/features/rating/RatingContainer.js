@@ -3,6 +3,7 @@ import React from 'react';
 import SessionActions from "../../../../actions/SessionActions";
 import RatingStore from "./RatingStore";
 import Rating from "./components/Rating";
+import SearchStore from "../../SearchStore";
 
 export default class RatingContainer extends React.Component {
     constructor(props) {
@@ -23,6 +24,9 @@ export default class RatingContainer extends React.Component {
     submitHandler(rating) {
         if (rating === this.state.rating) rating = 0;
         SessionActions.submitRating(this.props.url, rating);
+        SearchStore.modifyMetadata(this.props.url, {
+            rating: this.state.total - this.state.rating + rating
+        });
     }
 
     render() {
