@@ -3,7 +3,6 @@ import React from 'react';
 import SessionActions from '../../../actions/SessionActions';
 import SearchActions from "../../../actions/SearchActions";
 import SearchStore from "../SearchStore";
-import AccountStore from "../../../stores/AccountStore";
 import SearchResult from "./components/SearchResult";
 
 import {log} from '../../../utils/Logger';
@@ -40,23 +39,13 @@ export default class SearchResultContainer extends React.Component {
 
         if (this.state.bookmark) {
             action = "remove";
-            SessionActions.removeBookmark(this.props.result.url);
             SearchStore.removeBookmark(this.props.result.position);
-
-            this.setState({
-                bookmark: false
-            });
+            SessionActions.removeBookmark(this.props.result.url);
         }
         else {
             action = "add";
-            SessionActions.addBookmark(this.props.result.url, this.props.result.name);
             SearchStore.addBookmark(this.props.result.position);
-
-            this.setState({
-                bookmark: true,
-                bookmarkUserId: AccountStore.getUserId(),
-                bookmarkTime: new Date()
-            });
+            SessionActions.addBookmark(this.props.result.url, this.props.result.name);
         }
 
         log(LoggerEventTypes.BOOKMARK_ACTION, {

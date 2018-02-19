@@ -12,12 +12,9 @@ const SearchResult = function({searchState, serpId, result, bookmarkClickHandler
     const bookmarkUserColor = result.bookmarkUserColor;
 
     let bookmarkButton = <Rating
-        className="rating"
-        empty="fa fa-bookmark-o"
-        full="fa fa-bookmark"
+        className="rating" empty="fa fa-bookmark-o" full="fa fa-bookmark"
         onClick={bookmarkClickHandler}
-        stop={1}
-        initialRate={bookmark ? 1 : 0}
+        stop={1} initialRate={bookmark ? 1 : 0}
     />;
 
     let bookmarkInfo = <span/>;
