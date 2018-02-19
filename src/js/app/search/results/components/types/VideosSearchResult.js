@@ -42,7 +42,7 @@ function formatInfo(publisher, views, creator) {
 
 ////
 
-const VideosSearchResult = function({searchState, serpId, result, bookmarkButton, bookmarkInfo, urlClickHandler}) {
+const VideosSearchResult = function({searchState, serpId, result, metadata, bookmarkButton, urlClickHandler}) {
     const metaInfo = {
         url: result.url,
         query: searchState.query,
@@ -131,7 +131,7 @@ const VideosSearchResult = function({searchState, serpId, result, bookmarkButton
                         )
                     }</h6>
 
-                    {bookmarkInfo}
+                    {metadata}
                 </div>
             </div>
         </div>

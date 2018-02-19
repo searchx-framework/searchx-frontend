@@ -2,7 +2,6 @@ import React from 'react';
 
 import SearchActions from '../../../actions/SearchActions';
 import SearchStore from "../SearchStore";
-import SessionStore from "../../../stores/SessionStore";
 
 import SearchResults from "./components/SearchResults";
 import DocumentViewer from "./components/viewer/Viewer";
@@ -11,16 +10,11 @@ import {log} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../utils/LoggerEventTypes';
 
 const getState = function() {
-    const results = SearchStore.getSearchResults().map(result => {
-        if (result.bookmark) result.bookmarkUserColor = SessionStore.getMemberColor(result.bookmarkUserId);
-        return result;
-    });
-
     return {
         searchState: SearchStore.getSearchState(),
         progress: SearchStore.getSearchProgress(),
         serpId : SearchStore.getSerpId(),
-        results: results,
+        results: SearchStore.getSearchResults(),
         matches: SearchStore.getMatches(),
         elapsedTime : ((SearchStore.getElapsedTime())/1000).toFixed(2).toString(),
         activeUrl: SearchStore.getActiveUrl()

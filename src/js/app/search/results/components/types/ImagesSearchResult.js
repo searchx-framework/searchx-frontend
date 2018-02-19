@@ -6,7 +6,7 @@ import {LoggerEventTypes} from '../../../../../utils/LoggerEventTypes';
 
 ////
 
-const ImagesSearchResult = function({searchState, serpId, result, bookmarkButton, bookmarkInfo, urlClickHandler}) {
+const ImagesSearchResult = function({searchState, serpId, result, metadata, bookmarkButton, urlClickHandler}) {
     let metaInfo = {
         url: result.url,
         query: searchState.query,
@@ -48,12 +48,13 @@ const ImagesSearchResult = function({searchState, serpId, result, bookmarkButton
                 intervalDelay={2000}
             />
 
+            {bookmarkButton}
+
             <a title={result.name} target="_blank" onClick={clickUrl} onContextMenu={contextUrl} onMouseEnter={hoverEnter} onMouseLeave={hoverLeave}>
                 <div className="image" style={{backgroundImage: `url(${result.thumbnailUrl})`}}/>
             </a>
 
-            {bookmarkButton}
-            {bookmarkInfo}
+            {metadata}
         </div>
     )
 };

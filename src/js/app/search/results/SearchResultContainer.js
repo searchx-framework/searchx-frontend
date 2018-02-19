@@ -1,5 +1,7 @@
 import React from 'react';
 
+import AccountStore from "../../../stores/AccountStore";
+
 import SessionActions from '../../../actions/SessionActions';
 import SearchActions from "../../../actions/SearchActions";
 import SearchStore from "../SearchStore";
@@ -11,21 +13,13 @@ import {LoggerEventTypes} from '../../../utils/LoggerEventTypes';
 export default class SearchResultContainer extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            bookmark: props.result.bookmark,
-            bookmarkUserId: props.result.bookmarkUserId,
-            bookmarkTime: props.result.bookmarkTime
-        };
-
         this.bookmarkClickHandler = this.bookmarkClickHandler.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
-        this.setState({
-            bookmark: nextProps.result.bookmark,
-            bookmarkUserId: nextProps.result.bookmarkUserId,
-            bookmarkTime: nextProps.result.bookmarkTime
-        });
+        if (nextProps.result.metadata.bookmark !== null) {
+            nextProps.result.metadata.bookmark.userColor = AccountStore.getMemberColor(nextProps.result.metadata.bookmark.userId);
+        }
     }
 
     ////
@@ -37,7 +31,7 @@ export default class SearchResultContainer extends React.Component {
     bookmarkClickHandler() {
         let action = "";
 
-        if (this.state.bookmark) {
+        if (this.props.result.metadata.bookmark !== null) {
             action = "remove";
             SearchStore.removeBookmark(this.props.result.position);
             SessionActions.removeBookmark(this.props.result.url);
