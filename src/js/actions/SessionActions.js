@@ -2,6 +2,8 @@ import ActionTypes from "./ActionTypes";
 import {dispatch} from "../utils/Dispatcher";
 
 export default {
+    //// Query History
+
     getQueryHistory() {
         dispatch({
             type: ActionTypes.GET_QUERY_HISTORY,
@@ -9,7 +11,7 @@ export default {
         })
     },
 
-    ////
+    //// Bookmark
 
     getBookmarks() {
         dispatch({
@@ -46,7 +48,7 @@ export default {
         })
     },
 
-    ////
+    //// Annotation
 
     getAnnotations(url) {
         dispatch({
@@ -75,5 +77,26 @@ export default {
                 position: position
             }
         })
-    }
+    },
+
+    //// Rating
+
+    getRating(url) {
+        dispatch({
+            type: ActionTypes.GET_RATING,
+            payload: {
+                url: url
+            }
+        })
+    },
+
+    submitRating(url, rating) {
+        dispatch({
+            type: ActionTypes.SUBMIT_RATING,
+            payload: {
+                url: url,
+                rating: rating
+            }
+        })
+    },
 }
