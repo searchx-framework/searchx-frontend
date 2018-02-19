@@ -95,6 +95,7 @@ if (AccountStore.isCollaborative()) {
 
     socket.on('pageMetadataUpdate', (data) => {
         SessionActions.getAnnotations(data.url);
+        SessionActions.getRating(data.url);
     });
 }
 

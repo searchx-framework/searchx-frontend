@@ -23,21 +23,20 @@
         height: 90%;
 
         .header {
+            height: 4.5%;
             padding: 10px;
             border-bottom: 1px solid $border-color;
-            box-shadow: 0px 0px 15px 0px rgba(50, 50, 50, 0.04);
+            box-shadow: 0 0 15px 0 rgba(50, 50, 50, 0.04);
 
             .forward {
                 color: gray;
-                float: right;
                 cursor: pointer;
-                padding-right: 10px;
             }
 
             .close {
+                float: none;
                 color: red;
-                float: right;
-                font-size: 20px;
+                font-size: 16px;
                 font-weight: bold;
                 margin-bottom: 10px;
 
@@ -47,6 +46,13 @@
                     text-decoration: none;
                     cursor: pointer;
                 }
+            }
+
+            .divider {
+                height: 200px;
+                border-left:1px solid lightgray;
+                margin-left: 10px;
+                margin-right: 10px;
             }
         }
 
