@@ -39,7 +39,6 @@ const SessionStore = Object.assign(EventEmitter.prototype, {
 
         _getUserData(userId, AccountStore.getTaskId(), (data) => {
             if (data) {
-                console.log(data);
                 this.setNewGroupMember(data);
             }
         });
@@ -71,7 +70,6 @@ const SessionStore = Object.assign(EventEmitter.prototype, {
 });
 
 function _getUserTask(userId, task, params, callback) {
-    console.log(`${env.serverUrl}/v1/users/${userId}/task/${task}/?${Helpers.generateQueryString(params)}`);
     request
         .get(`${env.serverUrl}/v1/users/${userId}/task/${task}/?${Helpers.generateQueryString(params)}`)
         .end((err, res) => {
