@@ -90,8 +90,8 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
         if (state.tutorial) {
             return [
                 {name: "You can view the first result here", displayUrl: "https://www.result1.com" , snippet: "This is the first result..."},
-                {name: "You can view the second result here", displayUrl: "https://www.result2.com" , snippet: "This is the second result...", bookmark: true, bookmarkUserId: AccountStore.getUserId(), bookmarkTime: new Date()},
-                {name: "You can view the third result here", displayUrl: "https://www.result3.com" , snippet: "This is the third result...", bookmark: true, bookmarkUserId: 'test', bookmarkTime: new Date() - 2000},
+                {name: "You can view the second result here", displayUrl: "https://www.result2.com" , snippet: "This is the second result...", metadata: {bookmark: {userId: AccountStore.getUserId(), date: new Date()}, views: 10, rating: -5, annotations: 10}},
+                {name: "You can view the third result here", displayUrl: "https://www.result3.com" , snippet: "This is the third result...", metadata: {bookmark: {userId: 'test', date: new Date() - 2000}}},
                 {name: "You can view the fourth result here", displayUrl: "https://www.result4.com" , snippet: "This is the fourth result..."},
                 {name: "You can view the fifth result here", displayUrl: "https://www.result5.com" , snippet: "This is the fifth result..."}
             ];
