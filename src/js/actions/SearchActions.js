@@ -13,16 +13,6 @@ export default {
         })
     },
 
-    changePage(query, vertical, page) {
-        dispatch({
-            type: ActionTypes.CHANGE_PAGE,
-            payload: {
-                query: query,
-                page: page
-            },
-        })
-    },
-
     changeVertical(vertical) {
         dispatch({
             type: ActionTypes.CHANGE_VERTICAL,
@@ -32,12 +22,12 @@ export default {
         })
     },
 
-    changeQuery(query) {
+    changePage(page) {
         dispatch({
-            type: ActionTypes.CHANGE_QUERY,
+            type: ActionTypes.CHANGE_PAGE,
             payload: {
-                query: query
-            }
+                page: page
+            },
         })
     },
 

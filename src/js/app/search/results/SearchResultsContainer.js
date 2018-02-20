@@ -45,7 +45,7 @@ export default class SearchResultsContainer extends React.Component {
             serpId: this.state.serpId
         });
 
-        SearchActions.changePage(this.state.searchState.query, this.state.searchState.vertical, page);
+        SearchActions.changePage(page);
         this.setState({
             searchState: {
                 query: this.state.searchState.query,

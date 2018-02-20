@@ -7,6 +7,7 @@ import SessionActions from '../../actions/SessionActions';
 
 import {log} from '../../utils/Logger';
 import {LoggerEventTypes} from '../../utils/LoggerEventTypes';
+import Helpers from '../../utils/Helpers';
 
 import SyncStore from '../../stores/SyncStore';
 import AccountStore from '../../stores/AccountStore';
@@ -17,15 +18,10 @@ const CHANGE_EVENT = 'change_search';
 
 ////
 
-let _getURLParameter = function(name) {
-    // http://stackoverflow.com/a/11582513/3300831
-    return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
-};
-
 let state = {
-    query: _getURLParameter('q') || '',
-    vertical: _getURLParameter('v') || 'web',
-    page: parseInt(_getURLParameter('p')) || 1,
+    query: Helpers.getURLParameter('q') || '',
+    vertical: Helpers.getURLParameter('v') || 'web',
+    page: parseInt(Helpers.getURLParameter('p')) || 1,
 
     submittedQuery: false,
     finished: false,
@@ -64,17 +60,9 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
 
     ////
 
-    getQuery() {
-        return state.query;
+    getActiveUrl() {
+        return state.activeUrl
     },
-    getVertical() {
-        return state.vertical;
-    },
-    getPage() {
-        return state.page || 1;
-    },
-
-
     getMatches(){
         return state.matches || 0;
     },
@@ -100,9 +88,9 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
     },
     getSearchState() {
         return {
-            query: this.getQuery(),
-            vertical: this.getVertical(),
-            page: this.getPage()
+            query: state.query,
+            vertical: state.vertical,
+            page: state.page || 1
         };
     },
     getSearchProgress() {
@@ -111,9 +99,6 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
             finished: state.finished,
             resultsNotFound: state.resultsNotFound
         }
-    },
-    getActiveUrl() {
-        return state.activeUrl
     },
 
     ////
@@ -133,18 +118,13 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
     dispatcherIndex: register(action => {
         switch(action.type) {
             case ActionTypes.SEARCH:
-                _search(action.payload.query, action.payload.page);
-                _updateUrl(state.query, state.vertical, state.page);
-                break;
-            case ActionTypes.CHANGE_PAGE:
-                _search(action.payload.query, action.payload.page);
-                _updateUrl(state.query, state.vertical, state.page);
+                _search(action.payload.query, action.payload.vertical, action.payload.page);
                 break;
             case ActionTypes.CHANGE_VERTICAL:
-                _changeVertical(action.payload.vertical);
+                _search(state.query, action.payload.vertical, 1);
                 break;
-            case ActionTypes.CHANGE_QUERY:
-                _changeQuery(action.payload.query);
+            case ActionTypes.CHANGE_PAGE:
+                _search(state.query, state.vertical, action.payload.page);
                 break;
             case ActionTypes.OPEN_URL:
                 state.activeUrl = action.payload.url;
@@ -169,16 +149,22 @@ const _search = (query, vertical, page) => {
         state.results = [];
     }
 
-    state.page = page || state.page || 1;
     state.query = query || state.query;
+    state.vertical = vertical || state.vertical;
+    state.page = page || state.page || 1;
     state.submittedQuery = true;
     state.finished = false;
     state.resultsNotFound = false;
 
+    _updateUrl(state.query, state.vertical, state.page);
     SyncStore.emitSearchState(SearchStore.getSearchState());
     SearchStore.emitChange();
 
     ////
+
+    if (query === '') {
+        return;
+    }
 
     request
         .get(env.serverUrl + '/v1/search/'+state.vertical
@@ -221,18 +207,6 @@ const _search = (query, vertical, page) => {
         });
 };
 
-const _changeVertical = (vertical) => {
-    state.vertical = vertical;
-    state.results = [];
-    state.page = 1;
-};
-
-const _changeQuery = (query) => {
-    state.query = query;
-};
-
-////
-
 const _updateUrl = function(query, vertical, page) {
     const url = window.location.href;
     const route = url.split("/").pop().split("?")[0];
@@ -246,7 +220,7 @@ const _updateUrl = function(query, vertical, page) {
 
 ////
 
-if (_getURLParameter('q')) {
+if (Helpers.getURLParameter('q')) {
     _search();
 }
 
