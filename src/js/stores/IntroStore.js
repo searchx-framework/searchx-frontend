@@ -28,8 +28,7 @@ intro.onafterchange(function(){
 });
 
 let state = {
-    introSearchDone: localStorage.getItem("intro-done-search") === 'true',
-    introVideoDone: localStorage.getItem("intro-done-video") === 'true',
+    introDone: localStorage.getItem("intro-done") === 'true'
 };
 
 ////
@@ -37,11 +36,7 @@ let state = {
 const IntroStore = Object.assign(EventEmitter.prototype, {
     addFinishListener(callback) {
         intro.oncomplete(() => {
-            if (AccountStore.getTaskType() === "search") {
-                localStorage.setItem("intro-done-search", true.toString());
-            } else if(AccountStore.getTaskType() === 'video') {
-                localStorage.setItem("intro-done-video", true.toString());
-            }
+            localStorage.setItem("intro-done", true.toString());
 
             SearchStore.removeSearchTutorialData();
             QueryHistoryStore.removeQueryHistoryTutorialData();
@@ -68,35 +63,12 @@ const IntroStore = Object.assign(EventEmitter.prototype, {
     },
 
     clearIntro() {
-        localStorage.removeItem('intro-done-search');
-        localStorage.removeItem('intro-done-video');
-
-        state.introSearchDone = false;
-        state.introVideoDone = false;
-    },
-
-    ////
-
-    isIntroSearchDone() {
-        return state.introSearchDone;
-    },
-
-    isIntroVideoDone() {
-        return state.introVideoDone;
+        localStorage.removeItem('intro-done');
+        state.introDone = false;
     },
 
     isIntroDone() {
-        let introDone = false;
-
-        if (AccountStore.getTaskType() === "search") {
-            introDone = this.isIntroSearchDone();
-        }
-
-        if (AccountStore.getTaskType() === "video") {
-            introDone = this.isIntroVideoDone();
-        }
-
-        return introDone;
+        return state.introDone;
     },
 });
 
@@ -105,12 +77,8 @@ const IntroStore = Object.assign(EventEmitter.prototype, {
 function setupSteps() {
     let steps = stepsTask.concat(stepsSearch);
 
-    if (AccountStore.getTaskType() === 'video') {
-        steps = stepsTask.concat(stepsVideo);
-    }
-
     if (AccountStore.isCollaborative()) {
-        steps = stepsTask.concat(stepsSearchCollaborative, stepsCollaborative);
+        steps = stepsTask.concat(stepsSearchCollaborative);
     }
 
     steps = steps.concat(stepsSubmit);
@@ -120,16 +88,8 @@ function setupSteps() {
 const stepsTask = [
     {
         element: '#intro-description',
-        intro: 'Please take a minute to read your tasks description.',
+        intro: 'Please take a minute to read your task description.',
         position: 'top'
-    }
-];
-
-const stepsVideo = [
-    {
-        element: '#intro-video',
-        intro: 'We want you to watch a course video on the given topic.',
-        position: 'bottom-middle-aligned'
     }
 ];
 
@@ -172,40 +132,31 @@ const stepsSearchCollaborative = [
     },
     {
         element: '#intro-query-history',
-        intro: 'The query history shows your and your partner\'s past search queries. In this manner you both see what the other is doing.',
+        intro: 'The query history shows your and your group\'s past search queries. In this manner you see what the others are doing.',
         position: 'top'
     },
     {
         element: '#intro-search-results',
-        intro: 'To save a resource that is useful for your term paper, bookmark it. You also see your partner\'s bookmarks here.',
+        intro: 'To save a resource that is useful, bookmark it. You also see your group\'s bookmarks here.',
         position: 'top'
     },
     {
         element: '#intro-bookmarks-bar',
-        intro: 'The documents you and your partner bookmarked will appear here. You can revisit them before completing the final test.',
+        intro: 'The documents you and your group bookmarked will appear here. You can revisit them before completing the session.',
         position: 'top'
-    }
-];
-
-const stepsCollaborative = [
+    },
     {
         element: '#intro-collab-color',
-        intro: 'The query history and bookmarks are color-coded to show who (you or your partner) initiated the action.',
+        intro: 'The query history and bookmarks are color-coded to show who initiated the action.',
         position: 'top'
     },
     {
         element: '#intro-collab-chat',
-        intro: 'Please use the provided  chat window to collaborate with your partner during the learning phase.',
+        intro: 'Please use the provided chat window to collaborate with your group during the session.',
         position: 'auto'
     }
 ];
 
-const stepsSubmit = [
-    {
-        element: '#intro-counter',
-        intro: 'You will need to learn for 20 minutes. Afterwards, you can press the button to complete the final test. Good luck and have fun!',
-        position: 'bottom'
-    }
-];
+const stepsSubmit = [];
 
 export default IntroStore;
