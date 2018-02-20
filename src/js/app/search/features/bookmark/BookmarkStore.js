@@ -16,7 +16,7 @@ let state = {
     tutorial: false
 };
 
-const BookmarksStore = Object.assign(EventEmitter.prototype, {
+const BookmarkStore = Object.assign(EventEmitter.prototype, {
     emitChange() {
         this.emit(CHANGE_EVENT);
     },
@@ -64,7 +64,7 @@ const BookmarksStore = Object.assign(EventEmitter.prototype, {
                 _star_bookmark(action.payload.url);
                 break;
         }
-        BookmarksStore.emitChange();
+        BookmarkStore.emitChange();
     })
 });
 
@@ -78,7 +78,7 @@ let _get_bookmarks = function() {
             if (!res.body.error) {
                 state.bookmarks = res.body.results;
             }
-            BookmarksStore.emitChange();
+            BookmarkStore.emitChange();
         });
 };
 
@@ -101,7 +101,7 @@ let _add_bookmark = function(url, title) {
         userId: userId,
         date: new Date()
     });
-    BookmarksStore.emitChange();
+    BookmarkStore.emitChange();
 };
 
 let _remove_bookmark = function(url) {
@@ -115,7 +115,7 @@ let _remove_bookmark = function(url) {
         });
 
     state.bookmarks = state.bookmarks.filter((item) => item.url !== url);
-    BookmarksStore.emitChange();
+    BookmarkStore.emitChange();
 };
 
 let _star_bookmark = function(url) {
@@ -133,7 +133,7 @@ let _star_bookmark = function(url) {
             item.starred = !item.starred;
         }
     });
-    BookmarksStore.emitChange();
+    BookmarkStore.emitChange();
 };
 
 let _broadcast_change = function() {
@@ -144,4 +144,4 @@ let _broadcast_change = function() {
 
 ////
 
-export default BookmarksStore;
+export default BookmarkStore;

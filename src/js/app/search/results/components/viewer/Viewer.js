@@ -5,7 +5,8 @@ import {log} from '../../../../../utils/Logger';
 import {LoggerEventTypes} from '../../../../../utils/LoggerEventTypes';
 
 import ViewerPage from "./ViewerPage";
-import ViewerSidebar from "./ViewerSidebar";
+import AnnotationContainer from "../../../features/annotation/AnnotationContainer";
+import RatingContainer from "../../../features/rating/RatingContainer";
 
 const Viewer = function({searchState, serpId, url, documentCloseHandler}) {
     if (url === "") {
@@ -47,13 +48,22 @@ const Viewer = function({searchState, serpId, url, documentCloseHandler}) {
             <div className="content" onMouseEnter={hoverEnterDocument} onMouseLeave={hoverLeaveDocument}>
                 <div className="header">
                     <span className="title">{url}</span>
-                    <span className="close" onClick={closeDocument}>&times;</span>
-                    <span className="forward" onClick={openInBrowser}>open in browser</span>
+
+                    <div className="pull-right">
+                        <span className="forward" onClick={openInBrowser}>open in browser</span>
+                        <span className="divider"/>
+                        <RatingContainer url={url}/>
+                        <span className="divider"/>
+                        <span className="close" onClick={closeDocument}><i className="fa fa-times"/></span>
+                    </div>
                 </div>
 
                 <div className="body">
                     <ViewerPage url={url} loadHandler={loadDocument} />
-                    <ViewerSidebar url={url} />
+
+                    <div className="sidebar">
+                        <AnnotationContainer url={url}/>
+                    </div>
                 </div>
             </div>
         </div>

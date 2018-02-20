@@ -1,6 +1,6 @@
 import React from 'react';
 
-const AnnotationsItem = function({index, data, removeHandler, userId}) {
+const AnnotationItem = function({index, data, removeHandler, userId}) {
     const date = new Date(data.created);
     const dateString = date.toLocaleTimeString() + " . " + date.toLocaleDateString();
 
@@ -17,4 +17,4 @@ const AnnotationsItem = function({index, data, removeHandler, userId}) {
     )
 };
 
-export default AnnotationsItem;
+export default AnnotationItem;

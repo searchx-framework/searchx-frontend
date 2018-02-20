@@ -1,11 +1,12 @@
 import React from 'react';
 
-import Annotations from './components/Annotations';
+import Annotations from './components/Annotation';
 import SessionActions from "../../../../actions/SessionActions";
 import AccountStore from "../../../../stores/AccountStore";
-import AnnotationsStore from "./AnnotationsStore";
+import AnnotationStore from "./AnnotationStore";
+import SearchStore from "../../SearchStore";
 
-export default class AnnotationsContainer extends React.Component {
+export default class AnnotationContainer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -18,11 +19,11 @@ export default class AnnotationsContainer extends React.Component {
         this.removeHandler = this.removeHandler.bind(this);
     }
 
-    componentWillMount() {AnnotationsStore.addChangeListener(this._onChange);}
-    componentWillUnmount() {AnnotationsStore.removeChangeListener(this._onChange);}
+    componentWillMount() {AnnotationStore.addChangeListener(this._onChange);}
+    componentWillUnmount() {AnnotationStore.removeChangeListener(this._onChange);}
     _onChange() {
         this.setState({
-            annotations: AnnotationsStore.getActiveUrlAnnotations().map((data) => {
+            annotations: AnnotationStore.getActiveUrlAnnotations().map((data) => {
                 data.userColor = AccountStore.getMemberColor(data.userId);
                 return data;
             })
@@ -31,10 +32,16 @@ export default class AnnotationsContainer extends React.Component {
 
     submitHandler(annotation) {
         SessionActions.addAnnotation(this.props.url, annotation);
+        SearchStore.modifyMetadata(this.props.url, {
+            annotations: this.state.annotations.length + 1
+        });
     }
 
     removeHandler(position) {
         SessionActions.removeAnnotation(this.props.url, position);
+        SearchStore.modifyMetadata(this.props.url, {
+            annotations: this.state.annotations.length - 1
+        });
     }
 
     render() {

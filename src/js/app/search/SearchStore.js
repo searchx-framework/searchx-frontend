@@ -120,23 +120,14 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
 
     ////
 
-    addBookmark(position) {
-        state.results[position].bookmark = true;
-        state.results[position].bookmarkUserId = AccountStore.getUserId();
-        state.results[position].bookmarkTime = new Date();
-        SearchStore.emitChange();
-    },
-    removeBookmark(position){
-        state.results[position].bookmark = false;
-        SearchStore.emitChange();
-    },
-    searchAndRemoveBookmark(url){
-        state.results = state.results.filter(function(item) {
-            if (item["url"] === url ) {
-                item.bookmark = false;
+    modifyMetadata(url, newData) {
+        state.results.forEach((item) => {
+            if (item.url === url ) {
+                item.metadata = Object.assign(item.metadata, newData);
             }
-            return true;
         });
+
+        SearchStore.emitChange();
     },
 
     ////
@@ -162,9 +153,11 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
                 break;
             case ActionTypes.OPEN_URL:
                 state.activeUrl = action.payload.url;
+                SyncStore.emitViewState(action.payload.url);
                 break;
             case ActionTypes.CLOSE_URL:
                 state.activeUrl = "";
+                SyncStore.emitViewState(null);
                 break;
         }
 

@@ -8,7 +8,7 @@ import {log} from "../utils/Logger";
 import AccountStore from "./AccountStore";
 import SearchStore from "../app/search/SearchStore";
 import QueryHistoryStore from "../app/search/features/queryhistory/QueryHistoryStore";
-import BookmarksStore from "../app/search/features/bookmarks/BookmarksStore";
+import BookmarkStore from "../app/search/features/bookmark/BookmarkStore";
 
 ////
 
@@ -45,7 +45,7 @@ const IntroStore = Object.assign(EventEmitter.prototype, {
 
             SearchStore.removeSearchTutorialData();
             QueryHistoryStore.removeQueryHistoryTutorialData();
-            BookmarksStore.removeBookmarksTutorialData();
+            BookmarkStore.removeBookmarksTutorialData();
 
             callback();
         })
@@ -60,7 +60,7 @@ const IntroStore = Object.assign(EventEmitter.prototype, {
 
         SearchStore.setSearchTutorialData();
         QueryHistoryStore.setQueryHistoryTutorialData();
-        BookmarksStore.setBookmarksTutorialData();
+        BookmarkStore.setBookmarksTutorialData();
 
         setupSteps();
         Alert.closeAll();

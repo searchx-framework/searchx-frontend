@@ -4,7 +4,7 @@ import Rating from 'react-rating';
 import {log} from '../../../../../utils/Logger';
 import {LoggerEventTypes} from '../../../../../utils/LoggerEventTypes';
 
-const BookmarksItem = function({data, removeHandler, starHandler, clickHandler}) {
+const BookmarkItem = function({data, removeHandler, starHandler, clickHandler}) {
     let metaInfo = {
         url: data.url,
         userId: data.userId
@@ -27,13 +27,13 @@ const BookmarksItem = function({data, removeHandler, starHandler, clickHandler})
     return  (
         <div className="item" style={rowStyle} onMouseEnter={hoverEnterSummary} onMouseLeave={hoverLeaveSummary}>
             <div className="buttons">
-                <Rating stop={1} className="star" empty="fa fa-star-o" full="fa fa-star"
+                <Rating className="star" empty="fa fa-star-o" full="fa fa-star"
                         onClick={() => starHandler(data.url)}
-                        initialRate={data.starred ? 1 : 0}
+                        stop={1} initialRate={data.starred ? 1 : 0}
                 />
-                <Rating stop={1} className="remove" empty="fa fa-trash-o" full="fa fa-trash"
+                <Rating className="remove" empty="fa fa-trash-o" full="fa fa-trash"
                         onClick={() => removeHandler(data.url)}
-                        initialRate={0}
+                        stop={1} initialRate={0}
                 />
             </div>
 
@@ -50,4 +50,4 @@ const BookmarksItem = function({data, removeHandler, starHandler, clickHandler})
     )
 };
 
-export default BookmarksItem;
+export default BookmarkItem;

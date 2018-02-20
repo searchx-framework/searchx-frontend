@@ -6,7 +6,7 @@ import {LoggerEventTypes} from '../../../../../utils/LoggerEventTypes';
 
 ////
 
-const NewsSearchResult = function({searchState, serpId, result, bookmarkButton, bookmarkInfo, urlClickHandler}) {
+const NewsSearchResult = function({searchState, serpId, result, metadata, bookmarkButton, urlClickHandler}) {
     let metaInfo = {
         url: result.url,
         query: searchState.query,
@@ -79,7 +79,7 @@ const NewsSearchResult = function({searchState, serpId, result, bookmarkButton, 
                         {result.description}
                     </p>
 
-                    {bookmarkInfo}
+                    {metadata}
                 </div>
             </div>
         </div>
