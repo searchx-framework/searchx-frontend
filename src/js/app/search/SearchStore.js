@@ -126,6 +126,9 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
             case ActionTypes.CHANGE_PAGE:
                 _search(state.query, state.vertical, action.payload.page);
                 break;
+            case ActionTypes.UPDATE_METADATA:
+                _updateMetadata(state.query, state.vertical, action.payload.page);
+                break;
             case ActionTypes.OPEN_URL:
                 state.activeUrl = action.payload.url;
                 SyncStore.emitViewState(action.payload.url);
@@ -205,6 +208,12 @@ const _search = (query, vertical, page) => {
             SearchStore.emitChange();
             SessionActions.getQueryHistory();
         });
+};
+
+const _updateMetadata = function(query, vertical, page) {
+    if (query === state.query && vertical === state.vertical && page === state.page) {
+        _search(query, vertical, page);
+    }
 };
 
 const _updateUrl = function(query, vertical, page) {

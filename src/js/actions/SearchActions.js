@@ -31,6 +31,17 @@ export default {
         })
     },
 
+    updateMetadata(query, vertical, page) {
+        dispatch({
+            type: ActionTypes.UPDATE_METADATA,
+            payload: {
+                query: query,
+                vertical: vertical,
+                page: page
+            },
+        })
+    },
+
     openUrl(url) {
         dispatch({
             type: ActionTypes.OPEN_URL,

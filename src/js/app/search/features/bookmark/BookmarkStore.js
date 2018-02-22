@@ -64,7 +64,6 @@ const BookmarkStore = Object.assign(EventEmitter.prototype, {
                 _star_bookmark(action.payload.url);
                 break;
         }
-        BookmarkStore.emitChange();
     })
 });
 

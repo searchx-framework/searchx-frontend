@@ -101,7 +101,7 @@ if (AccountStore.isCollaborative()) {
 
     socket.on('bookmarkUpdate', (data) => {
         SessionActions.getBookmarks();
-        SearchActions.search(data.query, data.vertical, data.page);
+        SearchActions.updateMetadata(data.query, data.vertical, data.page);
     });
 
     socket.on('pageMetadataUpdate', (data) => {
