@@ -2,16 +2,23 @@ import React from 'react'
 import {Route, Router} from 'react-router-dom'
 import MobileDetect from 'mobile-detect';
 
-import {flush} from '../utils/Logger';
 import history from './History';
+import {flush} from '../utils/Logger';
+import config from '../config';
+
 import About from './pages/About';
 import Search from './search/Search';
 
-import Session from './tasks/puzzle/Puzzle';
-import Register from './tasks/puzzle/forms/Register';
-import Feedback from './tasks/puzzle/forms/Feedback';
-
-const config = require('../config');
+import SimpleRegister from './tasks/example-simple/Register';
+import SimpleSubmit from './tasks/example-simple/Submit';
+import SimpleSession from './tasks/example-simple/Session';
+import SyncRegister from './tasks/example-group-sync/Register';
+import SyncPreTest from './tasks/example-group-sync/PreTest';
+import SyncPostTest from './tasks/example-group-sync/PostTest';
+import SyncSession from './tasks/example-group-sync/Session';
+import AsyncRegister from './tasks/example-group-async/Register';
+import AsyncFeedback from './tasks/example-group-async/Feedback';
+import AsyncSession from './tasks/example-group-async/Session';
 
 export class App extends React.Component {
     componentWillMount(){
@@ -31,9 +38,18 @@ export class App extends React.Component {
                     <Route exact path="/about" component={About}/>
                     <Route path="/search" component={Search}/>
 
-                    <Route exact path="/register" component={Register}/>
-                    <Route exact path="/feedback" component={Feedback}/>
-                    <Route path="/session" component={Session}/>
+                    <Route exact path="/simple" component={SimpleRegister}/>
+                    <Route exact path="/simple/submit" component={SimpleSubmit}/>
+                    <Route path="/simple/session" component={SimpleSession}/>
+
+                    <Route exact path="/sync" component={SyncRegister}/>
+                    <Route exact path="/sync/pretest" component={SyncPreTest}/>
+                    <Route exact path="/sync/posttest" component={SyncPostTest}/>
+                    <Route path="/sync/session" component={SyncSession}/>
+
+                    <Route exact path="/async" component={AsyncRegister}/>
+                    <Route exact path="/async/feedback" component={AsyncFeedback}/>
+                    <Route path="/async/session" component={AsyncSession}/>
                 </div>
             </Router>
         );

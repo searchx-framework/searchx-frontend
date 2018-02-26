@@ -2,10 +2,7 @@ import request from 'superagent';
 import EventEmitter from 'events';
 import AccountStore from "./AccountStore";
 import Helpers from "../utils/Helpers";
-
 const env = require('env');
-
-////
 
 let state = {
     group: {
@@ -14,18 +11,17 @@ let state = {
 };
 
 const SessionStore = Object.assign(EventEmitter.prototype, {
-    initializeTask(task, params, callback) {
-        let ok = false;
-        _getUserTask(AccountStore.getUserId(), task, params, (data) => {
+    initializeTask(id, params, callback) {
+        let res = null;
+        _getUserTask(AccountStore.getUserId(), id, params, (data) => {
             if (data) {
-                AccountStore.setTask(data.task, data.topic);
                 AccountStore.setGroup(data._id, data.members);
-                ok = true;
+                AccountStore.setTask(data.taskId, data.taskData);
+                res = data;
             }
 
-            callback(ok);
+            callback(res);
         });
-
     },
 
     getMemberColor(userId) {
@@ -69,9 +65,9 @@ const SessionStore = Object.assign(EventEmitter.prototype, {
     },
 });
 
-function _getUserTask(userId, task, params, callback) {
+function _getUserTask(userId, taskId, params, callback) {
     request
-        .get(`${env.serverUrl}/v1/users/${userId}/task/${task}/?${Helpers.generateQueryString(params)}`)
+        .get(`${env.serverUrl}/v1/users/${userId}/task/${taskId}/?${Helpers.generateQueryString(params)}`)
         .end((err, res) => {
             if(!err && res) {
                 const data = res.body.results;
@@ -82,9 +78,9 @@ function _getUserTask(userId, task, params, callback) {
         })
 }
 
-function _getUserData(userId, task, callback) {
+function _getUserData(userId, taskId, callback) {
     request
-        .get(`${env.serverUrl}/v1/users/${userId}/task/${task}/data`)
+        .get(`${env.serverUrl}/v1/users/${userId}/task/${taskId}/data`)
         .end((err, res) => {
             if(!err && res) {
                 const data = res.body.results;

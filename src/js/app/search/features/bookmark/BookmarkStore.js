@@ -136,9 +136,7 @@ let _star_bookmark = function(url) {
 };
 
 let _broadcast_change = function() {
-    if (AccountStore.isCollaborative()) {
-        SyncStore.emitBookmarkUpdate(SearchStore.getSearchState());
-    }
+    SyncStore.emitBookmarkUpdate(SearchStore.getSearchState());
 };
 
 ////

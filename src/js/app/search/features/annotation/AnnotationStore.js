@@ -100,9 +100,7 @@ let _remove_annotation = function(url, position) {
 };
 
 let _broadcast_change = function() {
-    if (AccountStore.isCollaborative()) {
-        SyncStore.emitPageMetadataUpdate(SearchStore.getActiveUrl());
-    }
+    SyncStore.emitPageMetadataUpdate(SearchStore.getActiveUrl());
 };
 
 ////

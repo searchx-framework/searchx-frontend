@@ -4,31 +4,22 @@ import React from 'react';
 import {log} from '../../utils/Logger';
 import {LoggerEventTypes} from '../../utils/LoggerEventTypes';
 
-import AccountStore from "../../stores/AccountStore";
 import SearchHeaderContainer from './header/SearchHeaderContainer';
 import SearchResultsContainer from "./results/SearchResultsContainer";
 import QueryHistoryContainer from "./features/queryhistory/QueryHistoryContainer";
 import BookmarkContainer from "./features/bookmark/BookmarkContainer";
 import Chat from "./features/chat/Chat";
 
-export default class Search extends React.Component {
+class Search extends React.Component {
     componentDidMount(){
-        sessionStorage.clear();
-
-        document.addEventListener('visibilitychange', function() {
-            log(LoggerEventTypes.WINDOW_CHANGE_VISIBILITY, {
-                step : "search",
-                hidden: document.hidden
-            });
-        });
-
-        if(AccountStore.isCollaborative()) {
+        if (this.props.collaborative) {
+            sessionStorage.clear();
             Chat();
         }
     }
 
     componentWillUnmount() {
-        if (AccountStore.isCollaborative()) {
+        if (this.props.collaborative) {
             const messages = document.querySelector(".chat-content").innerHTML;
             log(LoggerEventTypes.CHAT_ARCHIVE, {
                 messages: messages
@@ -64,4 +55,10 @@ export default class Search extends React.Component {
             </div>
         )
     }
+}
+
+Search.defaultProps = {
+    collaborative: true
 };
+
+export default Search;

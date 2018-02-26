@@ -20,40 +20,26 @@ const SyncStore = Object.assign(EventEmitter.prototype, {
 
     ////
 
-    listenToGrouping(callback) {
-        socket.on('groupData', (data) => {
-            callback(data.group)
+    listenToSyncData(callback) {
+        socket.on('syncData', (data) => {
+            callback(data);
         });
     },
 
-    listenToGroupPretestStart(callback) {
-        socket.on('startPretest', () => {
-            callback()
-        });
-    },
-
-    ////
-
-    emitPretestStart() {
-        socket.emit('pushPretestStart', {
-            taskId: AccountStore.getTaskId(),
-            userId: AccountStore.getUserId()
-        });
-    },
-
-    emitPretestSubmit(results) {
-        socket.emit('pushPretestSubmit', {
+    emitSyncSubmit(data) {
+        socket.emit('pushSyncSubmit', {
             taskId: AccountStore.getTaskId(),
             userId: AccountStore.getUserId(),
             sessionId: AccountStore.getSessionId(),
-            results: results
+            data: data
         });
     },
 
-    emitPretestLeave() {
-        socket.emit('pushPretestLeave', {
+    emitSyncLeave() {
+        socket.emit('pushSyncLeave', {
             taskId: AccountStore.getTaskId(),
-            userId: AccountStore.getUserId()
+            userId: AccountStore.getUserId(),
+            sessionId: AccountStore.getSessionId(),
         });
     },
 
@@ -90,24 +76,20 @@ const SyncStore = Object.assign(EventEmitter.prototype, {
 
 ////
 
-if (AccountStore.getUserId() !== '') {
-    SyncStore.registerSocket();
-}
+SyncStore.registerSocket();
 
-if (AccountStore.isCollaborative()) {
-    socket.on('searchState', (data) => {
-        SessionActions.getQueryHistory();
-    });
+socket.on('searchState', (data) => {
+    SessionActions.getQueryHistory();
+});
 
-    socket.on('bookmarkUpdate', (data) => {
-        SessionActions.getBookmarks();
-        SearchActions.updateMetadata(data.query, data.vertical, data.page);
-    });
+socket.on('bookmarkUpdate', (data) => {
+    SessionActions.getBookmarks();
+    SearchActions.updateMetadata(data.query, data.vertical, data.page);
+});
 
-    socket.on('pageMetadataUpdate', (data) => {
-        SessionActions.getAnnotations(data.url);
-        SessionActions.getRating(data.url);
-    });
-}
+socket.on('pageMetadataUpdate', (data) => {
+    SessionActions.getAnnotations(data.url);
+    SessionActions.getRating(data.url);
+});
 
 export default SyncStore;
