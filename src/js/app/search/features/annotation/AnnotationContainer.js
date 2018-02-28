@@ -3,6 +3,7 @@ import React from 'react';
 import Annotations from './components/Annotation';
 import SessionActions from "../../../../actions/SessionActions";
 import AccountStore from "../../../../stores/AccountStore";
+import SessionStore from "../../../../stores/SessionStore";
 import AnnotationStore from "./AnnotationStore";
 import SearchStore from "../../SearchStore";
 
@@ -24,7 +25,7 @@ export default class AnnotationContainer extends React.Component {
     _onChange() {
         this.setState({
             annotations: AnnotationStore.getActiveUrlAnnotations().map((data) => {
-                data.userColor = AccountStore.getMemberColor(data.userId);
+                data.userColor = SessionStore.getMemberColor(data.userId);
                 return data;
             })
         });

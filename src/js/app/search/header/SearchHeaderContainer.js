@@ -8,10 +8,6 @@ import {LoggerEventTypes} from '../../../utils/LoggerEventTypes';
 import SearchHeader from "./components/SearchHeader";
 import SearchStore from "../SearchStore";
 
-function queryChangeHandler(query) {
-    SearchActions.changeQuery(query);
-}
-
 export default class SearchHeaderContainer extends React.Component {
     constructor() {
         super();
@@ -19,12 +15,18 @@ export default class SearchHeaderContainer extends React.Component {
 
         this._onChange = this._onChange.bind(this);
         this.searchHandler = this.searchHandler.bind(this);
+        this.queryChangeHandler = this.queryChangeHandler.bind(this);
         this.verticalChangeHandler = this.verticalChangeHandler.bind(this);
     }
 
     componentWillMount() {SearchStore.addChangeListener(this._onChange);}
     componentWillUnmount() {SearchStore.removeChangeListener(this._onChange);}
-    _onChange() {this.setState(SearchStore.getSearchState());}
+    _onChange() {
+        const nextState = SearchStore.getSearchState();
+        if (nextState.vertical !== this.state.vertical) {
+            this.setState(nextState);
+        }
+    }
 
     ////
 
@@ -38,6 +40,12 @@ export default class SearchHeaderContainer extends React.Component {
         SessionActions.getBookmarks();
     }
 
+    queryChangeHandler(query) {
+        this.setState({
+            query: query
+        });
+    }
+
     verticalChangeHandler(vertical) {
         vertical = vertical.toLowerCase();
 
@@ -48,9 +56,6 @@ export default class SearchHeaderContainer extends React.Component {
         });
 
         SearchActions.changeVertical(vertical);
-        if (this.state.query.length > 0) {
-            SearchActions.search(this.state.query, vertical, 1);
-        }
     }
 
     ////
@@ -60,7 +65,7 @@ export default class SearchHeaderContainer extends React.Component {
             query={this.state.query}
             vertical={this.state.vertical}
             searchHandler={this.searchHandler}
-            queryChangeHandler={queryChangeHandler}
+            queryChangeHandler={this.queryChangeHandler}
             verticalChangeHandler={this.verticalChangeHandler}
         />
     }

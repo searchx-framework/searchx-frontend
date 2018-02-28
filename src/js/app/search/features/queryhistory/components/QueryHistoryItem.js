@@ -1,5 +1,4 @@
 import React from "react";
-import AccountStore from "../../../../../stores/AccountStore";
 
 import {LoggerEventTypes} from "../../../../../utils/LoggerEventTypes";
 import {log} from "../../../../../utils/Logger";
@@ -17,7 +16,7 @@ const QueryHistoryItem = function({data, clickHandler}) {
 
     ////
 
-    const color = AccountStore.getMemberColor(data.userId);
+    const color = data.userColor;
 
     return (
         <div className="item" style={{borderColor: color}} onMouseEnter={hoverEnter} onMouseLeave={hoverLeave}>

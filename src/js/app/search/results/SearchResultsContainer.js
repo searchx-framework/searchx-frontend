@@ -45,7 +45,7 @@ export default class SearchResultsContainer extends React.Component {
             serpId: this.state.serpId
         });
 
-        SearchActions.changePage(this.state.searchState.query, this.state.searchState.vertical, page);
+        SearchActions.changePage(page);
         this.setState({
             searchState: {
                 query: this.state.searchState.query,
@@ -64,8 +64,8 @@ export default class SearchResultsContainer extends React.Component {
 
     render() {
         return <div>
-            <SearchResults {...this.state} pageChangeHandler={this.pageChangeHandler} />
-            <DocumentViewer searchState={this.state.searchState}
+            <SearchResults {...this.state} pageChangeHandler={this.pageChangeHandler} key="results"/>
+            <DocumentViewer searchState={this.state.searchState} key="viewer"
                             serpId={this.state.serpId}
                             url={this.state.activeUrl}
                             documentCloseHandler={this.documentCloseHandler}

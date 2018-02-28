@@ -7,6 +7,7 @@ import SessionActions from '../../actions/SessionActions';
 
 import {log} from '../../utils/Logger';
 import {LoggerEventTypes} from '../../utils/LoggerEventTypes';
+import Helpers from '../../utils/Helpers';
 
 import SyncStore from '../../stores/SyncStore';
 import AccountStore from '../../stores/AccountStore';
@@ -17,19 +18,13 @@ const CHANGE_EVENT = 'change_search';
 
 ////
 
-let _getURLParameter = function(name) {
-    // http://stackoverflow.com/a/11582513/3300831
-    return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
-};
-
 let state = {
-    query: _getURLParameter('q') || '',
-    vertical: _getURLParameter('v') || 'web',
-    page: parseInt(_getURLParameter('p')) || 1,
+    query: Helpers.getURLParameter('q') || '',
+    vertical: Helpers.getURLParameter('v') || 'web',
+    page: parseInt(Helpers.getURLParameter('p')) || 1,
 
     submittedQuery: false,
     finished: false,
-    refresing: false,
     resultsNotFound: false,
 
     results: [],
@@ -65,17 +60,9 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
 
     ////
 
-    getQuery() {
-        return state.query;
+    getActiveUrl() {
+        return state.activeUrl
     },
-    getVertical() {
-        return state.vertical;
-    },
-    getPage() {
-        return state.page || 1;
-    },
-
-
     getMatches(){
         return state.matches || 0;
     },
@@ -90,8 +77,8 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
         if (state.tutorial) {
             return [
                 {name: "You can view the first result here", displayUrl: "https://www.result1.com" , snippet: "This is the first result..."},
-                {name: "You can view the second result here", displayUrl: "https://www.result2.com" , snippet: "This is the second result...", bookmark: true, bookmarkUserId: AccountStore.getUserId(), bookmarkTime: new Date()},
-                {name: "You can view the third result here", displayUrl: "https://www.result3.com" , snippet: "This is the third result...", bookmark: true, bookmarkUserId: 'test', bookmarkTime: new Date() - 2000},
+                {name: "You can view the second result here", displayUrl: "https://www.result2.com" , snippet: "This is the second result...", metadata: {bookmark: {userId: AccountStore.getUserId(), date: new Date()}, views: 10, rating: -5, annotations: 10}},
+                {name: "You can view the third result here", displayUrl: "https://www.result3.com" , snippet: "This is the third result...", metadata: {bookmark: {userId: 'test', date: new Date() - 2000}}},
                 {name: "You can view the fourth result here", displayUrl: "https://www.result4.com" , snippet: "This is the fourth result..."},
                 {name: "You can view the fifth result here", displayUrl: "https://www.result5.com" , snippet: "This is the fifth result..."}
             ];
@@ -101,21 +88,17 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
     },
     getSearchState() {
         return {
-            query: this.getQuery(),
-            vertical: this.getVertical(),
-            page: this.getPage()
+            query: state.query,
+            vertical: state.vertical,
+            page: state.page || 1
         };
     },
     getSearchProgress() {
         return {
             submittedQuery: state.submittedQuery,
             finished: state.finished,
-            refreshing: state.refreshing,
             resultsNotFound: state.resultsNotFound
         }
-    },
-    getActiveUrl() {
-        return state.activeUrl
     },
 
     ////
@@ -135,21 +118,16 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
     dispatcherIndex: register(action => {
         switch(action.type) {
             case ActionTypes.SEARCH:
-                _search(action.payload.query, action.payload.page);
-                _updateUrl(state.query, state.vertical, state.page);
-                break;
-            case ActionTypes.CHANGE_PAGE:
-                _search(action.payload.query, action.payload.page);
-                _updateUrl(state.query, state.vertical, state.page);
+                _search(action.payload.query, action.payload.vertical, action.payload.page);
                 break;
             case ActionTypes.CHANGE_VERTICAL:
-                _changeVertical(action.payload.vertical);
+                _search(state.query, action.payload.vertical, 1);
                 break;
-            case ActionTypes.CHANGE_QUERY:
-                _changeQuery(action.payload.query);
+            case ActionTypes.CHANGE_PAGE:
+                _search(state.query, state.vertical, action.payload.page);
                 break;
-            case ActionTypes.REFRESH_SEARCH:
-                _refresh(action.payload.query, action.payload.vertical, action.payload.page);
+            case ActionTypes.UPDATE_METADATA:
+                _updateMetadata(state.query, state.vertical, action.payload.page);
                 break;
             case ActionTypes.OPEN_URL:
                 state.activeUrl = action.payload.url;
@@ -167,29 +145,34 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
 
 ////
 
-const _search = (query, page) => {
+const _search = (query, vertical, page) => {
     const startTime = new Date().getTime();
 
-    state.submittedQuery = true;
-    state.finished = false;
-    state.resultsNotFound = false;
-    if (!state.refreshing) {
+    if (!(query === state.query && vertical === state.vertical && page === state.page)) {
         state.results = [];
     }
 
-    page = page || state.page || 1;
-    state.page = page;
     state.query = query || state.query;
+    state.vertical = vertical || state.vertical;
+    state.page = page || state.page || 1;
+    state.submittedQuery = true;
+    state.finished = false;
+    state.resultsNotFound = false;
 
+    _updateUrl(state.query, state.vertical, state.page);
     SyncStore.emitSearchState(SearchStore.getSearchState());
     SearchStore.emitChange();
 
     ////
 
+    if (query === '') {
+        return;
+    }
+
     request
         .get(env.serverUrl + '/v1/search/'+state.vertical
             + '/?query='+ state.query
-            + '&page='+ page
+            + '&page='+ state.page
             + '&userId='+ AccountStore.getUserId()
             + '&sessionId='+ AccountStore.getSessionId()
         )
@@ -202,12 +185,9 @@ const _search = (query, page) => {
 
                 state.results = results;
                 state.matches = res.body.matches;
-                state.page = page;
                 state.serpId = res.body.id;
-
             } else {
                 state.results = [];
-                state.page = page;
             }
 
             if (state.results.length === 0) {
@@ -215,12 +195,11 @@ const _search = (query, page) => {
             }
 
             state.elapsedTime = (new Date().getTime()) - startTime;
-            state.refreshing = false;
             state.finished = true;
 
             log(LoggerEventTypes.SEARCHRESULT_ELAPSEDTIME, {
                 query: state.query,
-                page: page,
+                page: state.page,
                 vertical: state.vertical,
                 serpId: state.serpId,
                 elapsedTime: state.elapsedTime
@@ -231,17 +210,11 @@ const _search = (query, page) => {
         });
 };
 
-const _changeVertical = (vertical) => {
-    state.vertical = vertical;
-    state.results = [];
-    state.page = 1;
+const _updateMetadata = function(query, vertical, page) {
+    if (query === state.query && vertical === state.vertical && page === state.page) {
+        _search(query, vertical, page);
+    }
 };
-
-const _changeQuery = (query) => {
-    state.query = query;
-};
-
-////
 
 const _updateUrl = function(query, vertical, page) {
     const url = window.location.href;
@@ -254,16 +227,9 @@ const _updateUrl = function(query, vertical, page) {
     });
 };
 
-const _refresh = (query, vertical, page) => {
-    if (query === state.query && vertical === state.vertical && page === state.page) {
-        state.refreshing = true;
-        _search();
-    }
-};
-
 ////
 
-if (_getURLParameter('q')) {
+if (Helpers.getURLParameter('q')) {
     _search();
 }
 

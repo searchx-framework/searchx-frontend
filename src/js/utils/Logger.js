@@ -5,25 +5,15 @@ const env = require('env');
 let eventQueue = [];
 
 export function log(event, meta) {
-    let task = {};
-    const topic = AccountStore.getTaskTopic();
-    if (topic !== '') {
-        task = {
-            topicId: topic.id,
-            type: AccountStore.getTaskType() || '',
-            duration: AccountStore.getTaskDuration() || '',
-        }
-    }
-
     eventQueue.push({
+        event: event || '',
         userId: AccountStore.getUserId() || '',
         sessionId: AccountStore.getSessionId() || '',
-        task: task,
-        event: event || '',
+        task: AccountStore.getTask() || '',
         meta: meta || {}
     });
-    
-    flush();
+
+    flush(); // TODO: remove and change back to periodic flush, but make sure data flushed at app exit
 }
 
 export function flush() {
@@ -35,8 +25,10 @@ export function flush() {
         .send({
             data: eventQueue
         })
-        .end((err, res) => {});
-
-    eventQueue = [];
+        .end((err, res) => {
+            if (!err && !res.error) {
+                eventQueue = [];
+            }
+        });
 }
 

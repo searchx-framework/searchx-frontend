@@ -7,16 +7,7 @@ export default {
             type: ActionTypes.SEARCH,
             payload: {
                 query: query,
-                page: page
-            },
-        })
-    },
-
-    changePage(query, vertical, page) {
-        dispatch({
-            type: ActionTypes.CHANGE_PAGE,
-            payload: {
-                query: query,
+                vertical: vertical,
                 page: page
             },
         })
@@ -31,23 +22,23 @@ export default {
         })
     },
 
-    changeQuery(query) {
+    changePage(page) {
         dispatch({
-            type: ActionTypes.CHANGE_QUERY,
+            type: ActionTypes.CHANGE_PAGE,
             payload: {
-                query: query
-            }
+                page: page
+            },
         })
     },
 
-    refreshSearch(query, vertical, page) {
+    updateMetadata(query, vertical, page) {
         dispatch({
-            type: ActionTypes.REFRESH_SEARCH,
+            type: ActionTypes.UPDATE_METADATA,
             payload: {
                 query: query,
                 vertical: vertical,
                 page: page
-            }
+            },
         })
     },
 

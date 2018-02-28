@@ -4,7 +4,7 @@ import QueryHistory from "./components/QueryHistory";
 import SearchActions from "../../../../actions/SearchActions";
 import SessionActions from "../../../../actions/SessionActions";
 import QueryHistoryStore from "./QueryHistoryStore";
-import AccountStore from "../../../../stores/AccountStore";
+import SessionStore from "../../../../stores/SessionStore";
 
 function queryClickHandler(query) {
     SearchActions.search(query);
@@ -26,7 +26,7 @@ export default class QueryHistoryContainer extends React.Component {
     _onChange() {
         this.setState({
             history: QueryHistoryStore.getQueryHistory().map((data) => {
-                data.userColor = AccountStore.getMemberColor(data.userId);
+                data.userColor = SessionStore.getMemberColor(data.userId);
                 return data;
             })
         });

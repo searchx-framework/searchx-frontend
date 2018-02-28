@@ -64,7 +64,6 @@ const BookmarkStore = Object.assign(EventEmitter.prototype, {
                 _star_bookmark(action.payload.url);
                 break;
         }
-        BookmarkStore.emitChange();
     })
 });
 
@@ -137,9 +136,7 @@ let _star_bookmark = function(url) {
 };
 
 let _broadcast_change = function() {
-    if (AccountStore.isCollaborative()) {
-        SyncStore.emitBookmarkUpdate(SearchStore.getSearchState());
-    }
+    SyncStore.emitBookmarkUpdate(SearchStore.getSearchState());
 };
 
 ////

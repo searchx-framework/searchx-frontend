@@ -18,8 +18,10 @@ export default class SearchResultContainer extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.result.metadata.bookmark !== null) {
-            nextProps.result.metadata.bookmark.userColor = AccountStore.getMemberColor(nextProps.result.metadata.bookmark.userId);
+        if('metadata' in nextProps.result) {
+            if (nextProps.result.metadata.bookmark !== null) {
+                nextProps.result.metadata.bookmark.userColor = AccountStore.getMemberColor(nextProps.result.metadata.bookmark.userId);
+            }
         }
     }
 

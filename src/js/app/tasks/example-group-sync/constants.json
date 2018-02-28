@@ -1,0 +1,26 @@
+{
+    "taskId": "example-group-sync",
+    "groupSize": 2,
+    "topicsSize": 4,
+    "taskDuration": 20,
+    "waitDuration": 20,
+    "switchPageLimit": 3,
+    "choices": [
+        {
+            "value": 1,
+            "text": "I don't remember having seen this term/phrase before."
+        },
+        {
+            "value": 2,
+            "text": "I have seen this term/phrase before, but I don't think I know what it means."
+        },
+        {
+            "value": 3,
+            "text": "I have seen this term/phrase before, and I think I know what it means."
+        },
+        {
+            "value": 4,
+            "text": "I know this term/phrase."
+        }
+    ]
+}
