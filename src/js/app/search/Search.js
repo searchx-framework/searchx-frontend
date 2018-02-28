@@ -12,8 +12,9 @@ import Chat from "./features/chat/Chat";
 
 class Search extends React.Component {
     componentDidMount(){
+        sessionStorage.clear();
+
         if (this.props.collaborative) {
-            sessionStorage.clear();
             Chat();
         }
     }
