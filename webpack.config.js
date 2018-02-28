@@ -1,13 +1,7 @@
-const webpack = require('webpack');
 const path = require('path');
 
-const postcssImport = require('postcss-import');
-const postcssAutoprefixer = require('autoprefixer');
-const postcssNested = require('postcss-nested');
-const postcssSimpleVars = require('postcss-simple-vars');
-
 module.exports = {
-    entry: "./src/js/main.js",
+    entry: path.resolve(__dirname, 'src/js/main.js'),
 
     output: {
         path: path.resolve(__dirname, 'dist'),
@@ -17,56 +11,64 @@ module.exports = {
 
     devServer: {
         inline: true,
-        contentBase: './dist',
+        contentBase: path.resolve(__dirname, 'dist'),
         disableHostCheck: true,
         headers: { 'Access-Control-Allow-Origin': '*' },
         historyApiFallback: true,
         port : 8080,
-        host: "127.0.0.1"
+        host: '127.0.0.1'
     },
 
     module: {
-        loaders: [
+        rules: [
             {
                 test: /\.jsx?$/,
                 exclude: /(node_modules|bower_components)/,
-                loader: 'babel-loader',
-                query: {
-                    presets: ['react', 'es2015']
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['react', 'es2015']
+                    }
                 }
             },
             {
                 test:   /\.(css|pcss)$/,
-                loader: "style-loader!css-loader!postcss-loader"
+                use: [
+                    {
+                        loader: 'style-loader',
+                    },
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            importLoaders: 1,
+                        }
+                    },
+                    {
+                        loader: 'postcss-loader'
+                    }
+                ]
             },
             {
-                test: /\.(png|jpg|jpeg)$/,
-                loader: 'url-loader?limit=10000'
+                test: /\.(png|jpg|jpeg|gif)$/,
+                use: [
+                    {
+                        loader: 'url-loader',
+                        options: {
+                            limit: 8192
+                        }
+                    }
+                ]
             }
         ]
     },
 
-    plugins: [
-        new webpack.LoaderOptionsPlugin({
-            options: {
-                context: __dirname,
-                postcss: [
-                    postcssImport({addDependencyTo: webpack}),
-                    postcssAutoprefixer,
-                    postcssNested,
-                    postcssSimpleVars,
-                ]
-            }
-        }
-    )],
-
     externals: {
         'env': JSON.stringify(process.env.ENV === 'production' ? {
-            serverUrl: "http://csal.ewi.tudelft.nl:4443",
-            renderUrl: "http://csal.ewi.tudelft.nl:3000/render"
+            serverUrl: 'http://csal.ewi.tudelft.nl:4443',
+            renderUrl: 'http://csal.ewi.tudelft.nl:3000/render'
         } : {
-            serverUrl: "http://127.0.0.1:4443",
-            renderUrl: "http://127.0.0.1:3000/render"
+            serverUrl: 'http://127.0.0.1:4443',
+            renderUrl: 'http://127.0.0.1:3000/render'
         })
     }
 };
