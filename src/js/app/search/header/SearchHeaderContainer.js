@@ -13,9 +13,19 @@ export default class SearchHeaderContainer extends React.Component {
         super();
         this.state = SearchStore.getSearchState();
 
+        this._onChange = this._onChange.bind(this);
         this.searchHandler = this.searchHandler.bind(this);
         this.queryChangeHandler = this.queryChangeHandler.bind(this);
         this.verticalChangeHandler = this.verticalChangeHandler.bind(this);
+    }
+
+    componentWillMount() {SearchStore.addChangeListener(this._onChange);}
+    componentWillUnmount() {SearchStore.removeChangeListener(this._onChange);}
+    _onChange() {
+        const nextState = SearchStore.getSearchState();
+        if (nextState.vertical !== this.state.vertical) {
+            this.setState(nextState);
+        }
     }
 
     ////
