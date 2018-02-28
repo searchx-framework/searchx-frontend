@@ -38,16 +38,10 @@ const formData = function() {
     });
 
     elements.push({
-        type: "html",
-        html: "<hr/>"
-    });
-
-    elements.push({
         title: "How did you make use of the collaborative features and the information from your collaborators to help in doing your tasks?",
         name: "collab-usage",
         type: "comment",
         inputType: "text",
-        width: 600,
         rows: 4,
         isRequired: false
     });
@@ -57,7 +51,6 @@ const formData = function() {
         name: "feedback",
         type: "comment",
         inputType: "text",
-        width: 600,
         rows: 4,
         isRequired: false
     });

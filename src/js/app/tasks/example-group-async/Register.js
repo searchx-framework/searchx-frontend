@@ -71,11 +71,6 @@ const formData = function() {
     });
 
     elements.push({
-        type: "html",
-        html: "<hr/>"
-    });
-
-    elements.push({
         title: "How often do you use Web search engine (e.g., Google, Bing, Yahoo) when you want to learn about something?",
         name: "search-frequency",
         type: "radiogroup",

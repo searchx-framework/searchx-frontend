@@ -68,11 +68,6 @@ const formData = function(topic) {
         const name = "Q-"+ topic.id +"-"+ idx;
 
         elements.push({
-            type: "html",
-            html: "<hr/>"
-        });
-
-        elements.push({
             title: "How much do you know about \"" + term + "\"?",
             type: "radiogroup",
             isRequired: true,
@@ -123,7 +118,6 @@ const formData = function(topic) {
         type: "comment",
         inputType: "text",
         description: "",
-        width: 600,
         rows: 6,
         isRequired: true
     });
@@ -133,7 +127,6 @@ const formData = function(topic) {
         name: "summary",
         type: "comment",
         inputType: "text",
-        width: 600,
         rows: 6,
         isRequired: true
     });
@@ -148,7 +141,6 @@ const formData = function(topic) {
         name: "difficulties",
         type: "comment",
         inputType: "text",
-        width: 600,
         rows: 4,
         isRequired: true
     });
@@ -158,7 +150,6 @@ const formData = function(topic) {
         name: "additional-comment",
         type: "comment",
         inputType: "text",
-        width: 600,
         rows: 4,
         isRequired: true
     });

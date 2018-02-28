@@ -47,11 +47,6 @@ const formData = function() {
     });
 
     elements.push({
-        type: "html",
-        html: "<hr/>"
-    });
-
-    elements.push({
         title: `Have you visited "${constants.destination}" before?`,
         name: "visit",
         type: "radiogroup",
@@ -68,11 +63,6 @@ const formData = function() {
         type: "rating",
         minRateDescription: "Not Familiar -",
         maxRateDescription: "- Very Familiar"
-    });
-
-    elements.push({
-        type: "html",
-        html: "<hr/>"
     });
 
     elements.push({

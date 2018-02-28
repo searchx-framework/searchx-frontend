@@ -39,23 +39,12 @@ const formData = function() {
     });
 
     elements.push({
-        type: "html",
-        html: "<hr/>"
-    });
-
-    elements.push({
         title: `Which locations are you planning to visit on your trip to "${constants.destination}"?`,
         name: "locations",
         type: "comment",
         inputType: "text",
-        width: 600,
         rows: 6,
         isRequired: true
-    });
-
-    elements.push({
-        type: "html",
-        html: "<hr/>"
     });
 
     elements.push({
@@ -63,7 +52,6 @@ const formData = function() {
         name: "budget",
         type: "comment",
         inputType: "text",
-        width: 600,
         rows: 12,
         isRequired: true
     });

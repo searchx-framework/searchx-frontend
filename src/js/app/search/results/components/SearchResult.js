@@ -62,12 +62,14 @@ const SearchResult = function({searchState, serpId, result, bookmarkClickHandler
         urlClickHandler: urlClickHandler
     };
 
+    let view = <WebSearchResult {...props}/>;
+    if (searchState.vertical === 'news') view = <NewsSearchResult {...props}/>;
+    if (searchState.vertical === 'images') view = <ImagesSearchResult {...props}/>;
+    if (searchState.vertical === 'videos') view = <VideosSearchResult {...props}/>;
+
     return (
         <div className="SearchResult">
-            {searchState.vertical === 'web' && <WebSearchResult {...props}/>}
-            {searchState.vertical === 'news' && <NewsSearchResult {...props}/>}
-            {searchState.vertical === 'images' && <ImagesSearchResult {...props}/>}
-            {searchState.vertical === 'videos' && <VideosSearchResult {...props}/>}
+            {view}
         </div>
     );
 };

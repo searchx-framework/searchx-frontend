@@ -62,11 +62,6 @@ const formData = function() {
 
     elements.push({
         type: "html",
-        html: "<hr/>"
-    });
-
-    elements.push({
-        type: "html",
         name: "start",
         html: `
         <h3>Requirements:</h3>
@@ -144,22 +139,12 @@ const formData = function() {
     });
 
     elements.push({
-        type: "html",
-        html: "<hr/>"
-    });
-
-    elements.push({
         title: "Insert your assigned ID here",
         name : "userId",
         type :"text",
         inputType:"text",
         width: 300,
         isRequired: true
-    });
-
-    elements.push({
-        type: "html",
-        html: "<hr/>"
     });
 
     elements.push({
@@ -183,11 +168,6 @@ const formData = function() {
         inputType:"text",
         width: 500,
         isRequired: true
-    });
-
-    elements.push({
-        type: "html",
-        html: "<hr/>"
     });
 
     elements.push({
