@@ -52,7 +52,7 @@ class Session extends React.PureComponent {
                         publications, and other online sources that are helpful for you to write a paper.
                     </p>
 
-                    <p dangerouslySetInnerHTML={{__html: task.data.topic.task}}/>
+                    <p dangerouslySetInnerHTML={{__html: task.data.topic.description}}/>
                     <hr/>
 
                     <p>

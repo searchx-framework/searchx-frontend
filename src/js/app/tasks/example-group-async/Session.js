@@ -24,7 +24,7 @@ class Session extends React.PureComponent {
                 <div className="box" style={{flexGrow: '1'}}>
                     <h3 style={{textAlign: 'center'}}>{task.data.title}</h3>
                     <hr/>
-                    <p>{task.data.task}</p>
+                    <p>{task.data.description}</p>
                 </div>
             </TaskedSession>
         )
