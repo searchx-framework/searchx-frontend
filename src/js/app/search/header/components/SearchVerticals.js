@@ -7,7 +7,7 @@ const SearchVerticals = function({activeVertical, changeHandler, provider}) {
     const verticalsList = config.providerVerticals[provider];
 
     let verticals = verticalsList.map((vertical, index) => {
-        let cn = 'item';
+        let cn = 'search-vertical item';
         if (vertical === activeVertical) {
             cn += ' active';
         }

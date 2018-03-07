@@ -1,17 +1,25 @@
 import React from 'react'
-import { shallow, mount, render } from 'enzyme';
+import Enzyme from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
+import config from '../src/js/config';
 
 import SearchVerticals from '../src/js/app/search/header/components/SearchVerticals';
 
+Enzyme.configure({ adapter: new Adapter() });
+
 describe('SearchVerticals',()=>{
-    let wrapper;
+    const tests = [
+        {provider: 'bing', expected: 4},
+        {provider: 'elasticsearch', expected : 1}
+    ];
 
-    beforeEach(()=>{
-        wrapper = shallow(<SearchVerticals vertical={"web"} changeHandler={function(){}}/>)
+    tests.forEach(function(test) {
+        const firstVertical = config.providerVerticals[test.provider][0];
+        const wrapper = Enzyme.shallow(<SearchVerticals vertical={firstVertical} changeHandler={function(){}} provider={test.provider}/>);
+
+        it('should load ' + test.expected + ' tabs for the ' + test.provider + ' provider', () => {
+            expect(wrapper.find(".search-vertical").length).toEqual(test.expected);
+        });
     });
 
-    it('should load four tabs', () => {
-        expect(wrapper.find(".Search-vertical").length).toEqual(4);
-    });
-    
 });
