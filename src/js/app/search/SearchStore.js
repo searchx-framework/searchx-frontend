@@ -1,5 +1,6 @@
 import request from 'superagent';
 import EventEmitter from 'events';
+import config from "../../config"
 
 import {register} from '../../utils/Dispatcher';
 import ActionTypes from '../../actions/ActionTypes';
@@ -18,10 +19,13 @@ const CHANGE_EVENT = 'change_search';
 
 ////
 
+const provider = Helpers.getURLParameter('provider') || config.defaultProvider;
+
 let state = {
     query: Helpers.getURLParameter('q') || '',
-    vertical: Helpers.getURLParameter('v') || 'web',
+    vertical: Helpers.getURLParameter('v') || config.providerVerticals[provider][0],
     page: parseInt(Helpers.getURLParameter('p')) || 1,
+    provider: provider,
 
     submittedQuery: false,
     finished: false,
@@ -90,7 +94,8 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
         return {
             query: state.query,
             vertical: state.vertical,
-            page: state.page || 1
+            page: state.page || 1,
+            provider: state.provider
         };
     },
     getSearchProgress() {
@@ -159,7 +164,7 @@ const _search = (query, vertical, page) => {
     state.finished = false;
     state.resultsNotFound = false;
 
-    _updateUrl(state.query, state.vertical, state.page);
+    _updateUrl(state.query, state.vertical, state.page, state.provider);
     SyncStore.emitSearchState(SearchStore.getSearchState());
     SearchStore.emitChange();
 
@@ -175,6 +180,7 @@ const _search = (query, vertical, page) => {
             + '&page='+ state.page
             + '&userId='+ AccountStore.getUserId()
             + '&sessionId='+ AccountStore.getSessionId()
+            + '&providerName=' + state.provider
         )
         .end((err, res) => {
             if (!res.body.error) {
@@ -200,6 +206,7 @@ const _search = (query, vertical, page) => {
             log(LoggerEventTypes.SEARCHRESULT_ELAPSEDTIME, {
                 query: state.query,
                 page: state.page,
+                provider: state.provider,
                 vertical: state.vertical,
                 serpId: state.serpId,
                 elapsedTime: state.elapsedTime
@@ -216,10 +223,10 @@ const _updateMetadata = function(query, vertical, page) {
     }
 };
 
-const _updateUrl = function(query, vertical, page) {
+const _updateUrl = function(query, vertical, page, provider) {
     const url = window.location.href;
     const route = url.split("/").pop().split("?")[0];
-    const params = 'q='+ query +'&v='+ vertical.toLowerCase() +'&p='+ page;
+    const params = 'q='+ query +'&v='+ vertical.toLowerCase() +'&p='+ page + '&provider=' + provider;
 
     history.push({
         pathname: route,
