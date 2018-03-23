@@ -14,18 +14,18 @@ import SyncStore from '../../stores/SyncStore';
 import AccountStore from '../../stores/AccountStore';
 import history from "../History";
 
-import BackendConfig from "../../utils/BackendConfig"
-
 const env = require('env');
 const CHANGE_EVENT = 'change_search';
 
 ////
 
+const provider = Helpers.getURLParameter('provider') || config.defaultProvider;
+
 let state = {
     query: Helpers.getURLParameter('q') || '',
-    vertical: Helpers.getURLParameter('v'),
+    vertical: Helpers.getURLParameter('v') || config.providerVerticals[provider][0],
     page: parseInt(Helpers.getURLParameter('p')) || 1,
-    provider: Helpers.getURLParameter('provider') || config.defaultProvider,
+    provider: provider,
 
     submittedQuery: false,
     finished: false,
@@ -67,10 +67,10 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
     getActiveUrl() {
         return state.activeUrl
     },
-    getMatches() {
+    getMatches(){
         return state.matches || 0;
     },
-    getElapsedTime() {
+    getElapsedTime(){
         return state.elapsedTime;
     },
     getSerpId() {
@@ -80,38 +80,11 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
     getSearchResults() {
         if (state.tutorial) {
             return [
-                {
-                    name: "You can view the first result here",
-                    displayUrl: "https://www.result1.com",
-                    snippet: "This is the first result..."
-                },
-                {
-                    name: "You can view the second result here",
-                    displayUrl: "https://www.result2.com",
-                    snippet: "This is the second result...",
-                    metadata: {
-                        bookmark: {userId: AccountStore.getUserId(), date: new Date()},
-                        views: 10,
-                        rating: -5,
-                        annotations: 10
-                    }
-                },
-                {
-                    name: "You can view the third result here",
-                    displayUrl: "https://www.result3.com",
-                    snippet: "This is the third result...",
-                    metadata: {bookmark: {userId: 'test', date: new Date() - 2000}}
-                },
-                {
-                    name: "You can view the fourth result here",
-                    displayUrl: "https://www.result4.com",
-                    snippet: "This is the fourth result..."
-                },
-                {
-                    name: "You can view the fifth result here",
-                    displayUrl: "https://www.result5.com",
-                    snippet: "This is the fifth result..."
-                }
+                {name: "You can view the first result here", displayUrl: "https://www.result1.com" , snippet: "This is the first result..."},
+                {name: "You can view the second result here", displayUrl: "https://www.result2.com" , snippet: "This is the second result...", metadata: {bookmark: {userId: AccountStore.getUserId(), date: new Date()}, views: 10, rating: -5, annotations: 10}},
+                {name: "You can view the third result here", displayUrl: "https://www.result3.com" , snippet: "This is the third result...", metadata: {bookmark: {userId: 'test', date: new Date() - 2000}}},
+                {name: "You can view the fourth result here", displayUrl: "https://www.result4.com" , snippet: "This is the fourth result..."},
+                {name: "You can view the fifth result here", displayUrl: "https://www.result5.com" , snippet: "This is the fifth result..."}
             ];
         }
 
@@ -135,32 +108,9 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
 
     ////
 
-    // getVertical() {
-    //     if (!this.state.vertical) {
-    //         const providerVerticals = this.getProviderVerticals();
-    //         this.state.vertical = providerVerticals[this.state.provider][0];
-    //     }
-    //     return this.state.vertical;
-    // },
-    getProviderVerticals() {
-        if (!state.providerVerticals) {
-            BackendConfig.get().then(this.updateFromBackend);
-        }
-        return state.providerVerticals;
-    },
-    updateFromBackend: function (config) {
-        state.providerVerticals = config.providers;
-        if (!state.vertical) {
-            state.vertical = state.providerVerticals[state.provider][0];
-        }
-        SearchStore.emitChange();
-    },
-
-    ////
-
     modifyMetadata(url, newData) {
         state.results.forEach((item) => {
-            if (item.url === url) {
+            if (item.url === url ) {
                 item.metadata = Object.assign(item.metadata, newData);
             }
         });
@@ -171,7 +121,7 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
     ////
 
     dispatcherIndex: register(action => {
-        switch (action.type) {
+        switch(action.type) {
             case ActionTypes.SEARCH:
                 _search(action.payload.query, action.payload.vertical, action.payload.page);
                 break;
@@ -192,19 +142,11 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
                 state.activeUrl = "";
                 SyncStore.emitViewState(null);
                 break;
-            case ActionTypes.GET_BACKEND_CONFIG:
-                _getBackendConfig();
-                break;
         }
 
         SearchStore.emitChange();
     })
 });
-
-////
-const _getBackendConfig = () => {
-
-};
 
 ////
 
@@ -233,11 +175,11 @@ const _search = (query, vertical, page) => {
     }
 
     request
-        .get(env.serverUrl + '/v1/search/' + state.vertical
-            + '/?query=' + state.query
-            + '&page=' + state.page
-            + '&userId=' + AccountStore.getUserId()
-            + '&sessionId=' + AccountStore.getSessionId()
+        .get(env.serverUrl + '/v1/search/'+state.vertical
+            + '/?query='+ state.query
+            + '&page='+ state.page
+            + '&userId='+ AccountStore.getUserId()
+            + '&sessionId='+ AccountStore.getSessionId()
             + '&providerName=' + state.provider
         )
         .end((err, res) => {
@@ -275,16 +217,16 @@ const _search = (query, vertical, page) => {
         });
 };
 
-const _updateMetadata = function (query, vertical, page) {
+const _updateMetadata = function(query, vertical, page) {
     if (query === state.query && vertical === state.vertical && page === state.page) {
         _search(query, vertical, page);
     }
 };
 
-const _updateUrl = function (query, vertical, page, provider) {
+const _updateUrl = function(query, vertical, page, provider) {
     const url = window.location.href;
     const route = url.split("/").pop().split("?")[0];
-    const params = 'q=' + query + '&v=' + vertical.toLowerCase() + '&p=' + page + '&provider=' + provider;
+    const params = 'q='+ query +'&v='+ vertical.toLowerCase() +'&p='+ page + '&provider=' + provider;
 
     history.push({
         pathname: route,
