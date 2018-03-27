@@ -20,10 +20,14 @@ const CHANGE_EVENT = 'change_search';
 ////
 
 const provider = Helpers.getURLParameter('provider') || config.defaultProvider;
+const variant = Helpers.getURLParameter('variant') || 'SS1';
 
 let state = {
     query: Helpers.getURLParameter('q') || '',
+    variant: variant,
     vertical: Helpers.getURLParameter('v') || config.providerVerticals.get(provider).keys().next().value,
+    relevanceFeedback: variant === 'SS2' ? 'individual' : variant === 'SS3' ? 'shared' : 'false',
+    distributionOfLabour: variant === 'SS0' ? 'false' : variant === 'SS1-Hard' ? 'unbookmarkedOnly' : 'unbookmarkedSoft',
     page: parseInt(Helpers.getURLParameter('p')) || 1,
     provider: provider,
 
@@ -78,6 +82,9 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
     },
     getProvider() {
         return state.provider;
+    },
+    getVariant() {
+        return state.variant;
     },
 
     getSearchResults() {
@@ -166,8 +173,6 @@ const _search = (query, vertical, page) => {
     state.submittedQuery = true;
     state.finished = false;
     state.resultsNotFound = false;
-    state.relevanceFeedback = 'shared';
-    state.distributionOfLabour = 'unbookmarkedSoft';
 
     _updateUrl(state.query, state.vertical, state.page, state.provider);
     SyncStore.emitSearchState(SearchStore.getSearchState());
@@ -233,7 +238,7 @@ const _updateMetadata = function(query, vertical, page) {
 const _updateUrl = function(query, vertical, page, provider) {
     const url = window.location.href;
     const route = url.split("/").pop().split("?")[0];
-    const params = 'q='+ query +'&v='+ vertical.toLowerCase() +'&p='+ page + '&provider=' + provider;
+    const params = 'q='+ query +'&v='+ vertical.toLowerCase() +'&p='+ page + '&provider=' + state.provider + '&variant=' + state.variant;
 
     history.push({
         pathname: route,
