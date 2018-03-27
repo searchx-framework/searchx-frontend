@@ -167,7 +167,7 @@ const _search = (query, vertical, page) => {
     state.finished = false;
     state.resultsNotFound = false;
     state.relevanceFeedback = 'shared';
-    state.unjudgedOnly = true;
+    state.distributionOfLabour = 'unbookmarkedSoft';
 
     _updateUrl(state.query, state.vertical, state.page, state.provider);
     SyncStore.emitSearchState(SearchStore.getSearchState());
@@ -187,7 +187,7 @@ const _search = (query, vertical, page) => {
             + '&sessionId='+ AccountStore.getSessionId()
             + '&providerName=' + state.provider
             + '&relevanceFeedback=' + state.relevanceFeedback
-            + '&unjudgedOnly=' + state.unjudgedOnly
+            + '&distributionOfLabour=' + state.distributionOfLabour
         )
         .end((err, res) => {
             if (!res.body.error) {
