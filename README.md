@@ -39,17 +39,18 @@ npm start
 
 # Modifications
 
-### Adding additional Logs
+## Logs
 To add a new log, you should add a new log event type to `utils/LoggerEventTypes.js` 
 and then call the `log` function from `utils/Logger.js` using the new event type. 
 The logger will automatically add information on the current user state. 
 Any action specific log data can be inserted as an argument when calling the `log` function.
 
-### Modifying the learning task
+## Tasks
 The learning task is defined inside `app/tasks/learning`.
 The forms and interface is defined in the front end, whereas the learning topics and group creation is managed by the back end.
 All form uses [surveyjs](https://surveyjs.io/Overview/Library/) and the results are sent to the back end as logs.
 
+### Modifying the learning task
 1. Changing task duration and type  
 To change the task duration and task type, you can modify the values inside `config.js`.
 
@@ -91,7 +92,7 @@ The search interface can be found inside `app/search`, while task specific code 
 If you need to extend the interface for a specific task, you should create a new component inside `app/tasks`, and then insert the search interface as a react component. 
 You would then need to create a new route for the new component inside `app/App.js`.
 
-### Adding new search interface feature
+## Adding search interface features
 The main search interface layout can be found inside `app/search/Search.js`. 
 To add a new feature to the search interface, you should a new [react component](https://reactjs.org/docs/components-and-props.html) inside `app/search/feature`, 
 and then insert the new feature component inside the layout. 
@@ -114,6 +115,18 @@ export default class NewComponent extends React.Component {
     }
 }
 ```
+
+## Search providers
+SearchX supports multiple search providers, which provide the search results that SearchX shows to the user. The Bing and Elasticsearch providers are supported out of the box, respectively providing internet search and full text search on custom datasets.
+
+Each provider can support one or more verticals. For example, the Bing provider provides four verticals: Web, Images, Videos and News. Verticals are shown to the user in the top menu and they can switch between verticals while retaining their current query.
+
+### Adding a new vertical or provider
+If you want to add a new vertical or provider, first the searchx-backend needs to be adapted to return the data for your result. See the [searchx-backend documentation](https://github.com/felipemoraes/searchx-backend#search-providers) for instructions on how to do this.
+
+The new vertical or provider needs to be added to the verticalProviders mapping in `src/js/config.js`. The first level of the map contains the provider name as key, and a map as value. The second level contains the vertical name as key, and a reference to the react component that will be used to display the search result as value. You can add your own verticals and providers to this map. Every provider needs to have at least one vertical.
+
+If you wish to add your own component to display search results, add it to `src/js/app/search/results/components/types`, and reference it in the verticalProviders map.
 
 # License
 
