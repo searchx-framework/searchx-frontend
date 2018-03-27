@@ -6,19 +6,22 @@ import config from "../../../../config";
 import SearchResultContainer from "../SearchResultContainer";
 import SearchResultsNotFound from "./SearchResultsNotFound";
 import SearchResultsPagination from "./SearchResultsPagination";
+import CollapsedSearchResults from "./CollapsedSearchResults";
 
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-const SearchResults = function({searchState, progress, serpId, results, matches, elapsedTime, pageChangeHandler, provider, variant}) {
+const SearchResults = function({searchState, progress, serpId, results, matches, elapsedTime, pageChangeHandler, provider, distributionOfLabour}) {
     if (progress.resultsNotFound) {
         return <SearchResultsNotFound/>;
     }
 
     const prefix = (matches < config.aboutPrefixAt) ? "" : "About ";
     const timeIndicator = prefix + numberWithCommas(matches) + " results (" + elapsedTime + " seconds)";
-    const list = results.map((result, index) => {
+    const list = [];
+    let lastBookmarkedResults = [];
+    for (const [index, result] of results.entries()) {
         const props = {
             searchState: searchState,
             serpId: serpId,
@@ -27,8 +30,23 @@ const SearchResults = function({searchState, progress, serpId, results, matches,
             provider: provider
         };
 
-        return(<SearchResultContainer {...props} key={index}/>);
-    });
+        if (distributionOfLabour === 'unbookmarkedSoft') {
+            if (result.metadata.bookmark) {
+                lastBookmarkedResults.push(<SearchResultContainer {...props} key={index}/>);
+            } else {
+                if (lastBookmarkedResults.length > 0) {
+                    list.push(<CollapsedSearchResults results={lastBookmarkedResults} />);
+                    lastBookmarkedResults = [];
+                }
+                list.push(<SearchResultContainer {...props} key={index}/>);
+            }
+        } else {
+            list.push(<SearchResultContainer {...props} key={index}/>);
+        }
+    }
+    if (lastBookmarkedResults.length > 0) {
+        list.push(<CollapsedSearchResults results={lastBookmarkedResults} />);
+    }
 
     return (
         <div>

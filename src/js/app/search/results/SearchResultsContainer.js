@@ -19,7 +19,7 @@ const getState = function() {
         elapsedTime : ((SearchStore.getElapsedTime())/1000).toFixed(2).toString(),
         activeUrl: SearchStore.getActiveUrl(),
         provider: SearchStore.getProvider(),
-        variant: SearchStore.getVariant()
+        distributionOfLabour: SearchStore.getDistributionOfLabour(),
     }
 };
 

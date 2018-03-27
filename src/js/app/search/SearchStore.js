@@ -86,6 +86,9 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
     getVariant() {
         return state.variant;
     },
+    getDistributionOfLabour() {
+        return state.distributionOfLabour;
+    },
 
     getSearchResults() {
         if (state.tutorial) {
