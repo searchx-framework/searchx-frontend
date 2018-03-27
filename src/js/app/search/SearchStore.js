@@ -166,6 +166,8 @@ const _search = (query, vertical, page) => {
     state.submittedQuery = true;
     state.finished = false;
     state.resultsNotFound = false;
+    state.relevanceFeedback = 'shared';
+    state.unjudgedOnly = true;
 
     _updateUrl(state.query, state.vertical, state.page, state.provider);
     SyncStore.emitSearchState(SearchStore.getSearchState());
@@ -184,6 +186,8 @@ const _search = (query, vertical, page) => {
             + '&userId='+ AccountStore.getUserId()
             + '&sessionId='+ AccountStore.getSessionId()
             + '&providerName=' + state.provider
+            + '&relevanceFeedback=' + state.relevanceFeedback
+            + '&unjudgedOnly=' + state.unjudgedOnly
         )
         .end((err, res) => {
             if (!res.body.error) {
