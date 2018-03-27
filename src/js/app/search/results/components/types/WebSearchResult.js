@@ -11,7 +11,6 @@ const WebSearchResult = function({searchState, serpId, result, metadata, bookmar
         url: result.url,
         query: searchState.query,
         page: searchState.page,
-        vertical: 'web',
         serpId: serpId,
     };
 

@@ -4,9 +4,8 @@ import config from '../../../../config'
 import Helpers from "../../../../utils/Helpers";
 
 const SearchVerticals = function({activeVertical, changeHandler, provider}) {
-    const verticalsList = config.providerVerticals[provider];
-
-    let verticals = verticalsList.map((vertical, index) => {
+    const verticalsMap = config.providerVerticals.get(provider);
+    const verticals = Array.from(verticalsMap.keys()).map((vertical, index) => {
         let cn = 'search-vertical item';
         if (vertical === activeVertical) {
             cn += ' active';

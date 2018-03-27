@@ -23,7 +23,7 @@ const provider = Helpers.getURLParameter('provider') || config.defaultProvider;
 
 let state = {
     query: Helpers.getURLParameter('q') || '',
-    vertical: Helpers.getURLParameter('v') || config.providerVerticals[provider][0],
+    vertical: Helpers.getURLParameter('v') || config.providerVerticals.get(provider).keys()[0],
     page: parseInt(Helpers.getURLParameter('p')) || 1,
     provider: provider,
 
@@ -75,6 +75,9 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
     },
     getSerpId() {
         return state.serpId;
+    },
+    getProvider() {
+        return state.provider;
     },
 
     getSearchResults() {
