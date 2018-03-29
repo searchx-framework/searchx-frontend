@@ -64,6 +64,7 @@ export default class SearchHeaderContainer extends React.Component {
         return <SearchHeader
             query={this.state.query}
             vertical={this.state.vertical}
+            provider={this.state.provider}
             searchHandler={this.searchHandler}
             queryChangeHandler={this.queryChangeHandler}
             verticalChangeHandler={this.verticalChangeHandler}

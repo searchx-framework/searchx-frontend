@@ -70,6 +70,7 @@ export default class SearchResultContainer extends React.Component {
             result={this.props.result}
             urlClickHandler={this.urlClickHandler}
             bookmarkClickHandler={this.bookmarkClickHandler}
+            provider={this.props.provider}
         />
     }
 }

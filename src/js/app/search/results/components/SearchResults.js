@@ -11,7 +11,7 @@ function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-const SearchResults = function({searchState, progress, serpId, results, matches, elapsedTime, pageChangeHandler}) {
+const SearchResults = function({searchState, progress, serpId, results, matches, elapsedTime, pageChangeHandler, provider}) {
     if (progress.resultsNotFound) {
         return <SearchResultsNotFound/>;
     }
@@ -23,7 +23,8 @@ const SearchResults = function({searchState, progress, serpId, results, matches,
             searchState: searchState,
             serpId: serpId,
             result: result,
-            bookmark: 0
+            bookmark: 0,
+            provider: provider
         };
 
         return(<SearchResultContainer {...props} key={index}/>);
