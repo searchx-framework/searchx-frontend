@@ -48,7 +48,6 @@ class Search extends React.Component {
                 </div>
 
                 <div className="text-center" >
-                    <hr/>
                     <p className="Footer">
                         About <a href="/about" target="_blank">SearchX</a>.
                     </p>

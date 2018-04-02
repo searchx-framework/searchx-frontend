@@ -25,8 +25,7 @@ const SearchResultsPagination = function({searchState, finished, matches, change
     return (
         <div className="text-center">
             {validatePagination(searchState.vertical, searchState.matches) && finished &&
-                <Pagination className="pagination"
-                            activePage={searchState.page}
+                <Pagination activePage={searchState.page}
                             onChange={changeHandler}
 
                             itemsCountPerPage={10}
