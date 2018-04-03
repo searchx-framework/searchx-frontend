@@ -4,17 +4,32 @@ import React from 'react';
 import config from "../../../../config";
 
 import SearchResultContainer from "../SearchResultContainer";
-import SearchResultsNotFound from "./SearchResultsNotFound";
 import SearchResultsPagination from "./SearchResultsPagination";
+import CenteredMessage from "../../../common/CenteredMessage";
 
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 const SearchResults = function({searchState, progress, serpId, results, matches, elapsedTime, pageChangeHandler}) {
+    const style = {
+        color: "darkgray"
+    };
+
     if (progress.resultsNotFound) {
-        return <SearchResultsNotFound/>;
+        return <CenteredMessage height="800px" style={style}>
+            <h3> Sorry! :`(  </h3>
+            <h4> We have not found results for you! Try to shorten your query! </h4>
+        </CenteredMessage>
     }
+
+    if (searchState.query === '') {
+        return <CenteredMessage height="800px" style={style}>
+            <h3> Your search results will appear here :)  </h3>
+        </CenteredMessage>
+    }
+
+    ////
 
     const prefix = (matches < config.aboutPrefixAt) ? "" : "About ";
     const timeIndicator = prefix + numberWithCommas(matches) + " results (" + elapsedTime + " seconds)";
@@ -31,7 +46,7 @@ const SearchResults = function({searchState, progress, serpId, results, matches,
 
     return (
         <div>
-            <div className="SearchResults" id="intro-search-results">
+            <div className="SearchResults">
                 {progress.querySubmitted &&
                     <Loader loaded={results.length > 0 || progress.isRefreshing() || progress.isFinished()}/>
                 }
