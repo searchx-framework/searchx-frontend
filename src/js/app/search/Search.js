@@ -36,14 +36,14 @@ class Search extends React.Component {
             <div className="Search">
                 <SearchHeaderContainer/>
 
-                <div className="Content" id="intro-collab-color">
-                    <div className="Main">
-                        <SearchResultsContainer/>
-                    </div>
-
+                <div className="Content">
                     <div className="Side">
                         <QueryHistoryContainer/>
                         <BookmarkContainer/>
+                    </div>
+
+                    <div className="Main">
+                        <SearchResultsContainer/>
                     </div>
                 </div>
 
