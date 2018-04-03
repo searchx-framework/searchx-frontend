@@ -1,8 +1,16 @@
 @import '../../../../Variables.pcss';
 
 .QueryHistory {
+    display: flex;
+    flex-direction: column;
+    height: 200px;
+
+    .banner {
+        cursor: pointer;
+    }
+
     .list {
-        height: 150px;
+        height: 100%;
         overflow-y: auto;
 
         .item {
@@ -21,6 +29,40 @@
             .text {
                 margin-left: 10px;
             }
+        }
+    }
+
+    .popup {
+        display: flex;
+        flex-flow: column;
+        height: 100%;
+
+        .header {
+            height: 40px;
+            padding: 10px;
+            border-bottom: 1px solid $border-color;
+            box-shadow: 0 0 15px 0 rgba(50, 50, 50, 0.04);
+
+            .close {
+                float: none;
+                color: red;
+                font-size: 16px;
+                font-weight: bold;
+                margin-bottom: 10px;
+
+                &:hover,
+                &:focus {
+                    color: #000;
+                    text-decoration: none;
+                    cursor: pointer;
+                }
+            }
+        }
+
+        .body {
+            flex: 1;
+            padding: 15px;
+            overflow: auto;
         }
     }
 }
