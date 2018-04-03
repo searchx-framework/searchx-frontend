@@ -23,7 +23,7 @@ const SearchResults = function({searchState, progress, serpId, results, matches,
         </CenteredMessage>
     }
 
-    if (searchState.query === '') {
+    if (results.length === 0) {
         return <CenteredMessage height="800px" style={style}>
             <h3> Your search results will appear here :)  </h3>
         </CenteredMessage>
