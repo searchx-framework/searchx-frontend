@@ -3,7 +3,7 @@ import React from 'react';
 
 const SearchBox = function({query, changeHandler}) {
     return (
-        <div className="box" id="intro-search-bar">
+        <div className="box">
             <div className="input-group">
                 <input type="text" className="form-control" name="query" placeholder=""
                        value={query}
