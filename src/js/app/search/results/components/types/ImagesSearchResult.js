@@ -11,7 +11,6 @@ const ImagesSearchResult = function({searchState, serpId, result, metadata, book
         url: result.url,
         query: searchState.query,
         page: searchState.page,
-        vertical: 'images',
         serpId: serpId,
     };
 

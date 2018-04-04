@@ -11,7 +11,7 @@ function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-const SearchResults = function({searchState, progress, serpId, results, matches, elapsedTime, pageChangeHandler}) {
+const SearchResults = function({searchState, progress, serpId, results, matches, elapsedTime, pageChangeHandler, provider}) {
     const style = {
         color: "darkgray"
     };
@@ -38,7 +38,8 @@ const SearchResults = function({searchState, progress, serpId, results, matches,
             searchState: searchState,
             serpId: serpId,
             result: result,
-            bookmark: 0
+            bookmark: 0,
+            provider: provider
         };
 
         return(<SearchResultContainer {...props} key={index}/>);
@@ -48,11 +49,11 @@ const SearchResults = function({searchState, progress, serpId, results, matches,
         <div>
             <div className="SearchResults">
                 {progress.querySubmitted &&
-                    <Loader loaded={results.length > 0 || progress.isRefreshing() || progress.isFinished()}/>
+                <Loader loaded={results.length > 0 || progress.isRefreshing() || progress.isFinished()}/>
                 }
 
                 {results.length > 0 &&
-                    <div className="time"> {timeIndicator} </div>
+                <div className="time"> {timeIndicator} </div>
                 }
 
                 <div className="list">

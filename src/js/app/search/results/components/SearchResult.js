@@ -5,6 +5,7 @@ import WebSearchResult from './types/WebSearchResult';
 import NewsSearchResult from './types/NewsSearchResult';
 import ImagesSearchResult from './types/ImagesSearchResult';
 import VideosSearchResult from './types/VideosSearchResult';
+import {providerVerticals} from "../../../../config";
 
 function formatMetadata(metadata) {
     let elements = [];
@@ -41,7 +42,7 @@ function formatMetadata(metadata) {
     return <div className="metadata">{elements}</div>;
 }
 
-const SearchResult = function({searchState, serpId, result, bookmarkClickHandler, urlClickHandler}) {
+const SearchResult = function({searchState, serpId, result, bookmarkClickHandler, urlClickHandler, provider}) {
     let initial = 0;
     if ('metadata' in result) {
         initial = result.metadata.bookmark !== null ? 1 : 0;
@@ -61,11 +62,8 @@ const SearchResult = function({searchState, serpId, result, bookmarkClickHandler
         bookmarkButton: bookmarkButton,
         urlClickHandler: urlClickHandler
     };
-
-    let view = <WebSearchResult {...props}/>;
-    if (searchState.vertical === 'news') view = <NewsSearchResult {...props}/>;
-    if (searchState.vertical === 'images') view = <ImagesSearchResult {...props}/>;
-    if (searchState.vertical === 'videos') view = <VideosSearchResult {...props}/>;
+    const ResultType = providerVerticals.get(provider).get(searchState.vertical);
+    const view = <ResultType {...props}/>;
 
     return (
         <div className="SearchResult">

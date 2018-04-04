@@ -17,7 +17,8 @@ const getState = function() {
         results: SearchStore.getSearchResults(),
         matches: SearchStore.getMatches(),
         elapsedTime : ((SearchStore.getElapsedTime())/1000).toFixed(2).toString(),
-        activeUrl: SearchStore.getActiveUrl()
+        activeUrl: SearchStore.getActiveUrl(),
+        provider: SearchStore.getProvider()
     }
 };
 

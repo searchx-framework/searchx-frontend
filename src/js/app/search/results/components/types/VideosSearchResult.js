@@ -47,7 +47,6 @@ const VideosSearchResult = function({searchState, serpId, result, metadata, book
         url: result.url,
         query: searchState.query,
         page: searchState.page,
-        vertical: 'videos',
         serpId: serpId,
     };
 

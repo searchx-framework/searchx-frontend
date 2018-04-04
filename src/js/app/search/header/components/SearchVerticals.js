@@ -1,18 +1,19 @@
 import './SearchHeader.pcss'
 import React from 'react';
+import config from '../../../../config'
+import Helpers from "../../../../utils/Helpers";
 
-const SearchVerticals = function({activeVertical, changeHandler}) {
-    const verticalsList = ['Web', 'Images', 'Videos','News'];
-
-    let verticals = verticalsList.map((vertical, index) => {
-        let cn = 'item';
-        if (vertical.toLocaleLowerCase() === activeVertical) {
+const SearchVerticals = function({activeVertical, changeHandler, provider}) {
+    const verticalsMap = config.providerVerticals.get(provider);
+    const verticals = Array.from(verticalsMap.keys()).map((vertical, index) => {
+        let cn = 'search-vertical item';
+        if (vertical === activeVertical) {
             cn += ' active';
         }
 
         return (
             <li key={index} className={cn} onClick={() => changeHandler(vertical)}>
-                {vertical}
+                {Helpers.capitalizeFirstLetter(vertical)}
             </li>
         )
     });
