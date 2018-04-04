@@ -6,6 +6,7 @@ import NewsSearchResult from './types/NewsSearchResult';
 import ImagesSearchResult from './types/ImagesSearchResult';
 import VideosSearchResult from './types/VideosSearchResult';
 import {providerVerticals} from "../../../../config";
+import {Collapse} from "react-bootstrap";
 
 function formatMetadata(metadata) {
     let elements = [];
@@ -42,7 +43,7 @@ function formatMetadata(metadata) {
     return <div className="metadata">{elements}</div>;
 }
 
-const SearchResult = function({searchState, serpId, result, bookmarkClickHandler, urlClickHandler, provider}) {
+const SearchResult = function({searchState, serpId, result, bookmarkClickHandler, urlClickHandler, provider, showBookmarked}) {
     let initial = 0;
     if ('metadata' in result) {
         initial = result.metadata.bookmark !== null ? 1 : 0;
@@ -66,9 +67,11 @@ const SearchResult = function({searchState, serpId, result, bookmarkClickHandler
     const view = <ResultType {...props}/>;
 
     return (
-        <div className="SearchResult">
-            {view}
-        </div>
+        <Collapse in={!result.metadata.bookmark || showBookmarked}>
+            <div className="SearchResult" >
+                {view}
+            </div>
+        </Collapse>
     );
 };
 
