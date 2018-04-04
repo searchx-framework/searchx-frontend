@@ -60,11 +60,11 @@ const Viewer = function({searchState, serpId, url, documentCloseHandler}) {
                 </div>
 
                 <div className="body">
-                    <ViewerPage url={url} loadHandler={loadDocument} />
-
                     <div className="sidebar">
                         <AnnotationContainer url={url}/>
                     </div>
+
+                    <ViewerPage url={url} loadHandler={loadDocument} />
                 </div>
             </div>
         </Modal>

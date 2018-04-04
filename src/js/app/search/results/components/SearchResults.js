@@ -2,6 +2,7 @@ import './SearchResults.pcss';
 
 import React from 'react';
 import config from "../../../../config";
+import Loader from 'react-loader';
 
 import SearchResultContainer from "../SearchResultContainer";
 import SearchResultsPagination from "./SearchResultsPagination";
@@ -16,6 +17,12 @@ const SearchResults = function({searchState, progress, serpId, results, matches,
         color: "darkgray"
     };
 
+    if (searchState.query === '' && results.length === 0) {
+        return <CenteredMessage height="800px" style={style}>
+            <h3> Your search results will appear here :)  </h3>
+        </CenteredMessage>
+    }
+
     if (progress.resultsNotFound) {
         return <CenteredMessage height="800px" style={style}>
             <h3> Sorry! :`(  </h3>
@@ -23,9 +30,9 @@ const SearchResults = function({searchState, progress, serpId, results, matches,
         </CenteredMessage>
     }
 
-    if (results.length === 0) {
-        return <CenteredMessage height="800px" style={style}>
-            <h3> Your search results will appear here :)  </h3>
+    if (!progress.finished) {
+        return <CenteredMessage height="800px">
+            <Loader/>
         </CenteredMessage>
     }
 
@@ -48,14 +55,7 @@ const SearchResults = function({searchState, progress, serpId, results, matches,
     return (
         <div>
             <div className="SearchResults">
-                {progress.querySubmitted &&
-                <Loader loaded={results.length > 0 || progress.isRefreshing() || progress.isFinished()}/>
-                }
-
-                {results.length > 0 &&
                 <div className="time"> {timeIndicator} </div>
-                }
-
                 <div className="list">
                     {list}
                 </div>
@@ -63,7 +63,6 @@ const SearchResults = function({searchState, progress, serpId, results, matches,
 
             <SearchResultsPagination
                 searchState={searchState}
-                finished={results.length > 0 || progress.finished}
                 matches={matches}
                 changeHandler={pageChangeHandler}
             />

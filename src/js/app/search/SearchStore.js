@@ -27,7 +27,6 @@ let state = {
     page: parseInt(Helpers.getURLParameter('p')) || 1,
     provider: provider,
 
-    submittedQuery: false,
     finished: false,
     resultsNotFound: false,
 
@@ -103,7 +102,6 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
     },
     getSearchProgress() {
         return {
-            submittedQuery: state.submittedQuery,
             finished: state.finished,
             resultsNotFound: state.resultsNotFound
         }
@@ -163,7 +161,6 @@ const _search = (query, vertical, page) => {
     state.query = query || state.query;
     state.vertical = vertical || state.vertical;
     state.page = page || state.page || 1;
-    state.submittedQuery = true;
     state.finished = false;
     state.resultsNotFound = false;
 

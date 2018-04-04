@@ -40,24 +40,21 @@
 
     .body {
         display: flex;
+        flex-direction: row-reverse;
         height: 95.5%;
         width: 100%;
 
         .page {
-            width: 80%;
+            flex: 1;
             background-color: gray;
 
             display: flex;
             flex-direction: column;
             justify-content: center;
 
-            #modal-loader {
+            #viewer-content-loader {
                 position: relative;
                 top: 50%;
-
-                .loader {
-                    position: relative;
-                }
             }
 
             iframe {
@@ -74,7 +71,7 @@
         }
 
         .sidebar {
-            width: 20%;
+            width: 350px;
             padding: 15px;
         }
     }
