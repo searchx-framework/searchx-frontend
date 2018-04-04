@@ -38,7 +38,7 @@ export default class SearchHeaderContainer extends React.Component {
 
     changeHandler() {
         const nextState = SearchStore.getSearchState();
-        if (nextState.query !== this.state.storedQuery) {
+        if (nextState.query !== this.state.storedQuery || nextState.vertical !== this.state.vertical) {
             this.state.storedQuery = nextState.query;
             this.setState(nextState);
         }
