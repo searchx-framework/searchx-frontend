@@ -183,7 +183,9 @@ const _search = (query, vertical, page) => {
             + '&providerName=' + state.provider
         )
         .end((err, res) => {
-            if (!res.body.error) {
+            if (err || res.body.error) {
+                state.results = [];
+            } else {
                 const results = res.body.results;
                 for (let i = 0; i < results.length; i++) {
                     results[i].position = i;
@@ -192,8 +194,6 @@ const _search = (query, vertical, page) => {
                 state.results = results;
                 state.matches = res.body.matches;
                 state.serpId = res.body.id;
-            } else {
-                state.results = [];
             }
 
             if (state.results.length === 0) {
