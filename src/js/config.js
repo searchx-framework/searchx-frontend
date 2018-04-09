@@ -12,6 +12,9 @@ const providerVerticals = new Map([
     ])],
     ['elasticsearch', new Map([
         ['web', WebSearchResult],
+    ])],
+    ['indri', new Map([
+        ['web', WebSearchResult]
     ])]
 ]);
 
