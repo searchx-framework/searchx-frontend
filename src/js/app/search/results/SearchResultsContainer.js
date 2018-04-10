@@ -20,6 +20,7 @@ const getState = function() {
         activeUrl: SearchStore.getActiveUrl(),
         provider: SearchStore.getProvider(),
         distributionOfLabour: SearchStore.getDistributionOfLabour(),
+        activeDoctext: SearchStore.getActiveDoctext(),
     }
 };
 
@@ -71,6 +72,7 @@ export default class SearchResultsContainer extends React.Component {
                             serpId={this.state.serpId}
                             url={this.state.activeUrl}
                             documentCloseHandler={this.documentCloseHandler}
+                            doctext={this.state.activeDoctext}
             />
         </div>
     }

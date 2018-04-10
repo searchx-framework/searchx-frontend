@@ -42,11 +42,12 @@ export default {
         })
     },
 
-    openUrl(url) {
+    openUrl(url, doctext) {
         dispatch({
             type: ActionTypes.OPEN_URL,
             payload: {
-                url: url
+                url: url,
+                doctext: doctext
             }
         })
     },
@@ -57,5 +58,5 @@ export default {
             payload: {
             }
         })
-    },
+    }
 }

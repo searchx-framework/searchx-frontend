@@ -27,8 +27,8 @@ export default class SearchResultContainer extends React.Component {
 
     ////
 
-    urlClickHandler(url) {
-        SearchActions.openUrl(url);
+    urlClickHandler(url, doctext) {
+        SearchActions.openUrl(url, doctext);
         SearchStore.modifyMetadata(url, {
             views: this.props.result.metadata.views + 1
         });

@@ -8,7 +8,7 @@ import ViewerPage from "./ViewerPage";
 import AnnotationContainer from "../../../features/annotation/AnnotationContainer";
 import RatingContainer from "../../../features/rating/RatingContainer";
 
-const Viewer = function({searchState, serpId, url, documentCloseHandler}) {
+const Viewer = function({searchState, serpId, url, documentCloseHandler, doctext}) {
     if (url === "") {
         return <div/>
     }
@@ -50,16 +50,19 @@ const Viewer = function({searchState, serpId, url, documentCloseHandler}) {
                     <span className="title">{url}</span>
 
                     <div className="pull-right">
-                        <span className="forward" onClick={openInBrowser}>open in browser</span>
-                        <span className="divider"/>
-                        <RatingContainer url={url}/>
-                        <span className="divider"/>
+                        {!doctext ? [
+                                <span className="forward" onClick={openInBrowser}>open in browser</span>,
+                                <span className="divider"/>,
+                                <RatingContainer url={url}/>,
+                                <span className="divider"/>
+                            ] :
+                            ""}
                         <span className="close" onClick={closeDocument}><i className="fa fa-times"/></span>
                     </div>
                 </div>
 
                 <div className="body">
-                    <ViewerPage url={url} loadHandler={loadDocument} />
+                    <ViewerPage url={url} loadHandler={loadDocument} doctext={doctext} />
 
                     <div className="sidebar">
                         <AnnotationContainer url={url}/>

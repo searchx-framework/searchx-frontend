@@ -41,7 +41,8 @@ let state = {
     serpId: '',
 
     tutorial: false,
-    activeUrl: ""
+    activeUrl: "",
+    activeDoctext: "",
 };
 
 ////
@@ -88,6 +89,9 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
     },
     getDistributionOfLabour() {
         return state.distributionOfLabour;
+    },
+    getActiveDoctext() {
+        return state.activeDoctext;
     },
 
     getSearchResults() {
@@ -149,10 +153,12 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
                 break;
             case ActionTypes.OPEN_URL:
                 state.activeUrl = action.payload.url;
+                state.activeDoctext = action.payload.doctext;
                 SyncStore.emitViewState(action.payload.url);
                 break;
             case ActionTypes.CLOSE_URL:
                 state.activeUrl = "";
+                state.activeDoctext = "";
                 SyncStore.emitViewState(null);
                 break;
         }

@@ -2,6 +2,7 @@ import WebSearchResult from "./app/search/results/components/types/WebSearchResu
 import ImagesSearchResult from "./app/search/results/components/types/ImagesSearchResult";
 import VideosSearchResult from "./app/search/results/components/types/VideosSearchResult";
 import NewsSearchResult from "./app/search/results/components/types/NewsSearchResult";
+import TextSearchResult from "./app/search/results/components/types/TextSearchResult";
 
 const providerVerticals = new Map([
     ['bing', new Map([
@@ -14,7 +15,7 @@ const providerVerticals = new Map([
         ['web', WebSearchResult],
     ])],
     ['indri', new Map([
-        ['web', WebSearchResult]
+        ['text', TextSearchResult]
     ])]
 ]);
 
