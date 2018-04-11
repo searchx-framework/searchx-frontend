@@ -6,6 +6,8 @@ import config from "../../../../config";
 import SearchResultContainer from "../SearchResultContainer";
 import SearchResultsNotFound from "./SearchResultsNotFound";
 import SearchResultsPagination from "./SearchResultsPagination";
+import CollapsedSearchResults from "./CollapsedSearchResults";
+import {Collapse} from "react-bootstrap";
 
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -45,17 +47,15 @@ export default class SearchResultsContainer extends React.Component {
                     lastBookmarkedResults.push(<SearchResultContainer {...resultProps} key={index}/>);
                 } else {
                     if (lastBookmarkedResults.length > 0) {
-                        list.push(<CollapsedSearchResults results={lastBookmarkedResults} showBookmarkedResultsHandler={this.showBookmarkedResults}/>);
+                        list.push(<CollapsedSearchResults resultsLength={lastBookmarkedResults.length} showBookmarked={this.state.showBookmarked} showBookmarkedResultsHandler={this.showBookmarkedResults.bind(this)}/>);
                         lastBookmarkedResults = [];
                     }
-                    list.push(<SearchResultContainer {...resultProps} key={index}/>);
                 }
-            } else {
-                list.push(<SearchResultContainer {...resultProps} key={index}/>);
             }
+            list.push(<SearchResultContainer {...resultProps} key={index}/>);
         }
         if (lastBookmarkedResults.length > 0) {
-            list.push(<CollapsedSearchResults results={lastBookmarkedResults} showBookmarkedResultsHandler={this.showBookmarkedResults}/>);
+            list.push(<CollapsedSearchResults resultsLength={lastBookmarkedResults.length} showBookmarked={this.state.showBookmarked} showBookmarkedResultsHandler={this.showBookmarkedResults.bind(this)}/>);
         }
 
         const bookmarkedResultsLength = this.props.results.filter(result => result.metadata.bookmark).length;
@@ -74,16 +74,15 @@ export default class SearchResultsContainer extends React.Component {
                         <div className="time"> {timeIndicator}</div>
                     }
                     {this.props.distributionOfLabour === "unbookmarkedSoft" &&
-                        <div className="time"> {timeIndicator} -
+                        <div className="collapsedText">
                             {this.state.showBookmarked ? " " : " " + bookmarkedResultsLength + " bookmarked results hidden "}
-                            <a onClick={this.showBookmarkedResults}>
-                                {showBookmarkedText}
-                            </a>
+                            {bookmarkedResultsLength > 0 &&
+                                <a onClick={this.showBookmarkedResults.bind(this)}>
+                                    {showBookmarkedText}
+                                </a>
+                            }
                         </div>
                     }
-                    <div className="collapsedText">
-
-                    </div>
                     <div className="list">
                         {list}
                     </div>

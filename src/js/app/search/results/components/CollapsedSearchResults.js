@@ -1,20 +1,18 @@
 import React from 'react';
-import {Panel} from "react-bootstrap";
+import {Collapse} from "react-bootstrap";
 
 class CollapsedSearchResults extends React.Component {
     constructor(props, context) {
         super(props, context);
-
-        this.state = {
-            open: false
-        };
     }
 
     render() {
         return (
-            <div className="collapsedSearchResults">
-                <span className="collapsedResultsButton" onClick={this.props.showBookmarkedResultsHandler}><i className="fa fa-circle"/></span>
-            </div>
+            <Collapse in={!this.props.showBookmarked}>
+                <div className="collapsedResultsButton">
+                    <span onClick={this.props.showBookmarkedResultsHandler} title={this.props.resultsLength + " results hidden (click to show)"}><i className="fa fa-circle"/></span>
+                </div>
+            </Collapse>
         );
 
     }
