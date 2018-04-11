@@ -15,7 +15,7 @@ const TextSearchResult = function({searchState, serpId, result, metadata, bookma
     };
 
     let click = () => {
-        urlClickHandler(result.docid, result.document);
+        urlClickHandler(result.docid, result.fields.text);
         log(LoggerEventTypes.SEARCHRESULT_CLICK_URL, metaInfo);
     };
 
