@@ -25,7 +25,7 @@ const variant = Helpers.getURLParameter('variant') || 'SS1';
 let state = {
     query: Helpers.getURLParameter('q') || '',
     variant: variant,
-    vertical: Helpers.getURLParameter('v') || config.providerVerticals.get(provider).keys().next().value,
+    vertical: Helpers.getURLParameter('v') || config.providerVerticals[provider].keys().next().value,
     relevanceFeedback: variant === 'SS2' ? 'individual' : variant === 'SS3' ? 'shared' : 'false',
     distributionOfLabour: variant === 'SS0' ? 'false' : variant === 'SS1-Hard' ? 'unbookmarkedOnly' : 'unbookmarkedSoft',
     page: parseInt(Helpers.getURLParameter('p')) || 1,

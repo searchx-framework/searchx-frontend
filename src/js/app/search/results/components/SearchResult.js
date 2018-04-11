@@ -60,7 +60,7 @@ const SearchResult = function({searchState, serpId, result, bookmarkClickHandler
         bookmarkButton: bookmarkButton,
         urlClickHandler: urlClickHandler
     };
-    const ResultType = config.providerVerticals.get(provider).get(searchState.vertical);
+    const ResultType = config.providerVerticals[provider].get(searchState.vertical);
     const view = <ResultType {...props}/>;
 
     return (
