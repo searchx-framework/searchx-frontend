@@ -9,18 +9,19 @@ import SearchResultsContainer from "./results/SearchResultsContainer";
 import QueryHistoryContainer from "./features/queryhistory/QueryHistoryContainer";
 import BookmarkContainer from "./features/bookmark/BookmarkContainer";
 import Chat from "./features/chat/Chat";
+import config from "../../config";
 
 class Search extends React.Component {
     componentDidMount(){
         sessionStorage.clear();
 
-        if (this.props.collaborative) {
+        if (config.interface.chat && this.props.collaborative) {
             Chat();
         }
     }
 
     componentWillUnmount() {
-        if (this.props.collaborative) {
+        if (config.interface.chat && this.props.collaborative) {
             const messages = document.querySelector(".chat-content").innerHTML;
             log(LoggerEventTypes.CHAT_ARCHIVE, {
                 messages: messages

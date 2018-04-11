@@ -1,12 +1,9 @@
 import React from 'react';
 import Rating from 'react-rating';
 
-import WebSearchResult from './types/WebSearchResult';
-import NewsSearchResult from './types/NewsSearchResult';
-import ImagesSearchResult from './types/ImagesSearchResult';
-import VideosSearchResult from './types/VideosSearchResult';
-import {providerVerticals} from "../../../../config";
 import {Collapse} from "react-bootstrap";
+
+import config from "../../../../config";
 
 function formatMetadata(metadata) {
     let elements = [];
@@ -14,15 +11,15 @@ function formatMetadata(metadata) {
         return <div/>;
     }
 
-    if ('views' in metadata) {
+    if (config.interface.views && 'views' in metadata) {
         elements.push(<span><i className="fa fa-eye"/> {metadata.views}</span>);
     }
 
-    if ('rating' in metadata) {
+    if (config.interface.ratings && 'rating' in metadata) {
         elements.push(<span><i className="fa fa-thumbs-o-up"/> {metadata.rating}</span>);
     }
 
-    if ('annotations' in metadata) {
+    if (config.interface.annotations && 'annotations' in metadata) {
         elements.push(<span><i className="fa fa-comments"/> {metadata.annotations}</span>);
     }
 
@@ -63,7 +60,7 @@ const SearchResult = function({searchState, serpId, result, bookmarkClickHandler
         bookmarkButton: bookmarkButton,
         urlClickHandler: urlClickHandler
     };
-    const ResultType = providerVerticals.get(provider).get(searchState.vertical);
+    const ResultType = config.providerVerticals.get(provider).get(searchState.vertical);
     const view = <ResultType {...props}/>;
 
     return (

@@ -8,6 +8,8 @@ import ViewerPage from "./ViewerPage";
 import AnnotationContainer from "../../../features/annotation/AnnotationContainer";
 import RatingContainer from "../../../features/rating/RatingContainer";
 
+import config from '../../../../../config';
+
 const Viewer = function({searchState, serpId, url, documentCloseHandler, doctext}) {
     if (url === "") {
         return <div/>
@@ -50,13 +52,14 @@ const Viewer = function({searchState, serpId, url, documentCloseHandler, doctext
                     <span className="title">{url}</span>
 
                     <div className="pull-right">
-                        {!doctext ? [
+                        {!doctext && [
                                 <span className="forward" onClick={openInBrowser}>open in browser</span>,
-                                <span className="divider"/>,
-                                <RatingContainer url={url}/>,
                                 <span className="divider"/>
-                            ] :
-                            ""}
+                        ]}
+                        {config.interface.ratings && [
+                            <RatingContainer url={url}/>,
+                            <span className="divider"/>
+                        ]}
                         <span className="close" onClick={closeDocument}><i className="fa fa-times"/></span>
                     </div>
                 </div>
@@ -64,9 +67,11 @@ const Viewer = function({searchState, serpId, url, documentCloseHandler, doctext
                 <div className="body">
                     <ViewerPage url={url} loadHandler={loadDocument} doctext={doctext} />
 
-                    <div className="sidebar">
-                        <AnnotationContainer url={url}/>
-                    </div>
+                    {config.interface.annotations && (
+                        <div className="sidebar">
+                            <AnnotationContainer url={url}/>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

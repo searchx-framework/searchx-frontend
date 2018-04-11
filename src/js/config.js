@@ -24,5 +24,11 @@ module.exports = {
     logTimeInterval: 5000,
     defaultProvider: 'bing',
     // each provider must have at least one vertical
-    providerVerticals: providerVerticals
+    providerVerticals: providerVerticals,
+    interface: {
+        annotations: false,
+        ratings: false,
+        views: false,
+        chat: false
+    }
 };
