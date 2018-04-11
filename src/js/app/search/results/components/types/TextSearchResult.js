@@ -36,6 +36,10 @@ const TextSearchResult = function({searchState, serpId, result, metadata, bookma
         log(LoggerEventTypes.SEARCHRESULT_HOVERLEAVE,metaInfo);
     };
 
+    function createSnippet() {
+        return {__html: result.snippet};
+    }
+
     ////
 
     return  (
@@ -57,8 +61,7 @@ const TextSearchResult = function({searchState, serpId, result, metadata, bookma
                     </a>
                 </h2>
 
-                <p>
-                    {result.snippet}
+                <p dangerouslySetInnerHTML={ createSnippet() }>
                 </p>
 
                 {metadata}
