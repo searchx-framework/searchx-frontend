@@ -29,6 +29,7 @@ module.exports = {
         annotations: false,
         ratings: false,
         views: false,
-        chat: false
+        chat: false,
+        timeIndicator: false
     }
 };

@@ -19,6 +19,8 @@ export default class SearchResultsContainer extends React.Component {
         }
     }
 
+    showBookmarkedResults() { this.setState({showBookmarked: !this.state.showBookmarked}) }
+
     render() {
         if (this.props.progress.resultsNotFound) {
             return <SearchResultsNotFound/>;
@@ -27,6 +29,7 @@ export default class SearchResultsContainer extends React.Component {
         const prefix = (this.props.matches < config.aboutPrefixAt) ? "" : "About ";
         const timeIndicator = prefix + numberWithCommas(this.props.matches) + " results (" + this.props.elapsedTime + " seconds)";
         const list = [];
+        let lastBookmarkedResults = [];
         for (const [index, result] of this.props.results.entries()) {
             const resultProps = {
                 searchState: this.props.searchState,
@@ -37,7 +40,22 @@ export default class SearchResultsContainer extends React.Component {
                 showBookmarked: this.state.showBookmarked
             };
 
-            list.push(<SearchResultContainer {...resultProps} key={index}/>);
+            if (this.props.distributionOfLabour === 'unbookmarkedSoft') {
+                if (result.metadata.bookmark) {
+                    lastBookmarkedResults.push(<SearchResultContainer {...resultProps} key={index}/>);
+                } else {
+                    if (lastBookmarkedResults.length > 0) {
+                        list.push(<CollapsedSearchResults results={lastBookmarkedResults} showBookmarkedResultsHandler={this.showBookmarkedResults}/>);
+                        lastBookmarkedResults = [];
+                    }
+                    list.push(<SearchResultContainer {...resultProps} key={index}/>);
+                }
+            } else {
+                list.push(<SearchResultContainer {...resultProps} key={index}/>);
+            }
+        }
+        if (lastBookmarkedResults.length > 0) {
+            list.push(<CollapsedSearchResults results={lastBookmarkedResults} showBookmarkedResultsHandler={this.showBookmarkedResults}/>);
         }
 
         const bookmarkedResultsLength = this.props.results.filter(result => result.metadata.bookmark).length;
@@ -52,16 +70,16 @@ export default class SearchResultsContainer extends React.Component {
                     <Loader
                         loaded={this.props.results.length > 0 || this.props.progress.isRefreshing() || this.props.progress.isFinished()}/>
                     }
-                    {(this.props.results.length > 0) && (this.props.distributionOfLabour === "unbookmarkedSoft") ? (
+                    {config.interface.timeIndicator && this.props.results.length > 0 &&
+                        <div className="time"> {timeIndicator}</div>
+                    }
+                    {this.props.distributionOfLabour === "unbookmarkedSoft" &&
                         <div className="time"> {timeIndicator} -
                             {this.state.showBookmarked ? " " : " " + bookmarkedResultsLength + " bookmarked results hidden "}
-                            <a onClick={() => this.setState({showBookmarked: !this.state.showBookmarked})}>
+                            <a onClick={this.showBookmarkedResults}>
                                 {showBookmarkedText}
                             </a>
                         </div>
-                    ) : (this.props.results.length > 0 &&
-                        <div className="time"> {timeIndicator}</div>
-                    )
                     }
                     <div className="collapsedText">
 
