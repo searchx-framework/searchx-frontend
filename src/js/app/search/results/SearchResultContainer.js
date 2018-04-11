@@ -36,18 +36,23 @@ export default class SearchResultContainer extends React.Component {
 
     bookmarkClickHandler() {
         let action = "";
-
+        let id = this.props.result.docid ? this.props.result.docid : this.props.result.url;
         if (this.props.result.metadata.bookmark !== null) {
             action = "remove";
-            SessionActions.removeBookmark(this.props.result.url);
-            SearchStore.modifyMetadata(this.props.result.url, {
+            SessionActions.removeBookmark(id);
+            SearchStore.modifyMetadata(id, {
                 bookmark: null
             });
         }
         else {
             action = "add";
-            SessionActions.addBookmark(this.props.result.url, this.props.result.name);
-            SearchStore.modifyMetadata(this.props.result.url, {
+
+            if (this.props.result.docid) {
+                SessionActions.addBookmark(id, this.props.result.fields.title);
+            } else {
+                SessionActions.addBookmark(id, this.props.result.name);
+            }
+            SearchStore.modifyMetadata(id, {
                 bookmark: {
                     userId: AccountStore.getUserId(),
                     date: new Date()
@@ -56,7 +61,7 @@ export default class SearchResultContainer extends React.Component {
         }
 
         log(LoggerEventTypes.BOOKMARK_ACTION, {
-            url: this.props.result.url,
+            url: id,
             action: action
         });
     };
