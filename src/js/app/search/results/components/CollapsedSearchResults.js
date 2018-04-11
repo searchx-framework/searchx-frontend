@@ -9,7 +9,7 @@ class CollapsedSearchResults extends React.Component {
     render() {
         return (
             <Collapse in={!this.props.showBookmarked}>
-                <div className="collapsedResultsButton">
+                <div className="collapsedResults">
                     <span onClick={this.props.showBookmarkedResultsHandler} title={this.props.resultsLength + " results hidden (click to show)"}><i className="fa fa-circle"/></span>
                 </div>
             </Collapse>
