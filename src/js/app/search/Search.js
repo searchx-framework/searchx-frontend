@@ -36,19 +36,18 @@ class Search extends React.Component {
             <div className="Search">
                 <SearchHeaderContainer/>
 
-                <div className="Content" id="intro-collab-color">
-                    <div className="Main">
-                        <SearchResultsContainer/>
-                    </div>
-
+                <div className="Content">
                     <div className="Side">
                         <QueryHistoryContainer/>
                         <BookmarkContainer/>
                     </div>
+
+                    <div className="Main">
+                        <SearchResultsContainer/>
+                    </div>
                 </div>
 
                 <div className="text-center" >
-                    <hr/>
                     <p className="Footer">
                         About <a href="/about" target="_blank">SearchX</a>.
                     </p>

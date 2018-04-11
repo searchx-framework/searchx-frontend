@@ -7,7 +7,7 @@ const isImage = require('is-image');
 const ViewerPage = function({url, loadHandler}) {
     return(
         <div className="page">
-            <div id="modal-loader">
+            <div id="viewer-content-loader">
                 <Loader/>
             </div>
 

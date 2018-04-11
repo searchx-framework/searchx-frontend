@@ -4,18 +4,21 @@
 .Search {
     .Content {
         display: flex;
+        flex-direction: row-reverse;
+        margin-top: -5px;
         min-height: 750px;
 
         .Main {
-            width: 70%;
+            flex: 1;
+            padding-bottom: 20px;
         }
 
         .Side {
-            width: 30%;
-
-            padding-left: 10px;
-            padding-right: 10px;
-            border-left: 2px solid $border-color;
+            width: 400px;
+            padding-left: 20px;
+            padding-right: 20px;
+            padding-bottom: 20px;
+            border-left: 1px solid $border-color;
 
             h3 {
                 font-size: 20px;
@@ -26,7 +29,14 @@
 
     .Footer {
         font-size: 13px;
-        margin-top: 20px;
-        margin-bottom: 20px;
+        padding: 10px;
+        margin: 0;
+        border-top: 1px solid $border-color;
+    }
+}
+
+.loader {
+    .spinner {
+        position: relative !important;
     }
 }

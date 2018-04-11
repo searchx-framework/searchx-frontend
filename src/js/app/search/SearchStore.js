@@ -27,7 +27,6 @@ let state = {
     page: parseInt(Helpers.getURLParameter('p')) || 1,
     provider: provider,
 
-    submittedQuery: false,
     finished: false,
     resultsNotFound: false,
 
@@ -103,7 +102,6 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
     },
     getSearchProgress() {
         return {
-            submittedQuery: state.submittedQuery,
             finished: state.finished,
             resultsNotFound: state.resultsNotFound
         }
@@ -163,7 +161,6 @@ const _search = (query, vertical, page) => {
     state.query = query || state.query;
     state.vertical = vertical || state.vertical;
     state.page = page || state.page || 1;
-    state.submittedQuery = true;
     state.finished = false;
     state.resultsNotFound = false;
 
@@ -186,7 +183,9 @@ const _search = (query, vertical, page) => {
             + '&providerName=' + state.provider
         )
         .end((err, res) => {
-            if (!res.body.error) {
+            if (err || res.body.error) {
+                state.results = [];
+            } else {
                 const results = res.body.results;
                 for (let i = 0; i < results.length; i++) {
                     results[i].position = i;
@@ -195,8 +194,6 @@ const _search = (query, vertical, page) => {
                 state.results = results;
                 state.matches = res.body.matches;
                 state.serpId = res.body.id;
-            } else {
-                state.results = [];
             }
 
             if (state.results.length === 0) {

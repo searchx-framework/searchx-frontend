@@ -12,23 +12,37 @@ export default class SearchHeaderContainer extends React.Component {
     constructor() {
         super();
         this.state = SearchStore.getSearchState();
+        this.state.storedQuery = this.state.query;
 
-        this._onChange = this._onChange.bind(this);
+        this.changeHandler = this.changeHandler.bind(this);
         this.searchHandler = this.searchHandler.bind(this);
         this.queryChangeHandler = this.queryChangeHandler.bind(this);
         this.verticalChangeHandler = this.verticalChangeHandler.bind(this);
     }
 
-    componentWillMount() {SearchStore.addChangeListener(this._onChange);}
-    componentWillUnmount() {SearchStore.removeChangeListener(this._onChange);}
-    _onChange() {
-        const nextState = SearchStore.getSearchState();
-        if (nextState.vertical !== this.state.vertical) {
-            this.setState(nextState);
-        }
+    componentWillMount() {SearchStore.addChangeListener(this.changeHandler);}
+    componentWillUnmount() {SearchStore.removeChangeListener(this.changeHandler);}
+
+    render() {
+        return <SearchHeader
+            query={this.state.query}
+            vertical={this.state.vertical}
+            provider={this.state.provider}
+            searchHandler={this.searchHandler}
+            queryChangeHandler={this.queryChangeHandler}
+            verticalChangeHandler={this.verticalChangeHandler}
+        />
     }
 
     ////
+
+    changeHandler() {
+        const nextState = SearchStore.getSearchState();
+        if (nextState.query !== this.state.storedQuery || nextState.vertical !== this.state.vertical) {
+            this.state.storedQuery = nextState.query;
+            this.setState(nextState);
+        }
+    }
 
     searchHandler() {
         log(LoggerEventTypes.SEARCH_QUERY, {
@@ -56,18 +70,5 @@ export default class SearchHeaderContainer extends React.Component {
         });
 
         SearchActions.changeVertical(vertical);
-    }
-
-    ////
-
-    render() {
-        return <SearchHeader
-            query={this.state.query}
-            vertical={this.state.vertical}
-            provider={this.state.provider}
-            searchHandler={this.searchHandler}
-            queryChangeHandler={this.queryChangeHandler}
-            verticalChangeHandler={this.verticalChangeHandler}
-        />
     }
 }

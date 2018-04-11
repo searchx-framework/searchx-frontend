@@ -1,100 +1,78 @@
 @import '../../../../Variables.pcss';
 
-.modal {
-    display: block;
-    position: fixed; /* Stay in place */
-    padding-top: 100px; /* Location of the box */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+.viewer {
+    width: 100%;
+    height: 100%;
 
-    .content {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        border: 1px solid #888;
-        background-color: #fefefe;
-        width: 95%;
-        height: 90%;
+    .header {
+        height: 4.5%;
+        padding: 10px;
+        border-bottom: 1px solid $border-color;
+        box-shadow: 0 0 15px 0 rgba(50, 50, 50, 0.04);
 
-        .header {
-            height: 4.5%;
-            padding: 10px;
-            border-bottom: 1px solid $border-color;
-            box-shadow: 0 0 15px 0 rgba(50, 50, 50, 0.04);
+        .forward {
+            color: gray;
+            cursor: pointer;
+        }
 
-            .forward {
-                color: gray;
+        .close {
+            float: none;
+            color: red;
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+
+            &:hover,
+            &:focus {
+                color: #000;
+                text-decoration: none;
                 cursor: pointer;
-            }
-
-            .close {
-                float: none;
-                color: red;
-                font-size: 16px;
-                font-weight: bold;
-                margin-bottom: 10px;
-
-                &:hover,
-                &:focus {
-                    color: #000;
-                    text-decoration: none;
-                    cursor: pointer;
-                }
-            }
-
-            .divider {
-                height: 200px;
-                border-left:1px solid lightgray;
-                margin-left: 10px;
-                margin-right: 10px;
             }
         }
 
-        .body {
+        .divider {
+            height: 200px;
+            border-left:1px solid lightgray;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+    }
+
+    .body {
+        display: flex;
+        flex-direction: row-reverse;
+        height: 95.5%;
+        width: 100%;
+
+        .page {
+            flex: 1;
+            background-color: gray;
+
             display: flex;
-            height: 95.5%;
-            width: 100%;
+            flex-direction: column;
+            justify-content: center;
 
-            .page {
-                width: 80%;
-                background-color: gray;
-
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-
-                #modal-loader {
-                    position: relative;
-                    top: 50%;
-
-                    .loader {
-                        position: relative;
-                    }
-                }
-
-                iframe {
-                    height: 100%;
-                    width: 100%;
-                }
-
-                img {
-                    display: block;
-                    margin: 0 auto;
-                    max-height: 100%;
-                    max-width: 100%;
-                }
+            #viewer-content-loader {
+                position: relative;
+                top: 50%;
             }
 
-            .sidebar {
-                width: 20%;
-                padding: 15px;
+            iframe {
+                height: 100%;
+                width: 100%;
             }
+
+            img {
+                display: block;
+                margin: 0 auto;
+                max-height: 100%;
+                max-width: 100%;
+            }
+        }
+
+        .sidebar {
+            width: 350px;
+            padding: 15px;
         }
     }
 }
