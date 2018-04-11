@@ -4,7 +4,6 @@ import Helpers from '../utils/Helpers'
 let state = {
     userId: localStorage.getItem("user-id") || Helpers.generateUUID(),
     sessionId: localStorage.getItem("session-id") || '0e7f35c8-16bb-403c-96cb-ad4ee95ea35c',
-    sessionId: localStorage.getItem("session-id") || '0e7f35c8-16bb-403c-96cb-ad4ee95ea35c',
     task: {
         id: localStorage.getItem("task-id") || '',
         data: JSON.parse(localStorage.getItem("task-data")) || '',

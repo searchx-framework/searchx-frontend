@@ -5,14 +5,16 @@ import SearchActions from "../../../../actions/SearchActions";
 import SessionActions from "../../../../actions/SessionActions";
 import QueryHistoryStore from "./QueryHistoryStore";
 import SessionStore from "../../../../stores/SessionStore";
+import BookmarkStore from "../bookmark/BookmarkStore";
+import AccountStore from "../../../../stores/AccountStore";
 
 function queryClickHandler(query) {
     SearchActions.search(query);
 }
 
 export default class QueryHistoryContainer extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             history: []
         };
@@ -24,11 +26,18 @@ export default class QueryHistoryContainer extends React.Component {
     componentWillMount() {QueryHistoryStore.addChangeListener(this._onChange);}
     componentWillUnmount() {QueryHistoryStore.removeChangeListener(this._onChange);}
     _onChange() {
+        let history = QueryHistoryStore.getQueryHistory();
+        if (!this.props.collaborative) {
+            history = history.filter((data) => {
+                return data.userId === AccountStore.getUserId();
+            });
+        }
+        history = history.map((data) => {
+            data.userColor = SessionStore.getMemberColor(data.userId);
+            return data;
+        });
         this.setState({
-            history: QueryHistoryStore.getQueryHistory().map((data) => {
-                data.userColor = SessionStore.getMemberColor(data.userId);
-                return data;
-            })
+            history: history
         });
     }
 

@@ -6,6 +6,7 @@ import SearchStore from "../../SearchStore";
 import SessionStore from "../../../../stores/SessionStore";
 import BookmarkStore from "./BookmarkStore";
 import SearchActions from "../../../../actions/SearchActions";
+import AccountStore from "../../../../stores/AccountStore";
 
 function removeHandler(url) {
     SessionActions.removeBookmark(url);
@@ -23,8 +24,8 @@ function clickHandler(url) {
 }
 
 export default class BookmarkContainer extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             bookmarks: []
         };
@@ -36,11 +37,18 @@ export default class BookmarkContainer extends React.Component {
     componentWillMount() {BookmarkStore.addChangeListener(this._onChange);}
     componentWillUnmount() {BookmarkStore.removeChangeListener(this._onChange);}
     _onChange() {
-        this.setState({
-            bookmarks: BookmarkStore.getBookmarks().map((data) => {
+        let bookmarks = BookmarkStore.getBookmarks();
+        if (!this.props.collaborative) {
+            bookmarks = bookmarks.filter((data) => {
+                return data.userId === AccountStore.getUserId();
+            })
+        }
+        bookmarks = bookmarks.map((data) => {
                 data.userColor = SessionStore.getMemberColor(data.userId);
                 return data;
-            })
+            });
+        this.setState({
+            bookmarks: bookmarks
         });
     }
 

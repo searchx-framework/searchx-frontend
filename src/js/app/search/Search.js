@@ -43,8 +43,8 @@ class Search extends React.Component {
                     </div>
 
                     <div className="Side">
-                        <QueryHistoryContainer/>
-                        <BookmarkContainer/>
+                        <QueryHistoryContainer collaborative={this.props.collaborative}/>
+                        <BookmarkContainer collaborative={this.props.collaborative}/>
                     </div>
                 </div>
 
