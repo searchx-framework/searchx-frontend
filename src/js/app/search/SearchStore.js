@@ -125,9 +125,13 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
 
     ////
 
-    modifyMetadata(url, newData) {
+    modifyMetadata(id, newData) {
         state.results.forEach((item) => {
-            if (item.url === url ) {
+            if (item.docid) {
+                if (item.docid === id) {
+                    item.metadata = Object.assign(item.metadata, newData);
+                }
+            } else if (item.url === id ) {
                 item.metadata = Object.assign(item.metadata, newData);
             }
         });
