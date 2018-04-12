@@ -36,7 +36,7 @@ export default class SearchResultContainer extends React.Component {
 
     bookmarkClickHandler() {
         let action = "";
-        let id = this.props.result.docid ? this.props.result.docid : this.props.result.url;
+        let id = this.props.result.id ? this.props.result.id : this.props.result.url;
         if (this.props.result.metadata.bookmark !== null) {
             action = "remove";
             SessionActions.removeBookmark(id);
@@ -47,7 +47,7 @@ export default class SearchResultContainer extends React.Component {
         else {
             action = "add";
 
-            if (this.props.result.docid) {
+            if (this.props.result.id) {
                 SessionActions.addBookmark(id, this.props.result.fields.title);
             } else {
                 SessionActions.addBookmark(id, this.props.result.name);

@@ -8,14 +8,14 @@ import {LoggerEventTypes} from '../../../../../utils/LoggerEventTypes';
 
 const TextSearchResult = function({searchState, serpId, result, metadata, bookmarkButton, urlClickHandler}) {
     let metaInfo = {
-        url: result.docid,
+        url: result.id,
         query: searchState.query,
         page: searchState.page,
         serpId: serpId,
     };
 
     let click = () => {
-        urlClickHandler(result.docid, result.fields.text);
+        urlClickHandler(result.id, result.text);
         log(LoggerEventTypes.SEARCHRESULT_CLICK_URL, metaInfo);
     };
 
@@ -56,8 +56,8 @@ const TextSearchResult = function({searchState, serpId, result, metadata, bookma
 
             <div onMouseEnter={hoverEnterSummary} onMouseLeave={hoverLeaveSummary} >
                 <h2>
-                    <a title={result.fields.title} target="_blank" onClick={click} onContextMenu={context}>
-                        {result.fields.title}
+                    <a title={result.name} target="_blank" onClick={click} onContextMenu={context}>
+                        {result.name}
                     </a>
                 </h2>
 
