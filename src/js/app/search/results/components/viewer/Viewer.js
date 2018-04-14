@@ -49,7 +49,7 @@ const Viewer = function({searchState, serpId, url, documentCloseHandler, doctext
         <div className="modal">
             <div className="content" onMouseEnter={hoverEnterDocument} onMouseLeave={hoverLeaveDocument}>
                 <div className="header">
-                    <span className="title">{url}</span>
+                    
 
                     <div className="pull-right">
                         {!doctext && [
