@@ -21,7 +21,7 @@ import AsyncFeedback from './tasks/example-group-async/Feedback';
 import AsyncSession from './tasks/example-group-async/Session';
 import PilotRegister from './tasks/algorithmic-mediation-pilot/Register';
 import PilotWait from './tasks/algorithmic-mediation-pilot/Wait';
-import PilotSession from './tasks/algorithmic-mediation-pilot/Register';
+import PilotSession from './tasks/algorithmic-mediation-pilot/Session';
 
 export class App extends React.Component {
     componentWillMount(){

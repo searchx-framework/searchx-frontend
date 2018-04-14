@@ -6,6 +6,8 @@ import {LoggerEventTypes} from "../../../utils/LoggerEventTypes";
 import AccountStore from "../../../stores/AccountStore";
 import SyncStore from "../../../stores/SyncStore";
 import IntroStore from "../../../stores/IntroStore";
+import constants from "./constants";
+import Helpers from "../../../utils/Helpers";
 
 class Wait extends React.Component {
     constructor(props) {
@@ -18,7 +20,6 @@ class Wait extends React.Component {
         this.onSync = this.onSync.bind(this);
         this.onLeave = this.onLeave.bind(this);
 
-        // SyncStore.emitSyncSubmit({});
         Helpers.sleep(constants.waitDuration * 60 * 1000).then(() => {
             this.setState({timedOut: true}, () => {
                 this.onLeave();
@@ -28,7 +29,6 @@ class Wait extends React.Component {
 
     render() {
         const task = AccountStore.getTaskData();
-        if (!task.topics) return <div/>;
 
         return <div>
             {this.state.timedOut ?
