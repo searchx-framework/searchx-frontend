@@ -20,12 +20,10 @@ class Session extends React.PureComponent {
     }
 
     componentDidMount() {
-        IntroStore.startIntro(introSteps, () => {
-            const start = localStorage.getItem("timer-start") || Date.now();
-            localStorage.setItem("timer-start", start);
-            this.setState({
-                start: start
-            });
+        const start = localStorage.getItem("timer-start") || Date.now();
+        localStorage.setItem("timer-start", start);
+        this.setState({
+            start: start
         });
     }
 
@@ -63,48 +61,5 @@ class Session extends React.PureComponent {
         });
     }
 }
-
-const introSteps = [
-    {
-        element: '.Task',
-        intro: 'Please take a minute to read your task description.',
-        position: 'left'
-    },
-    {
-        element: '.SearchHeader',
-        intro: 'We want you to use our custom web search system SearchX.',
-        position: 'bottom-middle-aligned'
-    },
-    {
-        element: '.SearchHeader .form',
-        intro: 'Use SearchX to search for webpages, publications, and other online sources about the topic.'
-    },
-    {
-        element: '.QueryHistory',
-        intro: 'The query history shows your and your group\'s past search queries. In this manner you see what the others are doing.',
-        position: 'top'
-    },
-    {
-        element: '.SearchResults',
-        intro: 'To save a resource that is useful, bookmark it. You also see your group\'s bookmarks here.',
-        position: 'top'
-    },
-    {
-        element: '.Bookmarks',
-        //TODO: adjust explanation conditionally for SS0, or reformulate
-        intro: 'The documents you and your group bookmarked will appear here. You can revisit them before completing the session.',
-        position: 'top'
-    },
-    {
-        element: '.Search .Content',
-        intro: 'The query history and bookmarks are color-coded to show who initiated the action.',
-        position: 'top'
-    },
-    {
-        //TODO: write explanation of real-time changes to SERP
-        intro: 'explanation of real-time functionality here',
-        position: 'auto'
-    }
-];
 
 export default Session;
