@@ -47,11 +47,8 @@ export default class SearchResultContainer extends React.Component {
         else {
             action = "add";
 
-            if (this.props.result.id) {
-                SessionActions.addBookmark(id, this.props.result.fields.title);
-            } else {
-                SessionActions.addBookmark(id, this.props.result.name);
-            }
+            SessionActions.addBookmark(id, this.props.result.name);
+
             SearchStore.modifyMetadata(id, {
                 bookmark: {
                     userId: AccountStore.getUserId(),
