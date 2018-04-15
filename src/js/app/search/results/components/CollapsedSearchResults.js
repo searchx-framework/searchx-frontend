@@ -1,5 +1,5 @@
 import React from 'react';
-import {Collapse} from "react-bootstrap";
+import {Button, Collapse} from "react-bootstrap";
 
 class CollapsedSearchResults extends React.Component {
     constructor(props, context) {
@@ -9,8 +9,10 @@ class CollapsedSearchResults extends React.Component {
     render() {
         return (
             <Collapse in={!this.props.showBookmarked}>
-                <div className="collapsedResults">
-                    <span onClick={this.props.showBookmarkedResultsHandler} title={this.props.resultsLength + " results hidden (click to show)"}><i className="fa fa-circle"/></span>
+                <div className="result-collapsed">
+                    <Button bsSize="xsmall" onClick={this.props.showBookmarkedResultsHandler} className="collapsedResultsButton">
+                        {this.props.resultsLength} results hidden (click to show)
+                    </Button>
                 </div>
             </Collapse>
         );

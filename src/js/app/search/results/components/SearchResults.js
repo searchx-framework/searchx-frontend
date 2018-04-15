@@ -7,7 +7,7 @@ import SearchResultContainer from "../SearchResultContainer";
 import SearchResultsNotFound from "./SearchResultsNotFound";
 import SearchResultsPagination from "./SearchResultsPagination";
 import CollapsedSearchResults from "./CollapsedSearchResults";
-import {Collapse} from "react-bootstrap";
+import {Button, Collapse} from "react-bootstrap";
 
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -61,7 +61,7 @@ export default class SearchResultsContainer extends React.Component {
         const bookmarkedResultsLength = this.props.results.filter(result => result.metadata.bookmark).length;
         const showBookmarkedText = this.state.showBookmarked ?
             "Hide bookmarked results" :
-            "(click to show)";
+            "Show " + bookmarkedResultsLength + " hidden bookmarked results";
 
         return (
             <div>
@@ -75,11 +75,10 @@ export default class SearchResultsContainer extends React.Component {
                     }
                     {this.props.distributionOfLabour === "unbookmarkedSoft" &&
                         <div className="collapsedText">
-                            {this.state.showBookmarked ? " " : " " + bookmarkedResultsLength + " bookmarked results hidden "}
                             {bookmarkedResultsLength > 0 &&
-                                <a onClick={this.showBookmarkedResults.bind(this)}>
+                                <Button onClick={this.showBookmarkedResults.bind(this)}>
                                     {showBookmarkedText}
-                                </a>
+                                </Button>
                             }
                         </div>
                     }
