@@ -4,6 +4,8 @@ import Rating from 'react-rating';
 import {log} from '../../../../../utils/Logger';
 import {LoggerEventTypes} from '../../../../../utils/LoggerEventTypes';
 
+import config from '../../../../../config';
+
 const BookmarkItem = function({data, removeHandler, starHandler, clickHandler}) {
     let metaInfo = {
         url: data.url,
@@ -24,14 +26,17 @@ const BookmarkItem = function({data, removeHandler, starHandler, clickHandler}) 
         borderColor: data.userColor
     };
 
+    // todo: put id vs url in bookmark model instead of isNaN hack
     return  (
         <div className="item" style={rowStyle} onMouseEnter={hoverEnterSummary} onMouseLeave={hoverLeaveSummary}>
             <div className="buttons">
-                <Rating className="star" empty="fa fa-star-o" full="fa fa-star"
-                        onClick={() => starHandler(data.url)}
-                        stop={1} initialRate={data.starred ? 1 : 0}
-                />
-                <Rating className="remove" empty="fa fa-trash-o" full="fa fa-trash"
+                {config.interface.star && (
+                    <Rating className="topicon" empty="fa fa-star-o" full="fa fa-star"
+                            onClick={() => starHandler(data.url)}
+                            stop={1} initialRate={data.starred ? 1 : 0}
+                    />
+                )}
+                <Rating className={(config.interface.star ? "bottomicon " : "topicon ") + "remove"} empty="fa fa-trash-o" full="fa fa-trash"
                         onClick={() => removeHandler(data.url)}
                         stop={1} initialRate={0}
                 />
@@ -43,9 +48,11 @@ const BookmarkItem = function({data, removeHandler, starHandler, clickHandler}) 
                 </a>
             </h2>
 
-            <span>
-                {data.url}
-            </span>
+            {isNaN(data.url) && (
+                <span>
+                    {data.url}
+                </span>
+            )}
         </div>
     )
 };

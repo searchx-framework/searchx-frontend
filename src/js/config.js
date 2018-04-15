@@ -30,6 +30,7 @@ module.exports = {
         ratings: false,
         views: false,
         chat: false,
-        timeIndicator: false
+        timeIndicator: false,
+        star: false
     }
 };
