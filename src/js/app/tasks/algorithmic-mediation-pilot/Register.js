@@ -4,6 +4,7 @@ import constants from "./constants";
 
 import AccountStore from "../../../stores/AccountStore";
 import SessionStore from "../../../stores/SessionStore";
+import SyncStore from "../../../stores/SyncStore";
 
 class Register extends React.Component {
     constructor(props) {
@@ -34,6 +35,8 @@ class Register extends React.Component {
             if (res) {
                 if ('topic' in res.taskData) {
                     this.props.history.push('/pilot/session');
+                    // emit sync submit to trigger update of task data for other group members
+                    SyncStore.emitSyncSubmit({});
                 } else {
                     this.props.history.push('/pilot/wait');
                 }

@@ -1,6 +1,7 @@
 {
     "taskId": "example-group-sync",
     "groupSize": 2,
+    "topicsSize": 1,
     "taskDuration": 20,
     "waitDuration": 20,
     "switchPageLimit": 3,

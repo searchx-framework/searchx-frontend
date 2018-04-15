@@ -27,6 +27,12 @@ class Wait extends React.Component {
         });
     }
 
+    componentDidMount() {
+        SyncStore.listenToSyncData((data) => {
+            this.onSync(data);
+        });
+    }
+
     render() {
         const task = AccountStore.getTaskData();
 
