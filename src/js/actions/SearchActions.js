@@ -31,14 +31,9 @@ export default {
         })
     },
 
-    updateMetadata(query, vertical, page) {
+    updateMetadata() {
         dispatch({
-            type: ActionTypes.UPDATE_METADATA,
-            payload: {
-                query: query,
-                vertical: vertical,
-                page: page
-            },
+            type: ActionTypes.UPDATE_METADATA
         })
     },
 

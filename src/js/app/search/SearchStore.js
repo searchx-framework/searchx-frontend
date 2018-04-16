@@ -26,8 +26,8 @@ let state = {
     query: Helpers.getURLParameter('q') || '',
     variant: variant,
     vertical: Helpers.getURLParameter('v') || config.providerVerticals[provider].keys().next().value,
-    relevanceFeedback: variant === 'SS2' ? 'individual' : variant === 'SS3' ? 'shared' : 'false',
-    distributionOfLabour: variant === 'SS0' ? 'false' : variant === 'SS1-Hard' ? 'unbookmarkedOnly' : 'unbookmarkedSoft',
+    relevanceFeedback: variant === 'SS2' ? 'individual' : variant === 'SS3' ? 'shared' : false,
+    distributionOfLabour: variant === 'SS0' ? false : variant === 'SS1-Hard' ? 'unbookmarkedOnly' : 'unbookmarkedSoft',
     page: parseInt(Helpers.getURLParameter('p')) || 1,
     provider: provider,
 
@@ -89,6 +89,9 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
     },
     getDistributionOfLabour() {
         return state.distributionOfLabour;
+    },
+    getRelevanceFeedback() {
+        return state.relevanceFeedback;
     },
     getActiveDoctext() {
         return state.activeDoctext;
@@ -153,7 +156,7 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
                 _search(state.query, state.vertical, action.payload.page);
                 break;
             case ActionTypes.UPDATE_METADATA:
-                _updateMetadata(state.query, state.vertical, action.payload.page);
+                _search(state.query, state.vertical, state.page);
                 break;
             case ActionTypes.OPEN_URL:
                 state.activeUrl = action.payload.url;
@@ -187,7 +190,7 @@ const _search = (query, vertical, page) => {
     state.finished = false;
     state.resultsNotFound = false;
 
-    _updateUrl(state.query, state.vertical, state.page, state.provider);
+    _updateUrl(state.query, state.vertical, state.page, state.provider, state.variant);
     SyncStore.emitSearchState(SearchStore.getSearchState());
     SearchStore.emitChange();
 
@@ -242,16 +245,10 @@ const _search = (query, vertical, page) => {
         });
 };
 
-const _updateMetadata = function(query, vertical, page) {
-    if (query === state.query && vertical === state.vertical && page === state.page) {
-        _search(query, vertical, page);
-    }
-};
-
-const _updateUrl = function(query, vertical, page, provider) {
+const _updateUrl = function(query, vertical, page, provider, variant) {
     const url = window.location.href;
     const route = url.split("/").pop().split("?")[0];
-    const params = 'q='+ query +'&v='+ vertical.toLowerCase() +'&p='+ page + '&provider=' + state.provider + '&variant=' + state.variant;
+    const params = 'q='+ query +'&v='+ vertical.toLowerCase() +'&p='+ page + '&provider=' + provider + '&variant=' + variant;
 
     history.push({
         pathname: route,

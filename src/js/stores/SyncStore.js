@@ -84,7 +84,7 @@ socket.on('searchState', (data) => {
 
 socket.on('bookmarkUpdate', (data) => {
     SessionActions.getBookmarks();
-    SearchActions.updateMetadata(data.query, data.vertical, data.page);
+    SearchActions.updateMetadata();
 });
 
 socket.on('pageMetadataUpdate', (data) => {

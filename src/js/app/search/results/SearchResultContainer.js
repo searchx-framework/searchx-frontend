@@ -40,27 +40,35 @@ export default class SearchResultContainer extends React.Component {
         if (this.props.result.metadata.bookmark !== null) {
             action = "remove";
             SessionActions.removeBookmark(id);
-            SearchStore.modifyMetadata(id, {
-                bookmark: null
-            });
+            if (!SearchStore.getDistributionOfLabour() && !SearchStore.getRelevanceFeedback()) {
+                SearchStore.modifyMetadata(id, {
+                    bookmark: null
+                });
+            }
         }
         else {
             action = "add";
 
             SessionActions.addBookmark(id, this.props.result.name);
 
-            SearchStore.modifyMetadata(id, {
-                bookmark: {
-                    userId: AccountStore.getUserId(),
-                    date: new Date()
-                }
-            });
+            if (!SearchStore.getDistributionOfLabour() && !SearchStore.getRelevanceFeedback()) {
+                SearchStore.modifyMetadata(id, {
+                    bookmark: {
+                        userId: AccountStore.getUserId(),
+                        date: new Date()
+                    }
+                });
+            }
         }
 
         log(LoggerEventTypes.BOOKMARK_ACTION, {
             url: id,
             action: action
         });
+
+        if (SearchStore.getDistributionOfLabour() || SearchStore.getRelevanceFeedback()) {
+            SearchActions.updateMetadata()
+        }
     };
 
     ////
