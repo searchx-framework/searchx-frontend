@@ -19,7 +19,7 @@ export default class SearchResultContainer extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if('metadata' in nextProps.result) {
-            if (nextProps.result.metadata.bookmark !== null) {
+            if (nextProps.result.metadata.bookmark) {
                 nextProps.result.metadata.bookmark.userColor = AccountStore.getMemberColor(nextProps.result.metadata.bookmark.userId);
             }
         }
@@ -37,7 +37,7 @@ export default class SearchResultContainer extends React.Component {
     bookmarkClickHandler() {
         let action = "";
         let id = this.props.result.id ? this.props.result.id : this.props.result.url;
-        if (this.props.result.metadata.bookmark !== null) {
+        if (this.props.result.metadata.bookmark) {
             action = "remove";
             SessionActions.removeBookmark(id);
             if (!SearchStore.getDistributionOfLabour() && !SearchStore.getRelevanceFeedback()) {

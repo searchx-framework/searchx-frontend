@@ -23,7 +23,7 @@ function formatMetadata(metadata) {
         elements.push(<span><i className="fa fa-comments"/> {metadata.annotations}</span>);
     }
 
-    if (metadata.bookmark !== null) {
+    if (metadata.bookmark) {
         const date = new Date(metadata.bookmark.date);
         const now = new Date().toLocaleDateString();
 
@@ -43,7 +43,7 @@ function formatMetadata(metadata) {
 const SearchResult = function({searchState, serpId, result, bookmarkClickHandler, urlClickHandler, provider, showBookmarked}) {
     let initial = 0;
     if ('metadata' in result) {
-        initial = result.metadata.bookmark !== null ? 1 : 0;
+        initial = result.metadata.bookmark ? 1 : 0;
     }
 
     const bookmarkButton = <Rating
