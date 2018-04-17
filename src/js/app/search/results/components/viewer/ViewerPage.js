@@ -7,9 +7,6 @@ const isImage = require('is-image');
 
 const ViewerPage = function({url, loadHandler, doctext}) {
     
-    doctext = doctext.split('\n').map((item, key) => {
-        return <span key={key}>{item}<br/></span>
-    })
     
     return(
         <div className="page">
