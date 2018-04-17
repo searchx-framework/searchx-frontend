@@ -34,7 +34,6 @@ const Viewer = function({searchState, serpId, url, documentCloseHandler, doctext
     let closeDocument = () => {
         documentCloseHandler();
         log(LoggerEventTypes.DOCUMENT_CLOSE, metaInfo);
-        document.getElementById("modal-loader").style.display = "block";
     };
     let loadDocument = () => {
         log(LoggerEventTypes.DOCUMENT_LOAD, metaInfo);

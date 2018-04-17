@@ -259,8 +259,17 @@ const _getById = function (id) {
                 const result = res.body.result;
                 console.log('getById');
                 console.log(result);
+
                 state.activeUrl = result.id;
-                state.activeDoctext = result.text;
+
+                var doctext = result.text.split('\n').map((item, key) => {
+                    return <span key={key}>{item}<br/></span>
+                })
+             
+                doctext.unshift(<h4> {result.source} <br/></h4>);
+                doctext.unshift(<h3> {result.name} <br/></h3>);
+
+                state.activeDoctext = doctext;
             }
 
             SyncStore.emitViewState(id);
