@@ -58,7 +58,6 @@ const formData = function() {
     elements.push({
         type: "html",
         name: "start",
-        //TODO: write explanation
         html: `
         <h3>Requirements:</h3>
         <ol type="1">
@@ -71,8 +70,28 @@ const formData = function() {
         <hr/>
 
         <h3>
-            Explanation of Pilot here
+            In this study, you are tasked with searching a collection of news articles with a fellow user.
+            This study is composed of two parts:
         </h3>
+
+        <ol type="1">
+            <li><b>Collaborative Searching Phase (with other worker)</b>.
+                <p>
+                    We want you, together with your assigned partner, to use our custom web search system (we call it "SearchX") to search about a given topic.
+                    You are given ${constants.taskDuration} minutes to search for news articles about that topic.
+                    You need to collect and save all the articles that are helpful for you to write about the topic.
+                </p>
+            </li>
+            <li><b>Exit Questionnaire (by yourself)</b>.
+                <p>
+                    We will ask 10 questions about your search experienece.
+                    Note that your answers must exceed a minimum word count and be on your assigned topic.
+                </p>
+            </li>
+        </ol>
+
+        <hr/>
+        <h3>You will need approximately 20 minutes to complete the whole study.</h3>
         `
     });
 

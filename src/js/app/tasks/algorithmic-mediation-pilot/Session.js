@@ -40,16 +40,30 @@ class Session extends React.PureComponent {
                 </div>
 
                 <div className="box" style={{flexGrow: '1'}}>
-                    <h3 style={{textAlign: 'center'}}>Task Description</h3>
+                    <h4 style={{textAlign: 'center'}}>Task Description</h4>
                     <hr/>
+                        <p>
+                        Imagine that you are a reporter for a newspaper. 
+                        Your editor has just asked you and your colleague to search for documents 
+                        in a collection of news articles to write stories about {task.data.topic.title}. 
+                        </p>
 
-                    <p>
-                        Explanation of topic here:
-                    </p>
+                        <hr/>
 
-                    <p dangerouslySetInnerHTML={{__html: task.data.topic.description}}/>
+                        <p> There's a meeting in an hour, so your editor need you and your colleague to spend 10 minutes 
+                            in this task to search and save as many documents as possible. 
+                        </p>
+
+                        <p> To guarantee the quality of the documents, your editor, which will judge the documents later, 
+                            requested that you use SearchX with this criteria:
+
+                        </p>
+
+                        <p> {task.data.topic.narrative} </p>
                 </div>
-            </TaskedSession>
+        
+            
+        </TaskedSession>
         )
     }
 
