@@ -6,7 +6,7 @@ import {LoggerEventTypes} from '../../../../../utils/LoggerEventTypes';
 
 ////
 
-const TextSearchResult = function({searchState, serpId, result, metadata, bookmarkButton, urlClickHandler}) {
+const TextSearchResult = function({searchState, serpId, result, metadata, bookmarkButton, excludeButton, urlClickHandler}) {
     let metaInfo = {
         url: result.id,
         query: searchState.query,
@@ -53,6 +53,7 @@ const TextSearchResult = function({searchState, serpId, result, metadata, bookma
             />
 
             {bookmarkButton}
+            {excludeButton}
 
             <div onMouseEnter={hoverEnterSummary} onMouseLeave={hoverLeaveSummary} >
                 <h2>

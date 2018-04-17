@@ -39,6 +39,25 @@ export default {
         })
     },
 
+    addExclude(url, title) {
+        dispatch({
+            type: ActionTypes.ADD_EXCLUDE,
+            payload: {
+                url: url,
+                title: title
+            }
+        })
+    },
+
+    removeExclude(url) {
+        dispatch({
+            type: ActionTypes.REMOVE_EXCLUDE,
+            payload: {
+                url: url
+            }
+        })
+    },
+
     starBookmark(url) {
         dispatch({
             type: ActionTypes.STAR_BOOKMARK,

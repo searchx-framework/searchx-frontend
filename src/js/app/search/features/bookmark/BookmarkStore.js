@@ -12,7 +12,8 @@ const env = require('env');
 const CHANGE_EVENT = 'change_bookmark';
 
 let state = {
-    bookmarks: [],
+    bookmark: [],
+    exclude: [],
     tutorial: false
 };
 
@@ -35,8 +36,8 @@ const BookmarkStore = Object.assign(EventEmitter.prototype, {
             ];
         }
 
-        const starred = state.bookmarks.filter(x => x.starred);
-        const notStarred = state.bookmarks.filter(x => !x.starred);
+        const starred = state.bookmark.filter(x => x.starred);
+        const notStarred = state.bookmark.filter(x => !x.starred);
         return starred.concat(notStarred);
     },
 
@@ -52,13 +53,22 @@ const BookmarkStore = Object.assign(EventEmitter.prototype, {
     dispatcherIndex: register(action => {
         switch(action.type) {
             case ActionTypes.GET_BOOKMARKS:
-                _get_bookmarks();
+                _get('bookmark');
                 break;
             case ActionTypes.ADD_BOOKMARK:
-                _add_bookmark(action.payload.url, action.payload.title);
+                _add(action.payload.url, action.payload.title, 'bookmark');
                 break;
             case ActionTypes.REMOVE_BOOKMARK:
-                _remove_bookmark(action.payload.url);
+                _remove(action.payload.url, 'bookmark');
+                break;
+            case ActionTypes.GET_EXCLUDES:
+                _get('exclude');
+                break;
+            case ActionTypes.ADD_EXCLUDE:
+                _add(action.payload.url, action.payload.title, 'exclude');
+                break;
+            case ActionTypes.REMOVE_EXCLUDE:
+                _remove(action.payload.url, 'exclude');
                 break;
             case ActionTypes.STAR_BOOKMARK:
                 _star_bookmark(action.payload.url);
@@ -69,22 +79,22 @@ const BookmarkStore = Object.assign(EventEmitter.prototype, {
 
 ////
 
-let _get_bookmarks = function() {
+let _get = function(type) {
     request
-        .get(env.serverUrl + '/v1/session/' + AccountStore.getSessionId() + '/bookmark')
+        .get(env.serverUrl + '/v1/session/' + AccountStore.getSessionId() + '/' + type)
         .end((err, res) => {
-            state.bookmarks = [];
+            state[type] = [];
             if (!res.body.error) {
-                state.bookmarks = res.body.results;
+                state[type] = res.body.results;
             }
             BookmarkStore.emitChange();
         });
 };
 
-let _add_bookmark = function(url, title) {
+let _add = function(url, title, type) {
     const userId = AccountStore.getUserId();
     request
-        .post(env.serverUrl + '/v1/session/' + AccountStore.getSessionId() + '/bookmark')
+        .post(env.serverUrl + '/v1/session/' + AccountStore.getSessionId() + '/' + type)
         .send({
             userId: userId,
             url: url,
@@ -94,7 +104,7 @@ let _add_bookmark = function(url, title) {
             _broadcast_change();
         });
 
-    state.bookmarks.push({
+    state[type].push({
         url: url,
         title: title,
         userId: userId,
@@ -103,9 +113,9 @@ let _add_bookmark = function(url, title) {
     BookmarkStore.emitChange();
 };
 
-let _remove_bookmark = function(url) {
+let _remove = function(url, type) {
     request
-        .delete(env.serverUrl + '/v1/session/' + AccountStore.getSessionId() + '/bookmark')
+        .delete(env.serverUrl + '/v1/session/' + AccountStore.getSessionId() + '/' + type)
         .send({
             url: url
         })
@@ -113,7 +123,7 @@ let _remove_bookmark = function(url) {
             _broadcast_change();
         });
 
-    state.bookmarks = state.bookmarks.filter((item) => item.url !== url);
+    state[type] = state[type].filter((item) => item.url !== url);
     BookmarkStore.emitChange();
 };
 
@@ -127,7 +137,7 @@ let _star_bookmark = function(url) {
             _broadcast_change();
         });
 
-    state.bookmarks.forEach((item) => {
+    state.bookmark.forEach((item) => {
         if (item.url === url) {
             item.starred = !item.starred;
         }

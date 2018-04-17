@@ -15,6 +15,7 @@ export default class SearchResultContainer extends React.Component {
         super(props);
         this.urlClickHandler = this.urlClickHandler.bind(this);
         this.bookmarkClickHandler = this.bookmarkClickHandler.bind(this);
+        this.excludeClickHandler = this.excludeClickHandler.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -50,6 +51,9 @@ export default class SearchResultContainer extends React.Component {
             action = "add";
 
             SessionActions.addBookmark(id, this.props.result.name);
+            if (this.props.result.metadata.exclude) {
+                SessionActions.removeExclude(id);
+            }
 
             if (!SearchStore.getDistributionOfLabour() && !SearchStore.getRelevanceFeedback()) {
                 SearchStore.modifyMetadata(id, {
@@ -71,6 +75,46 @@ export default class SearchResultContainer extends React.Component {
         }
     };
 
+    excludeClickHandler() {
+        let action = "";
+        let id = this.props.result.id ? this.props.result.id : this.props.result.url;
+        if (this.props.result.metadata.exclude) {
+            action = "remove";
+            SessionActions.removeExclude(id);
+            if (!SearchStore.getDistributionOfLabour() && !SearchStore.getRelevanceFeedback()) {
+                SearchStore.modifyMetadata(id, {
+                    exclude: null
+                });
+            }
+        }
+        else {
+            action = "add";
+
+            SessionActions.addExclude(id, this.props.result.name);
+            if (this.props.result.metadata.bookmark) {
+                SessionActions.removeBookmark(id);
+            }
+
+            if (!SearchStore.getDistributionOfLabour() && !SearchStore.getRelevanceFeedback()) {
+                SearchStore.modifyMetadata(id, {
+                    exclude: {
+                        userId: AccountStore.getUserId(),
+                        date: new Date()
+                    }
+                });
+            }
+        }
+
+        log(LoggerEventTypes.EXCLUDE_ACTION, {
+            url: id,
+            action: action
+        });
+
+        if (SearchStore.getDistributionOfLabour() || SearchStore.getRelevanceFeedback()) {
+            SearchActions.updateMetadata()
+        }
+    }
+
     ////
 
     render() {
@@ -82,6 +126,7 @@ export default class SearchResultContainer extends React.Component {
             bookmarkClickHandler={this.bookmarkClickHandler}
             provider={this.props.provider}
             showBookmarked={this.props.showBookmarked}
+            excludeClickHandler={this.excludeClickHandler}
         />
     }
 }

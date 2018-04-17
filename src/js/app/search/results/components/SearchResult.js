@@ -40,17 +40,28 @@ function formatMetadata(metadata) {
     return <div className="metadata">{elements}</div>;
 }
 
-const SearchResult = function({searchState, serpId, result, bookmarkClickHandler, urlClickHandler, provider, showBookmarked}) {
-    let initial = 0;
+const SearchResult = function({searchState, serpId, result, bookmarkClickHandler, urlClickHandler, provider, showBookmarked, excludeClickHandler}) {
+    let initialBookmark = 0;
+    let initialExclude = 0;
     if ('metadata' in result) {
-        initial = result.metadata.bookmark ? 1 : 0;
+        initialBookmark = result.metadata.bookmark ? 1 : 0;
+        initialExclude = result.metadata.exclude ? 1 : 0;
     }
 
     const bookmarkButton = <Rating
         className="rating" empty="fa fa-bookmark-o" full="fa fa-bookmark"
         onClick={bookmarkClickHandler}
-        stop={1} initialRate={initial}
+        stop={1} initialRate={initialBookmark}
+        title="Bookmark"
     />;
+
+    const excludeButton = <Rating
+        className="rating" empty="fa fa-ban" full="fa fa-ban red"
+        onClick={excludeClickHandler}
+        stop={1} initialRate={initialExclude}
+        title="Exclude"
+    />;
+
 
     const props = {
         searchState: searchState,
@@ -58,6 +69,7 @@ const SearchResult = function({searchState, serpId, result, bookmarkClickHandler
         result: result,
         metadata: formatMetadata(result.metadata),
         bookmarkButton: bookmarkButton,
+        excludeButton: excludeButton,
         urlClickHandler: urlClickHandler
     };
     const ResultType = config.providerVerticals[provider].get(searchState.vertical);

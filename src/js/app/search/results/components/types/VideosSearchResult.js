@@ -115,6 +115,7 @@ const VideosSearchResult = function({searchState, serpId, result, metadata, book
 
                 <div className="info">
                     {bookmarkButton}
+                    {excludeButton}
 
                     <h2>
                         <a target="_blank" onClick={clickUrl} onContextMenu={contextUrl}>

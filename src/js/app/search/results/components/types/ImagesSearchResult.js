@@ -48,6 +48,7 @@ const ImagesSearchResult = function({searchState, serpId, result, metadata, book
             />
 
             {bookmarkButton}
+            {excludeButton}
 
             <a title={result.name} target="_blank" onClick={clickUrl} onContextMenu={contextUrl} onMouseEnter={hoverEnter} onMouseLeave={hoverLeave}>
                 <div className="image" style={{backgroundImage: `url(${result.thumbnailUrl})`}}/>

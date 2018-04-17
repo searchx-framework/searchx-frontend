@@ -64,6 +64,7 @@ const NewsSearchResult = function({searchState, serpId, result, metadata, bookma
 
                 <div className="info">
                     {bookmarkButton}
+                    {excludeButton}
 
                     <h2>
                         <a title={result.name} target="_blank" onClick={clickUrl} onContextMenu={contextUrl}>

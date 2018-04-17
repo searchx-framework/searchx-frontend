@@ -20,7 +20,7 @@ export default class SearchResultsContainer extends React.Component {
         super(props);
         this.state = {
             collapsed: {},
-            numberOfCollapsedResults: 0
+            numberOfCollapsibleResults: 0
         };
 
         this.showAllCollapsedResults = this.showAllCollapsedResults.bind(this);
@@ -35,9 +35,14 @@ export default class SearchResultsContainer extends React.Component {
         }
     }
 
+    isCollapsible(result) {
+        return (result.metadata.bookmark || result.metadata.exclude);
+    }
+
     getMetaInfo() {
         return {
             bookmarkedIds: this.props.results.filter(result => result.metadata.bookmark).map(result => result.id),
+            excludedIds: this.props.results.filter(result => result.metadata.exclude).map(result => result.id),
             query: this.props.searchState.query,
             page: this.props.searchState.page,
             serpId: this.props.serpId,
@@ -58,21 +63,21 @@ export default class SearchResultsContainer extends React.Component {
 
     _hideAllCollapsedResults() {
         const collapsed = {};
-        let previousIsBookmark = false;
+        let previousIsCollapsible = false;
         for (const [index, result] of this.props.results.entries()) {
-            if (result.metadata.bookmark) {
-                previousIsBookmark = true;
-            } else if (previousIsBookmark) {
+            if (this.isCollapsible(result)) {
+                previousIsCollapsible = true;
+            } else if (previousIsCollapsible) {
                 collapsed[index] = true;
-                previousIsBookmark = false;
+                previousIsCollapsible = false;
             }
         }
-        if (previousIsBookmark) {
+        if (previousIsCollapsible) {
             collapsed[this.props.results.length] = true;
         }
         this.setState({
             collapsed: collapsed,
-            numberOfCollapsedResults: Object.keys(collapsed).length
+            numberOfCollapsibleResults: Object.keys(collapsed).length
         });
     }
 
@@ -104,7 +109,7 @@ export default class SearchResultsContainer extends React.Component {
         const prefix = (this.props.matches < config.aboutPrefixAt) ? "" : "About ";
         const timeIndicator = prefix + numberWithCommas(this.props.matches) + " results (" + this.props.elapsedTime + " seconds)";
         const list = [];
-        let lastBookmarkedResults = [];
+        let lastCollapsibleResults = [];
         for (const [index, result] of this.props.results.entries()) {
             const resultProps = {
                 searchState: this.props.searchState,
@@ -116,13 +121,13 @@ export default class SearchResultsContainer extends React.Component {
             };
 
             if (this.props.distributionOfLabour === 'unbookmarkedSoft') {
-                if (result.metadata.bookmark) {
+                if (this.isCollapsible(result)) {
                     resultProps.showBookmarked = true;
-                    lastBookmarkedResults.push(<SearchResultContainer {...resultProps} key={index}/>);
+                    lastCollapsibleResults.push(<SearchResultContainer {...resultProps} key={index}/>);
                 } else {
-                    if (lastBookmarkedResults.length > 0) {
-                        list.push(<CollapsedSearchResults index={index} results={lastBookmarkedResults} collapsed={this.state.collapsed[index]} showCollapsedResultHandler={this.showCollapsedResult} hideCollapsedResultHandler={this.hideCollapsedResult} searchState={this.props.searchState} serpId={this.props.serpId}/>);
-                        lastBookmarkedResults = [];
+                    if (lastCollapsibleResults.length > 0) {
+                        list.push(<CollapsedSearchResults index={index} results={lastCollapsibleResults} collapsed={this.state.collapsed[index]} showCollapsedResultHandler={this.showCollapsedResult} hideCollapsedResultHandler={this.hideCollapsedResult} searchState={this.props.searchState} serpId={this.props.serpId}/>);
+                        lastCollapsibleResults = [];
                     }
                     list.push(<SearchResultContainer {...resultProps} key={index}/>);
                 }
@@ -131,12 +136,12 @@ export default class SearchResultsContainer extends React.Component {
             }
 
         }
-        if (lastBookmarkedResults.length > 0) {
-            list.push(<CollapsedSearchResults index={this.props.results.length} results={lastBookmarkedResults} collapsed={this.state.collapsed[this.props.results.length]} showCollapsedResultHandler={this.showCollapsedResult} hideCollapsedResultHandler={this.hideCollapsedResult} searchState={this.props.searchState} serpId={this.props.serpId}/>);
+        if (lastCollapsibleResults.length > 0) {
+            list.push(<CollapsedSearchResults index={this.props.results.length} results={lastCollapsibleResults} collapsed={this.state.collapsed[this.props.results.length]} showCollapsedResultHandler={this.showCollapsedResult} hideCollapsedResultHandler={this.hideCollapsedResult} searchState={this.props.searchState} serpId={this.props.serpId}/>);
         }
         const currentCollapsedResultsLength = Object.values(this.state.collapsed).filter(value => value).length;
         const allBookmarkedResultsShown = currentCollapsedResultsLength === 0;
-        const allBookmarkedResultsHidden = currentCollapsedResultsLength === this.state.numberOfCollapsedResults;
+        const allBookmarkedResultsHidden = currentCollapsedResultsLength === this.state.numberOfCollapsibleResults;
 
         return (
             <div>
@@ -150,7 +155,7 @@ export default class SearchResultsContainer extends React.Component {
                     }
                     {this.props.distributionOfLabour === "unbookmarkedSoft" &&
                         <div className="collapsedText">
-                            {this.state.numberOfCollapsedResults > 0 &&
+                            {this.state.numberOfCollapsibleResults > 0 &&
                                 [
                                     <Button className="allCollapsedResultsButton" onClick={this.showAllCollapsedResults} disabled={allBookmarkedResultsShown}>
                                         Show all hidden results
