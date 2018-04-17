@@ -20,11 +20,15 @@ class Session extends React.PureComponent {
     }
 
     componentDidMount() {
-        const start = localStorage.getItem("timer-start") || Date.now();
-        localStorage.setItem("timer-start", start);
-        this.setState({
-            start: start
+
+        IntroStore.startIntro(introSteps, () => {
+            const start = localStorage.getItem("timer-start") || Date.now();
+            localStorage.setItem("timer-start", start);
+            this.setState({
+                start: start
+            });
         });
+
     }
 
     render() {
@@ -45,7 +49,7 @@ class Session extends React.PureComponent {
                         <p>
                         Imagine that you are a reporter for a newspaper. 
                         Your editor has just asked you and your colleague to search for documents 
-                        in a collection of news articles to write stories about {task.data.topic.title}. 
+                        in a collection of news articles to write stories about . 
                         </p>
 
                         <hr/>
@@ -59,7 +63,7 @@ class Session extends React.PureComponent {
 
                         </p>
 
-                        <p> {task.data.topic.narrative} </p>
+                        <p>  </p>
                 </div>
         
             
@@ -75,5 +79,47 @@ class Session extends React.PureComponent {
         });
     }
 }
+
+
+const introSteps = [
+    {
+        element: '.Task',
+        intro: 'Please take a minute to read your task description.',
+        position: 'left'
+    },
+    {
+        element: '.SearchHeader',
+        intro: 'We want you to use ou search system, SearchX.',
+        position: 'bottom-middle-aligned'
+    },
+    {
+        element: '.SearchHeader .form',
+        intro: 'Use SearchX to search for news article about the topic.'
+    },
+    {
+        element: '.QueryHistory',
+        intro: 'The query history shows your and your group\'s past search queries. In this manner you see what the others are doing.',
+        position: 'top'
+    },
+    {
+        element: '.SearchResults',
+        intro: 'To save a resource that is useful, bookmark it. You also see your group\'s bookmarks here.',
+        position: 'top'
+    },
+    {
+        element: '.Bookmarks',
+        intro: 'The documents you and your group bookmarked will appear here. You can revisit them before completing the session.',
+        position: 'top'
+    },
+    {
+        element: '.Search .Content',
+        intro: 'The query history and bookmarks are color-coded to show who initiated the action.',
+        position: 'top'
+    },
+    {
+        intro: 'Please use the provided chat window to collaborate with your group during the session.',
+        position: 'auto'
+    }
+];
 
 export default Session;
