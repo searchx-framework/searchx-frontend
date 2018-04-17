@@ -8,7 +8,6 @@ import AccountStore from '../../../../stores/AccountStore';
 import SyncStore from '../../../../stores/SyncStore';
 import SearchStore from "../../SearchStore";
 
-const env = require('env');
 const CHANGE_EVENT = 'change_rating';
 
 let state = {
@@ -51,11 +50,12 @@ const RatingStore = Object.assign(EventEmitter.prototype, {
 
 let _get_rating = function(url) {
     request
-        .get(`${env.serverUrl}/v1/session/${AccountStore.getSessionId()}/rating/?url=${encodeURIComponent(url)}&userId=${AccountStore.getUserId()}`)
+        .get(`${process.env.REACT_APP_SERVER_URL}/v1/session/${AccountStore.getSessionId()}/rating/?url=${encodeURIComponent(url)}&userId=${AccountStore.getUserId()}`)
         .end((err, res) => {
-            state.rating = 0;
-            state.total = 0;
-            if (!err && !res.body.error) {
+            if (err || !res.body || res.body.error) {
+                state.rating = 0;
+                state.total = 0;
+            } else {
                 state.rating = res.body.results.rating;
                 state.total = res.body.results.total;
             }
@@ -66,7 +66,7 @@ let _get_rating = function(url) {
 let _submit_rating = function(url, rating) {
     const userId = AccountStore.getUserId();
     request
-        .post(`${env.serverUrl}/v1/session/${AccountStore.getSessionId()}/rating`)
+        .post(`${process.env.REACT_APP_SERVER_URL}/v1/session/${AccountStore.getSessionId()}/rating`)
         .send({
             url: url,
             userId: userId,

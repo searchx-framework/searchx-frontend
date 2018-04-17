@@ -1,7 +1,6 @@
 import AccountStore from '../stores/AccountStore';
 import request from 'superagent';
 
-const env = require('env');
 let eventQueue = [];
 
 export function log(event, meta) {
@@ -21,7 +20,7 @@ export function flush() {
         return;
     }
 
-    request.post(env.serverUrl + '/v1/users/' + AccountStore.getUserId() + '/logs')
+    request.post(`${process.env.REACT_APP_SERVER_URL}/v1/users/${AccountStore.getUserId()}/logs`)
         .send({
             data: eventQueue
         })

@@ -6,7 +6,7 @@ let state = {
     sessionId: localStorage.getItem("session-id") || '',
     task: {
         id: localStorage.getItem("task-id") || '',
-        data: JSON.parse(localStorage.getItem("task-data")) || '',
+        data: JSON.parse(localStorage.getItem("task-data") === undefined ? "{}" : localStorage.getItem("task-data")) || '',
     }
 };
 
