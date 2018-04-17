@@ -5,6 +5,7 @@ import {log} from '../../../../../utils/Logger';
 import {LoggerEventTypes} from '../../../../../utils/LoggerEventTypes';
 
 import config from '../../../../../config';
+import SearchActions from "../../../../../actions/SearchActions";
 
 const BookmarkItem = function({data, removeHandler, starHandler, clickHandler}) {
     let metaInfo = {

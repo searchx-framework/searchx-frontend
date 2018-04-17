@@ -53,5 +53,14 @@ export default {
             payload: {
             }
         })
+    },
+
+    getDocumentById(id) {
+        dispatch({
+            type: ActionTypes.GET_DOCUMENT_BY_ID,
+            payload: {
+                id: id
+            }
+        })
     }
 }

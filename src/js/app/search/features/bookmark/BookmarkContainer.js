@@ -20,7 +20,11 @@ function starHandler(url) {
 }
 
 function clickHandler(url) {
-    SearchActions.openUrl(url);
+    if (isNaN(url)){
+        SearchActions.openUrl(url);
+    } {
+        SearchActions.getDocumentById(url);
+    }
 }
 
 export default class BookmarkContainer extends React.Component {

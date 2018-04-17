@@ -168,6 +168,9 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
                 state.activeDoctext = "";
                 SyncStore.emitViewState(null);
                 break;
+            case ActionTypes.GET_DOCUMENT_BY_ID:
+                _getById(action.payload.id);
+                break;
         }
 
         SearchStore.emitChange();
@@ -242,6 +245,26 @@ const _search = (query, vertical, page) => {
 
             SearchStore.emitChange();
             SessionActions.getQueryHistory();
+        });
+};
+
+const _getById = function (id) {
+    request
+        .get(env.serverUrl + '/v1/search/' + state.vertical
+            + '/getById/' + id
+            + '?providerName=' + state.provider
+        )
+        .end((err, res) => {
+            if (!res.body.error) {
+                const result = res.body.result;
+                console.log('getById');
+                console.log(result);
+                state.activeUrl = result.id;
+                state.activeDoctext = result.text;
+            }
+
+            SyncStore.emitViewState(id);
+            SearchStore.emitChange();
         });
 };
 
