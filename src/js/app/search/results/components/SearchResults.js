@@ -17,11 +17,74 @@ export default class SearchResultsContainer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            showBookmarked: props.distributionOfLabour === 'false'
+            collapsed: {},
+        };
+
+        this.showBookmarkedResultsHandler = this.showBookmarkedResultsHandler.bind(this);
+        this.showCollapsedResultHandler = this.showCollapsedResultHandler.bind(this);
+        this.hideCollapsedResultHandler = this.hideCollapsedResultHandler.bind(this);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.results) {
+            this.hideAllCollapsedResults();
         }
     }
 
-    showBookmarkedResults() { this.setState({showBookmarked: !this.state.showBookmarked}) }
+    showBookmarkedResultsHandler() {
+        const allBookmarkedResultsShown = Object.values(this.state.collapsed).filter(value => value).length === 0;
+        if (allBookmarkedResultsShown) {
+            this.hideAllCollapsedResults();
+        } else {
+            this.showAllCollapsedResults();
+        }
+    }
+
+    showAllCollapsedResults() {
+        this.setState({
+            collapsed: {}
+        });
+    }
+
+    hideAllCollapsedResults() {
+        const collapsed = {};
+        let previousIsBookmark = false;
+        for (const [index, result] of this.props.results.entries()) {
+            if (result.metadata.bookmark) {
+                previousIsBookmark = true;
+            } else if (previousIsBookmark) {
+                collapsed[index] = true;
+                previousIsBookmark = false;
+            }
+        }
+        if (previousIsBookmark) {
+            collapsed[this.props.results.length] = true;
+        }
+        this.numberOfCollapsedResults = Object.keys(collapsed).length;
+        this.setState({
+            collapsed: collapsed
+        });
+    }
+
+    showCollapsedResultHandler(index) {
+        const collapsed = this.state.collapsed;
+
+        collapsed[index] = false;
+
+        this.setState({
+            collapsed: collapsed
+        });
+    }
+
+    hideCollapsedResultHandler(index) {
+        const collapsed = this.state.collapsed;
+
+        collapsed[index] = true;
+
+        this.setState({
+            collapsed: collapsed
+        });
+    }
 
     render() {
         if (this.props.progress.resultsNotFound) {
@@ -44,24 +107,27 @@ export default class SearchResultsContainer extends React.Component {
 
             if (this.props.distributionOfLabour === 'unbookmarkedSoft') {
                 if (result.metadata.bookmark) {
+                    resultProps.showBookmarked = true;
                     lastBookmarkedResults.push(<SearchResultContainer {...resultProps} key={index}/>);
                 } else {
                     if (lastBookmarkedResults.length > 0) {
-                        list.push(<CollapsedSearchResults resultsLength={lastBookmarkedResults.length} showBookmarked={this.state.showBookmarked} showBookmarkedResultsHandler={this.showBookmarkedResults.bind(this)}/>);
+                        list.push(<CollapsedSearchResults index={index} results={lastBookmarkedResults} collapsed={this.state.collapsed[index]} showCollapsedResultHandler={this.showCollapsedResultHandler} hideCollapsedResultHandler={this.hideCollapsedResultHandler} searchState={this.props.searchState} serpId={this.props.serpId}/>);
                         lastBookmarkedResults = [];
                     }
+                    list.push(<SearchResultContainer {...resultProps} key={index}/>);
                 }
+            } else {
+                list.push(<SearchResultContainer {...resultProps} key={index}/>);
             }
-            list.push(<SearchResultContainer {...resultProps} key={index}/>);
+
         }
         if (lastBookmarkedResults.length > 0) {
-            list.push(<CollapsedSearchResults resultsLength={lastBookmarkedResults.length} showBookmarked={this.state.showBookmarked} showBookmarkedResultsHandler={this.showBookmarkedResults.bind(this)}/>);
+            list.push(<CollapsedSearchResults index={this.props.results.length}  results={lastBookmarkedResults} collapsed={this.state.collapsed[this.props.results.length]} showCollapsedResultHandler={this.showCollapsedResultHandler} hideCollapsedResultHandler={this.hideCollapsedResultHandler} searchState={this.props.searchState} serpId={this.props.serpId}/>);
         }
-
-        const bookmarkedResultsLength = this.props.results.filter(result => result.metadata.bookmark).length;
-        const showBookmarkedText = this.state.showBookmarked ?
-            "Hide bookmarked results" :
-            "Show " + bookmarkedResultsLength + " hidden bookmarked results";
+        const allBookmarkedResultsShown = Object.values(this.state.collapsed).filter(value => value).length === 0;
+        const showBookmarkedText = allBookmarkedResultsShown ?
+            "Hide all bookmarked and excluded results" :
+            "Show all hidden results";
 
         return (
             <div>
@@ -75,8 +141,8 @@ export default class SearchResultsContainer extends React.Component {
                     }
                     {this.props.distributionOfLabour === "unbookmarkedSoft" &&
                         <div className="collapsedText">
-                            {bookmarkedResultsLength > 0 &&
-                                <Button onClick={this.showBookmarkedResults.bind(this)}>
+                            {this.props.hiddenResults  > 0 &&
+                                <Button onClick={this.showBookmarkedResultsHandler}>
                                     {showBookmarkedText}
                                 </Button>
                             }
