@@ -27,14 +27,18 @@ class CollapsedSearchResults extends React.Component {
         }
     }
 
+    getResultIds() {
+        return this.props.results.map(result => result.id ? result.id : result.url);
+    }
+
     show() {
         log(LoggerEventTypes.SEARCHRESULT_SHOW_COLLAPSED, this.getMetaInfo());
-        this.props.showCollapsedResultHandler(this.props.index);
+        this.props.showCollapsedResultsHandler(this.getResultIds());
     }
 
     hide() {
         log(LoggerEventTypes.SEARCHRESULT_HIDE_COLLAPSED, this.getMetaInfo());
-        this.props.hideCollapsedResultHandler(this.props.index);
+        this.props.hideCollapsedResultsHandler(this.getResultIds());
     }
 
     render() {
@@ -45,11 +49,6 @@ class CollapsedSearchResults extends React.Component {
                         <Button bsSize="xsmall" onClick={this.clickHandler} className="collapsedResultsButton">
                             {this.props.results.length} results hidden (click to show)
                         </Button>
-                    </div>
-                </Collapse>
-                <Collapse in={!this.props.collapsed}>
-                    <div>
-                        {this.props.results}
                     </div>
                 </Collapse>
             </div>

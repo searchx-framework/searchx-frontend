@@ -40,7 +40,7 @@ function formatMetadata(metadata) {
     return <div className="metadata">{elements}</div>;
 }
 
-const SearchResult = function({searchState, serpId, result, bookmarkClickHandler, urlClickHandler, provider, showBookmarked, excludeClickHandler}) {
+const SearchResult = function({searchState, serpId, result, bookmarkClickHandler, urlClickHandler, provider, collapsed, excludeClickHandler}) {
     let initialBookmark = 0;
     let initialExclude = 0;
     if ('metadata' in result) {
@@ -76,7 +76,7 @@ const SearchResult = function({searchState, serpId, result, bookmarkClickHandler
     const view = <ResultType {...props}/>;
 
     return (
-        <Collapse in={!result.metadata.bookmark || showBookmarked}>
+        <Collapse in={!collapsed}>
             <div className="SearchResult" >
                 {view}
             </div>

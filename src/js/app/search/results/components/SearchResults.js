@@ -15,6 +15,14 @@ function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
+function getId(result) {
+    return result.id ? result.id : result.url;
+}
+
+function isCollapsible(result) {
+    return (result.metadata.bookmark || result.metadata.exclude);
+}
+
 export default class SearchResultsContainer extends React.Component {
     constructor(props) {
         super(props);
@@ -25,9 +33,10 @@ export default class SearchResultsContainer extends React.Component {
 
         this.showAllCollapsedResults = this.showAllCollapsedResults.bind(this);
         this.hideAllCollapsedResults = this.hideAllCollapsedResults.bind(this);
-        this.showCollapsedResult = this.showCollapsedResult.bind(this);
-        this.hideCollapsedResult = this.hideCollapsedResult.bind(this);
+        this.showCollapsedResults = this.showCollapsedResults.bind(this);
+        this.hideCollapsedResults = this.hideCollapsedResults.bind(this);
     }
+
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.results) {
@@ -35,14 +44,10 @@ export default class SearchResultsContainer extends React.Component {
         }
     }
 
-    isCollapsible(result) {
-        return (result.metadata.bookmark || result.metadata.exclude);
-    }
-
     getMetaInfo() {
         return {
-            bookmarkedIds: this.props.results.filter(result => result.metadata.bookmark).map(result => result.id),
-            excludedIds: this.props.results.filter(result => result.metadata.exclude).map(result => result.id),
+            bookmarkedIds: this.props.results.filter(result => result.metadata.bookmark).map(result => getId(result)),
+            excludedIds: this.props.results.filter(result => result.metadata.exclude).map(result => getId(result)),
             query: this.props.searchState.query,
             page: this.props.searchState.page,
             serpId: this.props.serpId,
@@ -63,42 +68,49 @@ export default class SearchResultsContainer extends React.Component {
 
     _hideAllCollapsedResults() {
         const collapsed = {};
-        let previousIsCollapsible = false;
-        for (const [index, result] of this.props.results.entries()) {
-            if (this.isCollapsible(result)) {
-                previousIsCollapsible = true;
-            } else if (previousIsCollapsible) {
-                collapsed[index] = true;
-                previousIsCollapsible = false;
+        this.props.results.forEach((result) => {
+            if (isCollapsible(result)) {
+                collapsed[getId(result)] = true;
             }
-        }
-        if (previousIsCollapsible) {
-            collapsed[this.props.results.length] = true;
-        }
+        });
         this.setState({
             collapsed: collapsed,
             numberOfCollapsibleResults: Object.keys(collapsed).length
         });
     }
 
-    showCollapsedResult(index) {
+    showCollapsedResults(ids) {
         const collapsed = this.state.collapsed;
 
-        collapsed[index] = false;
+        ids.forEach((id) => {
+            collapsed[id] = false;
+        });
 
         this.setState({
             collapsed: collapsed
         });
     }
 
-    hideCollapsedResult(index) {
+    hideCollapsedResults(ids) {
         const collapsed = this.state.collapsed;
 
-        collapsed[index] = true;
+        ids.forEach((id) => {
+            collapsed[id] = false;
+        });
 
         this.setState({
             collapsed: collapsed
         });
+    }
+
+    resultsAreCollapsed(results) {
+        let output = true;
+        results.forEach((result) => {
+            if (!this.state.collapsed[getId(result)]) {
+                output = false;
+            }
+        });
+        return output;
     }
 
     render() {
@@ -117,27 +129,25 @@ export default class SearchResultsContainer extends React.Component {
                 result: result,
                 bookmark: 0,
                 provider: this.props.provider,
-                showBookmarked: this.state.showBookmarked
+                collapsed: this.state.collapsed[getId(result)]
             };
 
             if (this.props.distributionOfLabour === 'unbookmarkedSoft') {
-                if (this.isCollapsible(result)) {
-                    resultProps.showBookmarked = true;
-                    lastCollapsibleResults.push(<SearchResultContainer {...resultProps} key={index}/>);
+                if (isCollapsible(result)) {
+                    resultProps.showBookmarked = false;
+                    lastCollapsibleResults.push(result);
                 } else {
                     if (lastCollapsibleResults.length > 0) {
-                        list.push(<CollapsedSearchResults index={index} results={lastCollapsibleResults} collapsed={this.state.collapsed[index]} showCollapsedResultHandler={this.showCollapsedResult} hideCollapsedResultHandler={this.hideCollapsedResult} searchState={this.props.searchState} serpId={this.props.serpId}/>);
+                        list.push(<CollapsedSearchResults results={lastCollapsibleResults} collapsed={this.resultsAreCollapsed(lastCollapsibleResults)} showCollapsedResultsHandler={this.showCollapsedResults} hideCollapsedResultsHandler={this.hideCollapsedResults} searchState={this.props.searchState} serpId={this.props.serpId}/>);
                         lastCollapsibleResults = [];
                     }
-                    list.push(<SearchResultContainer {...resultProps} key={index}/>);
                 }
-            } else {
-                list.push(<SearchResultContainer {...resultProps} key={index}/>);
             }
+            list.push(<SearchResultContainer {...resultProps} key={getId(result)}/>);
 
         }
         if (lastCollapsibleResults.length > 0) {
-            list.push(<CollapsedSearchResults index={this.props.results.length} results={lastCollapsibleResults} collapsed={this.state.collapsed[this.props.results.length]} showCollapsedResultHandler={this.showCollapsedResult} hideCollapsedResultHandler={this.hideCollapsedResult} searchState={this.props.searchState} serpId={this.props.serpId}/>);
+            list.push(<CollapsedSearchResults results={lastCollapsibleResults} collapsed={this.resultsAreCollapsed(lastCollapsibleResults)} showCollapsedResultsHandler={this.showCollapsedResults} hideCollapsedResultsHandler={this.hideCollapsedResults} searchState={this.props.searchState} serpId={this.props.serpId}/>);
         }
         const currentCollapsedResultsLength = Object.values(this.state.collapsed).filter(value => value).length;
         const allBookmarkedResultsShown = currentCollapsedResultsLength === 0;
