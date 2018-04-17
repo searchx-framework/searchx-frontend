@@ -14,17 +14,17 @@ const TextSearchResult = function({searchState, serpId, result, metadata, bookma
         serpId: serpId,
     };
 
-    let click = () => {
+    let clickUrl = () => {
         urlClickHandler(result.id, result.text);
         log(LoggerEventTypes.SEARCHRESULT_CLICK_URL, metaInfo);
     };
 
-    let view = (isVisible) => {
+    let viewUrl = (isVisible) => {
         metaInfo.isVisible = isVisible;
         log(LoggerEventTypes.SEARCHRESULT_VIEW_URL, metaInfo);
     };
 
-    let context = () => {
+    let contextUrl = () => {
         log(LoggerEventTypes.SEARCHRESULT_CONTEXT_URL,metaInfo);
     };
 
@@ -45,7 +45,7 @@ const TextSearchResult = function({searchState, serpId, result, metadata, bookma
     return  (
         <div className="result-text">
             <VisibilitySensor
-                onChange={view}
+                onChange={viewUrl}
                 scrollCheck
                 delayedCall={true}
                 scrollThrottle={50}
@@ -56,7 +56,7 @@ const TextSearchResult = function({searchState, serpId, result, metadata, bookma
 
             <div onMouseEnter={hoverEnterSummary} onMouseLeave={hoverLeaveSummary} >
                 <h2>
-                    <a title={result.name} target="_blank" onClick={click} onContextMenu={context}>
+                    <a title={result.name} target="_blank" onClick={clickUrl} onContextMenu={contextUrl}>
                         {result.name}
                     </a>
                 </h2>

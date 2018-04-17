@@ -8,6 +8,8 @@ import SearchResultsNotFound from "./SearchResultsNotFound";
 import SearchResultsPagination from "./SearchResultsPagination";
 import CollapsedSearchResults from "./CollapsedSearchResults";
 import {Button, Collapse} from "react-bootstrap";
+import {LoggerEventTypes} from "../../../../utils/LoggerEventTypes";
+import {log} from "../../../../utils/Logger";
 
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -40,13 +42,24 @@ export default class SearchResultsContainer extends React.Component {
         }
     }
 
+    getMetaInfo() {
+        return {
+            bookmarkedIds: this.props.results.filter(result => result.metadata.bookmark).map(result => result.id),
+            query: this.props.searchState.query,
+            page: this.props.searchState.page,
+            serpId: this.props.serpId,
+        }
+    }
+
     showAllCollapsedResults() {
+        log(LoggerEventTypes.SEARCH_SHOW_ALL_COLLAPSED, this.getMetaInfo());
         this.setState({
             collapsed: {}
         });
     }
 
     hideAllCollapsedResults() {
+        log(LoggerEventTypes.SEARCH_HIDE_ALL_COLLAPSED, this.getMetaInfo());
         const collapsed = {};
         let previousIsBookmark = false;
         for (const [index, result] of this.props.results.entries()) {
@@ -124,6 +137,7 @@ export default class SearchResultsContainer extends React.Component {
         if (lastBookmarkedResults.length > 0) {
             list.push(<CollapsedSearchResults index={this.props.results.length}  results={lastBookmarkedResults} collapsed={this.state.collapsed[this.props.results.length]} showCollapsedResultHandler={this.showCollapsedResultHandler} hideCollapsedResultHandler={this.hideCollapsedResultHandler} searchState={this.props.searchState} serpId={this.props.serpId}/>);
         }
+        const hiddenResults = this.props.results.filter(result => result.metadata.bookmark).length;
         const allBookmarkedResultsShown = Object.values(this.state.collapsed).filter(value => value).length === 0;
         const showBookmarkedText = allBookmarkedResultsShown ?
             "Hide all bookmarked and excluded results" :
@@ -141,7 +155,7 @@ export default class SearchResultsContainer extends React.Component {
                     }
                     {this.props.distributionOfLabour === "unbookmarkedSoft" &&
                         <div className="collapsedText">
-                            {this.props.hiddenResults  > 0 &&
+                            {hiddenResults > 0 &&
                                 <Button onClick={this.showBookmarkedResultsHandler}>
                                     {showBookmarkedText}
                                 </Button>

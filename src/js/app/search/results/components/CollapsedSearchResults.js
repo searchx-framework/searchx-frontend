@@ -10,6 +10,14 @@ class CollapsedSearchResults extends React.Component {
         this.clickHandler = this.clickHandler.bind(this);
     }
 
+    getMetaInfo() {
+        return {
+            urls: this.props.results.map(result => result.id),
+            query: this.props.searchState.query,
+            page: this.props.searchState.page,
+            serpId: this.props.serpId,
+        }
+    }
 
     clickHandler() {
         if (this.props.collapsed) {
@@ -20,10 +28,12 @@ class CollapsedSearchResults extends React.Component {
     }
 
     show() {
+        log(LoggerEventTypes.SEARCHRESULT_SHOW_COLLAPSED, this.getMetaInfo());
         this.props.showCollapsedResultHandler(this.props.index);
     }
 
     hide() {
+        log(LoggerEventTypes.SEARCHRESULT_HIDE_COLLAPSED, this.getMetaInfo());
         this.props.hideCollapsedResultHandler(this.props.index);
     }
 
