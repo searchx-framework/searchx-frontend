@@ -41,13 +41,10 @@ export default class SearchResultContainer extends React.Component {
         if (this.props.result.metadata.bookmark) {
             action = "remove";
             SessionActions.removeBookmark(id);
-            if (!SearchStore.getDistributionOfLabour() && !SearchStore.getRelevanceFeedback()) {
-                SearchStore.modifyMetadata(id, {
-                    bookmark: null
-                });
-            }
-        }
-        else {
+            SearchStore.modifyMetadata(id, {
+                bookmark: null
+            });
+        } else {
             action = "add";
 
             SessionActions.addBookmark(id, this.props.result.name);
@@ -55,14 +52,13 @@ export default class SearchResultContainer extends React.Component {
                 SessionActions.removeExclude(id);
             }
 
-            if (!SearchStore.getDistributionOfLabour() && !SearchStore.getRelevanceFeedback()) {
-                SearchStore.modifyMetadata(id, {
-                    bookmark: {
-                        userId: AccountStore.getUserId(),
-                        date: new Date()
-                    }
-                });
-            }
+            SearchStore.modifyMetadata(id, {
+                bookmark: {
+                    userId: AccountStore.getUserId(),
+                    date: new Date()
+                },
+                exclude: null
+            });
         }
 
         log(LoggerEventTypes.BOOKMARK_ACTION, {
@@ -81,11 +77,9 @@ export default class SearchResultContainer extends React.Component {
         if (this.props.result.metadata.exclude) {
             action = "remove";
             SessionActions.removeExclude(id);
-            if (!SearchStore.getDistributionOfLabour() && !SearchStore.getRelevanceFeedback()) {
-                SearchStore.modifyMetadata(id, {
-                    exclude: null
-                });
-            }
+            SearchStore.modifyMetadata(id, {
+                exclude: null
+            });
         }
         else {
             action = "add";
@@ -95,14 +89,13 @@ export default class SearchResultContainer extends React.Component {
                 SessionActions.removeBookmark(id);
             }
 
-            if (!SearchStore.getDistributionOfLabour() && !SearchStore.getRelevanceFeedback()) {
-                SearchStore.modifyMetadata(id, {
-                    exclude: {
-                        userId: AccountStore.getUserId(),
-                        date: new Date()
-                    }
-                });
-            }
+            SearchStore.modifyMetadata(id, {
+                exclude: {
+                    userId: AccountStore.getUserId(),
+                    date: new Date()
+                },
+                bookmark: null
+            });
         }
 
         log(LoggerEventTypes.EXCLUDE_ACTION, {
