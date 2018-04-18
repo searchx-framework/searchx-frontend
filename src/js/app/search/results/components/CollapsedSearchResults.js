@@ -20,7 +20,7 @@ class CollapsedSearchResults extends React.Component {
     }
 
     clickHandler() {
-        if (this.props.collapsed) {
+        if (this.props.resultsAreCollapsed) {
             this.show();
         } else {
             this.hide();
@@ -44,7 +44,7 @@ class CollapsedSearchResults extends React.Component {
     render() {
         return (
             <div>
-                <Collapse in={this.props.collapsed}>
+                <Collapse in={this.props.resultsAreCollapsed}>
                     <div className="result-collapsed">
                         <Button bsSize="xsmall" onClick={this.clickHandler} className="collapsedResultsButton">
                             {this.props.results.length} results hidden (click to show)
