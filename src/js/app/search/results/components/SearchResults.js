@@ -171,16 +171,12 @@ export default class SearchResultsContainer extends React.Component {
                     }
                     {this.props.distributionOfLabour === "unbookmarkedSoft" &&
                         <div className="collapsedText">
-                            {this.getCollapsibleResultsLength() > 0 &&
-                                [
-                                    <Button className="allCollapsedResultsButton" onClick={this.showAllCollapsedResults} disabled={allBookmarkedResultsShown}>
-                                        Show all hidden results
-                                    </Button>,
-                                    <Button className="allCollapsedResultsButton" onClick={this.hideAllCollapsedResults} disabled={allBookmarkedResultsHidden}>
-                                        Hide all bookmarked and excluded results
-                                    </Button>
-                                ]
-                            }
+                            <Button className="allCollapsedResultsButton" onClick={this.showAllCollapsedResults} disabled={allBookmarkedResultsShown}>
+                                Show all hidden results
+                            </Button>
+                            <Button className="allCollapsedResultsButton" onClick={this.hideAllCollapsedResults} disabled={allBookmarkedResultsHidden}>
+                                Hide all bookmarked and excluded results
+                            </Button>
                         </div>
                     }
                     <div className="list">
