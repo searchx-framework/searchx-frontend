@@ -1,7 +1,7 @@
 import React from 'react';
 import Rating from 'react-rating';
 
-import {Collapse} from "react-bootstrap";
+import {Button, Collapse} from "react-bootstrap";
 
 import config from "../../../../config";
 
@@ -40,7 +40,7 @@ function formatMetadata(metadata) {
     return <div className="metadata">{elements}</div>;
 }
 
-const SearchResult = function({searchState, serpId, result, bookmarkClickHandler, urlClickHandler, provider, collapsed, excludeClickHandler}) {
+const SearchResult = function({searchState, serpId, result, bookmarkClickHandler, urlClickHandler, provider, collapsed, excludeClickHandler, hideCollapsedResultsHandler}) {
     let initialBookmark = 0;
     let initialExclude = 0;
     if ('metadata' in result) {
@@ -70,14 +70,15 @@ const SearchResult = function({searchState, serpId, result, bookmarkClickHandler
         metadata: formatMetadata(result.metadata),
         bookmarkButton: bookmarkButton,
         excludeButton: excludeButton,
-        urlClickHandler: urlClickHandler
+        urlClickHandler: urlClickHandler,
+        hideCollapsedResultsHandler: hideCollapsedResultsHandler,
     };
     const ResultType = config.providerVerticals[provider].get(searchState.vertical);
     const view = <ResultType {...props}/>;
 
     return (
         <Collapse in={!collapsed}>
-            <div className="SearchResult" >
+            <div className="SearchResult">
                 {view}
             </div>
         </Collapse>

@@ -6,7 +6,11 @@ import {LoggerEventTypes} from '../../../../../utils/LoggerEventTypes';
 
 ////
 
-const TextSearchResult = function({searchState, serpId, result, metadata, bookmarkButton, excludeButton, urlClickHandler}) {
+function isCollapsible(result) {
+    return (result.metadata.bookmark || result.metadata.exclude);
+}
+
+const TextSearchResult = function({searchState, serpId, result, metadata, bookmarkButton, excludeButton, urlClickHandler, hideCollapsedResultsHandler}) {
     let metaInfo = {
         url: result.id,
         query: searchState.query,
@@ -49,6 +53,11 @@ const TextSearchResult = function({searchState, serpId, result, metadata, bookma
         return {__html: result.snippet};
     }
 
+    const hideCollapsedResults = function () {
+        const id = result.id ? result.id : result.url;
+        hideCollapsedResultsHandler([id]);
+    };
+
     ////
 
     return  (
@@ -65,16 +74,33 @@ const TextSearchResult = function({searchState, serpId, result, metadata, bookma
             {excludeButton}
 
             <div onMouseEnter={hoverEnterSummary} onMouseLeave={hoverLeaveSummary} >
-                <h2>
-                    <a title={result.name} target="_blank" onClick={clickUrl} onContextMenu={contextUrl}>
-                        {result.name}
-                    </a>
-                </h2>
+                <div className="lineContainer">
+                    <h2>
+                        <a title={result.name} target="_blank" onClick={clickUrl} onContextMenu={contextUrl}>
+                            {result.name}
+                        </a>
+                    </h2>
+                    {isCollapsible(result) && (
+                        <div className="clickArea" role="button" onClick={hideCollapsedResults} />
+                    )}
+                </div>
 
-                <p dangerouslySetInnerHTML={ createSnippet() }>
-                </p>
+                {isCollapsible(result) ? (
+                    <div className="textArea" role="button" onClick={hideCollapsedResults}>
+                        <p dangerouslySetInnerHTML={ createSnippet() }>
+                        </p>
 
-                {metadata}
+                        {metadata}
+                    </div>
+                ) : (
+                    <div className="textArea">
+                        <p dangerouslySetInnerHTML={ createSnippet() }>
+                        </p>
+
+                        {metadata}
+                    </div>
+                )}
+
             </div>
         </div>
     )

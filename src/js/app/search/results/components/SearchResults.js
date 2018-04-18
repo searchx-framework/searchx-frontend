@@ -134,7 +134,8 @@ export default class SearchResultsContainer extends React.Component {
                 result: result,
                 bookmark: 0,
                 provider: this.props.provider,
-                collapsed: this.state.collapsed[getId(result)]
+                collapsed: this.state.collapsed[getId(result)],
+                hideCollapsedResultsHandler: this.hideCollapsedResults,
             };
 
             if (this.props.distributionOfLabour === 'unbookmarkedSoft') {

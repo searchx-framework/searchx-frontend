@@ -120,6 +120,7 @@ export default class SearchResultContainer extends React.Component {
             provider={this.props.provider}
             collapsed={this.props.collapsed}
             excludeClickHandler={this.excludeClickHandler}
+            hideCollapsedResultsHandler={this.props.hideCollapsedResultsHandler}
         />
     }
 }

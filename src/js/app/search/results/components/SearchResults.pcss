@@ -31,20 +31,29 @@
     }
 
     .SearchResult {
+        .lineContainer {
+            display: flex;
+            align-items: stretch;
+        }
+        .clickArea {
+            width: 100%;
+        }
+
         a {
             cursor: pointer;
         }
 
         h2 {
+            flex: 1 0 auto;
             font-size: 18px;
             line-height: 21px;
 
             margin-bottom: 1px;
             margin-top: 0;
             max-width: 500px;
-
             display: block;
             overflow: hidden;
+
             text-overflow: ellipsis;
             white-space: nowrap;
 
