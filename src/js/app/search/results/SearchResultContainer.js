@@ -65,10 +65,6 @@ export default class SearchResultContainer extends React.Component {
             url: id,
             action: action
         });
-
-        if (SearchStore.getDistributionOfLabour() || SearchStore.getRelevanceFeedback()) {
-            SearchActions.updateMetadata()
-        }
     };
 
     excludeClickHandler() {
@@ -102,10 +98,6 @@ export default class SearchResultContainer extends React.Component {
             url: id,
             action: action
         });
-
-        if (SearchStore.getDistributionOfLabour() || SearchStore.getRelevanceFeedback()) {
-            SearchActions.updateMetadata()
-        }
     }
 
     ////

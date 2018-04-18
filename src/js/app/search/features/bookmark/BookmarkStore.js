@@ -7,6 +7,7 @@ import ActionTypes from '../../../../actions/ActionTypes';
 import AccountStore from '../../../../stores/AccountStore';
 import SyncStore from '../../../../stores/SyncStore';
 import SearchStore from "../../SearchStore";
+import SearchActions from "../../../../actions/SearchActions";
 
 const env = require('env');
 const CHANGE_EVENT = 'change_bookmark';
@@ -147,6 +148,9 @@ let _star_bookmark = function(url) {
 
 let _broadcast_change = function() {
     SyncStore.emitBookmarkUpdate(SearchStore.getSearchState());
+    if (SearchStore.getDistributionOfLabour() || SearchStore.getRelevanceFeedback()) {
+        SearchActions.updateMetadata()
+    }
 };
 
 ////
