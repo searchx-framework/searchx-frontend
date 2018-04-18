@@ -42,12 +42,21 @@ class CollapsedSearchResults extends React.Component {
     }
 
     render() {
+        const resultIcons = this.props.results.map((result) => {
+            if (result.metadata.bookmark) {
+                return <span><i className="fa fa-bookmark resultIcon"/></span>
+            } else if (result.metadata.exclude) {
+                return <span><i className="fa fa-ban resultIcon"/></span>
+            }
+        });
+
+
         return (
             <div>
                 <Collapse in={this.props.resultsAreCollapsed}>
                     <div className="result-collapsed">
-                        <Button bsSize="xsmall" onClick={this.clickHandler} className="collapsedResultsButton">
-                            {this.props.results.length} results hidden (click to show)
+                        <Button bsSize="xsmall" onClick={this.clickHandler} className="collapsedResultsButton" title={this.props.results.length + " results hidden"}>
+                            {resultIcons}
                         </Button>
                     </div>
                 </Collapse>
