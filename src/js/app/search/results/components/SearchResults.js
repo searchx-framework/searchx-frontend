@@ -32,6 +32,8 @@ export default class SearchResultsContainer extends React.Component {
         super(props);
         this.state = {
             collapsed: {},
+            autoHide: false,
+            resultIdMap: {}
         };
 
         this.showAllCollapsedResults = this.showAllCollapsedResults.bind(this);
@@ -125,8 +127,9 @@ export default class SearchResultsContainer extends React.Component {
 
         const prefix = (this.props.matches < config.aboutPrefixAt) ? "" : "About ";
         const timeIndicator = prefix + numberWithCommas(this.props.matches) + " results (" + this.props.elapsedTime + " seconds)";
-        const list = [];
+        let list = [];
         let lastCollapsedResults = [];
+        let lastCollapsedResultsComponents = [];
         for (const [index, result] of this.props.results.entries()) {
             const resultProps = {
                 searchState: this.props.searchState,
@@ -136,24 +139,32 @@ export default class SearchResultsContainer extends React.Component {
                 provider: this.props.provider,
                 collapsed: this.state.collapsed[getId(result)],
                 hideCollapsedResultsHandler: this.hideCollapsedResults,
+                autoHide: this.state.autoHide,
             };
 
             if (this.props.distributionOfLabour === 'unbookmarkedSoft') {
                 if (this.state.collapsed[getId(result)]) {
                     lastCollapsedResults.push(result);
+                    lastCollapsedResultsComponents.push(<SearchResultContainer {...resultProps} key={getId(result)}/>);
                 } else {
                     if (lastCollapsedResults.length > 0) {
-                        lastCollapsedResults = lastCollapsedResults.filter(result => this.state.collapsed[getId(result)]);
                         list.push(<CollapsedResultsButton results={lastCollapsedResults} resultsAreCollapsed={this.resultsAreCollapsed(lastCollapsedResults)} showCollapsedResultsHandler={this.showCollapsedResults} hideCollapsedResultsHandler={this.hideCollapsedResults} searchState={this.props.searchState} serpId={this.props.serpId}/>);
+                        list = list.concat(lastCollapsedResultsComponents);
+                        list.push(<SearchResultContainer {...resultProps} key={getId(result)}/>);
                         lastCollapsedResults = [];
+                        lastCollapsedResultsComponents =[];
+                    } else {
+                        list.push(<SearchResultContainer {...resultProps} key={getId(result)}/>);
                     }
                 }
+            } else {
+                list.push(<SearchResultContainer {...resultProps} key={getId(result)}/>);
             }
-            list.push(<SearchResultContainer {...resultProps} key={getId(result)}/>);
+
 
         }
         if (lastCollapsedResults.length > 0) {
-            lastCollapsedResults = lastCollapsedResults.filter(result => this.state.collapsed[getId(result)]);
+            list = list.concat(lastCollapsedResultsComponents);
             list.push(<CollapsedResultsButton key={getResultIds(lastCollapsedResults)} results={lastCollapsedResults} resultsAreCollapsed={this.resultsAreCollapsed(lastCollapsedResults)} showCollapsedResultsHandler={this.showCollapsedResults} hideCollapsedResultsHandler={this.hideCollapsedResults} searchState={this.props.searchState} serpId={this.props.serpId}/>);
         }
         const currentCollapsedResultsLength = Object.values(this.state.collapsed).filter(value => value).length;

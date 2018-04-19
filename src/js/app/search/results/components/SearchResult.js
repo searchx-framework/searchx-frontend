@@ -78,8 +78,10 @@ const SearchResult = function({searchState, serpId, result, bookmarkClickHandler
 
     return (
         <Collapse in={!collapsed}>
-            <div className="SearchResult">
-                {view}
+            <div>
+                <div className="SearchResult">
+                    {view}
+                </div>
             </div>
         </Collapse>
     );

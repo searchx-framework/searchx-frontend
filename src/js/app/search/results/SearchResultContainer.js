@@ -37,7 +37,7 @@ export default class SearchResultContainer extends React.Component {
 
     bookmarkClickHandler() {
         let action = "";
-        let id = this.props.result.id ? this.props.result.id : this.props.result.url;
+        const id = this.props.result.id ? this.props.result.id : this.props.result.url;
         if (this.props.result.metadata.bookmark) {
             action = "remove";
             SessionActions.removeBookmark(id);
@@ -59,6 +59,9 @@ export default class SearchResultContainer extends React.Component {
                 },
                 exclude: null
             });
+            if (this.props.autoHide) {
+                this.props.hideCollapsedResultsHandler([id]);
+            }
         }
 
         log(LoggerEventTypes.BOOKMARK_ACTION, {
@@ -69,7 +72,7 @@ export default class SearchResultContainer extends React.Component {
 
     excludeClickHandler() {
         let action = "";
-        let id = this.props.result.id ? this.props.result.id : this.props.result.url;
+        const id = this.props.result.id ? this.props.result.id : this.props.result.url;
         if (this.props.result.metadata.exclude) {
             action = "remove";
             SessionActions.removeExclude(id);
@@ -92,6 +95,9 @@ export default class SearchResultContainer extends React.Component {
                 },
                 bookmark: null
             });
+            if (this.props.autoHide) {
+                this.props.hideCollapsedResultsHandler([id]);
+            }
         }
 
         log(LoggerEventTypes.EXCLUDE_ACTION, {
