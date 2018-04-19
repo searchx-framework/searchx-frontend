@@ -156,12 +156,21 @@ const formData = function(returnCode) {
         rows: [
             {
                 value: "query-history",
-                text: "Shared Query History"
+                text: "Recent queries"
             }, {
                 value: "bookmarks",
-                text: "Shared Bookmarks"
+                text: "Saved documents"
             }
         ]
+    });
+
+    elements.push({
+        title: "Do you have any additional comments regarding SearchX?",
+        name: "additional-comment",
+        type: "comment",
+        inputType: "text",
+        rows: 4,
+        isRequired: true
     });
 
 

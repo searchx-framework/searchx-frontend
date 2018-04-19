@@ -15,11 +15,11 @@
 
             padding-left: 10px;
             padding-right: 10px;
-            border-left: 2px solid $border-color;
+            
 
             h3 {
                 font-size: 20px;
-                margin-left: 5px;
+              
             }
         }
     }
@@ -29,4 +29,68 @@
         margin-top: 20px;
         margin-bottom: 20px;
     }
+}
+
+.Collapsible__trigger {
+  display: block;
+  font-weight: 600;
+  text-size: 10pt;
+  text-decoration: none;
+  color: lightgrey;
+  position: relative;
+  border: 1px solid white;
+  padding: 10px;
+  background: $primary-color;
+  color: white;
+  margin-top: 5px;
+  margin-right: 10px;
+  box-shadow: 1px 1px 1px 1px #BFBFBF;
+  border: 0px;
+  border-radius: 3px;
+  text-align: center;
+  max-width: 400px;
+  
+  
+  &:after {
+    font-family: 'FontAwesome';
+    content: '\f107';
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    display: block;
+    transition: transform 300ms;
+    max-width: 300px;
+  }
+
+  &.is-open {
+    &:after {
+      transform: rotateZ(180deg);
+      max-width: 400px;
+    }
+  }
+
+  &.is-disabled {
+    opacity: 0.5;
+    background-color: grey;
+  }
+}
+
+
+.Collapsible__contentInner {
+  padding: 10px;
+
+  box-shadow: 1px 1px 1px 1px #BFBFBF;
+ 
+  border: 1px solid #BDC3C7;
+  margin-right: 10px;
+
+  p {
+    margin-bottom: 10px;
+    font-size: 14px;
+    line-height: 20px;
+    max-width: 400px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
 }

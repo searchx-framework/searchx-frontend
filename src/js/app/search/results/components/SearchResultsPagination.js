@@ -32,12 +32,18 @@ const SearchResultsPagination = function({searchState, finished, matches, change
                             itemsCountPerPage={10}
                             totalItemsCount={450}
                             pageRangeDisplayed={5}
+                            hideDisabled={true}
+                            hideFirstLastPages={false}
 
-                            firstPageText={<i className='glyphicon glyphicon-chevron-left'/>}
-                            lastPageText={<i className='glyphicon glyphicon-chevron-right'/>}
-                            prevPageText={<i className='glyphicon glyphicon-menu-left'/>}
-                            nextPageText={<i className='glyphicon glyphicon-menu-right '/>}
+                            
+                      
+                            prevPageText= 'Previous'
+                            nextPageText='Next'
+
+                            firstPageText='First'
+                            lastPageText='Last'
                 />
+
             }
         </div> 
     )

@@ -21,7 +21,6 @@ const QueryHistoryItem = function({data, clickHandler}) {
     return (
         <div className="item" style={{borderColor: color}} onMouseEnter={hoverEnter} onMouseLeave={hoverLeave}>
             <span className="text">
-                <span style={{color: 'gray'}}>{new Date(data.created).toLocaleTimeString()}</span>
                 <a style={{color: color, cursor: 'pointer'}} onContextMenu={contextUrlLog} onClick={() => {clickHandler(data.query);clickUrlLog();}}>
                     {data.query}
                 </a>

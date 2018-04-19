@@ -4,6 +4,7 @@ import Alert from "react-s-alert";
 import PropTypes from "prop-types";
 import Search from "../../../search/Search";
 
+
 const TaskedSession = function({disableCopy, collaborative, style, children}) {
     function handleCutCopyPaste(e) {
         if (disableCopy) {
@@ -22,12 +23,6 @@ const TaskedSession = function({disableCopy, collaborative, style, children}) {
         <div className="Session" onPaste={handleCutCopyPaste} onCut={handleCutCopyPaste} onCopy={handleCutCopyPaste}>
             <div className="Medium">
                 <Search collaborative={collaborative}/>
-            </div>
-
-            <div className="Task" style={style}>
-                <div className="body">
-                    {children}
-                </div>
             </div>
         </div>
     )

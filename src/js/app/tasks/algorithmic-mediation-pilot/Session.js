@@ -2,11 +2,12 @@ import React from "react";
 import {Link} from "react-router-dom";
 
 import TaskedSession from "../components/session/TaskedSession";
-import Timer from "../components/Timer";
 import constants from "./constants";
 
 import AccountStore from "../../../stores/AccountStore";
 import IntroStore from "../../../stores/IntroStore";
+
+
 
 class Session extends React.PureComponent {
     constructor() {
@@ -36,9 +37,9 @@ class Session extends React.PureComponent {
 
         return (
             <TaskedSession>
-                <div className="box" style={{marginBottom: '20px', textAlign: 'center'}}>
-                    <Timer start={this.state.start} duration={constants.taskDuration} onFinish={this.onFinish} style={{fontSize: '2em'}}/>
-                </div>
+
+                  
+
 
                 <div className="box" style={{flexGrow: '1'}}>
                     <h5 style={{textAlign: 'center'}}>Your Task:</h5>
