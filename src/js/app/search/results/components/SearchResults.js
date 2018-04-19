@@ -44,7 +44,12 @@ export default class SearchResultsContainer extends React.Component {
 
 
     componentWillReceiveProps(nextProps) {
-        const newResults = nextProps.results.filter(result => !getResultIds(this.props.results).includes(result.id));
+        const newResults = nextProps.results.filter(result => !(result.id in this.state.resultIdMap));
+        const resultIdMap = this.state.resultIdMap;
+        newResults.forEach(result => {
+            resultIdMap[result.id] = true;
+        });
+        this.setState({resultIdMap: resultIdMap});
         const newCollapsibleResults = newResults.filter(isCollapsible);
         const newCollapsibleResultIds = newCollapsibleResults.map(result => result.id);
         if (newCollapsibleResultIds) {
