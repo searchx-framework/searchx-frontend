@@ -11,6 +11,8 @@ import BookmarkContainer from "./features/bookmark/BookmarkContainer";
 import Chat from "./features/chat/Chat";
 import config from "../../config";
 
+import Collapsible from 'react-collapsible';
+
 class Search extends React.Component {
     componentDidMount(){
         sessionStorage.clear();
@@ -46,14 +48,27 @@ class Search extends React.Component {
                         <QueryHistoryContainer collaborative={this.props.collaborative}/>
                         <BookmarkContainer collaborative={this.props.collaborative}/>
                     </div>
+
+
+      <Collapsible trigger="Your task" transitionTime={3}>
+      
+    <p> Imagine you are a reporter for a newspaper. Your editor has just asked you and your colleague[s] to gather documents
+         from a collection of news articles to write a story about [provided topic title]. </p>
+         <br/>
+    <p> There's a meeting in an hour, so your editor asks you and your colleague[s] to spend 10 minutes together and search 
+        for and save as many useful documents as possible.  </p>
+
+ <p> To guarantee the quality of the documents, your editor, who will look over the collected resources in the end, 
+     requests that you use a collaborative search system (SearchX). </p>
+
+ <p> Collect documents according to the following criteria: </p>
+
+ <p> [topic narrative] </p>
+
+      </Collapsible>
                 </div>
 
-                <div className="text-center" >
-                    <hr/>
-                    <p className="Footer">
-                        About <a href="/about" target="_blank">SearchX</a>.
-                    </p>
-                </div>
+      
             </div>
         )
     }

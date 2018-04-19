@@ -15,7 +15,7 @@ const Bookmarks = function({bookmarks, removeHandler, starHandler, clickHandler}
 
     return (
         <div className="Bookmarks" id="intro-bookmarks-bar">
-            <h3> <i className="fa fa-bookmark medium"/> BOOKMARKS</h3>
+            <h3> <i className="fa fa-bookmark medium"/> Saved documents</h3>
             <div className="list">
                 {list}
             </div>

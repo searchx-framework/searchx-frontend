@@ -13,7 +13,7 @@ const QueryHistory = function({history, clickHandler}) {
 
     return (
         <div className="QueryHistory" id="intro-query-history">
-            <h3> <i className="fa fa-history medium"/> QUERY HISTORY</h3>
+            <h3> <i className="fa fa-history medium"/> Recent queries</h3>
             <div className="list">
                 {list}
             </div>
