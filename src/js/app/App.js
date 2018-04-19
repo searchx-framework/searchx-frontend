@@ -22,6 +22,7 @@ import AsyncSession from './tasks/example-group-async/Session';
 import PilotRegister from './tasks/algorithmic-mediation-pilot/Register';
 import PilotWait from './tasks/algorithmic-mediation-pilot/Wait';
 import PilotSession from './tasks/algorithmic-mediation-pilot/Session';
+import PilotPostTest from './tasks/algorithmic-mediation-pilot/PostTest';
 
 export class App extends React.Component {
     componentWillMount(){
@@ -57,6 +58,7 @@ export class App extends React.Component {
                     <Route exact path="/pilot" component={PilotRegister}/>
                     <Route exact path="/pilot/wait" component={PilotWait}/>
                     <Route path="/pilot/session" component={PilotSession}/>
+                    <Route exact path="/pilot/posttest" component={PilotPostTest}/>
                 </div>
             </Router>
         );

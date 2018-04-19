@@ -64,10 +64,10 @@ module.exports = {
 
     externals: {
         'env': JSON.stringify(process.env.ENV === 'production' ? {
-            serverUrl: 'http://csal.ewi.tudelft.nl:4443',
+            serverUrl: 'http://csal.ewi.tudelft.nl:443',
             renderUrl: 'http://csal.ewi.tudelft.nl:3000/render'
         } : {
-            serverUrl: 'http://127.0.0.1:4443',
+            serverUrl: 'http://csal.ewi.tudelft.nl:443',
             renderUrl: 'http://127.0.0.1:3000/render'
         })
     }

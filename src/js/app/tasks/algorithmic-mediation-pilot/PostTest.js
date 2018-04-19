@@ -11,7 +11,8 @@ class PostTest extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            finished: localStorage.getItem('posttest-finish') === 'true'
+            finished: localStorage.getItem('posttest-finish') === 'true',
+            returnCode: Math.random().toString(36).substring(2, 10)
         };
 
         this.onComplete = this.onComplete.bind(this);
@@ -20,8 +21,7 @@ class PostTest extends React.Component {
     render() {
         const task = AccountStore.getTask();
         return <Form
-            formData={formData(task.data.topic)}
-            formValidation={formValidation}
+            formData={formData(this.state.returnCode)}
             onComplete={this.onComplete}
             disableCopy={true}
         />
@@ -31,7 +31,8 @@ class PostTest extends React.Component {
 
     onComplete(data) {
         log(LoggerEventTypes.SURVEY_POST_TEST_RESULTS, {
-            data: data
+            data: data,
+            returnCode: this.state.returnCode
         });
 
         localStorage.setItem('posttest-finish', true.toString());
@@ -39,7 +40,7 @@ class PostTest extends React.Component {
     }
 }
 
-const formData = function(topic) {
+const formData = function(returnCode) {
     let pages = [];
     let elements = [];
 
@@ -167,13 +168,13 @@ const formData = function(topic) {
     pages.push({elements:  elements});
 
     ////
-
+   
     return {
         pages: pages,
         requiredText: "",
         showProgressBar: "top",
         showQuestionNumbers: "off",
-        completedHtml: "<h2>Thank you for taking part in our study.</h2>",
+        completedHtml: "<h2>Thank you for taking part in our study.</h2> <h3> Use this code on Amazon MTurk: "+ returnCode +  "</h3>",
     }
 };
 
