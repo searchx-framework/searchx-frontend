@@ -52,18 +52,18 @@ class Search extends React.Component {
 
       <Collapsible trigger="Your task" transitionTime={3}>
       
-    <p> Imagine you are a reporter for a newspaper. Your editor has just asked you and your colleague[s] to gather documents
-         from a collection of news articles to write a story about [provided topic title]. </p>
-         <br/>
-    <p> There's a meeting in an hour, so your editor asks you and your colleague[s] to spend 10 minutes together and search 
-        for and save as many useful documents as possible.  </p>
+            <p> Imagine you are a reporter for a newspaper. Your editor has just asked you and your colleague[s] to gather documents
+                from a collection of news articles to write a story about [provided topic title]. </p>
+                <br/>
+            <p> There's a meeting in an hour, so your editor asks you and your colleague[s] to spend 10 minutes together and search 
+                for and save as many useful documents as possible.  </p>
 
- <p> To guarantee the quality of the documents, your editor, who will look over the collected resources in the end, 
-     requests that you use a collaborative search system (SearchX). </p>
+        <p> To guarantee the quality of the documents, your editor, who will look over the collected resources in the end, 
+            requests that you use a collaborative search system (SearchX). </p>
 
- <p> Collect documents according to the following criteria: </p>
+        <p> Collect documents according to the following criteria: </p>
 
- <p> [topic narrative] </p>
+        <p> [topic narrative] </p>
 
       </Collapsible>
                 </div>

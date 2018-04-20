@@ -7,6 +7,7 @@ import {log} from "../utils/Logger";
 import SearchStore from "../app/search/SearchStore";
 import QueryHistoryStore from "../app/search/features/queryhistory/QueryHistoryStore";
 import BookmarkStore from "../app/search/features/bookmark/BookmarkStore";
+import $ from 'jquery';
 
 const intro = introJs().setOptions({
     doneLabel:  "Ok!",
@@ -46,8 +47,13 @@ const IntroStore = Object.assign(EventEmitter.prototype, {
             callback();
         });
 
+        
         Alert.closeAll();
         intro.start();
+
+        $('.introjs-skipbutton').hide();
+  
+        
     },
 
     clearIntro() {

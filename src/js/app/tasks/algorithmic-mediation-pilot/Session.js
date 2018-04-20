@@ -22,6 +22,7 @@ class Session extends React.PureComponent {
 
     componentDidMount() {
 
+        
         IntroStore.startIntro(introSteps, () => {
             const start = localStorage.getItem("timer-start") || Date.now();
             localStorage.setItem("timer-start", start);
@@ -36,36 +37,7 @@ class Session extends React.PureComponent {
         const task = AccountStore.getTask();
 
         return (
-            <TaskedSession>
-
-                  
-
-
-                <div className="box" style={{flexGrow: '1'}}>
-                    <h5 style={{textAlign: 'center'}}>Your Task:</h5>
-            
-                        <p>
-                        Imagine that you are a reporter for a newspaper. 
-                        Your editor has just asked you and your colleague to search for documents 
-                        in a collection of news articles to write stories about . 
-                        </p>
-
-                        <br/>
-
-                        <p> There's a meeting in an hour, so your editor need you and your colleague to spend 10 minutes 
-                            in this task to search and save as many documents as possible. 
-                        </p>
-                        <br/>
-                        <p> To guarantee the quality of the documents, your editor, which will judge the documents later, 
-                            requested that you use SearchX with this criteria:
-
-                        </p>
-
-                        <p>  </p>
-                </div>
-        
-            
-        </TaskedSession>
+            <TaskedSession/>
         )
     }
 
@@ -82,8 +54,26 @@ class Session extends React.PureComponent {
 const introSteps = [
     {
         element: '.Task',
-        intro: 'Please take a minute to read your task description.',
-        position: 'left'
+        intro:  
+   "<h3> This is your task: </h3>" 
+        
+   + "<p> Imagine you are a reporter for a newspaper. Your editor has just asked you and your colleague[s] to gather documents"
+   + " from a collection of news articles to write a story about [provided topic title]. </p>" 
+   + "<br/>"
+   + "<p> There's a meeting in an hour, so your editor asks you and your colleague[s] to spend 10 minutes together and search" 
+   +  "for and save as many useful documents as possible.  </p>" 
+
+   + "<p> To guarantee the quality of the documents, your editor, who will look over the collected resources in the end, " 
+   + "requests that you use a collaborative search system (SearchX). </p>" 
+   + "<p> Collect documents according to the following criteria: </p>" 
+   + "<p> [topic narrative] </p>"
+
+    },
+
+    {
+        element: '.Collapsible__trigger',
+        intro:  "You can read the task description again here:",
+        position: "left"
     },
     {
         element: '.SearchHeader',
@@ -96,26 +86,22 @@ const introSteps = [
     },
     {
         element: '.QueryHistory',
-        intro: 'The query history shows your and your group\'s past search queries. In this manner you see what the others are doing.',
-        position: 'top'
+        intro: 'The recent queries shows your and your group\'s past search queries. In this manner you see what the others are doing.',
+        position: 'bottom'
     },
     {
         element: '.SearchResults',
-        intro: 'To save a resource that is useful, bookmark it. You also see your group\'s bookmarks here.',
-        position: 'top'
+        intro: 'The search results will appear here for your queries. You also see your group\'s saved documents here.',
+        position: 'right'
     },
     {
         element: '.Bookmarks',
-        intro: 'The documents you and your group bookmarked will appear here. You can revisit them before completing the session.',
+        intro: 'The documents you and your group saved will appear here. You can revisit them before completing the session.',
         position: 'top'
     },
     {
-        element: '.Search .Content',
-        intro: 'The query history and bookmarks are color-coded to show who initiated the action.',
-        position: 'top'
-    },
-    {
-        intro: 'Please use the provided chat window to collaborate with your group during the session.',
+        element: '.Side',
+        intro: 'The recent queries and saved documents are color-coded to show who initiated the action.',
         position: 'auto'
     }
 ];
