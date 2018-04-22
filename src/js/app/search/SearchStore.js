@@ -263,9 +263,6 @@ const _getById = function (id) {
         .end((err, res) => {
             if (!res.body.error) {
                 const result = res.body.result;
-                console.log('getById');
-                console.log(result);
-
                 state.activeUrl = result.id;
 
                 var doctext = result.text.split('\n').map((item, key) => {
@@ -302,8 +299,6 @@ const _update_metadata = function() {
     const excludes = BookmarkStore.getExcludes();
     const bookmarkMap = {};
     const excludeMap = {};
-    console.log(bookmarks);
-    console.log(excludes);
     bookmarks.forEach(bookmark => {
         bookmarkMap[bookmark.url] = bookmark;
     });
