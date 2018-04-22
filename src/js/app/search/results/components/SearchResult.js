@@ -23,7 +23,7 @@ function formatMetadata(metadata) {
         elements.push(<span><i className="fa fa-comments"/> {metadata.annotations}</span>);
     }
 
-    if (metadata.bookmark) {
+    if (config.interface.bookmarkTime && metadata.bookmark) {
         const date = new Date(metadata.bookmark.date);
         const now = new Date().toLocaleDateString();
 
