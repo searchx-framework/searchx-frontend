@@ -1,11 +1,14 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import {Redirect} from "react-router-dom";
 
 import TaskedSession from "../components/session/TaskedSession";
 import constants from "./constants";
 
 import AccountStore from "../../../stores/AccountStore";
 import IntroStore from "../../../stores/IntroStore";
+import Helpers from "../../../utils/Helpers";
+import Collapsible from "react-collapsible";
+import Timer from "../components/Timer";
 
 
 
@@ -14,15 +17,17 @@ class Session extends React.PureComponent {
         super();
         this.state = {
             start: false,
-            finished: false,
+            finished: false
         };
 
         this.onFinish = this.onFinish.bind(this);
+
+        Helpers.sleep(constants.taskDuration * 60 * 1000).then(() => {
+
+        });
     }
 
     componentDidMount() {
-
-        
         IntroStore.startIntro(introSteps, () => {
             const start = localStorage.getItem("timer-start") || Date.now();
             localStorage.setItem("timer-start", start);
@@ -30,14 +35,42 @@ class Session extends React.PureComponent {
                 start: start
             });
         });
-
     }
 
     render() {
         const task = AccountStore.getTask();
 
+        const timer = (
+            <div className="box" style={{marginTop: '10px', textAlign: 'center'}}>
+                <Timer start={this.state.start} duration={constants.taskDuration} onFinish={this.onFinish} style={{fontSize: '2em'}}/>
+            </div>
+        );
+
+        const taskDescription = (
+            <Collapsible trigger="Your task" transitionTime={3}>
+
+                <p> Imagine you are a reporter for a newspaper. Your editor has just asked you and your colleague[s] to gather documents
+                    from a collection of news articles to write a story about {task.title}. </p>
+                <br/>
+                <p> There's a meeting in an hour, so your editor asks you and your colleague[s] to spend 10 minutes together and search
+                    for and save as many useful documents as possible.  </p>
+
+                <p> To guarantee the quality of the documents, your editor, who will look over the collected resources in the end,
+                    requests that you use a collaborative search system (SearchX). </p>
+
+                <p> Collect documents according to the following criteria: </p>
+
+                <p> {task.description} </p>
+
+            </Collapsible>
+        );
+
+        if (this.state.finished) {
+            return <Redirect to="/pilot/posttest" />;
+        }
+
         return (
-            <TaskedSession/>
+            <TaskedSession timer={timer} taskDescription={taskDescription}/>
         )
     }
 
