@@ -19,10 +19,6 @@ function getId(result) {
     return result.id ? result.id : result.url;
 }
 
-function isCollapsible(result) {
-    return (result.metadata.bookmark || result.metadata.exclude);
-}
-
 function getResultIds(results) {
     return results.map(result => getId(result));
 }
@@ -40,6 +36,7 @@ export default class SearchResultsContainer extends React.Component {
         this.hideAllCollapsedResults = this.hideAllCollapsedResults.bind(this);
         this.showCollapsedResults = this.showCollapsedResults.bind(this);
         this.hideCollapsedResults = this.hideCollapsedResults.bind(this);
+        this.isCollapsible = this.isCollapsible.bind(this);
     }
 
 
@@ -50,7 +47,7 @@ export default class SearchResultsContainer extends React.Component {
             resultIdMap[result.id] = true;
         });
         this.setState({resultIdMap: resultIdMap});
-        const newCollapsibleResults = newResults.filter(isCollapsible);
+        const newCollapsibleResults = newResults.filter(this.isCollapsible);
         const newCollapsibleResultIds = newCollapsibleResults.map(result => result.id);
         if (newCollapsibleResultIds) {
             this.hideCollapsedResults(newCollapsibleResultIds);
@@ -67,6 +64,10 @@ export default class SearchResultsContainer extends React.Component {
         }
     }
 
+    isCollapsible(result) {
+        return this.props.distributionOfLabour && (result.metadata.bookmark || result.metadata.exclude);
+    }
+
     showAllCollapsedResults() {
         log(LoggerEventTypes.SEARCH_SHOW_ALL_COLLAPSED, this.getMetaInfo());
         this.setState({
@@ -78,7 +79,7 @@ export default class SearchResultsContainer extends React.Component {
         log(LoggerEventTypes.SEARCH_HIDE_ALL_COLLAPSED, this.getMetaInfo());
         const collapsed = {};
         this.props.results.forEach((result) => {
-            if (isCollapsible(result)) {
+            if (this.isCollapsible(result)) {
                 collapsed[getId(result)] = true;
             }
         });
@@ -88,7 +89,7 @@ export default class SearchResultsContainer extends React.Component {
     }
 
     getCollapsibleResultsLength() {
-        return this.props.results.filter(result => isCollapsible(result)).length;
+        return this.props.results.filter(result => this.isCollapsible(result)).length;
     }
 
     showCollapsedResults(ids) {
@@ -147,6 +148,7 @@ export default class SearchResultsContainer extends React.Component {
                 collapsed: collapsed,
                 hideCollapsedResultsHandler: this.hideCollapsedResults,
                 autoHide: this.state.autoHide,
+                isCollapsible: this.isCollapsible(result),
             };
 
             if (this.props.distributionOfLabour === 'unbookmarkedSoft') {

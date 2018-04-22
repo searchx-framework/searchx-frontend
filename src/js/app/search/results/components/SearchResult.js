@@ -40,7 +40,7 @@ function formatMetadata(metadata) {
     return <div className="metadata">{elements}</div>;
 }
 
-const SearchResult = function({searchState, serpId, result, bookmarkClickHandler, urlClickHandler, provider, collapsed, excludeClickHandler, hideCollapsedResultsHandler}) {
+const SearchResult = function({searchState, serpId, result, bookmarkClickHandler, urlClickHandler, provider, collapsed, excludeClickHandler, hideCollapsedResultsHandler, isCollapsible}) {
     let initialBookmark = 0;
     let initialExclude = 0;
     if ('metadata' in result) {
@@ -72,6 +72,7 @@ const SearchResult = function({searchState, serpId, result, bookmarkClickHandler
         excludeButton: excludeButton,
         urlClickHandler: urlClickHandler,
         hideCollapsedResultsHandler: hideCollapsedResultsHandler,
+        isCollapsible: isCollapsible
     };
     const ResultType = config.providerVerticals[provider].get(searchState.vertical);
     const view = <ResultType {...props}/>;

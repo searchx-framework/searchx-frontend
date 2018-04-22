@@ -6,11 +6,7 @@ import {LoggerEventTypes} from '../../../../../utils/LoggerEventTypes';
 
 ////
 
-function isCollapsible(result) {
-    return (result.metadata.bookmark || result.metadata.exclude);
-}
-
-const TextSearchResult = function({searchState, serpId, result, metadata, bookmarkButton, excludeButton, urlClickHandler, hideCollapsedResultsHandler}) {
+const TextSearchResult = function({searchState, serpId, result, metadata, bookmarkButton, excludeButton, urlClickHandler, hideCollapsedResultsHandler, isCollapsible}) {
     let metaInfo = {
         url: result.id,
         query: searchState.query,
@@ -74,18 +70,13 @@ const TextSearchResult = function({searchState, serpId, result, metadata, bookma
             {excludeButton}
 
             <div onMouseEnter={hoverEnterSummary} onMouseLeave={hoverLeaveSummary} >
-                <div className="lineContainer">
-                    <h2>
-                        <a title={result.name} target="_blank" onClick={clickUrl} onContextMenu={contextUrl}>
-                            {result.name}
-                        </a>
-                    </h2>
-                    {isCollapsible(result) && (
-                        <div className="clickArea" role="button" onClick={hideCollapsedResults} />
-                    )}
-                </div>
+                <h2>
+                    <a title={result.name} target="_blank" onClick={clickUrl} onContextMenu={contextUrl}>
+                        {result.name}
+                    </a>
+                </h2>
 
-                {isCollapsible(result) ? (
+                {isCollapsible ? (
                     <div className="textArea" role="button" onClick={hideCollapsedResults}>
                         <p dangerouslySetInnerHTML={ createSnippet() }>
                         </p>
