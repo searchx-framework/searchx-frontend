@@ -21,6 +21,7 @@ const getState = function() {
         provider: SearchStore.getProvider(),
         distributionOfLabour: SearchStore.getDistributionOfLabour(),
         activeDoctext: SearchStore.getActiveDoctext(),
+        tutorial: SearchStore.getTutorial(),
     }
 };
 

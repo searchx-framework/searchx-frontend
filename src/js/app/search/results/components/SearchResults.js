@@ -65,7 +65,9 @@ export default class SearchResultsContainer extends React.Component {
     }
 
     isCollapsible(result) {
-        return this.props.distributionOfLabour && (result.metadata.bookmark || result.metadata.exclude);
+        return this.props.distributionOfLabour
+            && !this.props.tutorial
+            && (result.metadata.bookmark || result.metadata.exclude);
     }
 
     showAllCollapsedResults() {
@@ -154,20 +156,20 @@ export default class SearchResultsContainer extends React.Component {
             if (this.props.distributionOfLabour === 'unbookmarkedSoft') {
                 if (this.state.collapsed[getId(result)]) {
                     lastCollapsedResults.push(result);
-                    lastCollapsedResultsComponents.push(<SearchResultContainer {...resultProps} key={getId(result)}/>);
+                    lastCollapsedResultsComponents.push(<SearchResultContainer {...resultProps} key={getId(result)} index={index}/>);
                 } else {
                     if (lastCollapsedResults.length > 0) {
-                        list.push(<CollapsedResultsButton results={lastCollapsedResults} resultsAreCollapsed={this.resultsAreCollapsed(lastCollapsedResults)} showCollapsedResultsHandler={this.showCollapsedResults} hideCollapsedResultsHandler={this.hideCollapsedResults} searchState={this.props.searchState} serpId={this.props.serpId}/>);
+                        list.push(<CollapsedResultsButton results={lastCollapsedResults} resultsAreCollapsed={this.resultsAreCollapsed(lastCollapsedResults)} showCollapsedResultsHandler={this.showCollapsedResults} hideCollapsedResultsHandler={this.hideCollapsedResults} searchState={this.props.searchState} serpId={this.props.serpId} index={index}/>);
                         list = list.concat(lastCollapsedResultsComponents);
-                        list.push(<SearchResultContainer {...resultProps} key={getId(result)}/>);
+                        list.push(<SearchResultContainer {...resultProps} key={getId(result)} index={index}/>);
                         lastCollapsedResults = [];
                         lastCollapsedResultsComponents =[];
                     } else {
-                        list.push(<SearchResultContainer {...resultProps} key={getId(result)}/>);
+                        list.push(<SearchResultContainer {...resultProps} key={getId(result)} index={index}/>);
                     }
                 }
             } else {
-                list.push(<SearchResultContainer {...resultProps} key={getId(result)}/>);
+                list.push(<SearchResultContainer {...resultProps} key={getId(result)} index={index}/>);
             }
 
 

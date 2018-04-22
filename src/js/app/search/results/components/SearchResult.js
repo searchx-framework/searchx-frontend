@@ -40,7 +40,7 @@ function formatMetadata(metadata) {
     return <div className="metadata">{elements}</div>;
 }
 
-const SearchResult = function({searchState, serpId, result, bookmarkClickHandler, urlClickHandler, provider, collapsed, excludeClickHandler, hideCollapsedResultsHandler, isCollapsible}) {
+const SearchResult = function({searchState, serpId, result, bookmarkClickHandler, urlClickHandler, provider, collapsed, excludeClickHandler, hideCollapsedResultsHandler, isCollapsible, index}) {
     let initialBookmark = 0;
     let initialExclude = 0;
     if ('metadata' in result) {
@@ -49,17 +49,17 @@ const SearchResult = function({searchState, serpId, result, bookmarkClickHandler
     }
 
     const bookmarkButton = <Rating
-        className="rating" empty="fa fa-bookmark-o" full="fa fa-bookmark"
+        className={"rating BookmarkButton-" + index} empty="fa fa-bookmark-o" full="fa fa-bookmark"
         onClick={bookmarkClickHandler}
         stop={1} initialRate={initialBookmark}
-        title="Bookmark"
+        title="Save result"
     />;
 
     const excludeButton = <Rating
-        className="rating" empty="fa fa-ban" full="fa fa-ban red"
+        className={"rating ExcludeButton-" + index} empty="fa fa-ban" full="fa fa-ban red"
         onClick={excludeClickHandler}
         stop={1} initialRate={initialExclude}
-        title="Exclude"
+        title="Exclude result from future queries"
     />;
 
 

@@ -21,10 +21,6 @@ class Session extends React.PureComponent {
         };
 
         this.onFinish = this.onFinish.bind(this);
-
-        Helpers.sleep(constants.taskDuration * 60 * 1000).then(() => {
-
-        });
     }
 
     componentDidMount() {
@@ -105,31 +101,41 @@ const introSteps = [
 
     {
         element: '.Collapsible__trigger',
-        intro:  "You can read the task description again here:",
+        intro:  "You can read the task description again here.",
         position: "left"
     },
     {
         element: '.SearchHeader',
-        intro: 'We want you to use ou search system, SearchX.',
+        intro: 'We want you to use our search system, SearchX.',
         position: 'bottom-middle-aligned'
     },
     {
         element: '.SearchHeader .form',
-        intro: 'Use SearchX to search for news article about the topic.'
+        intro: 'Use SearchX to search for news articles as described in the task.'
     },
     {
         element: '.QueryHistory',
-        intro: 'The recent queries shows your and your group\'s past search queries. In this manner you see what the others are doing.',
+        intro: 'Recent queries shows your and your group\'s past search queries. In this manner you can see what the others are doing.',
         position: 'bottom'
     },
     {
         element: '.SearchResults',
-        intro: 'The search results will appear here for your queries. You also see your group\'s saved documents here.',
+        intro: 'The search results for your queries will appear here. You can also see which results have been saved and excluded.',
+        position: 'right'
+    },
+    {
+        element: '.BookmarkButton-0',
+        intro: 'Click the Save button to save useful results.',
+        position: 'right'
+    },
+    {
+        element: '.ExcludeButton-0',
+        intro: 'Click the Exclude button to exclude results that are not useful from future queries.',
         position: 'right'
     },
     {
         element: '.Bookmarks',
-        intro: 'The documents you and your group saved will appear here. You can revisit them before completing the session.',
+        intro: 'The documents you and your group save will appear here. You can revisit a saved result by clicking on it.',
         position: 'top'
     },
     {
