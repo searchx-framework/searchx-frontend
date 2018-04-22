@@ -136,13 +136,15 @@ export default class SearchResultsContainer extends React.Component {
         let lastCollapsedResults = [];
         let lastCollapsedResultsComponents = [];
         for (const [index, result] of this.props.results.entries()) {
+            const collapsed = this.props.distributionOfLabour && this.state.collapsed[getId(result)];
+
             const resultProps = {
                 searchState: this.props.searchState,
                 serpId: this.props.serpId,
                 result: result,
                 bookmark: 0,
                 provider: this.props.provider,
-                collapsed: this.state.collapsed[getId(result)],
+                collapsed: collapsed,
                 hideCollapsedResultsHandler: this.hideCollapsedResults,
                 autoHide: this.state.autoHide,
             };
