@@ -12,7 +12,7 @@ import SearchActions from "../../../../actions/SearchActions";
 const env = require('env');
 const CHANGE_EVENT = 'change_bookmark';
 
-let state = {
+const state = {
     bookmark: [],
     exclude: [],
     tutorial: false
@@ -41,6 +41,9 @@ const BookmarkStore = Object.assign(EventEmitter.prototype, {
         const notStarred = state.bookmark.filter(x => !x.starred);
         return starred.concat(notStarred);
     },
+    getExcludes() {
+        return state.exclude;
+    },
 
     setBookmarksTutorialData() {
         state.tutorial = true;
@@ -53,8 +56,9 @@ const BookmarkStore = Object.assign(EventEmitter.prototype, {
 
     dispatcherIndex: register(action => {
         switch(action.type) {
-            case ActionTypes.GET_BOOKMARKS:
+            case ActionTypes.GET_BOOKMARKS_AND_EXCLUDES:
                 _get('bookmark');
+                _get('exclude');
                 break;
             case ActionTypes.ADD_BOOKMARK:
                 _add(action.payload.url, action.payload.title, 'bookmark');
@@ -80,7 +84,7 @@ const BookmarkStore = Object.assign(EventEmitter.prototype, {
 
 ////
 
-let _get = function(type) {
+const _get = function(type) {
     request
         .get(env.serverUrl + '/v1/session/' + AccountStore.getSessionId() + '/' + type)
         .end((err, res) => {
@@ -89,10 +93,11 @@ let _get = function(type) {
                 state[type] = res.body.results;
             }
             BookmarkStore.emitChange();
+            SearchStore.updateMetadata();
         });
 };
 
-let _add = function(url, title, type) {
+const _add = function(url, title, type) {
     const userId = AccountStore.getUserId();
     request
         .post(env.serverUrl + '/v1/session/' + AccountStore.getSessionId() + '/' + type)
@@ -112,9 +117,10 @@ let _add = function(url, title, type) {
         date: new Date()
     });
     BookmarkStore.emitChange();
+    SearchStore.updateMetadata();
 };
 
-let _remove = function(url, type) {
+const _remove = function(url, type) {
     request
         .delete(env.serverUrl + '/v1/session/' + AccountStore.getSessionId() + '/' + type)
         .send({
@@ -126,9 +132,10 @@ let _remove = function(url, type) {
 
     state[type] = state[type].filter((item) => item.url !== url);
     BookmarkStore.emitChange();
+    SearchStore.updateMetadata();
 };
 
-let _star_bookmark = function(url) {
+const _star_bookmark = function(url) {
     request
         .post(env.serverUrl + '/v1/session/' + AccountStore.getSessionId() + '/bookmark/star')
         .send({
@@ -144,13 +151,11 @@ let _star_bookmark = function(url) {
         }
     });
     BookmarkStore.emitChange();
+    SearchStore.updateMetadata();
 };
 
-let _broadcast_change = function() {
+const _broadcast_change = function() {
     SyncStore.emitBookmarkUpdate(SearchStore.getSearchState());
-    if (SearchStore.getDistributionOfLabour() || SearchStore.getRelevanceFeedback()) {
-        SearchActions.updateMetadata()
-    }
 };
 
 ////

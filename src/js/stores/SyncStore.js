@@ -83,8 +83,7 @@ socket.on('searchState', (data) => {
 });
 
 socket.on('bookmarkUpdate', (data) => {
-    SessionActions.getBookmarks();
-    SearchActions.updateMetadata();
+    SessionActions.getBookmarksAndExcludes();
 });
 
 socket.on('pageMetadataUpdate', (data) => {

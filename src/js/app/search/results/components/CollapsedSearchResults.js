@@ -47,6 +47,8 @@ class CollapsedSearchResults extends React.Component {
                 return <span><i className="fa fa-bookmark resultIcon"/></span>
             } else if (result.metadata.exclude) {
                 return <span><i className="fa fa-ban resultIcon"/></span>
+            } else {
+                return <span><i className="fa fa-refresh resultIcon"/></span>
             }
         });
 

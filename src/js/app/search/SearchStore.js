@@ -13,6 +13,7 @@ import Helpers from '../../utils/Helpers';
 import SyncStore from '../../stores/SyncStore';
 import AccountStore from '../../stores/AccountStore';
 import history from "../History";
+import BookmarkStore from "./features/bookmark/BookmarkStore";
 
 const env = require('env');
 const CHANGE_EVENT = 'change_search';
@@ -46,7 +47,6 @@ let state = {
 };
 
 ////
-
 const SearchStore = Object.assign(EventEmitter.prototype, {
     emitChange() {
         this.emit(CHANGE_EVENT);
@@ -65,6 +65,9 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
     removeSearchTutorialData() {
         state.tutorial = false;
         this.emitChange();
+    },
+    updateMetadata() {
+        _update_metadata()
     },
 
     ////
@@ -159,7 +162,7 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
                 _search(state.query, state.vertical, action.payload.page);
                 break;
             case ActionTypes.UPDATE_METADATA:
-                _search(state.query, state.vertical, state.page);
+                _update_metadata();
                 break;
             case ActionTypes.OPEN_URL:
                 state.activeUrl = action.payload.url;
@@ -289,6 +292,31 @@ const _updateUrl = function(query, vertical, page, provider, variant) {
         pathname: route,
         search: params
     });
+};
+
+/*
+ * Update result metadata by refreshing bookmarks and excludes from the BookmarkStore
+ */
+const _update_metadata = function() {
+    const bookmarks = BookmarkStore.getBookmarks();
+    const excludes = BookmarkStore.getExcludes();
+    const bookmarkMap = {};
+    const excludeMap = {};
+    console.log(bookmarks);
+    console.log(excludes);
+    bookmarks.forEach(bookmark => {
+        bookmarkMap[bookmark.url] = bookmark;
+    });
+    excludes.forEach(exclude => {
+        excludeMap[exclude.url] = exclude;
+    });
+    state.results = state.results.map(result => {
+        const newresult = result;
+        newresult.metadata.bookmark = bookmarkMap[result.id];
+        newresult.metadata.exclude = excludeMap[result.id];
+        return newresult;
+    });
+    SearchStore.emitChange();
 };
 
 ////

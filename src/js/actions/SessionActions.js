@@ -13,9 +13,9 @@ export default {
 
     //// Bookmark
 
-    getBookmarks() {
+    getBookmarksAndExcludes() {
         dispatch({
-            type: ActionTypes.GET_BOOKMARKS,
+            type: ActionTypes.GET_BOOKMARKS_AND_EXCLUDES,
             payload: {}
         })
     },

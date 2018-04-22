@@ -37,7 +37,7 @@ export default class SearchHeaderContainer extends React.Component {
         });
 
         SearchActions.search(this.state.query, this.state.vertical, 1);
-        SessionActions.getBookmarks();
+        SessionActions.getBookmarksAndExcludes();
     }
 
     queryChangeHandler(query) {

@@ -34,7 +34,7 @@ export default class BookmarkContainer extends React.Component {
             bookmarks: []
         };
 
-        SessionActions.getBookmarks();
+        SessionActions.getBookmarksAndExcludes();
         this._onChange = this._onChange.bind(this);
     }
 
