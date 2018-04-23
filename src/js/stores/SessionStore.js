@@ -2,6 +2,7 @@ import request from 'superagent';
 import EventEmitter from 'events';
 import AccountStore from "./AccountStore";
 import Helpers from "../utils/Helpers";
+import randomcolor from 'randomcolor';
 const env = require('env');
 
 let state = {
@@ -26,7 +27,18 @@ const SessionStore = Object.assign(EventEmitter.prototype, {
 
     getMemberColor(userId) {
         if (state.group.members === '') {
-            return 'Black';
+            let memberColors = JSON.parse(localStorage.getItem('visited-urls'));
+            if (memberColors) {
+                if (!memberColors[userId]) {
+                    memberColors[userId] = randomcolor({luminosity: 'dark'});
+                    localStorage.setItem('visited-urls', JSON.stringify(memberColors));
+                }
+            } else {
+                memberColors = {};
+                memberColors[userId] = randomcolor({luminosity: 'dark'});
+                localStorage.setItem('visited-urls', JSON.stringify(memberColors));
+            }
+            return memberColors[userId];
         }
 
         if (userId in state.group.members) {
