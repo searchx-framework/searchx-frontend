@@ -10,6 +10,7 @@ import SearchResult from "./components/SearchResult";
 import {log} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../utils/LoggerEventTypes';
 
+
 export default class SearchResultContainer extends React.Component {
     constructor(props) {
         super(props);
@@ -33,6 +34,16 @@ export default class SearchResultContainer extends React.Component {
         SearchStore.modifyMetadata(url, {
             views: this.props.result.metadata.views + 1
         });
+
+        let visitedUrls = JSON.parse(localStorage.getItem('visited-urls'));
+        if (visitedUrls) {
+            visitedUrls[url] = true;
+        } else {
+            visitedUrls = {};
+            visitedUrls[url] = true;
+        }
+
+        localStorage.setItem('visited-urls', JSON.stringify(visitedUrls));
     }
 
     bookmarkClickHandler() {
@@ -120,6 +131,7 @@ export default class SearchResultContainer extends React.Component {
             excludeClickHandler={this.excludeClickHandler}
             hideCollapsedResultsHandler={this.props.hideCollapsedResultsHandler}
             isCollapsible={this.props.isCollapsible}
+            visited={this.props.visited}
             index={this.props.index}
         />
     }

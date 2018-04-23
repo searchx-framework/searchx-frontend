@@ -135,6 +135,7 @@ export default class SearchResultsContainer extends React.Component {
 
         const prefix = (this.props.matches < config.aboutPrefixAt) ? "" : "About ";
         const timeIndicator = prefix + numberWithCommas(this.props.matches) + " results (" + this.props.elapsedTime + " seconds)";
+        const visitedUrls = JSON.parse(localStorage.getItem('visited-urls'));
         let list = [];
         let lastCollapsedResults = [];
         let lastCollapsedResultsComponents = [];
@@ -151,6 +152,7 @@ export default class SearchResultsContainer extends React.Component {
                 hideCollapsedResultsHandler: this.hideCollapsedResults,
                 autoHide: this.state.autoHide,
                 isCollapsible: this.isCollapsible(result),
+                visited: visitedUrls[getId(result)] === true
             };
 
             if (this.props.distributionOfLabour === 'unbookmarkedSoft') {
@@ -181,6 +183,7 @@ export default class SearchResultsContainer extends React.Component {
         const currentCollapsedResultsLength = Object.values(this.state.collapsed).filter(value => value).length;
         const allBookmarkedResultsShown = currentCollapsedResultsLength === 0;
         const allBookmarkedResultsHidden = currentCollapsedResultsLength === this.getCollapsibleResultsLength();
+
 
         return (
             <div>
