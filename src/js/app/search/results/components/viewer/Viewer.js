@@ -21,8 +21,7 @@ const Viewer = function({searchState, serpId, url, documentCloseHandler, doctext
         url: url,
         query: searchState.query,
         page: searchState.page,
-        vertical: searchState.vertical,
-        serpId: serpId,
+        vertical: searchState.vertical
     };
 
     let hoverEnterDocument = () => {
@@ -44,9 +43,13 @@ const Viewer = function({searchState, serpId, url, documentCloseHandler, doctext
         window.open(url);
     };
 
+    let scrollDocument = () => {
+        log(LoggerEventTypes.DOCUMENT_SCROLL, metaInfo);
+    };
+
     return (
         <div className="modal">
-            <div className="content" onMouseEnter={hoverEnterDocument} onMouseLeave={hoverLeaveDocument}>
+            <div className="content" onMouseEnter={hoverEnterDocument} onMouseLeave={hoverLeaveDocument} onScroll={scrollDocument}>
                 <div className="header">
                     
 
