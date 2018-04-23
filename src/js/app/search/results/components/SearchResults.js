@@ -29,7 +29,6 @@ export default class SearchResultsContainer extends React.Component {
         this.state = {
             collapsed: {},
             autoHide: false,
-            resultIdMap: {}
         };
 
         this.showAllCollapsedResults = this.showAllCollapsedResults.bind(this);
@@ -41,12 +40,9 @@ export default class SearchResultsContainer extends React.Component {
 
 
     componentWillReceiveProps(nextProps) {
-        const newResults = nextProps.results.filter(result => !(result.id in this.state.resultIdMap));
-        const resultIdMap = this.state.resultIdMap;
-        newResults.forEach(result => {
-            resultIdMap[result.id] = true;
-        });
-        this.setState({resultIdMap: resultIdMap});
+        const resultIdMap = {};
+        this.props.results.forEach(result => resultIdMap[getId(result)] = true);
+        const newResults = nextProps.results.filter(result => !(resultIdMap[getId(result)]));
         const newCollapsibleResults = newResults.filter(this.isCollapsible);
         const newCollapsibleResultIds = newCollapsibleResults.map(result => result.id);
         if (newCollapsibleResultIds) {
