@@ -135,7 +135,10 @@ export default class SearchResultsContainer extends React.Component {
 
         const prefix = (this.props.matches < config.aboutPrefixAt) ? "" : "About ";
         const timeIndicator = prefix + numberWithCommas(this.props.matches) + " results (" + this.props.elapsedTime + " seconds)";
-        const visitedUrls = JSON.parse(localStorage.getItem('visited-urls'));
+        let visitedUrls = JSON.parse(localStorage.getItem('visited-urls'));
+        if (!visitedUrls) {
+            visitedUrls = {}
+        }
         let list = [];
         let lastCollapsedResults = [];
         let lastCollapsedResultsComponents = [];

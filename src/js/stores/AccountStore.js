@@ -2,8 +2,8 @@ import EventEmitter from 'events';
 import Helpers from '../utils/Helpers'
 
 let state = {
-    userId: localStorage.getItem("user-id") || Helpers.generateUUID(),
-    sessionId: localStorage.getItem("session-id") || '0e7f35c8-16bb-403c-96cb-ad4ee95ea35c',
+    userId: localStorage.getItem("user-id") || '',
+    sessionId: localStorage.getItem("session-id") || '',
     task: {
         id: localStorage.getItem("task-id") || '',
         data: JSON.parse(localStorage.getItem("task-data")) || '',
@@ -30,9 +30,6 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
     setUserId(userId) {
         state.userId = userId;
         localStorage.setItem("user-id", userId);
-
-        const sessionId = Helpers.generateUUID();
-        this.setSessionId(sessionId);
     },
 
     setSessionId(sessionId) {
@@ -60,8 +57,11 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
     }
 });
 
-if (state.userId === '') {
-    AccountStore.setUserId("_anonymous_");
+if (!state.userId) {
+    AccountStore.setUserId(Helpers.generateUUID());
+}
+if (!state.sessionId) {
+    AccountStore.setSessionId('_default_session_');
 }
 
 export default AccountStore;
