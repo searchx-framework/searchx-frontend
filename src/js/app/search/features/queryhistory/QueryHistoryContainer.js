@@ -9,7 +9,7 @@ import BookmarkStore from "../bookmark/BookmarkStore";
 import AccountStore from "../../../../stores/AccountStore";
 
 function queryClickHandler(query) {
-    SearchActions.search(query);
+    SearchActions.search(query, undefined, 1);
 }
 
 export default class QueryHistoryContainer extends React.Component {
