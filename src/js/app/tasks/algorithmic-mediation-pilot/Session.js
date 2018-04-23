@@ -10,6 +10,9 @@ import Helpers from "../../../utils/Helpers";
 import Collapsible from "react-collapsible";
 import Timer from "../components/Timer";
 
+import {log} from '../../../utils/Logger';
+import {LoggerEventTypes} from '../../../utils/LoggerEventTypes';
+
 
 
 class Session extends React.PureComponent {
@@ -33,6 +36,8 @@ class Session extends React.PureComponent {
         });
     }
 
+    
+
     render() {
         const task = AccountStore.getTask();
 
@@ -42,8 +47,24 @@ class Session extends React.PureComponent {
             </div>
         );
 
+
+        const metaInfo = {
+        };
+
+
+        let handleTaskOpen = () => {
+            log(LoggerEventTypes.TASK_OPEN, metaInfo);
+        };
+
+        let handleTaskClose = () => {
+            log(LoggerEventTypes.TASK_CLOSE, metaInfo);
+        };
+
+
+
+
         const taskDescription = (
-            <Collapsible trigger="Your task" transitionTime={3}>
+            <Collapsible trigger="Your task" transitionTime={3} onOpen={handleTaskOpen} onClose={handleTaskClose} >
 
                 <p> Imagine you are a reporter for a newspaper. Your editor has just asked you and your colleague[s] to gather documents
                     from a collection of news articles to write a story about {task.title}. </p>
