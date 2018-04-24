@@ -21,7 +21,7 @@ const CHANGE_EVENT = 'change_search';
 ////
 
 const provider = Helpers.getURLParameter('provider') || config.defaultProvider;
-const variant = Helpers.getURLParameter('variant') || 'SS1';
+const variant = Helpers.getURLParameter('variant') || 'SS3';
 
 let state = {
     query: Helpers.getURLParameter('q') || '',
