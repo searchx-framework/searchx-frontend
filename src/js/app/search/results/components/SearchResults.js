@@ -200,7 +200,7 @@ export default class SearchResultsContainer extends React.Component {
                                 Show all hidden results
                             </Button>
                             <Button className="allCollapsedResultsButton" onClick={this.hideAllCollapsedResults} disabled={allBookmarkedResultsHidden}>
-                                Hide all bookmarked and excluded results
+                                Hide all saved and excluded results
                             </Button>
                         </div>
                     }
