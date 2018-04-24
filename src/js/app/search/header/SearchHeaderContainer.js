@@ -23,7 +23,7 @@ export default class SearchHeaderContainer extends React.Component {
     componentWillUnmount() {SearchStore.removeChangeListener(this._onChange);}
     _onChange() {
         const nextState = SearchStore.getSearchState();
-        if (nextState.vertical !== this.state.vertical) {
+        if (nextState.query !== this.state.query || nextState.vertical !== this.state.vertical) {
             this.setState(nextState);
         }
     }
