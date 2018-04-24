@@ -48,6 +48,11 @@ export default class SearchResultsContainer extends React.Component {
         if (newCollapsibleResultIds) {
             this.hideCollapsedResults(newCollapsibleResultIds);
         }
+
+        if (nextProps.searchState.page !== this.props.searchState.page || nextProps.searchState.query !== this.props.searchState.query) {
+            this.showAllCollapsedResults();
+            this.hideAllCollapsedResults();
+        }
     }
 
     getMetaInfo() {
