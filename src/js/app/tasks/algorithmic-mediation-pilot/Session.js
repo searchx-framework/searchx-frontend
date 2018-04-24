@@ -145,13 +145,8 @@ const introSteps = [
         position: 'right'
     },
     {
-        element: '.BookmarkButton-0',
-        intro: 'Click the Save button to save useful results.',
-        position: 'right'
-    },
-    {
-        element: '.ExcludeButton-0',
-        intro: 'Click the Exclude button to exclude results that are not useful from future queries.',
+        element: '.SearchResults',
+        intro: 'Use the Save and Exclude buttons on the left to save useful results and to exclude results that are not useful from future queries.',
         position: 'right'
     },
     {

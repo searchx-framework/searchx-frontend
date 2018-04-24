@@ -49,14 +49,14 @@ const SearchResult = function({searchState, serpId, result, bookmarkClickHandler
     }
 
     const bookmarkButton = <Rating
-        className={"rating BookmarkButton-" + index} empty="fa fa-bookmark-o" full="fa fa-bookmark"
+        className="rating" empty="fa fa-bookmark-o" full="fa fa-bookmark"
         onClick={bookmarkClickHandler}
         stop={1} initialRate={initialBookmark}
         title="Save result"
     />;
 
     const excludeButton = <Rating
-        className={"rating ExcludeButton-" + index} empty="fa fa-ban" full="fa fa-ban red"
+        className="rating" empty="fa fa-ban" full="fa fa-ban red"
         onClick={excludeClickHandler}
         stop={1} initialRate={initialExclude}
         title="Exclude result from future queries"
