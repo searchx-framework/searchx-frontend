@@ -9,6 +9,8 @@ import IntroStore from "../../../stores/IntroStore";
 import constants from "./constants";
 import Helpers from "../../../utils/Helpers";
 
+import './Pilot.pcss';
+
 class Wait extends React.Component {
     constructor(props) {
         super(props);
@@ -36,7 +38,7 @@ class Wait extends React.Component {
     render() {
         const task = AccountStore.getTaskData();
 
-        return <div>
+        return <div className="Wait">
             {this.state.timedOut ?
                 <div className='message'>
                     <h2>Sorry, we were not able to find you a partner in time.</h2>
@@ -45,7 +47,7 @@ class Wait extends React.Component {
                 :
                 <div>
                     <h2>Waiting for your group members...</h2>
-                    <h3>Please do not refresh this page. You may switch to other tabs or applications, we will notify you when you can start the task.</h3>
+                    <h3>Please do not refresh or close this page. If you turn on your audio you can switch to other tabs or applications, we will play a notification sound you when you can start the task.</h3>
                 </div>
             }
         </div>
@@ -54,7 +56,10 @@ class Wait extends React.Component {
     onSync(data) {
         AccountStore.setTask(data.taskId, data.taskData);
         IntroStore.clearIntro();
-        this.props.history.push('/pilot/session');
+        this.props.history.push({
+            pathname: '/pilot/session',
+            state: { waited: true }
+        });
     }
 
     onLeave() {

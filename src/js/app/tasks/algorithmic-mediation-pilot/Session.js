@@ -12,12 +12,14 @@ import Timer from "../components/Timer";
 
 import {log} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../utils/LoggerEventTypes';
+import ReactAudioPlayer from 'react-audio-player';
+import { withRouter } from 'react-router'
 
 
 
 class Session extends React.PureComponent {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             start: false,
             finished: false
@@ -60,7 +62,10 @@ class Session extends React.PureComponent {
             log(LoggerEventTypes.TASK_CLOSE, metaInfo);
         };
 
-
+        let waited = false;
+        if (this.props.location.state) {
+            waited = this.props.location.state.waited;
+        }
 
 
         const taskDescription = (
@@ -87,7 +92,13 @@ class Session extends React.PureComponent {
         }
 
         return (
-            <TaskedSession timer={timer} taskDescription={taskDescription}/>
+            <div>
+                {waited && <ReactAudioPlayer
+                    src="../sound/notification.mp3"
+                    autoPlay
+                />}
+                <TaskedSession timer={timer} taskDescription={taskDescription}/>
+            </div>
         )
     }
 
@@ -161,4 +172,4 @@ const introSteps = [
     }
 ];
 
-export default Session;
+export default withRouter(Session);
