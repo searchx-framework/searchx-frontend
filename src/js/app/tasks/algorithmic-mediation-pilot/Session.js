@@ -26,9 +26,12 @@ class Session extends React.PureComponent {
         };
 
         this.onFinish = this.onFinish.bind(this);
+        this.handleBeforeUnload = this.handleBeforeUnload.bind(this);
     }
 
     componentDidMount() {
+        window.addEventListener('beforeunload', this.handleBeforeUnload);
+
         IntroStore.startIntro(introSteps, () => {
             const start = localStorage.getItem("timer-start") || Date.now();
             localStorage.setItem("timer-start", start);
@@ -37,8 +40,17 @@ class Session extends React.PureComponent {
             });
         });
     }
+    componentWillUnmount() {
+        window.removeEventListener('beforeunload', this.handleBeforeUnload);
+    }
 
-    
+    handleBeforeUnload(e) {
+        if (!this.state.finished) {
+            const dialogText = 'Leaving this page will quit the task, and cancel your payment. Are you sure?';
+            e.returnValue = dialogText;
+            return dialogText;
+        }
+    }
 
     render() {
         const task = AccountStore.getTask();

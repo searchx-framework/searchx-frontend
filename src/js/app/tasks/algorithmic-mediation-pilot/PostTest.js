@@ -16,6 +16,23 @@ class PostTest extends React.Component {
         };
 
         this.onComplete = this.onComplete.bind(this);
+        this.handleBeforeUnload = this.handleBeforeUnload.bind(this);
+    }
+
+    componentDidMount() {
+        window.addEventListener('beforeunload', this.handleBeforeUnload);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('beforeunload', this.handleBeforeUnload);
+    }
+
+    handleBeforeUnload(e) {
+        if (!this.state.finished) {
+            const dialogText = 'Leaving this page will quit the task, and cancel your payment. Are you sure?';
+            e.returnValue = dialogText;
+            return dialogText;
+        }
     }
 
     render() {
