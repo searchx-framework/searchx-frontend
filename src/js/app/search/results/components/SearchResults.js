@@ -138,9 +138,18 @@ export default class SearchResultsContainer extends React.Component {
 
         // Trick to remove last page from pagination;
         $(".pagination").find("a").last().hide();
+        const pagination = <SearchResultsPagination
+            searchState={this.props.searchState}
+            finished={this.props.results.length > 0 || this.props.progress.finished}
+            matches={this.props.matches}
+            changeHandler={this.props.pageChangeHandler}
+        />;
         
         if (this.props.progress.resultsNotFound) {
-            return <SearchResultsNotFound/>;
+            return <div>
+                <SearchResultsNotFound/>
+                {this.props.searchState.page > 1 && pagination}
+            </div>;
         }
 
         const prefix = (this.props.matches < config.aboutPrefixAt) ? "" : "About ";
@@ -223,12 +232,7 @@ export default class SearchResultsContainer extends React.Component {
                     </div>
                 </div>
 
-                <SearchResultsPagination
-                    searchState={this.props.searchState}
-                    finished={this.props.results.length > 0 || this.props.progress.finished}
-                    matches={this.props.matches}
-                    changeHandler={this.props.pageChangeHandler}
-                />
+                {pagination}
             </div>
         )
     }
