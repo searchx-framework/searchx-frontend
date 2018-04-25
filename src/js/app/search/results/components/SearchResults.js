@@ -10,6 +10,7 @@ import CollapsedResultsButton from "./CollapsedSearchResults";
 import {Button, Collapse} from "react-bootstrap";
 import {LoggerEventTypes} from "../../../../utils/LoggerEventTypes";
 import {log} from "../../../../utils/Logger";
+import $ from 'jquery';
 
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -37,6 +38,7 @@ export default class SearchResultsContainer extends React.Component {
         this.hideCollapsedResults = this.hideCollapsedResults.bind(this);
         this.isCollapsible = this.isCollapsible.bind(this);
     }
+
 
 
     componentWillReceiveProps(nextProps) {
@@ -129,7 +131,14 @@ export default class SearchResultsContainer extends React.Component {
         return output;
     }
 
+
+
     render() {
+
+
+        // Trick to remove last page from pagination;
+        $(".pagination").find("a").last().hide();
+        
         if (this.props.progress.resultsNotFound) {
             return <SearchResultsNotFound/>;
         }

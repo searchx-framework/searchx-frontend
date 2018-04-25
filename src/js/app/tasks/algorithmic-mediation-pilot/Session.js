@@ -14,7 +14,7 @@ import {log} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../utils/LoggerEventTypes';
 import ReactAudioPlayer from 'react-audio-player';
 import { withRouter } from 'react-router'
-
+import $ from 'jquery';
 
 
 class Session extends React.PureComponent {
