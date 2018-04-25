@@ -74,7 +74,7 @@ class Wait extends React.Component {
                 <div className='message'>
                     <h2>Sorry, we were not able to find you a partner in time.</h2>
                     <h3>Thank you for taking part in our study.</h3>
-                    <h3> Use this code on Amazon MTurk:  {this.state.returnCode} +  </h3>
+                    <h3>Use this code on Amazon MTurk: {this.state.returnCode}</h3>
                 </div>
                 :
                 <div>

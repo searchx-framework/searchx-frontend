@@ -40,7 +40,7 @@ class PostTest extends React.Component {
         return <Form
             formData={formData(this.state.returnCode)}
             onComplete={this.onComplete}
-            disableCopy={true}
+            disableCopy={false}
         />
     }
 
@@ -200,7 +200,7 @@ const formData = function(returnCode) {
         requiredText: "",
         showProgressBar: "top",
         showQuestionNumbers: "off",
-        completedHtml: "<h2>Thank you for taking part in our study.</h2> <h3> Use this code on Amazon MTurk: "+ returnCode +  "</h3>",
+        completedHtml: "<h2>Thank you for taking part in our study.</h2> <h3>Use this code on Amazon MTurk: " + returnCode + "</h3>",
     }
 };
 
