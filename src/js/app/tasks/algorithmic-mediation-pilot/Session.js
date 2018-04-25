@@ -85,7 +85,7 @@ class Session extends React.PureComponent {
 
                 <p>Imagine you are a reporter for a newspaper. Your editor has just asked you and your colleague[s] to gather documents
                     from a collection of news articles to write a story about <strong>{task.data.topic.title}</strong>.</p>
-                <p>There's a meeting in an hour, so your editor asks you and your colleague[s] to spend 10 minutes together and search
+                <p>There's a meeting in an hour, so your editor asks you and your colleagues to spend 10 minutes together and search
                     for and <strong>save as many useful documents as possible</strong>.</p>
 
                 <p>To guarantee the quality of the documents, your editor, who will look over the collected resources in the end,
@@ -134,7 +134,7 @@ function getIntroSteps() {
 
             + "<p>Imagine you are a reporter for a newspaper. Your editor has just asked you and your colleague[s] to gather documents"
             + " from a collection of news articles to write a story about <strong>" + task.data.topic.title + "</strong>.</p>"
-            + "<p>There's a meeting in an hour, so your editor asks you and your colleague[s] to spend 10 minutes together and search"
+            + "<p>There's a meeting in an hour, so your editor asks you and your colleagues to spend 10 minutes together and search"
             + " for and <strong>save as many useful documents as possible</strong>.</p>"
 
             + "<p>To guarantee the quality of the documents, your editor, who will look over the collected resources in the end, "
@@ -170,7 +170,7 @@ function getIntroSteps() {
             },
             {
                 element: '.SearchResults',
-                intro: 'Use the Save and Exclude buttons on the left to save useful results and to exclude results that are not useful from future queries.',
+                intro: 'Use the Save and Exclude buttons on the left to save useful results and to hide results that are not useful from future queries.',
                 position: 'right'
             },
             {

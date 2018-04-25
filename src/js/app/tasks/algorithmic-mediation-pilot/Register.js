@@ -115,7 +115,7 @@ const formData = function() {
     });
 
     elements.push({
-        title: "Insert your assigned ID here",
+        title: "Insert your MTurk Worker ID here (needed to pay you)",
         name : "userId",
         type : "text",
         inputType: "text",
