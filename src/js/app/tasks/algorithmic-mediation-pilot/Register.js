@@ -5,6 +5,8 @@ import constants from "./constants";
 import AccountStore from "../../../stores/AccountStore";
 import SessionStore from "../../../stores/SessionStore";
 import SyncStore from "../../../stores/SyncStore";
+import {LoggerEventTypes} from "../../../utils/LoggerEventTypes";
+import {log} from "../../../utils/Logger";
 
 class Register extends React.Component {
     constructor(props) {
@@ -23,6 +25,10 @@ class Register extends React.Component {
     ////
 
     onComplete(data) {
+        log(LoggerEventTypes.SURVEY_REGISTER_RESULTS, {
+            data: data
+        });
+
         const userId = data['userId'].trim();
         AccountStore.clearUserData();
         AccountStore.setUserId(userId);

@@ -15,6 +15,7 @@ class Wait extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            isReady: false,
             timedOut: false,
             returnCode: Math.random().toString(36).substring(2, 10)
         };
@@ -23,18 +24,47 @@ class Wait extends React.Component {
         this.onSwitchPage = this.onSwitchPage.bind(this);
         this.onSync = this.onSync.bind(this);
         this.onLeave = this.onLeave.bind(this);
+        this.onTimeout = this.onTimeout.bind(this);
+        this.handleBeforeUnload = this.handleBeforeUnload.bind(this);
+        this.handleUnload = this.handleUnload.bind(this);
 
         Helpers.sleep(constants.waitDuration * 60 * 1000).then(() => {
             this.setState({timedOut: true}, () => {
-                this.onLeave();
+                this.onTimeout();
             });
         });
     }
 
     componentDidMount() {
+        window.addEventListener('beforeunload', this.handleBeforeUnload);
+        window.addEventListener('unload', this.handleUnload);
+        window.addEventListener('popstate', this.handleUnload);
+
         SyncStore.listenToSyncData((data) => {
+            this.state.isReady = true;
             this.onSync(data);
         });
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('beforeunload', this.handleBeforeUnload);
+        window.removeEventListener('unload', this.handleUnload);
+        window.removeEventListener('popstate', this.handleUnload);
+        this.handleUnload();
+    }
+
+    handleBeforeUnload(e) {
+        if (!this.state.isReady) {
+            const dialogText = 'Leaving this page will quit the task, and cancel your payment. Are you sure?';
+            e.returnValue = dialogText;
+            return dialogText;
+        }
+    }
+
+    handleUnload() {
+        if (!this.state.isReady) {
+            this.onLeave();
+        }
     }
 
     render() {
@@ -60,6 +90,11 @@ class Wait extends React.Component {
         AccountStore.setTask(data.taskId, data.taskData);
         IntroStore.clearIntro();
 
+        log(LoggerEventTypes.SURVEY_GROUP_WAIT_FINISH, {
+            step : "wait",
+            state : this.state
+        });
+
         this.props.history.push({
             pathname: '/pilot/session',
             state: { waited: true }
@@ -76,8 +111,17 @@ class Wait extends React.Component {
         AccountStore.clearUserData();
     }
 
+    onTimeout() {
+        log(LoggerEventTypes.SURVEY_GROUPING_TIMEOUT, {
+            step : "wait",
+            state: this.state
+        });
+
+        SyncStore.emitSyncLeave();
+        AccountStore.clearUserData();
+    }
+
     onSwitchPage() {
-        // TODO: add desktop notification, or disallow switching
         // Do nothing, since we allow switching tabs during the wait period
     }
 }

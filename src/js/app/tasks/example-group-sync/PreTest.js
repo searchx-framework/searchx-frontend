@@ -23,6 +23,7 @@ class PreTest extends React.Component {
         this.onSwitchPage = this.onSwitchPage.bind(this);
         this.onSync = this.onSync.bind(this);
         this.onLeave = this.onLeave.bind(this);
+        this.onTimeout = this.onTimeout.bind(this);
     }
 
     render() {
@@ -75,6 +76,16 @@ class PreTest extends React.Component {
         log(LoggerEventTypes.SURVEY_EXIT, {
             step : "pretest",
             state : this.state
+        });
+
+        SyncStore.emitSyncLeave();
+        AccountStore.clearUserData();
+    }
+
+    onTimeout() {
+        log(LoggerEventTypes.SURVEY_GROUPING_TIMEOUT, {
+            step : "pretest",
+            state: this.state
         });
 
         SyncStore.emitSyncLeave();
