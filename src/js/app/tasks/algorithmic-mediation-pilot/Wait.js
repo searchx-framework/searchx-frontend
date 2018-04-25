@@ -16,7 +16,9 @@ class Wait extends React.Component {
         super(props);
         this.state = {
             timedOut: false,
+            returnCode: Math.random().toString(36).substring(2, 10)
         };
+
 
         this.onSwitchPage = this.onSwitchPage.bind(this);
         this.onSync = this.onSync.bind(this);
@@ -43,6 +45,7 @@ class Wait extends React.Component {
                 <div className='message'>
                     <h2>Sorry, we were not able to find you a partner in time.</h2>
                     <h3>Thank you for taking part in our study.</h3>
+                    <h3> Use this code on Amazon MTurk:  {this.state.returnCode} +  </h3>
                 </div>
                 :
                 <div>
@@ -56,6 +59,7 @@ class Wait extends React.Component {
     onSync(data) {
         AccountStore.setTask(data.taskId, data.taskData);
         IntroStore.clearIntro();
+
         this.props.history.push({
             pathname: '/pilot/session',
             state: { waited: true }
