@@ -133,7 +133,7 @@ const formData = function() {
             {value: 1, text: "Bachelor"},
             {value: 2, text: "Master"},
             {value: 3, text: "Doctorate"},
-            {value: 4, text: "Other"}
+            {value: -1, text: "Other"}
         ]
     });
 
