@@ -45,7 +45,7 @@ class Session extends React.PureComponent {
 
         const timer = (
             <div className="box" style={{marginTop: '10px', textAlign: 'center'}}>
-                <Timer start={this.state.start} duration={constants.taskDuration} onFinish={this.onFinish} style={{fontSize: '2em'}}/>
+                <Timer start={this.state.start} duration={constants.taskDuration} onFinish={this.onFinish} style={{fontSize: '2em'}} showRemaining={true}/>
             </div>
         );
 

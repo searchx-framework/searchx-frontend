@@ -20,7 +20,6 @@ class Wait extends React.Component {
             returnCode: Math.random().toString(36).substring(2, 10)
         };
 
-
         this.onSwitchPage = this.onSwitchPage.bind(this);
         this.onSync = this.onSync.bind(this);
         this.onLeave = this.onLeave.bind(this);
