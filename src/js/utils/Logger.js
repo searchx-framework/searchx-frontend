@@ -2,33 +2,26 @@ import AccountStore from '../stores/AccountStore';
 import request from 'superagent';
 
 const env = require('env');
-let eventQueue = [];
 
 export function log(event, meta) {
-    eventQueue.push({
+    const log = {
         event: event || '',
         userId: AccountStore.getUserId() || '',
         sessionId: AccountStore.getSessionId() || '',
         task: AccountStore.getTask() || '',
         meta: meta || {}
-    });
+    };
 
-    flush(); // TODO: remove and change back to periodic flush, but make sure data flushed at app exit
+    sendLog(log)
 }
 
-export function flush() {
-    if (eventQueue.length === 0) {
-        return;
-    }
-
+function sendLog(log, errorCallback) {
     request.post(env.serverUrl + '/v1/users/' + AccountStore.getUserId() + '/logs')
         .send({
-            data: eventQueue
+            data: [log]
         })
+        // retry sending event 3 times if it fails due to errors that could be network-related
+        .retry(3)
         .end((err, res) => {
-            if (!err && !res.error) {
-                eventQueue = [];
-            }
         });
 }
-
