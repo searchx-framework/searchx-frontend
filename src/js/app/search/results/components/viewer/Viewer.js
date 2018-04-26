@@ -36,7 +36,9 @@ const Viewer = function({searchState, serpId, url, documentCloseHandler, doctext
     };
     let loadDocument = () => {
         log(LoggerEventTypes.DOCUMENT_LOAD, metaInfo);
-        document.getElementById("modal-loader").style.display = "none";
+        if (!doctext) {
+            document.getElementById("modal-loader").style.display = "none";
+        }
     };
     let openInBrowser = () => {
         log(LoggerEventTypes.DOCUMENT_OPEN_BROWSER, metaInfo);
