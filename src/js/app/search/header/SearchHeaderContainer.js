@@ -11,7 +11,11 @@ import SearchStore from "../SearchStore";
 export default class SearchHeaderContainer extends React.Component {
     constructor() {
         super();
-        this.state = SearchStore.getSearchState();
+        const searchState = SearchStore.getSearchState();
+        this.state = {
+            searchState: searchState,
+            query: searchState.query
+        };
 
         this._onChange = this._onChange.bind(this);
         this.searchHandler = this.searchHandler.bind(this);
@@ -22,9 +26,12 @@ export default class SearchHeaderContainer extends React.Component {
     componentWillMount() {SearchStore.addChangeListener(this._onChange);}
     componentWillUnmount() {SearchStore.removeChangeListener(this._onChange);}
     _onChange() {
-        const nextState = SearchStore.getSearchState();
-        if (nextState.query !== this.state.query || nextState.vertical !== this.state.vertical) {
-            this.setState(nextState);
+        const nextSearchState = SearchStore.getSearchState();
+        if (nextSearchState.vertical !== this.state.searchState.vertical || nextSearchState.query !== this.state.searchState.query) {
+            this.setState({
+                searchState: nextSearchState,
+                query: nextSearchState.query
+            });
         }
     }
 
@@ -33,10 +40,10 @@ export default class SearchHeaderContainer extends React.Component {
     searchHandler() {
         log(LoggerEventTypes.SEARCH_QUERY, {
             query: this.state.query,
-            vertical: this.state.vertical
+            vertical: this.state.searchState.vertical
         });
 
-        SearchActions.search(this.state.query, this.state.vertical, 1);
+        SearchActions.search(this.state.query, this.state.searchState.vertical, 1);
         SessionActions.getBookmarksAndExcludes();
     }
 
@@ -50,9 +57,9 @@ export default class SearchHeaderContainer extends React.Component {
         vertical = vertical.toLowerCase();
 
         log(LoggerEventTypes.SEARCH_CHANGE_VERTICAL, {
-            query: this.state.query,
+            query: this.state.searchState.query,
             vertical: vertical,
-            previous: this.state.vertical
+            previous: this.state.searchState.vertical
         });
 
         SearchActions.changeVertical(vertical);
@@ -63,8 +70,8 @@ export default class SearchHeaderContainer extends React.Component {
     render() {
         return <SearchHeader
             query={this.state.query}
-            vertical={this.state.vertical}
-            provider={this.state.provider}
+            vertical={this.state.searchState.vertical}
+            provider={this.state.searchState.provider}
             searchHandler={this.searchHandler}
             queryChangeHandler={this.queryChangeHandler}
             verticalChangeHandler={this.verticalChangeHandler}
