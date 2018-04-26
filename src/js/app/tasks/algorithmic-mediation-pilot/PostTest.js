@@ -177,6 +177,9 @@ const formData = function(returnCode) {
             }, {
                 value: "bookmarks",
                 text: "Saved documents"
+            }, {
+                value: "hidden-results",
+                text: "Hiding saved and excluded results"
             }
         ]
     });

@@ -84,7 +84,7 @@ class Wait extends React.Component {
             width  : 700
         };
 
-        return <div className="Wait box">
+        return <div className="Wait waitBox">
             {this.state.timedOut ?
                 <div className='message'>
                     <h2>Sorry, we were not able to find you a partner in time.</h2>
