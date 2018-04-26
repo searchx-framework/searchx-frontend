@@ -50,6 +50,13 @@ const TextSearchResult = function({searchState, serpId, result, metadata, bookma
     }
 
     const hideCollapsedResults = function () {
+        const collapseMetaInfo = {
+            urls: [result.id],
+            query: searchState.query,
+            page: searchState.page,
+            serpId: serpId,
+        };
+        log(LoggerEventTypes.SEARCHRESULT_HIDE_COLLAPSED, collapseMetaInfo);
         const id = result.id ? result.id : result.url;
         hideCollapsedResultsHandler([id]);
     };
