@@ -96,7 +96,7 @@ class Wait extends React.Component {
                     <h2>Waiting for your group members...</h2>
                     <h3>Time elapsed:</h3>
                     <Timer start={this.state.start} duration={constants.waitDuration} onFinish={this.onFinish} style={{fontSize: '2em'}}/>
-                    <h4>Please do not refresh or close this page. If you turn on your audio you can switch to other tabs or applications, we will play a notification sound when you can start the task.</h4>
+                    <h4>Please do not refresh or close this page. If you turn on your audio you can switch to other tabs or applications, we will try to play a notification sound when you can start the task. Please check the tab again regularly, because the sound may not play in the background in some browsers.</h4>
                     <h4>On average a group will be found for you in a few minutes. If the maximum wait time of {constants.waitDuration} minutes elapses, you will receive your MTurk payment code.</h4>
                     <h4>You can play Snake to pass the time if you want to:</h4>
                     <Button onClick={() => {
