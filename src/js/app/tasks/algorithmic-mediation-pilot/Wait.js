@@ -102,8 +102,10 @@ class Wait extends React.Component {
                     <Button onClick={() => {
                         if (!this.state.open){
                             openSnake();
+                            log(LoggerEventTypes.SNAKE_OPEN, {});
                         } else {
                             closeSnake();
+                            log(LoggerEventTypes.SNAKE_CLOSE, {});
                         }
                         this.setState({ open: !this.state.open })}
                     }>
