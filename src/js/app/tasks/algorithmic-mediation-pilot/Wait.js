@@ -10,6 +10,9 @@ import constants from "./constants";
 import Helpers from "../../../utils/Helpers";
 
 import './Pilot.pcss';
+import Timer from "../components/Timer";
+import {Button, Collapse, Panel} from "react-bootstrap";
+import {openSnake, closeSnake} from "./Snake";
 
 class Wait extends React.Component {
     constructor(props) {
@@ -17,7 +20,8 @@ class Wait extends React.Component {
         this.state = {
             isReady: false,
             timedOut: false,
-            returnCode: Math.random().toString(36).substring(2, 10)
+            returnCode: Math.random().toString(36).substring(2, 10),
+            open: false
         };
 
         this.onSwitchPage = this.onSwitchPage.bind(this);
@@ -42,6 +46,11 @@ class Wait extends React.Component {
         SyncStore.listenToSyncData((data) => {
             this.state.isReady = true;
             this.onSync(data);
+        });
+
+        const start = Date.now();
+        this.setState({
+            start: start
         });
     }
 
@@ -69,7 +78,13 @@ class Wait extends React.Component {
     render() {
         const task = AccountStore.getTaskData();
 
-        return <div className="Wait">
+        const SNAKE_WRAPPER_STYLE = {
+            margin : '30px auto',
+            height : 700,
+            width  : 700
+        };
+
+        return <div className="Wait box">
             {this.state.timedOut ?
                 <div className='message'>
                     <h2>Sorry, we were not able to find you a partner in time.</h2>
@@ -79,7 +94,22 @@ class Wait extends React.Component {
                 :
                 <div>
                     <h2>Waiting for your group members...</h2>
-                    <h3>Please do not refresh or close this page. If you turn on your audio you can switch to other tabs or applications, we will play a notification sound you when you can start the task.</h3>
+                    <h3>Time elapsed:</h3>
+                    <Timer start={this.state.start} duration={constants.waitDuration} onFinish={this.onFinish} style={{fontSize: '2em'}}/>
+                    <h4>Please do not refresh or close this page. If you turn on your audio you can switch to other tabs or applications, we will play a notification sound when you can start the task.</h4>
+                    <h4>On average a group will be found for you in a few minutes. If the maximum wait time of {constants.waitDuration} minutes elapses, you will receive your MTurk payment code.</h4>
+                    <h4>You can play Snake to pass the time if you want to:</h4>
+                    <Button onClick={() => {
+                        if (!this.state.open){
+                            openSnake();
+                        } else {
+                            closeSnake();
+                        }
+                        this.setState({ open: !this.state.open })}
+                    }>
+                        {this.state.open ? "Close Snake" : "Play Snake"}
+                    </Button>
+                    <div id="snake-container"/>
                 </div>
             }
         </div>
