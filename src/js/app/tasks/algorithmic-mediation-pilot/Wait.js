@@ -85,35 +85,27 @@ class Wait extends React.Component {
         };
 
         return <div className="Wait waitBox">
-            {this.state.timedOut ?
-                <div className='message'>
-                    <h2>Sorry, we were not able to find you a partner in time.</h2>
-                    <h3>Thank you for taking part in our study.</h3>
-                    <h3>Use this code on Amazon MTurk: {this.state.returnCode}</h3>
-                </div>
-                :
-                <div>
-                    <h2>Waiting for your group members...</h2>
-                    <h3>Time elapsed:</h3>
-                    <Timer start={this.state.start} duration={constants.waitDuration} onFinish={this.onFinish} style={{fontSize: '2em'}}/>
-                    <h4>Please do not refresh or close this page. If you turn on your audio you can switch to other tabs or applications, we will try to play a notification sound when you can start the task. Please check the tab again regularly, because the sound may not play in the background in some browsers.</h4>
-                    <h4>On average a group will be found for you in a few minutes. If the maximum wait time of {constants.waitDuration} minutes elapses, you will receive your MTurk payment code.</h4>
-                    <h4>You can play Snake to pass the time if you want to:</h4>
-                    <Button onClick={() => {
-                        if (!this.state.open){
-                            openSnake();
-                            log(LoggerEventTypes.SNAKE_OPEN, {});
-                        } else {
-                            closeSnake();
-                            log(LoggerEventTypes.SNAKE_CLOSE, {});
-                        }
-                        this.setState({ open: !this.state.open })}
-                    }>
-                        {this.state.open ? "Close Snake" : "Play Snake"}
-                    </Button>
-                    <div id="snake-container"/>
-                </div>
-            }
+            <div>
+                <h2>Waiting for your group members...</h2>
+                <h3>Time elapsed:</h3>
+                <Timer start={this.state.start} duration={constants.waitDuration} onFinish={this.onFinish} style={{fontSize: '2em'}}/>
+                <h4>Please do not refresh or close this page. If you turn on your audio you can switch to other tabs or applications, we will try to play a notification sound when you can start the task. Please check the tab again regularly, because the sound may not play in the background in some browsers.</h4>
+                <h4>The task will start after your group forms. This may take a few minutes, at most {constants.waitDuration}.</h4>
+                <h4>You can play Snake to pass the time if you want to:</h4>
+                <Button onClick={() => {
+                    if (!this.state.open){
+                        openSnake();
+                        log(LoggerEventTypes.SNAKE_OPEN, {});
+                    } else {
+                        closeSnake();
+                        log(LoggerEventTypes.SNAKE_CLOSE, {});
+                    }
+                    this.setState({ open: !this.state.open })}
+                }>
+                    {this.state.open ? "Close Snake" : "Play Snake"}
+                </Button>
+                <div id="snake-container"/>
+            </div>
         </div>
     }
 
@@ -148,8 +140,7 @@ class Wait extends React.Component {
             state: this.state
         });
 
-        SyncStore.emitSyncLeave();
-        AccountStore.clearUserData();
+        SyncStore.emitSyncTimeout();
     }
 
     onSwitchPage() {

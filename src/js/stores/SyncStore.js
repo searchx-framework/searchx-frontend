@@ -43,6 +43,14 @@ const SyncStore = Object.assign(EventEmitter.prototype, {
         });
     },
 
+    emitSyncTimeout() {
+        socket.emit('pushSyncTimeout', {
+            taskId: AccountStore.getTaskId(),
+            userId: AccountStore.getUserId(),
+            sessionId: AccountStore.getSessionId(),
+        });
+    },
+
     ////
 
     emitSearchState(searchState) {
