@@ -2,6 +2,7 @@
     "taskId": "algorithmic-mediation-pilot",
     "groupSize": 2,
     "taskDuration": 10,
+    "taskDescriptionWait" : 1,
     "waitDuration": 10,
     "switchPageLimit": 3
 }

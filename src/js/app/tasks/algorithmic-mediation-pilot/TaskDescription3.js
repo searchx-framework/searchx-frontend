@@ -43,8 +43,12 @@ class TaskDescription1 extends React.Component {
         const task = AccountStore.getTaskData();
     
         return <div className="Wait waitBox"> 
+                <ReactAudioPlayer
+                    src="../sound/notification.mp3"
+                    autoPlay
+                />
 
-            <p> <strong> Please read your next task description:</strong> </p>
+            <h3> <strong> Please read your next task description:</strong> </h3>
             
             <p> Imagine you are a reporter for a newspaper. Your editor has just asked you and your colleagues to gather documents
         from a collection of news articles to write a story about <strong>{task.topics[2].title}</strong>.</p> 
@@ -59,11 +63,8 @@ class TaskDescription1 extends React.Component {
 
         <p>{task.topics[2].description}</p>
 
-         <Link to="/pilot/session3">
-            <button type="button" onClick={this.handleOnClick} >
-                Continue
-            </button>
-        </Link>
+        <p> You will be redirect to SearchX soon!</p>
+        <Timer start={new Date()} duration={constants.taskDescriptionWait} onFinish={this.onFinish} style={{fontSize: '2em'}} showRemaining={true}/>
 
         
         </div>
