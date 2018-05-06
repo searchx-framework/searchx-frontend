@@ -110,6 +110,7 @@ class Wait extends React.Component {
     }
 
     onSync(data) {
+        console.log("I am never called");
         AccountStore.setTask(data.taskId, data.taskData);
         IntroStore.clearIntro();
 
@@ -118,6 +119,7 @@ class Wait extends React.Component {
             state : this.state
         });
 
+    
         this.props.history.push({
             pathname: '/pilot/description1',
             state: { waited: true }

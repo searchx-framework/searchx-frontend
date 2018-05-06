@@ -39,8 +39,8 @@ class Register extends React.Component {
 
         SessionStore.initializeTask(constants.taskId, taskParams, (res) => {
             if (res) {
-                if ('topic' in res.taskData) {
-                    this.props.history.push('/pilot/session');
+                if ('topics' in res.taskData) {
+                    this.props.history.push('/pilot/description1');
                     // emit sync submit to trigger update of task data for other group members
                     SyncStore.emitSyncSubmit({});
                 } else {

@@ -24,6 +24,7 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
         return state.task.id;
     },
     getTaskData() {
+        
         return state.task.data;
     },
 
@@ -38,6 +39,7 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
     },
 
     setTask(id, data) {
+        console.log("I have received the task data", data);
         state.task.id = id;
         state.task.data = data;
         localStorage.setItem("task-id", id);
