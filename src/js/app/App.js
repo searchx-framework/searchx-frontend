@@ -21,7 +21,12 @@ import AsyncFeedback from './tasks/example-group-async/Feedback';
 import AsyncSession from './tasks/example-group-async/Session';
 import PilotRegister from './tasks/algorithmic-mediation-pilot/Register';
 import PilotWait from './tasks/algorithmic-mediation-pilot/Wait';
-import PilotSession from './tasks/algorithmic-mediation-pilot/Session';
+import PilotSession1 from './tasks/algorithmic-mediation-pilot/Session1';
+import PilotDescription1 from './tasks/algorithmic-mediation-pilot/TaskDescription1';
+import PilotSession2 from './tasks/algorithmic-mediation-pilot/Session2';
+import PilotDescription2 from './tasks/algorithmic-mediation-pilot/TaskDescription2';
+import PilotSession3 from './tasks/algorithmic-mediation-pilot/Session3';
+import PilotDescription3 from './tasks/algorithmic-mediation-pilot/TaskDescription3';
 import PilotPostTest from './tasks/algorithmic-mediation-pilot/PostTest';
 
 export class App extends React.Component {
@@ -57,7 +62,12 @@ export class App extends React.Component {
 
                     <Route exact path="/pilot" component={PilotRegister}/>
                     <Route exact path="/pilot/wait" component={PilotWait}/>
-                    <Route path="/pilot/session" component={PilotSession}/>
+                    <Route path="/pilot/session1" component={PilotSession1}/>
+                    <Route path="/pilot/description1" component={PilotDescription1}/>
+                    <Route path="/pilot/session2" component={PilotSession2}/>
+                    <Route path="/pilot/description2" component={PilotDescription2}/>
+                    <Route path="/pilot/session3" component={PilotSession3}/>
+                    <Route path="/pilot/description3" component={PilotDescription3}/>
                     <Route exact path="/pilot/posttest" component={PilotPostTest}/>
                 </div>
             </Router>

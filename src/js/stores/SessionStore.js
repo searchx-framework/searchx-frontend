@@ -62,7 +62,7 @@ const SessionStore = Object.assign(EventEmitter.prototype, {
 
         state.group.members = members;
         localStorage.setItem("group-members", JSON.stringify(members));
-
+        localStorage.setItem("group-id", groupId);
         AccountStore.setSessionId(groupId);
     },
 

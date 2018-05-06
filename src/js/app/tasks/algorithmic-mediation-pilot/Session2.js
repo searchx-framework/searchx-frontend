@@ -52,9 +52,12 @@ class Session extends React.PureComponent {
         }
     }
 
+   
+    
     render() {
+        
         const task = AccountStore.getTask();
-
+    
         const timer = (
             <div style={{marginTop: '10px', textAlign: 'center'}}>
                 <Timer start={this.state.start} duration={constants.taskDuration} onFinish={this.onFinish} style={{fontSize: '2em'}} showRemaining={true}/>
@@ -84,7 +87,7 @@ class Session extends React.PureComponent {
             <Collapsible trigger="Your task" transitionTime={3} onOpen={handleTaskOpen} onClose={handleTaskClose} >
 
                 <p>Imagine you are a reporter for a newspaper. Your editor has just asked you and your colleague[s] to gather documents
-                    from a collection of news articles to write a story about <strong>{task.data.topic.title}</strong>.</p>
+                    from a collection of news articles to write a story about <strong>{task.data.topics[1].title}</strong>.</p>
                 <p>There's a meeting in an hour, so your editor asks you and your colleagues to spend 10 minutes together and search
                     for and <strong>save as many useful documents as possible</strong>.</p>
 
@@ -93,13 +96,13 @@ class Session extends React.PureComponent {
 
                 <p>Collect documents according to the following criteria:</p>
 
-                <p>{task.data.topic.description}</p>
+                <p>{task.data.topics[1].description}</p>
 
             </Collapsible>
         );
 
         if (this.state.finished) {
-            return <Redirect to="/pilot/posttest" />;
+            return <Redirect to="/pilot/description3" />;
         }
 
         return (
@@ -124,25 +127,10 @@ class Session extends React.PureComponent {
 
 function getIntroSteps() {
     const task = AccountStore.getTask();
-    console.log(task);
+
 
     return [
-        {
-            element: '.Task',
-            intro:
-            "<h3>This is your task:</h3>"
-
-            + "<p>Imagine you are a reporter for a newspaper. Your editor has just asked you and your colleague[s] to gather documents"
-            + " from a collection of news articles to write a story about <strong>" + task.data.topic.title + "</strong>.</p>"
-            + "<p>There's a meeting in an hour, so your editor asks you and your colleagues to spend 10 minutes together and search"
-            + " for and <strong>save as many useful documents as possible</strong>.</p>"
-
-            + "<p>To guarantee the quality of the documents, your editor, who will look over the collected resources in the end, "
-            + "requests that you use a collaborative search system (SearchX).</p>"
-            + "<p>Collect documents according to the following criteria: </p>"
-            + "<p>" + task.data.topic.description + "</p>"
-
-        },
+       
 
             {
                 element: '.Collapsible__trigger',

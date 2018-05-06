@@ -119,7 +119,7 @@ class Wait extends React.Component {
         });
 
         this.props.history.push({
-            pathname: '/pilot/session',
+            pathname: '/pilot/description1',
             state: { waited: true }
         });
     }
