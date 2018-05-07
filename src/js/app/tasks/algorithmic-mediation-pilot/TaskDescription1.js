@@ -60,20 +60,21 @@ class TaskDescription1 extends React.Component {
 
             <h3> Please read your task description:</h3>
             
-            <p> Imagine you are a reporter for a newspaper. Your editor has just asked you and your colleagues to gather documents
-        from a collection of news articles to write a story about <strong>{task.topics[0].title}</strong>.</p> 
-        
-            <p>There's a meeting in an hour, so your editor asks you and your colleagues to spend 10 minutes together and search
-                    for and <strong>save as many useful documents as possible</strong>.</p>
+            <p>Imagine you are a reporter for a newspaper. Your editor has just told you to write a story about <font color="#33BEFF"> <strong>{task.topics[0].title}</strong> </font>.</p>
+                <p>There's a meeting in an hour, so your editor asks you and your colleagues to spend 10 minutes together and search
+                    for <strong>as many useful documents (news articles) as possible</strong>.</p>
 
-            <p>To guarantee the quality of the documents, your editor, who will look over the collected resources in the end,
-                    requests that you use a collaborative search system (SearchX).</p>
+                <p>Collect documents according to the following criteria:</p>
+                <strong> <font color="#33BEFF">
+                <p>{task.topics[0].description}</p>
+                </font> </strong>
 
-            <p>Collect documents according to the following criteria:</p>
+                <br/>
 
-            <p>{task.topics[0].description}</p>
 
-            <p> You will be redirected to SearchX soon!</p>
+                <p> SearchX is a specialized search engine for news articles, use it to find relevant articles for the topic. Do not use any other Web search engine. </p>
+
+            <p> You will be redirected once the time is up!</p>
             <Timer start={new Date()} duration={constants.taskDescriptionWait} onFinish={this.onFinish} style={{fontSize: '2em'}} showRemaining={true}/>
          
 

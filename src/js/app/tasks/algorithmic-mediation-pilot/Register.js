@@ -76,28 +76,12 @@ const formData = function() {
         <hr/>
 
         <h3>
-            In this study, you are tasked with searching a collection of news articles with a fellow user.
-            This study is composed of two parts:
+            In this study, you are tasked with searching a collection of news articles with fellow users. You will be given three different topics to work on and each takes about 10 minutes to complete. At the end we have an exit questionnaire for you. 
         </h3>
 
-        <ol type="1">
-            <li><b>Collaborative Searching Phase (with other worker)</b>.
-                <p>
-                    We want you, together with your assigned partner, to use our custom web search system (we call it "SearchX") to search about a given topic.
-                    You are given ${constants.taskDuration} minutes to search for news articles about that topic.
-                    You need to collect and save all the articles that are helpful for you to write about the topic.
-                </p>
-            </li>
-            <li><b>Exit Questionnaire (by yourself)</b>.
-                <p>
-                    We will ask 10 questions about your search experienece.
-                    Note that your answers must exceed a minimum word count and be on your assigned topic.
-                </p>
-            </li>
-        </ol>
 
         <hr/>
-        <h3>You will need approximately 20 minutes to complete the whole study.</h3>
+        <h3>You will need approximately 45 minutes to complete the whole study.</h3>
         `
     });
 
@@ -182,11 +166,10 @@ const formData = function() {
     elements.push({
             type: "html",
                 html: `
-        <b> Collaborative search is when participants work together to complete a search task. </b>
+        <b> Collaborative search is when users work together to complete a search task. </b>
         <br/>
         Collaborating with other people can take many forms, a few examples are shown here: 
-        two people searching together on a single machine, 
-        several people searching towards a common goal on separate machines either in the same location or in different locations.
+        two people searching together on a single machine, several people searching towards a common goal on separate machines either in the same location or in different locations. 
         <br/><br/>
         <div align="center">
             <div style="height: 220px; width: 220px; display: inline-block; background-image: url('img/collab_1.jpg'); background-size: cover; background-position: center center;"></div>
@@ -232,8 +215,7 @@ const formData = function() {
         });
 
         elements.push({
-            title: "Describe the nature of the information need that prompted this collaborative search episode. " +
-            "(e.g. husband and wife planning a trip for the family, a group of students working on a writing assignment and sharing search results/findings, a couple shopping for a new sofa, etc.)",
+            title: "Describe what were you looking for. (e.g. husband and wife planning a trip for the family, a group of students working on a writing assignment and sharing search results/findings, a couple shopping for a new sofa, etc.)",
             name: "collab-information-need",
             type: "comment",
             inputType: "text",
@@ -243,7 +225,7 @@ const formData = function() {
         });
 
         elements.push({
-            title: "With how many others did you collaborate with (i.e. not counting yourself)?",
+            title: "With how many others did you collaborate (not including yourself)?",
             name: "collab-members",
             type: "text",
             width: 600,

@@ -84,19 +84,25 @@ class Session extends React.PureComponent {
 
 
         const taskDescription = (
-            <Collapsible trigger="Your task" transitionTime={3} onOpen={handleTaskOpen} onClose={handleTaskClose} >
+            <Collapsible open trigger="Your Task 1" transitionTime={3} onOpen={handleTaskOpen} onClose={handleTaskClose} >
 
-                <p>Imagine you are a reporter for a newspaper. Your editor has just asked you and your colleague[s] to gather documents
-                    from a collection of news articles to write a story about <strong>{task.data.topics[0].title}</strong>.</p>
+                <p>Imagine you are a reporter for a newspaper. Your editor has just told you to write a story about <font color="#33BEFF"> <strong>{task.data.topics[0].title}</strong> </font>.</p>
                 <p>There's a meeting in an hour, so your editor asks you and your colleagues to spend 10 minutes together and search
-                    for and <strong>save as many useful documents as possible</strong>.</p>
-
-                <p>To guarantee the quality of the documents, your editor, who will look over the collected resources in the end,
-                    requests that you use a collaborative search system (SearchX).</p>
+                    for <strong>as many useful documents (news articles) as possible</strong>.</p>
 
                 <p>Collect documents according to the following criteria:</p>
-
+                <strong> <font color="#33BEFF">
                 <p>{task.data.topics[0].description}</p>
+                </font> </strong>
+
+                <br/>
+
+
+                <p> SearchX is a specialized search engine for news articles, use it to find relevant articles for the topic. Do not use any other Web search engine. </p>
+
+                <hr/>
+
+                <font color="#9C9C9C"> <p> After 10 minutes the system will give your next search task. </p> </font>
 
             </Collapsible>
         );
@@ -155,7 +161,7 @@ function getIntroSteps() {
             },
             {
                 element: '.SearchResults',
-                intro: 'Use the Save and Exclude buttons on the left to save useful results and to hide results that are not useful from future queries.',
+                intro: 'Use the Save icon (flag) on the left to save a useful result. Use the Forbidden icon to not show this result anymore for this topic.',
                 position: 'right'
             },
             {
@@ -165,7 +171,7 @@ function getIntroSteps() {
             },
             {
                 element: '.Side',
-                intro: 'The recent queries and saved documents are color-coded to show who initiated the action.',
+                intro: 'The recent queries and saved documents are color-coded to show which collaborator initiated the action.',
                 position: 'auto'
             }
     ];

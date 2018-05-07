@@ -79,52 +79,52 @@ const formData = function(returnCode) {
 
 
     elements.push({
-        title: "How satisfied was your search experience?",
-        name: "satisfaction",
-        type: "rating",
-        isRequired: true,
-        minRateDescription: "Very unsatisfied",
-        maxRateDescription: "Very satisfied"
+        title: "How many people did you just now collaborate with (not including yourself)?",
+        name: "collaborate-number",
+        type: "text",
+        width: 600,
+        inputType: "number",
+        isRequired: true
     });
 
 
     elements.push({
-        title: "How frustrated were you with this task?",
-        name: "frustation",
+        title: "The color coding of the query history and bookmarks made sense to me.",
+        name: "color-coding",
         type: "rating",
         isRequired: true,
-        minRateDescription: "Not frustated",
-        maxRateDescription: "Very frustated"
+        minRateDescription: "Disagree",
+        maxRateDescription: "Agree"
     });
 
 
     elements.push({
-        title: "How well did the system help you in this task?",
-        name: "system-helpfuness",
+        title: "It was easy to understand why documents were retrieve in response to my queries.",
+        name: "easy",
         type: "rating",
         isRequired: true,
-        minRateDescription: "Very badly",
-        maxRateDescription: "Very well"
+        minRateDescription: "Disagree",
+        maxRateDescription: "Agree"
     });
 
 
     elements.push({
-        title: "How well did you fulfill the goal of this task?",
-        name: "goal-success",
+        title: "I didn't notice any inconsistencies when I used the system.",
+        name: "inconsistencies",
         type: "rating",
         isRequired: true,
-        minRateDescription: "Very badly",
-        maxRateDescription: "Very well"
+        minRateDescription: "Disagree",
+        maxRateDescription: "Agree"
     });
 
 
     elements.push({
-        title: "How much effort did this task take?",
-        name: "effort",
+        title: "It was easy to determine if a document was relevant to a task.",
+        name: "relevance",
         type: "rating",
         isRequired: true,
-        minRateDescription: "Minimum",
-        maxRateDescription: "A lot of"
+        minRateDescription: "Disagree",
+        maxRateDescription: "Agree"
     });
 
 
