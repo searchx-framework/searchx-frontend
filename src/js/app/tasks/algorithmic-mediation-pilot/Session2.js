@@ -21,24 +21,19 @@ class Session extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            start: false,
-            finished: false
+            start: false
         };
-
         this.onFinish = this.onFinish.bind(this);
         this.handleBeforeUnload = this.handleBeforeUnload.bind(this);
     }
 
     componentDidMount() {
         window.addEventListener('beforeunload', this.handleBeforeUnload);
-
-        IntroStore.startIntro(getIntroSteps(), () => {
-            const start = localStorage.getItem("timer-start") || Date.now();
-            localStorage.setItem("timer-start", start);
-            this.setState({
-                start: start
-            });
+        const start = localStorage.getItem("timer-start");
+        this.setState({
+            start: start
         });
+
     }
     componentWillUnmount() {
         window.removeEventListener('beforeunload', this.handleBeforeUnload);
@@ -107,10 +102,6 @@ class Session extends React.PureComponent {
             </Collapsible>
         );
 
-        if (this.state.finished) {
-            return <Redirect to="/pilot/description3" />;
-        }
-
         return (
             <div>
                 {waited && <ReactAudioPlayer
@@ -125,59 +116,11 @@ class Session extends React.PureComponent {
     ////
 
     onFinish() {
-        this.setState({
-            finished: true
+        this.props.history.push({
+            pathname: '/pilot/description3',
+            state: { waited: true }
         });
     }
-}
-
-function getIntroSteps() {
-    const task = AccountStore.getTask();
-
-
-    return [
-       
-
-            {
-                element: '.Collapsible__trigger',
-                intro:  "You can read the task description again here.",
-                position: "left"
-            },
-            {
-                element: '.SearchHeader',
-                intro: 'We want you to use our search system, SearchX.',
-                position: 'bottom-middle-aligned'
-            },
-            {
-                element: '.SearchHeader .form',
-                intro: 'Use SearchX to search for news articles as described in the task.'
-            },
-            {
-                element: '.QueryHistory',
-                intro: 'Recent queries shows your and your group\'s past search queries. In this manner you can see what the others are doing.',
-                position: 'bottom'
-            },
-            {
-                element: '.SearchResults',
-                intro: 'The search results for your queries will appear here. You can also see which results have been saved and excluded.',
-                position: 'right'
-            },
-            {
-                element: '.SearchResults',
-                intro: 'Use the Save and Exclude buttons on the left to save useful results and to hide results that are not useful from future queries.',
-                position: 'right'
-            },
-            {
-                element: '.Bookmarks',
-                intro: 'The documents you and your group save will appear here. You can revisit a saved result by clicking on it.',
-                position: 'top'
-            },
-            {
-                element: '.Side',
-                intro: 'The recent queries and saved documents are color-coded to show who initiated the action.',
-                position: 'auto'
-            }
-    ];
 }
 
 

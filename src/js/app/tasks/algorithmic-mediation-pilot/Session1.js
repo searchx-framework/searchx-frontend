@@ -21,8 +21,7 @@ class Session extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            start: false,
-            finished: false
+            start: false
         };
 
         this.onFinish = this.onFinish.bind(this);
@@ -107,10 +106,6 @@ class Session extends React.PureComponent {
             </Collapsible>
         );
 
-        if (this.state.finished) {
-            return <Redirect to="/pilot/description2" />;
-        }
-
         return (
             <div>
                 {waited && <ReactAudioPlayer
@@ -125,8 +120,9 @@ class Session extends React.PureComponent {
     ////
 
     onFinish() {
-        this.setState({
-            finished: true
+        this.props.history.push({
+            pathname: '/pilot/description2',
+            state: { waited: true }
         });
     }
 }
