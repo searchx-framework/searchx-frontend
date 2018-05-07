@@ -176,7 +176,87 @@ const formData = function() {
 
     pages.push({elements:  elements});
 
-    ////
+
+    elements = [];
+
+    elements.push({
+            type: "html",
+                html: `
+        <b> Collaborative search is when participants work together to complete a search task. </b>
+        <br/>
+        Collaborating with other people can take many forms, a few examples are shown here: 
+        two people searching together on a single machine, 
+        several people searching towards a common goal on separate machines either in the same location or in different locations.
+        <br/><br/>
+        <div align="center">
+            <div style="height: 220px; width: 220px; display: inline-block; background-image: url('img/collab_1.jpg'); background-size: cover; background-position: center center;"></div>
+            <div style="height: 220px; width: 220px; display: inline-block; background-image: url('img/collab_2.jpg'); background-size: cover; background-position: center center;"></div>
+            <div style="height: 220px; width: 220px; display: inline-block; background-image: url('img/collab_3.jpg'); background-size: cover; background-position: center center;"></div>
+        </div>
+                `
+        });
+
+        elements.push({
+            title: "Have you ever collaborated with other people to search the Web?",
+            name: "collab-previous",
+            type: "radiogroup",
+            isRequired: true,
+            choices: [
+                {value: 0, text: "No"},
+                {value: 1, text: "Yes"},
+            ]
+        });
+
+        elements.push({
+            title: "How often do you engage in collaborative Web search?",
+            visibleIf: "{collab-previous} == 1",
+            name: "collab-frequency",
+            type: "radiogroup",
+            isRequired: true,
+            choices: [
+                {value: 0, text: "Daily"},
+                {value: 1, text: "Weekly"},
+                {value: 2, text: "Monthly"},
+                {value: 3, text: "Less often"},
+            ]
+        });
+
+        elements.push({
+            type: "html",
+            html: "<hr/>"
+        });
+
+        elements.push({
+            type: "html",
+            html: "<b> Think about the most recent time you collaborated with others to search the web. </b>"
+        });
+
+        elements.push({
+            title: "Describe the nature of the information need that prompted this collaborative search episode. " +
+            "(e.g. husband and wife planning a trip for the family, a group of students working on a writing assignment and sharing search results/findings, a couple shopping for a new sofa, etc.)",
+            name: "collab-information-need",
+            type: "comment",
+            inputType: "text",
+            width: 600,
+            rows: 1,
+            isRequired: true
+        });
+
+        elements.push({
+            title: "With how many others did you collaborate with (i.e. not counting yourself)?",
+            name: "collab-members",
+            type: "text",
+            width: 600,
+            inputType: "number",
+            isRequired: true
+        });
+
+        elements.push({
+            type: "html",
+            html: "<hr/>"
+        });
+
+        pages.push({elements:  elements});
 
     return {
         pages: pages,

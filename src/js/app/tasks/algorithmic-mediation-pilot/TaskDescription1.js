@@ -73,7 +73,7 @@ class TaskDescription1 extends React.Component {
 
             <p>{task.topics[0].description}</p>
 
-            <p> You will be redirect to SearchX soon!</p>
+            <p> You will be redirected to SearchX soon!</p>
             <Timer start={new Date()} duration={constants.taskDescriptionWait} onFinish={this.onFinish} style={{fontSize: '2em'}} showRemaining={true}/>
          
 

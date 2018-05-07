@@ -71,7 +71,7 @@ class TaskDescription2 extends React.Component {
          <p>Collect documents according to the following criteria:</p>
 
         <p>{task.topics[1].description}</p>
-        <p> You will be redirect to SearchX soon!</p>
+        <p> You will be redirected to SearchX soon!</p>
         <Timer start={new Date()} duration={constants.taskDescriptionWait} onFinish={this.onFinish} style={{fontSize: '2em'}} showRemaining={true}/>
 
         

@@ -1,6 +1,6 @@
 {
     "taskId": "algorithmic-mediation-pilot",
-    "groupSize": 2,
+    "groupSize": 3,
     "taskDuration": 10,
     "taskDescriptionWait" : 1,
     "waitDuration": 10,

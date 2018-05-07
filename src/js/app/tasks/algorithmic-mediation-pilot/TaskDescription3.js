@@ -21,7 +21,7 @@ class TaskDescription1 extends React.Component {
 
     constructor(props) {
         super(props);
-        this.handleOnClick = this.handleOnClick.bind(this);
+        this.onFinish = this.onFinish.bind(this);
     }
 
 
@@ -34,9 +34,13 @@ class TaskDescription1 extends React.Component {
     }
 
 
-    handleOnClick(e) {
-        localStorage.setItem("timer-start", Date.now());
+    onFinish(e) {
         log(LoggerEventTypes.TASK_DESCRIPTION_CONTINUE,metaInfo);
+        localStorage.setItem("timer-start", Date.now());
+        this.props.history.push({
+            pathname: '/pilot/session1',
+            state: { waited: true }
+        });
     }
 
     render() {
@@ -48,7 +52,7 @@ class TaskDescription1 extends React.Component {
                     autoPlay
                 />
 
-            <h3> <strong> Please read your next task description:</strong> </h3>
+            <h3> Please read your next task description:  </h3>
             
             <p> Imagine you are a reporter for a newspaper. Your editor has just asked you and your colleagues to gather documents
         from a collection of news articles to write a story about <strong>{task.topics[2].title}</strong>.</p> 
@@ -63,7 +67,7 @@ class TaskDescription1 extends React.Component {
 
         <p>{task.topics[2].description}</p>
 
-        <p> You will be redirect to SearchX soon!</p>
+        <p> You will be redirected to SearchX soon!</p>
         <Timer start={new Date()} duration={constants.taskDescriptionWait} onFinish={this.onFinish} style={{fontSize: '2em'}} showRemaining={true}/>
 
         
