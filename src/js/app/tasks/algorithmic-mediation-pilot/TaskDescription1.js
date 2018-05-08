@@ -4,6 +4,7 @@ import {log} from "../../../utils/Logger";
 import {LoggerEventTypes} from "../../../utils/LoggerEventTypes";
 
 import AccountStore from "../../../stores/AccountStore";
+import SearchStore from "../../search/SearchStore";
 import SyncStore from "../../../stores/SyncStore";
 import IntroStore from "../../../stores/IntroStore";
 import constants from "./constants";
@@ -37,9 +38,11 @@ class TaskDescription1 extends React.Component {
         window.addEventListener('beforeunload', this.handleBeforeUnload);
         const task = AccountStore.getTaskData();
         const groupId = AccountStore.getGroupId();
-        AccountStore.setSessionId(groupId+"-"+ task.topics[0].id);
+        AccountStore.setSessionId(groupId+"-"+ task.topics[0].id + "-" + SearchStore.getVariant() );
         log(LoggerEventTypes.TASK_DESCRIPTION_LOAD,metaInfo);
+        SearchStore.get
     }
+
 
     componentWillUnmount() {
         window.removeEventListener('beforeunload', this.handleBeforeUnload);
