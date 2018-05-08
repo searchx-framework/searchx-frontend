@@ -145,7 +145,7 @@ function getIntroSteps() {
             },
             {
                 element: '.QueryHistory',
-                intro: 'Recent queries shows your and your group\'s past search queries. In this manner you can see what the others are doing.',
+                intro: 'Recent queries shows your and your group\'s past search queries. In this manner you can see what the other group members are doing. Groups vary in size, so you may see many queries by others, or none at all.',
                 position: 'bottom'
             },
             {

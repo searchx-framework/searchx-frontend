@@ -73,7 +73,7 @@ const formData = function(returnCode) {
     elements.push({
         type: "html",
         name: "collab-feedback-description",
-        html: "<b> We would like you to describe your search experience. </b>"
+        html: "<b>We would like you to describe your search experience.</b>"
     });
     
 
@@ -99,7 +99,7 @@ const formData = function(returnCode) {
 
 
     elements.push({
-        title: "It was easy to understand why documents were retrieve in response to my queries.",
+        title: "It was easy to understand why documents were retrieved in response to my queries.",
         name: "easy",
         type: "rating",
         isRequired: true,
@@ -142,7 +142,7 @@ const formData = function(returnCode) {
     elements.push({
         type: "html",
         name: "collab-feedback-description",
-        html: "<b> We would also like you to describe your experience in collaborating with your partner. </b>"
+        html: "<b>We would also like you to describe your experience in collaborating with your partner.</b>"
     });
 
     elements.push({
