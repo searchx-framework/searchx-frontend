@@ -28,7 +28,7 @@ class TaskDescription1 extends React.Component {
 
     componentDidMount(){
         const task = AccountStore.getTaskData();
-        const groupId = localStorage.getItem("group-id");
+        const groupId = AccountStore.getGroupId();
         AccountStore.setSessionId(groupId+"-"+ task.topics[0].id);
         log(LoggerEventTypes.TASK_DESCRIPTION_LOAD,metaInfo);
     }

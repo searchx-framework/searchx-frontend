@@ -20,7 +20,6 @@ const SessionStore = Object.assign(EventEmitter.prototype, {
                 AccountStore.setTask(data.taskId, data.taskData);
                 res = data;
             }
-
             callback(res);
         });
     },
@@ -62,7 +61,8 @@ const SessionStore = Object.assign(EventEmitter.prototype, {
 
         state.group.members = members;
         localStorage.setItem("group-members", JSON.stringify(members));
-        localStorage.setItem("group-id", groupId);
+        AccountStore.setGroupId(groupId);
+        // initially sessionId === groupId, when task includes multiple topics sessionId may change later
         AccountStore.setSessionId(groupId);
     },
 
@@ -84,9 +84,9 @@ function _getUserTask(userId, taskId, params, callback) {
             if(!err && res) {
                 const data = res.body.results;
                 callback(data);
+            } else {
+                callback(null);
             }
-
-            callback(null);
         })
 }
 

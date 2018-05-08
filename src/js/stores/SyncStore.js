@@ -11,11 +11,19 @@ const socket = io(env.serverUrl + '/session');
 ////
 
 const SyncStore = Object.assign(EventEmitter.prototype, {
-    registerSocket() {
+    emitUserJoin() {
         socket.emit('register', {
             userId: AccountStore.getUserId(),
-            groupId: AccountStore.getSessionId()
         });
+    },
+
+    emitUserJoinGroup(groupComplete) {
+        socket.emit('joinGroup', {
+            taskId: AccountStore.getTaskId(),
+            userId: AccountStore.getUserId(),
+            groupId: AccountStore.getGroupId(),
+            groupComplete: groupComplete,
+        })
     },
 
     ////
@@ -30,6 +38,7 @@ const SyncStore = Object.assign(EventEmitter.prototype, {
         socket.emit('pushSyncSubmit', {
             taskId: AccountStore.getTaskId(),
             userId: AccountStore.getUserId(),
+            groupId: AccountStore.getGroupId(),
             sessionId: AccountStore.getSessionId(),
             data: data
         });
@@ -47,7 +56,7 @@ const SyncStore = Object.assign(EventEmitter.prototype, {
         socket.emit('pushSyncTimeout', {
             taskId: AccountStore.getTaskId(),
             userId: AccountStore.getUserId(),
-            sessionId: AccountStore.getSessionId(),
+            groupId: AccountStore.getGroupId(),
         });
     },
 
@@ -84,7 +93,7 @@ const SyncStore = Object.assign(EventEmitter.prototype, {
 
 ////
 
-SyncStore.registerSocket();
+SyncStore.emitUserJoin();
 
 socket.on('searchState', (data) => {
     SessionActions.getQueryHistory();

@@ -40,10 +40,10 @@ class Register extends React.Component {
         SessionStore.initializeTask(constants.taskId, taskParams, (res) => {
             if (res) {
                 if ('topics' in res.taskData) {
+                    SyncStore.emitUserJoinGroup(true);
                     this.props.history.push('/pilot/description1');
-                    // emit sync submit to trigger update of task data for other group members
-                    SyncStore.emitSyncSubmit({});
                 } else {
+                    SyncStore.emitUserJoinGroup(false);
                     this.props.history.push('/pilot/wait');
                 }
             }
