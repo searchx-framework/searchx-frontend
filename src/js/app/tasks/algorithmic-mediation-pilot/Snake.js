@@ -1,4 +1,5 @@
 /**
+ * Adapted from:
  * @license HTML5 experiment Snake
  * http://www.xarg.org/project/html5-snake/
  *
@@ -74,7 +75,23 @@ exports.openSnake = function() {
                 ctx.clearRect(dir[0] * 10, dir[1] * 10, 10, 10);
             }
         } else if (!turn.length) {
-            if (confirm("Your Score is " + score + ". Play again?")) {
+            window.clearInterval(interval);
+            const scoreParagraph = document.createElement('p');
+            scoreParagraph.setAttribute('id', 'score-paragraph');
+            const scoreText = document.createTextNode("Your Score is " + score + ". Play again?");
+            scoreParagraph.appendChild(scoreText);
+            const restartButton = document.createElement('button');
+            scoreParagraph.setAttribute('id', 'restart-button');
+            const restartText = document.createTextNode("Restart");
+            restartButton.appendChild(restartText);
+            restartButton.setAttribute('class', 'btn btn-default');
+            const snakeContainer = document.getElementById('snake-container');
+            snakeContainer.appendChild(scoreParagraph);
+            snakeContainer.appendChild(restartButton);
+            const confirm = function () {
+                snakeContainer.removeChild(scoreParagraph);
+                snakeContainer.removeChild(restartButton);
+                interval = window.setInterval(clock, 60);
                 ctx.clearRect(0, 0, 450, 300);
                 queue = [];
                 elements = 1;
@@ -88,9 +105,8 @@ exports.openSnake = function() {
                     map[i] = [];
                 }
                 placeFood();
-            } else {
-                window.clearInterval(interval);
-            }
+            };
+            restartButton.onclick = confirm;
         }
     }
     interval = window.setInterval(clock, 60);
@@ -122,8 +138,18 @@ exports.openSnake = function() {
 
 exports.closeSnake = function () {
     const snakeCanvas = document.getElementById('snake-canvas');
+    const scoreParagraph = document.getElementById('score-paragraph');
+    const restartButton = document.getElementById('restart-button');
+    const snakeContainer = document.getElementById('snake-container');
     window.clearInterval(interval);
+    document.onkeydown = null;
     if (snakeCanvas) {
-        document.getElementById('snake-container').removeChild(snakeCanvas);
+        snakeContainer.removeChild(snakeCanvas);
+    }
+    if (scoreParagraph) {
+        snakeContainer.removeChild(scoreParagraph);
+    }
+    if (restartButton) {
+        snakeContainer.removeChild(restartButton);
     }
 };
