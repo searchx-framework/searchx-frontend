@@ -51,8 +51,6 @@ class Session extends React.PureComponent {
         }
     }
 
-   
-    
     render() {
         
         const task = AccountStore.getTask();
@@ -172,7 +170,5 @@ function getIntroSteps() {
             }
     ];
 }
-
-
 
 export default withRouter(Session);

@@ -22,14 +22,27 @@ class TaskDescription2 extends React.Component {
     constructor(props) {
         super(props);
         this.onFinish = this.onFinish.bind(this);
+        this.handleBeforeUnload = this.handleBeforeUnload.bind(this);
     }
 
+    handleBeforeUnload(e) {
+        if (!this.state.finished) {
+            const dialogText = 'Leaving this page will quit the task, and cancel your payment. Are you sure?';
+            e.returnValue = dialogText;
+            return dialogText;
+        }
+    }
 
     componentDidMount(){
+        window.addEventListener('beforeunload', this.handleBeforeUnload);
         const groupId = AccountStore.getGroupId();
         const task = AccountStore.getTaskData();
         AccountStore.setSessionId(groupId+"-"+ task.topics[1].id);
         log(LoggerEventTypes.TASK_DESCRIPTION_LOAD, metaInfo);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('beforeunload', this.handleBeforeUnload);
     }
 
     onFinish(e) {
