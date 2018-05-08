@@ -65,14 +65,16 @@ const SyncStore = Object.assign(EventEmitter.prototype, {
     emitSearchState(searchState) {
         socket.emit('pushSearchState', {
             sessionId: AccountStore.getSessionId(),
+            groupId: AccountStore.getGroupId(),
             userId: AccountStore.getUserId(),
-            state: searchState
+            state: searchState,
         });
     },
 
     emitViewState(url) {
         socket.emit('pushViewState', {
             sessionId: AccountStore.getSessionId(),
+            groupId: AccountStore.getGroupId(),
             userId: AccountStore.getUserId(),
             state: {
                 url: url
@@ -81,12 +83,16 @@ const SyncStore = Object.assign(EventEmitter.prototype, {
     },
 
     emitBookmarkUpdate(searchState) {
-        socket.emit('pushBookmarkUpdate', searchState);
+        socket.emit('pushBookmarkUpdate', {
+            searchState: searchState,
+            groupId: AccountStore.getGroupId()
+        });
     },
 
     emitPageMetadataUpdate(activeUrl) {
         socket.emit('pushPageMetadataUpdate', {
-            url: activeUrl
+            url: activeUrl,
+            groupId: AccountStore.getGroupId(),
         });
     },
 });
