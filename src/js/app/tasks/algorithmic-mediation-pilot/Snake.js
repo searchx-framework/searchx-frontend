@@ -5,6 +5,8 @@
  * Copyright (c) 2011, Robert Eisele (robert@xarg.org)
  * Dual licensed under the MIT or GPL Version 2 licenses.
  **/
+var interval;
+
 exports.openSnake = function() {
     var ctx;
     var turn  = [];
@@ -16,7 +18,7 @@ exports.openSnake = function() {
     var X = 5 + (Math.random() * (45 - 10))|0;
     var Y = 5 + (Math.random() * (30 - 10))|0;
     var direction = Math.random() * 3 | 0;
-    var interval = 0;
+    interval = 0;
     var score = 0;
     var inc_score = 50;
     var sum = 0, easy = 0;
@@ -120,5 +122,8 @@ exports.openSnake = function() {
 
 exports.closeSnake = function () {
     const snakeCanvas = document.getElementById('snake-canvas');
-    document.getElementById('snake-container').removeChild(snakeCanvas);
+    window.clearInterval(interval);
+    if (snakeCanvas) {
+        document.getElementById('snake-container').removeChild(snakeCanvas);
+    }
 };

@@ -112,6 +112,7 @@ class Wait extends React.Component {
     onSync(data) {
         AccountStore.setTask(data.taskId, data.taskData);
         IntroStore.clearIntro();
+        closeSnake();
 
         log(LoggerEventTypes.SURVEY_GROUP_WAIT_FINISH, {
             step : "wait",
