@@ -21,14 +21,14 @@ const CHANGE_EVENT = 'change_search';
 ////
 
 const provider = Helpers.getURLParameter('provider') || config.defaultProvider;
-const variant = Helpers.getURLParameter('variant') || 'SS3';
+const variant = Helpers.getURLParameter('variant') || 'S3';
 
 let state = {
     query: Helpers.getURLParameter('q') || '',
     variant: variant,
     vertical: Helpers.getURLParameter('v') || config.providerVerticals[provider].keys().next().value,
-    relevanceFeedback: variant === 'SS2' ? 'individual' : variant === 'SS3' ? 'shared' : false,
-    distributionOfLabour: variant === 'SS0' ? false : variant === 'SS1-Hard' ? 'unbookmarkedOnly' : 'unbookmarkedSoft',
+    relevanceFeedback: variant === 'S2' ? 'individual' : variant === 'S3' ? 'shared' : false,
+    distributionOfLabour: variant === 'S0' ? false : variant === 'S1-Hard' ? 'unbookmarkedOnly' : 'unbookmarkedSoft',
     page: parseInt(Helpers.getURLParameter('p')) || 1,
     provider: provider,
 
