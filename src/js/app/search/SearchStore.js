@@ -21,7 +21,12 @@ const CHANGE_EVENT = 'change_search';
 ////
 
 const provider = Helpers.getURLParameter('provider') || config.defaultProvider;
-const variant = Helpers.getURLParameter('variant') || 'S3';
+let variant;
+if (config.variantQueryParameter) {
+    variant = Helpers.getURLParameter('variant') || config.defaultVariant;
+} else {
+    variant = config.defaultVariant;
+}
 
 let state = {
     query: Helpers.getURLParameter('q') || '',
@@ -283,7 +288,10 @@ const _getById = function (id) {
 const _updateUrl = function(query, vertical, page, provider, variant) {
     const url = window.location.href;
     const route = url.split("/").pop().split("?")[0];
-    const params = 'q='+ query +'&v='+ vertical.toLowerCase() +'&p='+ page + '&provider=' + provider + '&variant=' + variant;
+    let params = 'q='+ query +'&v='+ vertical.toLowerCase() +'&p='+ page + '&provider=' + provider;
+    if (config.variantQueryParameter) {
+        params += '&variant=' + variant;
+    }
 
     history.push({
         pathname: route,

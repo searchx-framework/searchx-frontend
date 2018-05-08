@@ -23,6 +23,8 @@ module.exports = {
     aboutPrefixAt: 1000, /* at how many search results do we start saying 'About X results' vs. 'X results' */
     logTimeInterval: 5000,
     defaultProvider: 'indri',
+    defaultVariant: 'S3',
+    variantQueryParameter: false,
     // each provider must have at least one vertical
     providerVerticals: providerVerticals,
     interface: {

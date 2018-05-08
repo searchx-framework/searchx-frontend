@@ -81,7 +81,7 @@ exports.openSnake = function() {
             const scoreText = document.createTextNode("Your Score is " + score + ". Play again?");
             scoreParagraph.appendChild(scoreText);
             const restartButton = document.createElement('button');
-            scoreParagraph.setAttribute('id', 'restart-button');
+            restartButton.setAttribute('id', 'restart-button');
             const restartText = document.createTextNode("Restart");
             restartButton.appendChild(restartText);
             restartButton.setAttribute('class', 'btn btn-default');
