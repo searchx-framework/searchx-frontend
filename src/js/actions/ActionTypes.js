@@ -7,6 +7,7 @@ export default {
     OPEN_URL: 'OPEN_URL',
     CLOSE_URL: 'CLOSE_URL',
     GET_DOCUMENT_BY_ID: 'GET_DOCUMENT_BY_ID',
+    RESET: 'RESET',
 
     /* Features */
     GET_QUERY_HISTORY: 'GET_QUERY_HISTORY',

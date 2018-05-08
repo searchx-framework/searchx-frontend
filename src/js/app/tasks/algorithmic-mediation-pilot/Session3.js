@@ -15,6 +15,7 @@ import {LoggerEventTypes} from '../../../utils/LoggerEventTypes';
 import ReactAudioPlayer from 'react-audio-player';
 import { withRouter } from 'react-router'
 import $ from 'jquery';
+import SearchActions from "../../../actions/SearchActions";
 
 
 class Session extends React.PureComponent {
@@ -29,7 +30,7 @@ class Session extends React.PureComponent {
     }
 
     componentDidMount() {
-        
+        SearchActions.reset();
         window.addEventListener('beforeunload', this.handleBeforeUnload);
         const start = localStorage.getItem("timer-start");
         this.setState({

@@ -28,28 +28,37 @@ if (config.variantQueryParameter) {
     variant = config.defaultVariant;
 }
 
-let state = {
-    query: Helpers.getURLParameter('q') || '',
-    variant: variant,
-    vertical: Helpers.getURLParameter('v') || config.providerVerticals[provider].keys().next().value,
-    relevanceFeedback: variant === 'S2' ? 'individual' : variant === 'S3' ? 'shared' : false,
-    distributionOfLabour: variant === 'S0' ? false : variant === 'S1-Hard' ? 'unbookmarkedOnly' : 'unbookmarkedSoft',
-    page: parseInt(Helpers.getURLParameter('p')) || 1,
-    provider: provider,
+let state;
 
-    submittedQuery: false,
-    finished: false,
-    resultsNotFound: false,
+/*
+ * Reset all SearchStore state
+ */
+const _setState = function() {
+    state = {
+        query: Helpers.getURLParameter('q') || '',
+        variant: variant,
+        vertical: Helpers.getURLParameter('v') || config.providerVerticals[provider].keys().next().value,
+        relevanceFeedback: variant === 'S2' ? 'individual' : variant === 'S3' ? 'shared' : false,
+        distributionOfLabour: variant === 'S0' ? false : variant === 'S1-Hard' ? 'unbookmarkedOnly' : 'unbookmarkedSoft',
+        page: parseInt(Helpers.getURLParameter('p')) || 1,
+        provider: provider,
 
-    results: [],
-    matches: 0,
-    elapsedTime: 0,
-    serpId: '',
+        submittedQuery: false,
+        finished: false,
+        resultsNotFound: false,
 
-    tutorial: false,
-    activeUrl: "",
-    activeDoctext: "",
+        results: [],
+        matches: 0,
+        elapsedTime: 0,
+        serpId: '',
+
+        tutorial: false,
+        activeUrl: "",
+        activeDoctext: "",
+    };
 };
+
+_setState();
 
 ////
 const SearchStore = Object.assign(EventEmitter.prototype, {
@@ -181,6 +190,9 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
                 break;
             case ActionTypes.GET_DOCUMENT_BY_ID:
                 _getById(action.payload.id);
+                break;
+            case ActionTypes.RESET:
+                _setState();
                 break;
         }
 

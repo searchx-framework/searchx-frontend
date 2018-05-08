@@ -62,5 +62,12 @@ export default {
                 id: id
             }
         })
+    },
+
+    reset() {
+        dispatch({
+            type: ActionTypes.RESET,
+            payload: {}
+        })
     }
 }
