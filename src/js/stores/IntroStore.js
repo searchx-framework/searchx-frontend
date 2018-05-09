@@ -14,6 +14,7 @@ const intro = introJs().setOptions({
     showStepNumbers: false,
     showBullets: false,
     exitOnOverlayClick: false,
+    exitOnEsc: false,
     disableInteraction: true,
 });
 
@@ -37,7 +38,7 @@ const IntroStore = Object.assign(EventEmitter.prototype, {
         BookmarkStore.setBookmarksTutorialData();
 
         intro.setOption('steps', steps);
-        intro.oncomplete(() => {
+        const oncomplete = () => {
             localStorage.setItem("intro-done", true.toString());
 
             SearchStore.removeSearchTutorialData();
@@ -45,7 +46,9 @@ const IntroStore = Object.assign(EventEmitter.prototype, {
             BookmarkStore.removeBookmarksTutorialData();
 
             callback();
-        });
+        };
+        intro.onexit(oncomplete);
+        intro.oncomplete(oncomplete);
 
         intro.onafterchange(function(){
             if (this._introItems.length - 1 == this._currentStep || this._introItems.length == 1) {
