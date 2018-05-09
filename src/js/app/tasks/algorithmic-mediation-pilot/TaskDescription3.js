@@ -55,7 +55,7 @@ class TaskDescription1 extends React.Component {
         this.setState({finished: true});
         log(LoggerEventTypes.TASK_DESCRIPTION_CONTINUE,metaInfo);
         localStorage.setItem("timer-start", Date.now());
-        this.props.history.push({
+        this.props.history.replace({
             pathname: '/pilot/session3',
             state: { waited: true }
         });

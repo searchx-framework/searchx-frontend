@@ -41,10 +41,10 @@ class Register extends React.Component {
             if (res) {
                 if ('topics' in res.taskData) {
                     SyncStore.emitUserJoinGroup(true);
-                    this.props.history.push('/pilot/description1');
+                    this.props.history.replace('/pilot/description1');
                 } else {
                     SyncStore.emitUserJoinGroup(false);
-                    this.props.history.push('/pilot/wait');
+                    this.props.history.replace('/pilot/wait');
                 }
             }
         });

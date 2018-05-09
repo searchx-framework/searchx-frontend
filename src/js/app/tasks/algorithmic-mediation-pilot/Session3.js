@@ -124,7 +124,7 @@ class Session extends React.PureComponent {
 
     onFinish() {
         this.setState({finished: true});
-        this.props.history.push({
+        this.props.history.replace({
             pathname: '/pilot/posttest',
             state: { waited: true }
         });

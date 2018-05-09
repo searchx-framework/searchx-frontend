@@ -120,7 +120,7 @@ class Wait extends React.Component {
         });
 
     
-        this.props.history.push({
+        this.props.history.replace({
             pathname: '/pilot/description1',
             state: { waited: true }
         });
