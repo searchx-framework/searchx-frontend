@@ -63,7 +63,7 @@ class Wait extends React.Component {
 
     handleBeforeUnload(e) {
         if (!this.state.isReady) {
-            const dialogText = 'Leaving this page will quit the task, and cancel your payment. Are you sure?';
+            const dialogText = 'Leaving this page will quit the task. Are you sure?';
             e.returnValue = dialogText;
             return dialogText;
         }

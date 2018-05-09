@@ -13,7 +13,7 @@ import Timer from "../components/Timer";
 import {log} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../utils/LoggerEventTypes';
 import ReactAudioPlayer from 'react-audio-player';
-import { withRouter } from 'react-router'
+import {Prompt, withRouter} from 'react-router'
 import $ from 'jquery';
 import SearchActions from "../../../actions/SearchActions";
 
@@ -22,6 +22,7 @@ class Session extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
+            finished: false,
             start: false
         };
         this.onFinish = this.onFinish.bind(this);
@@ -42,7 +43,7 @@ class Session extends React.PureComponent {
 
     handleBeforeUnload(e) {
         if (!this.state.finished) {
-            const dialogText = 'Leaving this page will quit the task, and cancel your payment. Are you sure?';
+            const dialogText = 'Leaving this page will quit the task. Are you sure?';
             e.returnValue = dialogText;
             return dialogText;
         }
@@ -105,6 +106,10 @@ class Session extends React.PureComponent {
 
         return (
             <div>
+                <Prompt
+                    when={!this.state.finished}
+                    message='Leaving this page will quit the task. Are you sure?'
+                />
                 {waited && <ReactAudioPlayer
                     src="../sound/notification.mp3"
                     autoPlay
@@ -117,6 +122,7 @@ class Session extends React.PureComponent {
     ////
 
     onFinish() {
+        this.setState({finished: true});
         this.props.history.push({
             pathname: '/pilot/description3',
             state: { waited: true }

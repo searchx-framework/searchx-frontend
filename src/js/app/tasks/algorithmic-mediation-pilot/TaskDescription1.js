@@ -14,6 +14,7 @@ import './Pilot.pcss';
 import Timer from "../components/Timer";
 import {Link} from 'react-router-dom';
 import ReactAudioPlayer from 'react-audio-player';
+import {Prompt} from "react-router";
 
 const metaInfo = {
 };
@@ -22,13 +23,16 @@ class TaskDescription1 extends React.Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            finished: false
+        };
         this.onFinish = this.onFinish.bind(this);
         this.handleBeforeUnload = this.handleBeforeUnload.bind(this);
     }
 
     handleBeforeUnload(e) {
         if (!this.state.finished) {
-            const dialogText = 'Leaving this page will quit the task, and cancel your payment. Are you sure?';
+            const dialogText = 'Leaving this page will quit the task. Are you sure?';
             e.returnValue = dialogText;
             return dialogText;
         }
@@ -40,7 +44,6 @@ class TaskDescription1 extends React.Component {
         const groupId = AccountStore.getGroupId();
         AccountStore.setSessionId(groupId+"-"+ task.topics[0].id + "-" + SearchStore.getVariant() );
         log(LoggerEventTypes.TASK_DESCRIPTION_LOAD,metaInfo);
-        SearchStore.get
     }
 
 
@@ -49,6 +52,7 @@ class TaskDescription1 extends React.Component {
     }
 
     onFinish(e) {
+        this.setState({finished: true});
         log(LoggerEventTypes.TASK_DESCRIPTION_CONTINUE,metaInfo);
         this.props.history.push({
             pathname: '/pilot/session1',
@@ -66,8 +70,12 @@ class TaskDescription1 extends React.Component {
             waited = this.props.location.state.waited;
         }
 
-        return <div className="Wait waitBox"> 
+        return <div className="Wait waitBox">
 
+            <Prompt
+                when={!this.state.finished}
+                message='Leaving this page will quit the task. Are you sure?'
+            />
             <ReactAudioPlayer
                     src="../sound/notification.mp3"
                     play

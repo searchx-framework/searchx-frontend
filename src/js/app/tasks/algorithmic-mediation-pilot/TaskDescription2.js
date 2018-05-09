@@ -14,6 +14,7 @@ import './Pilot.pcss';
 import Timer from "../components/Timer";
 import {Link} from 'react-router-dom';
 import ReactAudioPlayer from 'react-audio-player';
+import {Prompt} from "react-router";
 
 const metaInfo = {
 };
@@ -22,13 +23,16 @@ class TaskDescription2 extends React.Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            finished: false
+        };
         this.onFinish = this.onFinish.bind(this);
         this.handleBeforeUnload = this.handleBeforeUnload.bind(this);
     }
 
     handleBeforeUnload(e) {
         if (!this.state.finished) {
-            const dialogText = 'Leaving this page will quit the task, and cancel your payment. Are you sure?';
+            const dialogText = 'Leaving this page will quit the task. Are you sure?';
             e.returnValue = dialogText;
             return dialogText;
         }
@@ -47,6 +51,7 @@ class TaskDescription2 extends React.Component {
     }
 
     onFinish(e) {
+        this.setState({finished: true});
         log(LoggerEventTypes.TASK_DESCRIPTION_CONTINUE,metaInfo);
         localStorage.setItem("timer-start", Date.now());
         this.props.history.push({
@@ -57,7 +62,7 @@ class TaskDescription2 extends React.Component {
 
     render() {
         const task = AccountStore.getTaskData();
-    
+
 
         let waited = false;
         if (this.props.location.state) {
@@ -65,14 +70,18 @@ class TaskDescription2 extends React.Component {
         }
 
 
-        return <div className="Wait waitBox"> 
+        return <div className="Wait waitBox">
+                <Prompt
+                    when={!this.state.finished}
+                    message='Leaving this page will quit the task. Are you sure?'
+                />
 
                 <ReactAudioPlayer
                     src="../sound/notification.mp3"
                     autoPlay
                 />
             <h3> <strong> Please read your next task description:</strong> </h3>
-            
+
             <p>Imagine you are a reporter for a newspaper. Your editor has just told you to write a story about <font color="#33BEFF"> <strong>{task.topics[1].title}</strong> </font>.</p>
                 <p>There's a meeting in an hour, so your editor asks you and your colleagues to spend 10 minutes together and search
                     for <strong>as many useful documents (news articles) as possible</strong>.</p>
@@ -90,9 +99,9 @@ class TaskDescription2 extends React.Component {
             <p> You will be redirected once the time is up!</p>
         <Timer start={new Date()} duration={constants.taskDescriptionWait} onFinish={this.onFinish} style={{fontSize: '2em'}} showRemaining={true}/>
 
-        
+
         </div>
-    
+
     }
 }
 
