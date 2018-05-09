@@ -17,22 +17,31 @@ class PostTest extends React.Component {
 
         this.onComplete = this.onComplete.bind(this);
         this.handleBeforeUnload = this.handleBeforeUnload.bind(this);
+        this.handlePopstate = this.handlePopstate.bind(this);
     }
 
     componentDidMount() {
         window.addEventListener('beforeunload', this.handleBeforeUnload);
+        window.addEventListener('popstate', this.handlePopstate);
     }
 
     componentWillUnmount() {
         window.removeEventListener('beforeunload', this.handleBeforeUnload);
+        window.removeEventListener('popstate', this.handlePopstate);
     }
 
     handleBeforeUnload(e) {
         if (!this.state.finished) {
-            const dialogText = 'Leaving this page will quit the task, and cancel your payment. Are you sure?';
+            const dialogText = 'Leaving this page will quit the task. Are you sure?';
             e.returnValue = dialogText;
             return dialogText;
         }
+    }
+
+    handlePopstate(e) {
+        const dialogText = 'Leaving this page will quit the task. Please make sure you finished the post-test and copied your payment code.';
+        e.returnValue = dialogText;
+        return dialogText;
     }
 
     render() {

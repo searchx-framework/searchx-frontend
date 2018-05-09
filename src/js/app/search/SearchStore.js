@@ -305,7 +305,8 @@ const _updateUrl = function(query, vertical, page, provider, variant) {
         params += '&variant=' + variant;
     }
 
-    history.push({
+    // todo: change this back to push to enable back button
+    history.replace({
         pathname: route,
         search: params
     });

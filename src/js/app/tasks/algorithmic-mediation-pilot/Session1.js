@@ -1,5 +1,5 @@
 import React from "react";
-import {Prompt, Redirect, withRouter} from "react-router";
+import {withRouter} from "react-router";
 
 import TaskedSession from "../components/session/TaskedSession";
 import constants from "./constants";
@@ -20,16 +20,15 @@ class Session extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            finished: false,
             start: false
         };
-
         this.onFinish = this.onFinish.bind(this);
         this.handleBeforeUnload = this.handleBeforeUnload.bind(this);
     }
 
     componentDidMount() {
         window.addEventListener('beforeunload', this.handleBeforeUnload);
+        window.addEventListener('popstate', this.handleBeforeUnload);
 
         IntroStore.startIntro(getIntroSteps(), () => {
             const start = localStorage.getItem("timer-start") || Date.now();
@@ -41,20 +40,18 @@ class Session extends React.PureComponent {
     }
     componentWillUnmount() {
         window.removeEventListener('beforeunload', this.handleBeforeUnload);
+        window.removeEventListener('popstate', this.handleBeforeUnload);
     }
 
     handleBeforeUnload(e) {
-        if (!this.state.finished) {
-            const dialogText = 'Leaving this page will quit the task. Are you sure?';
-            e.returnValue = dialogText;
-            return dialogText;
-        }
+        const dialogText = 'Leaving this page will quit the task. Are you sure?';
+        e.returnValue = dialogText;
+        return dialogText;
     }
 
     render() {
         
         const task = AccountStore.getTask();
-
         const timer = (
             <div style={{marginTop: '10px', textAlign: 'center'}}>
                 <Timer start={this.state.start} duration={constants.taskDuration} onFinish={this.onFinish} style={{fontSize: '2em'}} showRemaining={true}/>
@@ -106,10 +103,6 @@ class Session extends React.PureComponent {
 
         return (
             <div>
-                <Prompt
-                    when={!this.state.finished}
-                    message='Leaving this page will quit the task. Are you sure?'
-                />
                 {waited && <ReactAudioPlayer
                     src="../sound/notification.mp3"
                     autoPlay
@@ -122,7 +115,6 @@ class Session extends React.PureComponent {
     ////
 
     onFinish() {
-        this.setState({finished: true});
         this.props.history.replace({
             pathname: '/pilot/description2',
             state: { waited: true }

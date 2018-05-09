@@ -13,7 +13,7 @@ import Timer from "../components/Timer";
 import {log} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../utils/LoggerEventTypes';
 import ReactAudioPlayer from 'react-audio-player';
-import {Prompt, withRouter} from 'react-router'
+import {withRouter} from 'react-router'
 import $ from 'jquery';
 import SearchActions from "../../../actions/SearchActions";
 
@@ -22,10 +22,8 @@ class Session extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            finished: false,
             start: false
         };
-
         this.onFinish = this.onFinish.bind(this);
         this.handleBeforeUnload = this.handleBeforeUnload.bind(this);
     }
@@ -33,6 +31,7 @@ class Session extends React.PureComponent {
     componentDidMount() {
         SearchActions.reset();
         window.addEventListener('beforeunload', this.handleBeforeUnload);
+        window.addEventListener('popstate', this.handleBeforeUnload);
         const start = localStorage.getItem("timer-start");
         this.setState({
             start: start
@@ -40,18 +39,15 @@ class Session extends React.PureComponent {
     }
     componentWillUnmount() {
         window.removeEventListener('beforeunload', this.handleBeforeUnload);
+        window.removeEventListener('popstate', this.handleBeforeUnload);
     }
 
     handleBeforeUnload(e) {
-        if (!this.state.finished) {
-            const dialogText = 'Leaving this page will quit the task. Are you sure?';
-            e.returnValue = dialogText;
-            return dialogText;
-        }
+        const dialogText = 'Leaving this page will quit the task. Are you sure?';
+        e.returnValue = dialogText;
+        return dialogText;
     }
 
-   
-    
     render() {
         
         const task = AccountStore.getTask();
@@ -107,10 +103,6 @@ class Session extends React.PureComponent {
 
         return (
             <div>
-                <Prompt
-                    when={!this.state.finished}
-                    message='Leaving this page will quit the task. Are you sure?'
-                />
                 {waited && <ReactAudioPlayer
                     src="../sound/notification.mp3"
                     autoPlay
