@@ -57,6 +57,7 @@ export default class BookmarkContainer extends React.Component {
     }
 
     render() {
+        
         return <Bookmark
             bookmarks={this.state.bookmarks}
             removeHandler={removeHandler}

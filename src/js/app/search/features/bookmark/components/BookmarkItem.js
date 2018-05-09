@@ -23,13 +23,12 @@ const BookmarkItem = function({data, removeHandler, starHandler, clickHandler}) 
 
     ////
 
-    let rowStyle = {
-        borderColor: data.userColor
-    };
+    const color = data.userColor;
+    console.log(color);
 
     // todo: put id vs url in bookmark model instead of isNaN hack
     return  (
-        <div className="item" style={rowStyle} onMouseEnter={hoverEnterSummary} onMouseLeave={hoverLeaveSummary}>
+        <div className="item" style={{borderColor: color}} onMouseEnter={hoverEnterSummary} onMouseLeave={hoverLeaveSummary}>
             <div className="buttons">
                 {config.interface.star && (
                     <Rating className="topicon" empty="fa fa-star-o" full="fa fa-star"
@@ -44,7 +43,7 @@ const BookmarkItem = function({data, removeHandler, starHandler, clickHandler}) 
             </div>
 
             <h2>
-                <a title={data.title} style={rowStyle} target="_blank" onClick={clickUrl} onContextMenu={contextUrl} style={{cursor: "pointer"}}>
+                <a title={data.title} style={{color: color, cursor: 'pointer'}} target="_blank" onClick={clickUrl} onContextMenu={contextUrl}>
                     {data.title}
                 </a>
             </h2>
