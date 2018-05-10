@@ -13,6 +13,7 @@ import './Pilot.pcss';
 import Timer from "../components/Timer";
 import {Button, Collapse, Panel} from "react-bootstrap";
 import {openSnake, closeSnake} from "./Snake";
+import SearchActions from "../../../actions/SearchActions";
 
 class Wait extends React.Component {
     constructor(props) {
@@ -111,6 +112,9 @@ class Wait extends React.Component {
 
     onSync(data) {
         AccountStore.setTask(data.taskId, data.taskData);
+        if (data.taskData.size === 1) {
+            SearchActions.changeVariant('S0');
+        }
         IntroStore.clearIntro();
         closeSnake();
 

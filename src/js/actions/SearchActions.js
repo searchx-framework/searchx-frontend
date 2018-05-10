@@ -69,5 +69,14 @@ export default {
             type: ActionTypes.RESET,
             payload: {}
         })
+    },
+
+    changeVariant(variant) {
+        dispatch({
+            type: ActionTypes.CHANGE_VARIANT,
+            payload: {
+                variant: variant
+            }
+        })
     }
 }

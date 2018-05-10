@@ -25,6 +25,7 @@ module.exports = {
     defaultProvider: 'indri',
     defaultVariant: 'S3',
     variantQueryParameter: false,
+    fallbackToS0ForGroupSize1: true,
     // each provider must have at least one vertical
     providerVerticals: providerVerticals,
     interface: {

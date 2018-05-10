@@ -21,14 +21,23 @@ const CHANGE_EVENT = 'change_search';
 ////
 
 const provider = Helpers.getURLParameter('provider') || config.defaultProvider;
-let variant;
-if (config.variantQueryParameter) {
-    variant = Helpers.getURLParameter('variant') || config.defaultVariant;
-} else {
-    variant = config.defaultVariant;
-}
+
 
 let state;
+
+const _setVariant = function(newVariant) {
+    let variant;
+    if (newVariant) {
+        variant = newVariant;
+    } else if (config.variantQueryParameter) {
+        variant = Helpers.getURLParameter('variant') || config.defaultVariant;
+    } else {
+        variant = config.defaultVariant;
+    }
+    state.variant = variant;
+    state.relevanceFeedback = variant === 'S2' ? 'individual' : variant === 'S3' ? 'shared' : false;
+    state.distributionOfLabour = variant === 'S0' ? false : variant === 'S1-Hard' ? 'unbookmarkedOnly' : 'unbookmarkedSoft';
+};
 
 /*
  * Reset all SearchStore state
@@ -36,10 +45,7 @@ let state;
 const _setState = function() {
     state = {
         query: Helpers.getURLParameter('q') || '',
-        variant: variant,
         vertical: Helpers.getURLParameter('v') || config.providerVerticals[provider].keys().next().value,
-        relevanceFeedback: variant === 'S2' ? 'individual' : variant === 'S3' ? 'shared' : false,
-        distributionOfLabour: variant === 'S0' ? false : variant === 'S1-Hard' ? 'unbookmarkedOnly' : 'unbookmarkedSoft',
         page: parseInt(Helpers.getURLParameter('p')) || 1,
         provider: provider,
 
@@ -56,6 +62,7 @@ const _setState = function() {
         activeUrl: "",
         activeDoctext: "",
     };
+    _setVariant();
 };
 
 _setState();
@@ -194,6 +201,8 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
             case ActionTypes.RESET:
                 _setState();
                 break;
+            case ActionTypes.CHANGE_VARIANT:
+                _setVariant(action.payload.variant)
         }
 
         SearchStore.emitChange();

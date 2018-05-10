@@ -8,6 +8,7 @@ export default {
     CLOSE_URL: 'CLOSE_URL',
     GET_DOCUMENT_BY_ID: 'GET_DOCUMENT_BY_ID',
     RESET: 'RESET',
+    CHANGE_VARIANT: 'VARIANT',
 
     /* Features */
     GET_QUERY_HISTORY: 'GET_QUERY_HISTORY',
