@@ -25,10 +25,10 @@ const provider = Helpers.getURLParameter('provider') || config.defaultProvider;
 
 let state;
 
-const _setVariant = function(newVariant) {
+const _setVariant = function() {
     let variant;
-    if (newVariant) {
-        variant = newVariant;
+    if (AccountStore.getTaskData().size === 1) {
+        variant = 'S0';
     } else if (config.variantQueryParameter) {
         variant = Helpers.getURLParameter('variant') || config.defaultVariant;
     } else {
@@ -40,7 +40,7 @@ const _setVariant = function(newVariant) {
 };
 
 /*
- * Reset all SearchStore state
+ * Reset all SearchStore state except variant
  */
 const _setState = function() {
     state = {
@@ -202,7 +202,7 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
                 _setState();
                 break;
             case ActionTypes.CHANGE_VARIANT:
-                _setVariant(action.payload.variant)
+                _setVariant()
         }
 
         SearchStore.emitChange();

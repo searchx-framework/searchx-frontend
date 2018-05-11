@@ -74,9 +74,7 @@ export default {
     changeVariant(variant) {
         dispatch({
             type: ActionTypes.CHANGE_VARIANT,
-            payload: {
-                variant: variant
-            }
+            payload: {}
         })
     }
 }
