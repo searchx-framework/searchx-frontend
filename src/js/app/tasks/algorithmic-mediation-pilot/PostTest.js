@@ -212,7 +212,7 @@ const formData = function(returnCode) {
         requiredText: "",
         showProgressBar: "top",
         showQuestionNumbers: "off",
-        completedHtml: "<h2>Thank you for taking part in our study.</h2> <h3>Use this code on Amazon MTurk: " + returnCode + "</h3>",
+        completedHtml: "<h2>Thank you for taking part in our study.</h2> <h3>Follow this <a href=" + constants.completionURL + "> link</a> back to Prolific Academic to confirm your participation.</h3>",
     }
 };
 

@@ -99,7 +99,7 @@ const formData = function() {
     });
 
     elements.push({
-        title: "Insert your MTurk Worker ID here (needed to pay you)",
+        title: "Insert your Prolific participant ID here (needed to pay you)",
         name : "userId",
         type : "text",
         inputType: "text",
