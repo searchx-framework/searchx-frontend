@@ -27,7 +27,7 @@ let state;
 
 const _setVariant = function() {
     let variant;
-    if (AccountStore.getTaskData().size === 1) {
+    if (config.fallbackToS0ForGroupSize1 && AccountStore.getTaskData().size === 1) {
         variant = 'S0';
     } else if (config.variantQueryParameter) {
         variant = Helpers.getURLParameter('variant') || config.defaultVariant;
