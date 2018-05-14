@@ -114,9 +114,7 @@ class Wait extends React.Component {
     onSync(data) {
         SessionStore.setGroup(data._id, data.members);
         AccountStore.setTask(data.taskId, data.taskData);
-        if (data.taskData.size === 1) {
-            SearchActions.changeVariant();
-        }
+        SearchActions.reset();
         IntroStore.clearIntro();
         closeSnake();
 
