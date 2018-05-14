@@ -163,7 +163,7 @@ function getIntroSteps() {
             {
                 element: '.Side',
                 intro: 'The recent queries and saved documents are color-coded to show which collaborator initiated the action.',
-                position: 'auto'
+                position: 'left'
             }
     ];
 }
