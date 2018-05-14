@@ -24,7 +24,6 @@ const BookmarkItem = function({data, removeHandler, starHandler, clickHandler}) 
     ////
 
     const color = data.userColor;
-    console.log(color);
 
     // todo: put id vs url in bookmark model instead of isNaN hack
     return  (

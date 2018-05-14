@@ -6,6 +6,7 @@ import {LoggerEventTypes} from "../../../utils/LoggerEventTypes";
 import AccountStore from "../../../stores/AccountStore";
 import SyncStore from "../../../stores/SyncStore";
 import IntroStore from "../../../stores/IntroStore";
+import SessionStore from "../../../stores/SessionStore";
 import constants from "./constants";
 import Helpers from "../../../utils/Helpers";
 
@@ -111,6 +112,7 @@ class Wait extends React.Component {
     }
 
     onSync(data) {
+        SessionStore.setGroup(data._id, data.members);
         AccountStore.setTask(data.taskId, data.taskData);
         if (data.taskData.size === 1) {
             SearchActions.changeVariant();
