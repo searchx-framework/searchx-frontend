@@ -117,6 +117,7 @@ class Wait extends React.Component {
         SearchActions.reset();
         IntroStore.clearIntro();
         closeSnake();
+        SyncStore.stopListenToSyncData();
 
         log(LoggerEventTypes.SURVEY_GROUP_WAIT_FINISH, {
             step : "wait",

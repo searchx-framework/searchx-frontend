@@ -34,6 +34,10 @@ const SyncStore = Object.assign(EventEmitter.prototype, {
         });
     },
 
+    stopListenToSyncData() {
+        socket.off('syncData');
+    },
+
     emitSyncSubmit(data) {
         socket.emit('pushSyncSubmit', {
             taskId: AccountStore.getTaskId(),
