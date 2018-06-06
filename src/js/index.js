@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./app/App";
 import registerServiceWorker from './registerServiceWorker';
+import {checkRequiredEnv} from './requireEnv';
 
 import Alert from "react-s-alert";
 import "react-s-alert/dist/s-alert-default.css";
@@ -15,5 +16,6 @@ const app = (
     </div>
 );
 
+checkRequiredEnv();
 ReactDOM.render(app, document.getElementById("root"));
 registerServiceWorker();
