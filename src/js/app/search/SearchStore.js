@@ -14,7 +14,6 @@ import SyncStore from '../../stores/SyncStore';
 import AccountStore from '../../stores/AccountStore';
 import history from "../History";
 
-const env = require('env');
 const CHANGE_EVENT = 'change_search';
 
 ////
@@ -175,7 +174,7 @@ const _search = (query, vertical, page) => {
     }
 
     request
-        .get(env.serverUrl + '/v1/search/'+state.vertical
+        .get(process.env.REACT_APP_SERVER_URL + '/v1/search/'+state.vertical
             + '/?query='+ state.query
             + '&page='+ state.page
             + '&userId='+ AccountStore.getUserId()
@@ -183,7 +182,7 @@ const _search = (query, vertical, page) => {
             + '&providerName=' + state.provider
         )
         .end((err, res) => {
-            if (err || res.body.error) {
+            if (err || !res.body || res.body.error) {
                 state.results = [];
             } else {
                 const results = res.body.results;

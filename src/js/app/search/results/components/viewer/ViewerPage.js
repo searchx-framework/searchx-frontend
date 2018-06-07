@@ -1,8 +1,6 @@
 import React from 'react';
 import Loader from 'react-loader';
-
-const env = require('env');
-const isImage = require('is-image');
+import isImage from 'is-image';
 
 const ViewerPage = function({url, loadHandler}) {
     return(
@@ -16,7 +14,7 @@ const ViewerPage = function({url, loadHandler}) {
                 :
                 <iframe scrolling="yes"
                         frameBorder="0"
-                        src={env.renderUrl + '/' + url}
+                        src={`${process.env.REACT_APP_RENDERER_URL}/${url}`}
                         onLoad={loadHandler}>
                 </iframe>
             }

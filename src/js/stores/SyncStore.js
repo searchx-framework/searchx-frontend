@@ -5,8 +5,7 @@ import AccountStore from "./AccountStore";
 import SearchActions from "../actions/SearchActions";
 import SessionActions from "../actions/SessionActions";
 
-const env = require('env');
-const socket = io(env.serverUrl + '/session');
+const socket = io(process.env.REACT_APP_SERVER_URL + '/session');
 
 ////
 

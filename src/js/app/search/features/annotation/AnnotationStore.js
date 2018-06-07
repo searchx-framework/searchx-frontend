@@ -8,7 +8,6 @@ import AccountStore from '../../../../stores/AccountStore';
 import SyncStore from '../../../../stores/SyncStore';
 import SearchStore from "../../SearchStore";
 
-const env = require('env');
 const CHANGE_EVENT = 'change_annotation';
 
 let state = {
@@ -51,10 +50,11 @@ const AnnotationStore = Object.assign(EventEmitter.prototype, {
 
 let _get_annotations = function(url) {
     request
-        .get(`${env.serverUrl}/v1/session/${AccountStore.getSessionId()}/annotation/?url=${encodeURIComponent(url)}`)
+        .get(`${process.env.REACT_APP_SERVER_URL}/v1/session/${AccountStore.getSessionId()}/annotation/?url=${encodeURIComponent(url)}`)
         .end((err, res) => {
-            state.annotations = [];
-            if (!err && !res.body.error) {
+            if (err || !res.body || res.body.error) {
+                state.annotations = [];
+            } else {
                 state.annotations = res.body.results;
             }
             AnnotationStore.emitChange();
@@ -64,7 +64,7 @@ let _get_annotations = function(url) {
 let _add_annotation = function(url, annotation) {
     const userId = AccountStore.getUserId();
     request
-        .post(`${env.serverUrl}/v1/session/${AccountStore.getSessionId()}/annotation`)
+        .post(`${process.env.REACT_APP_SERVER_URL}/v1/session/${AccountStore.getSessionId()}/annotation`)
         .send({
             url: url,
             userId: userId,
@@ -86,7 +86,7 @@ let _add_annotation = function(url, annotation) {
 let _remove_annotation = function(url, position) {
     const data = state.annotations[position];
     request
-        .delete(`${env.serverUrl}/v1/session/${AccountStore.getSessionId()}/annotation`)
+        .delete(`${process.env.REACT_APP_SERVER_URL}/v1/session/${AccountStore.getSessionId()}/annotation`)
         .send({
             url: url,
             annotationId: data._id

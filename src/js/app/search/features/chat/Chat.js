@@ -4,6 +4,7 @@ import AccountStore from "../../../../stores/AccountStore";
 const Chat = function() {
     const chatRoom = 'searchx-' + AccountStore.getSessionId() + '@conference.nomnom.im';
 
+    /* global converse */
     converse.initialize({
         authentication: 'anonymous',
         auto_login: true,

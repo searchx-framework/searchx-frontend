@@ -1,9 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./app/App";
+import registerServiceWorker from './registerServiceWorker';
+import {checkRequiredEnv} from './requireEnv';
+
 import Alert from "react-s-alert";
 import "react-s-alert/dist/s-alert-default.css";
 import "react-s-alert/dist/s-alert-css-effects/scale.css";
+import "../../node_modules/normalize.css/normalize.css";
 
 const app = (
     <div>
@@ -12,4 +16,6 @@ const app = (
     </div>
 );
 
-ReactDOM.render(app, document.getElementById("main"));
+checkRequiredEnv();
+ReactDOM.render(app, document.getElementById("root"));
+registerServiceWorker();
