@@ -13,6 +13,7 @@ const SyncStore = Object.assign(EventEmitter.prototype, {
     emitUserJoin() {
         socket.emit('register', {
             userId: AccountStore.getUserId(),
+            groupId: AccountStore.getGroupId(),
         });
     },
 
