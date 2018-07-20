@@ -24,7 +24,7 @@ export default {
 
     getURLParameter: function(name) {
         // http://stackoverflow.com/a/11582513/3300831
-        return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20')) || null;
+        return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(window.location.search)||[,""])[1].replace(/\+/g, '%20')) || null;
     },
 
     capitalizeFirstLetter: function(string) {

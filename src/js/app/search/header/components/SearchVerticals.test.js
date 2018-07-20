@@ -1,13 +1,12 @@
 import React from 'react'
 import Enzyme from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import config from '../src/js/config';
-
-import SearchVerticals from '../src/js/app/search/header/components/SearchVerticals';
+import config from '../../../../config';
+import SearchVerticals from './SearchVerticals';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-describe('SearchVerticals',()=>{
+describe('SearchVerticals', ()=> {
     const tests = [
         {provider: 'bing', expected: 4},
         {provider: 'elasticsearch', expected : 1}
@@ -21,5 +20,4 @@ describe('SearchVerticals',()=>{
             expect(wrapper.find(".search-vertical").length).toEqual(test.expected);
         });
     });
-
 });

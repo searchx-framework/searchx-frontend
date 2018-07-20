@@ -16,16 +16,40 @@ export default class QueryHistoryContainer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            history: []
+            history: [],
+            popup: false
         };
 
         SessionActions.getQueryHistory();
-        this._onChange = this._onChange.bind(this);
+        this.changeHandler = this.changeHandler.bind(this);
+        this.popupHandler = this.popupHandler.bind(this);
     }
 
-    componentWillMount() {QueryHistoryStore.addChangeListener(this._onChange);}
-    componentWillUnmount() {QueryHistoryStore.removeChangeListener(this._onChange);}
-    _onChange() {
+    componentWillMount() {QueryHistoryStore.addChangeListener(this.changeHandler);}
+    componentWillUnmount() {QueryHistoryStore.removeChangeListener(this.changeHandler);}
+    componentWillReceiveProps(nextProps) {
+        if (this.state.popup) {
+            this.setState({
+                popup: false
+            });
+        }
+    }
+    shouldComponentUpdate(nextProps, nextState) {
+        return this.state !== nextState;
+    }
+
+    render() {
+        return <QueryHistory
+            history={this.state.history}
+            popup={this.state.popup}
+            clickHandler={queryClickHandler}
+            popupHandler={this.popupHandler}
+        />
+    }
+
+    ////
+
+    changeHandler() {
         let history = QueryHistoryStore.getQueryHistory();
         if (!this.props.collaborative) {
             history = history.filter((data) => {
@@ -41,14 +65,9 @@ export default class QueryHistoryContainer extends React.Component {
         });
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        return this.state !== nextState;
-    }
-
-    render() {
-        return <QueryHistory
-            history={this.state.history}
-            clickHandler={queryClickHandler}
-        />
+    popupHandler() {
+        this.setState({
+            popup: !this.state.popup
+        });
     }
 }

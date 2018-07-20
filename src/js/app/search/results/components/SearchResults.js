@@ -2,15 +2,16 @@ import './SearchResults.pcss';
 
 import React from 'react';
 import config from "../../../../config";
+import Loader from 'react-loader';
 
 import SearchResultContainer from "../SearchResultContainer";
-import SearchResultsNotFound from "./SearchResultsNotFound";
 import SearchResultsPagination from "./SearchResultsPagination";
 import CollapsedResultsButton from "./CollapsedSearchResults";
 import {Button, Collapse} from "react-bootstrap";
 import {LoggerEventTypes} from "../../../../utils/LoggerEventTypes";
 import {log} from "../../../../utils/Logger";
 import $ from 'jquery';
+import CenteredMessage from "../../../common/CenteredMessage";
 
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -24,7 +25,7 @@ function getResultIds(results) {
     return results.map(result => getId(result));
 }
 
-export default class SearchResultsContainer extends React.Component {
+export default class SearchResults extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -131,9 +132,31 @@ export default class SearchResultsContainer extends React.Component {
         return output;
     }
 
-
-
     render() {
+        const style = {
+            color: "darkgray"
+        };
+
+        if (this.props.searchState.query === '' && this.props.results.length === 0) {
+            return <CenteredMessage height="800px" style={style}>
+                <h3> Your search results will appear here :)  </h3>
+            </CenteredMessage>
+        }
+
+        if (this.props.progress.resultsNotFound) {
+            return <CenteredMessage height="800px" style={style}>
+                <h3> Sorry! :`(  </h3>
+                <h4> We have not found results for you! Try to shorten your query! </h4>
+            </CenteredMessage>
+        }
+
+        if (!this.props.progress.finished) {
+            return <CenteredMessage height="800px">
+                <Loader/>
+            </CenteredMessage>
+        }
+
+        ////
 
 
         // Trick to remove last page from pagination;
@@ -144,13 +167,6 @@ export default class SearchResultsContainer extends React.Component {
             matches={this.props.matches}
             changeHandler={this.props.pageChangeHandler}
         />;
-        
-        if (this.props.progress.resultsNotFound) {
-            return <div>
-                <SearchResultsNotFound/>
-                {this.props.searchState.page > 1 && pagination}
-            </div>;
-        }
 
         const prefix = (this.props.matches < config.aboutPrefixAt) ? "" : "About ";
         const timeIndicator = prefix + numberWithCommas(this.props.matches) + " results (" + this.props.elapsedTime + " seconds)";

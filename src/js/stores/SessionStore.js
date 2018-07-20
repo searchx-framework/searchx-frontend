@@ -3,11 +3,10 @@ import EventEmitter from 'events';
 import AccountStore from "./AccountStore";
 import Helpers from "../utils/Helpers";
 import randomcolor from 'randomcolor';
-const env = require('env');
 
 let state = {
     group: {
-        members: JSON.parse(localStorage.getItem("group-members")) || '',
+        members: JSON.parse(localStorage.getItem("group-members") === undefined ? "{}" : localStorage.getItem("group-members")) || '',
     }
 };
 
@@ -79,7 +78,7 @@ const SessionStore = Object.assign(EventEmitter.prototype, {
 
 function _getUserTask(userId, taskId, params, callback) {
     request
-        .get(`${env.serverUrl}/v1/users/${userId}/task/${taskId}/?${Helpers.generateQueryString(params)}`)
+        .get(`${process.env.REACT_APP_SERVER_URL}/v1/users/${userId}/task/${taskId}/?${Helpers.generateQueryString(params)}`)
         .end((err, res) => {
             if(!err && res) {
                 const data = res.body.results;
@@ -92,7 +91,7 @@ function _getUserTask(userId, taskId, params, callback) {
 
 function _getUserData(userId, taskId, callback) {
     request
-        .get(`${env.serverUrl}/v1/users/${userId}/task/${taskId}/data`)
+        .get(`${process.env.REACT_APP_SERVER_URL}/v1/users/${userId}/task/${taskId}/data`)
         .end((err, res) => {
             if(!err && res) {
                 const data = res.body.results;

@@ -1,3 +1,4 @@
+import React from 'react';
 import request from 'superagent';
 import EventEmitter from 'events';
 import config from "../../config"
@@ -15,7 +16,6 @@ import AccountStore from '../../stores/AccountStore';
 import history from "../History";
 import BookmarkStore from "./features/bookmark/BookmarkStore";
 
-const env = require('env');
 const CHANGE_EVENT = 'change_search';
 
 ////
@@ -147,7 +147,6 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
     },
     getSearchProgress() {
         return {
-            submittedQuery: state.submittedQuery,
             finished: state.finished,
             resultsNotFound: state.resultsNotFound
         }
@@ -221,7 +220,6 @@ const _search = (query, vertical, page) => {
     state.query = query || state.query;
     state.vertical = vertical || state.vertical;
     state.page = page || state.page || 1;
-    state.submittedQuery = true;
     state.finished = false;
     state.resultsNotFound = false;
 
@@ -236,7 +234,7 @@ const _search = (query, vertical, page) => {
     }
 
     request
-        .get(env.serverUrl + '/v1/search/'+state.vertical
+        .get(process.env.REACT_APP_SERVER_URL + '/v1/search/'+state.vertical
             + '/?query='+ state.query
             + '&page='+ state.page
             + '&userId='+ AccountStore.getUserId()
@@ -246,7 +244,9 @@ const _search = (query, vertical, page) => {
             + '&distributionOfLabour=' + state.distributionOfLabour
         )
         .end((err, res) => {
-            if (!res.body.error) {
+            if (err || !res.body || res.body.error) {
+                state.results = [];
+            } else {
                 const results = res.body.results;
                 for (let i = 0; i < results.length; i++) {
                     results[i].position = i;
@@ -255,8 +255,6 @@ const _search = (query, vertical, page) => {
                 state.results = results;
                 state.matches = res.body.matches;
                 state.serpId = res.body.id;
-            } else {
-                state.results = [];
             }
 
             if (state.results.length === 0) {
@@ -282,7 +280,7 @@ const _search = (query, vertical, page) => {
 
 const _getById = function (id) {
     request
-        .get(env.serverUrl + '/v1/search/' + state.vertical
+        .get(process.env.REACT_APP_SERVER_URL + '/v1/search/' + state.vertical
             + '/getById/' + id
             + '?providerName=' + state.provider
         )
@@ -294,7 +292,7 @@ const _getById = function (id) {
                 var doctext = result.text.split('\n').map((item, key) => {
                     return <span key={key}>{item}<br/></span>
                 })
-             
+
                 doctext.unshift(<h4> {result.source} <br/></h4>);
                 doctext.unshift(<h3> {result.name} <br/></h3>);
 

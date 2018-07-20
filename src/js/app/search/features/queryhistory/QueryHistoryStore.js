@@ -5,7 +5,6 @@ import {register} from '../../../../utils/Dispatcher';
 import ActionTypes from '../../../../actions/ActionTypes';
 import AccountStore from '../../../../stores/AccountStore';
 
-const env = require('env');
 const CHANGE_EVENT = 'change_queryhistory';
 
 ////
@@ -17,10 +16,11 @@ let state = {
 
 let _get_query_history = () => {
     request
-        .get(env.serverUrl + '/v1/session/' + AccountStore.getSessionId() + '/query')
+        .get(`${process.env.REACT_APP_SERVER_URL}/v1/session/${AccountStore.getSessionId()}/query`)
         .end((err, res) => {
-            state.queries = [];
-            if (!res.body.error) {
+            if (err || !res.body || res.body.error) {
+                state.queries = [];
+            } else {
                 state.queries = res.body.results;
             }
             QueryHistoryStore.emitChange();

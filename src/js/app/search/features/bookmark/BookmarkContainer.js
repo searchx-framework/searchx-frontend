@@ -31,16 +31,33 @@ export default class BookmarkContainer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            bookmarks: []
+            bookmarks: [],
+            popup: false
         };
 
         SessionActions.getBookmarksAndExcludes();
-        this._onChange = this._onChange.bind(this);
+        this.changeHandler = this.changeHandler.bind(this);
+        this.popupHandler = this.popupHandler.bind(this);
     }
 
-    componentWillMount() {BookmarkStore.addChangeListener(this._onChange);}
-    componentWillUnmount() {BookmarkStore.removeChangeListener(this._onChange);}
-    _onChange() {
+    componentWillMount() {BookmarkStore.addChangeListener(this.changeHandler);}
+    componentWillUnmount() {BookmarkStore.removeChangeListener(this.changeHandler);}
+
+    render() {
+
+        return <Bookmark
+            bookmarks={this.state.bookmarks}
+            popup={this.state.popup}
+            removeHandler={removeHandler}
+            starHandler={starHandler}
+            clickHandler={clickHandler}
+            popupHandler={this.popupHandler}
+        />
+    }
+
+    ////
+
+    changeHandler() {
         let bookmarks = BookmarkStore.getBookmarks();
         if (!this.props.collaborative) {
             bookmarks = bookmarks.filter((data) => {
@@ -48,21 +65,17 @@ export default class BookmarkContainer extends React.Component {
             })
         }
         bookmarks = bookmarks.map((data) => {
-                data.userColor = SessionStore.getMemberColor(data.userId);
-                return data;
-            });
+            data.userColor = SessionStore.getMemberColor(data.userId);
+            return data;
+        });
         this.setState({
             bookmarks: bookmarks
         });
     }
 
-    render() {
-        
-        return <Bookmark
-            bookmarks={this.state.bookmarks}
-            removeHandler={removeHandler}
-            starHandler={starHandler}
-            clickHandler={clickHandler}
-        />
+    popupHandler() {
+        this.setState({
+            popup: !this.state.popup
+        });
     }
 }

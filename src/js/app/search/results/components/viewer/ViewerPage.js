@@ -1,8 +1,6 @@
 import React from 'react';
 import Loader from 'react-loader';
-
-const env = require('env');
-const isImage = require('is-image');
+import isImage from 'is-image';
 
 
 export default class ViewerPage extends React.Component {
@@ -33,7 +31,7 @@ export default class ViewerPage extends React.Component {
                         </div>
                     ) :
                     [
-                        <div id="modal-loader">
+                        <div id="viewer-content-loader">
                             <Loader/>
                         </div>,
                         isImage(this.props.url) ?
@@ -41,7 +39,7 @@ export default class ViewerPage extends React.Component {
                             :
                             <iframe scrolling="yes"
                                     frameBorder="0"
-                                    src={env.renderUrl + '/' + this.props.url}
+                                    src={`${process.env.REACT_APP_RENDERER_URL}/${this.props.url}`}
                                     onLoad={this.props.loadHandler}>
                             </iframe>
                     ]

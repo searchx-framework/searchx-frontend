@@ -1,42 +1,51 @@
-@import url('../../../../node_modules/normalize.css/normalize.css');
 @import url('../Variables.pcss');
 
 .Search {
     .Content {
         display: flex;
+        flex-direction: row;
+        margin-top: -5px;
         min-height: 750px;
 
         .Main {
-            width: 70%;
+            flex: 1;
+            padding-bottom: 20px;
         }
 
         .Side {
-            width: 30%;
+            width: 400px;
+            padding-left: 20px;
+            padding-right: 20px;
+            padding-bottom: 20px;
 
-            padding-left: 10px;
-            padding-right: 10px;
-            
             h3 {
                 font-size: 20px;
-              
+
             }
         }
     }
 
     .Footer {
         font-size: 13px;
-        margin-top: 20px;
-        margin-bottom: 20px;
+        padding: 10px;
+        margin: 0;
+        border-top: 1px solid $border-color;
+    }
+}
+
+.loader {
+    .spinner {
+        position: relative !important;
     }
 }
 
 .introjs-tooltip {
-    min-width: 400px; 
+    min-width: 400px;
 }
 
 
 .Collapsible__trigger {
-  display: block;
+  display: flex;
   font-weight: 600;
   text-size: 10pt;
   text-decoration: none;
@@ -53,8 +62,8 @@
   border-radius: 3px;
   text-align: center;
   max-width: 400px;
-  
-  
+
+
   &:after {
     font-family: 'FontAwesome';
     content: '\f107';
@@ -84,7 +93,7 @@
   padding: 10px;
 
   box-shadow: 1px 1px 1px 1px #BFBFBF;
- 
+
   border: 1px solid #BDC3C7;
   margin-right: 10px;
 

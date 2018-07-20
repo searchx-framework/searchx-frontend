@@ -7,6 +7,7 @@ import {LoggerEventTypes} from '../../../../../utils/LoggerEventTypes';
 import ViewerPage from "./ViewerPage";
 import AnnotationContainer from "../../../features/annotation/AnnotationContainer";
 import RatingContainer from "../../../features/rating/RatingContainer";
+import Modal from "../../../../common/Modal";
 
 import config from '../../../../../config';
 
@@ -37,7 +38,7 @@ const Viewer = function({searchState, serpId, url, documentCloseHandler, doctext
     let loadDocument = () => {
         log(LoggerEventTypes.DOCUMENT_LOAD, metaInfo);
         if (!doctext) {
-            document.getElementById("modal-loader").style.display = "none";
+            document.getElementById("viewer-content-loader").style.display = "none";
         }
     };
     let openInBrowser = () => {
@@ -50,10 +51,10 @@ const Viewer = function({searchState, serpId, url, documentCloseHandler, doctext
     };
 
     return (
-        <div className="modal">
-            <div className="content" onMouseEnter={hoverEnterDocument} onMouseLeave={hoverLeaveDocument} onScroll={scrollDocument}>
+        <Modal width="95%" height="90%">
+            <div className="viewer" onMouseEnter={hoverEnterDocument} onMouseLeave={hoverLeaveDocument} onScroll={scrollDocument}>
                 <div className="header">
-                    
+
 
                     <div className="pull-right">
                         {!doctext && [
@@ -69,16 +70,16 @@ const Viewer = function({searchState, serpId, url, documentCloseHandler, doctext
                 </div>
 
                 <div className="body">
-                    <ViewerPage url={url} loadHandler={loadDocument} doctext={doctext} />
-
                     {config.interface.annotations && (
                         <div className="sidebar">
                             <AnnotationContainer url={url}/>
                         </div>
                     )}
+
+                    <ViewerPage url={url} loadHandler={loadDocument} doctext={doctext} />
                 </div>
             </div>
-        </div>
+        </Modal>
     );
 };
 

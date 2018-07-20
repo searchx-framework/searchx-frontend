@@ -8,7 +8,7 @@ import SearchVerticals from './SearchVerticals';
 
 const Header = function({query, vertical, provider, searchHandler, queryChangeHandler, verticalChangeHandler, timer}) {
     return (
-        <div className="SearchHeader" id="intro-system">
+        <div className="SearchHeader">
             <Logo />
             <form action="/" method="GET" className="form" onSubmit={e => {e.preventDefault();searchHandler();}}>
                 <SearchBox query={query} changeHandler={queryChangeHandler}/>

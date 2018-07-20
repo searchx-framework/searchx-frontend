@@ -21,14 +21,11 @@ function validatePagination(vertical, length) {
     return true;
 }
 
-const SearchResultsPagination = function({searchState, finished, matches, changeHandler}) {
-
-    
+const SearchResultsPagination = function({searchState, matches, changeHandler}) {
     return (
         <div className="text-center">
-            {validatePagination(searchState.vertical, searchState.matches) && finished &&
-                <Pagination className="pagination"
-                            activePage={searchState.page}
+            {validatePagination(searchState.vertical, searchState.matches) &&
+                <Pagination activePage={searchState.page}
                             onChange={changeHandler}
 
                             itemsCountPerPage={10}
@@ -37,8 +34,8 @@ const SearchResultsPagination = function({searchState, finished, matches, change
                             hideDisabled={true}
                             hideFirstLastPages={false}
 
-                            
-                      
+
+
                             prevPageText= 'Previous'
                             nextPageText='Next'
 

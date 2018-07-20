@@ -17,15 +17,30 @@ export default class SearchHeaderContainer extends React.Component {
             query: searchState.query
         };
 
-        this._onChange = this._onChange.bind(this);
+        this.changeHandler = this.changeHandler.bind(this);
         this.searchHandler = this.searchHandler.bind(this);
         this.queryChangeHandler = this.queryChangeHandler.bind(this);
         this.verticalChangeHandler = this.verticalChangeHandler.bind(this);
     }
 
-    componentWillMount() {SearchStore.addChangeListener(this._onChange);}
-    componentWillUnmount() {SearchStore.removeChangeListener(this._onChange);}
-    _onChange() {
+    componentWillMount() {SearchStore.addChangeListener(this.changeHandler);}
+    componentWillUnmount() {SearchStore.removeChangeListener(this.changeHandler);}
+
+    render() {
+        return <SearchHeader
+            query={this.state.query}
+            vertical={this.state.searchState.vertical}
+            provider={this.state.searchState.provider}
+            searchHandler={this.searchHandler}
+            queryChangeHandler={this.queryChangeHandler}
+            verticalChangeHandler={this.verticalChangeHandler}
+            timer={this.props.timer}
+        />
+    }
+
+    ////
+
+    changeHandler() {
         const nextSearchState = SearchStore.getSearchState();
         if (nextSearchState.vertical !== this.state.searchState.vertical || nextSearchState.query !== this.state.searchState.query) {
             this.setState({
@@ -34,8 +49,6 @@ export default class SearchHeaderContainer extends React.Component {
             });
         }
     }
-
-    ////
 
     searchHandler() {
         log(LoggerEventTypes.SEARCH_QUERY, {
@@ -63,19 +76,5 @@ export default class SearchHeaderContainer extends React.Component {
         });
 
         SearchActions.changeVertical(vertical);
-    }
-
-    ////
-
-    render() {
-        return <SearchHeader
-            query={this.state.query}
-            vertical={this.state.searchState.vertical}
-            provider={this.state.searchState.provider}
-            searchHandler={this.searchHandler}
-            queryChangeHandler={this.queryChangeHandler}
-            verticalChangeHandler={this.verticalChangeHandler}
-            timer={this.props.timer}
-        />
     }
 }

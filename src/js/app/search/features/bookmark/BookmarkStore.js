@@ -9,7 +9,6 @@ import SyncStore from '../../../../stores/SyncStore';
 import SearchStore from "../../SearchStore";
 import SearchActions from "../../../../actions/SearchActions";
 
-const env = require('env');
 const CHANGE_EVENT = 'change_bookmark';
 
 const state = {
@@ -86,10 +85,11 @@ const BookmarkStore = Object.assign(EventEmitter.prototype, {
 
 const _get = function(type) {
     request
-        .get(env.serverUrl + '/v1/session/' + AccountStore.getSessionId() + '/' + type)
+        .get(`${process.env.REACT_APP_SERVER_URL}/v1/session/${AccountStore.getSessionId()}/bookmark/${type}`)
         .end((err, res) => {
-            state[type] = [];
-            if (!res.body.error) {
+            if (err || !res.body || res.body.error) {
+                state[type] = [];
+            } else {
                 state[type] = res.body.results;
             }
             BookmarkStore.emitChange();
@@ -100,7 +100,7 @@ const _get = function(type) {
 const _add = function(url, title, type) {
     const userId = AccountStore.getUserId();
     request
-        .post(env.serverUrl + '/v1/session/' + AccountStore.getSessionId() + '/' + type)
+        .post(`${process.env.REACT_APP_SERVER_URL}/v1/session/${AccountStore.getSessionId()}/bookmark/${type}`)
         .send({
             userId: userId,
             url: url,
@@ -122,7 +122,7 @@ const _add = function(url, title, type) {
 
 const _remove = function(url, type) {
     request
-        .delete(env.serverUrl + '/v1/session/' + AccountStore.getSessionId() + '/' + type)
+        .delete(`${process.env.REACT_APP_SERVER_URL}/v1/session/${AccountStore.getSessionId()}/bookmark/${type}`)
         .send({
             url: url
         })
@@ -137,7 +137,7 @@ const _remove = function(url, type) {
 
 const _star_bookmark = function(url) {
     request
-        .post(env.serverUrl + '/v1/session/' + AccountStore.getSessionId() + '/bookmark/star')
+        .post(`${process.env.REACT_APP_SERVER_URL}/v1/session/${AccountStore.getSessionId()}/bookmark/star`)
         .send({
             url: url
         })

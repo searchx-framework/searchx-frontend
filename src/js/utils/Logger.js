@@ -1,8 +1,6 @@
 import AccountStore from '../stores/AccountStore';
 import request from 'superagent';
 
-const env = require('env');
-
 export function log(event, meta) {
     const log = {
         event: event || '',
@@ -16,7 +14,7 @@ export function log(event, meta) {
 }
 
 function sendLog(log, errorCallback) {
-    request.post(env.serverUrl + '/v1/users/' + AccountStore.getUserId() + '/logs')
+    request.post(`${process.env.REACT_APP_SERVER_URL}/v1/users/${AccountStore.getUserId()}/logs`)
         .send({
             data: [log]
         })

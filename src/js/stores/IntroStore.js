@@ -9,6 +9,7 @@ import QueryHistoryStore from "../app/search/features/queryhistory/QueryHistoryS
 import BookmarkStore from "../app/search/features/bookmark/BookmarkStore";
 import $ from 'jquery';
 
+/* global introJs */
 const intro = introJs().setOptions({
     doneLabel:  "Ok!",
     showStepNumbers: false,

@@ -37,7 +37,7 @@ class Search extends React.Component {
             <div className="Search">
                 <SearchHeaderContainer timer={this.props.timer}/>
 
-                <div className="Content" id="intro-collab-color">
+                <div className="Content">
                     <div className="Main">
                         <SearchResultsContainer/>
                     </div>
@@ -47,10 +47,16 @@ class Search extends React.Component {
                         <BookmarkContainer collaborative={this.props.collaborative}/>
                     </div>
 
-                    {this.props.taskDescription}
+                    <div className="Side">
+                        {this.props.taskDescription}
+                    </div>
                 </div>
 
-      
+                <div className="text-center" >
+                    <p className="Footer">
+                        About <a href="/about" target="_blank">SearchX</a>.
+                    </p>
+                </div>
             </div>
         )
     }
