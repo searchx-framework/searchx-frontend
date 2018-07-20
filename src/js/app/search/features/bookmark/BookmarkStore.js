@@ -85,7 +85,7 @@ const BookmarkStore = Object.assign(EventEmitter.prototype, {
 
 const _get = function(type) {
     request
-        .get(`${process.env.REACT_APP_SERVER_URL}/v1/session/${AccountStore.getSessionId()}/bookmark/${type}`)
+        .get(`${process.env.REACT_APP_SERVER_URL}/v1/session/${AccountStore.getSessionId()}/${type}`)
         .end((err, res) => {
             if (err || !res.body || res.body.error) {
                 state[type] = [];
@@ -100,7 +100,7 @@ const _get = function(type) {
 const _add = function(url, title, type) {
     const userId = AccountStore.getUserId();
     request
-        .post(`${process.env.REACT_APP_SERVER_URL}/v1/session/${AccountStore.getSessionId()}/bookmark/${type}`)
+        .post(`${process.env.REACT_APP_SERVER_URL}/v1/session/${AccountStore.getSessionId()}/${type}`)
         .send({
             userId: userId,
             url: url,
@@ -122,7 +122,7 @@ const _add = function(url, title, type) {
 
 const _remove = function(url, type) {
     request
-        .delete(`${process.env.REACT_APP_SERVER_URL}/v1/session/${AccountStore.getSessionId()}/bookmark/${type}`)
+        .delete(`${process.env.REACT_APP_SERVER_URL}/v1/session/${AccountStore.getSessionId()}/${type}`)
         .send({
             url: url
         })
