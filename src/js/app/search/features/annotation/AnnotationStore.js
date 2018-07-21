@@ -11,7 +11,7 @@ import SearchStore from "../../SearchStore";
 const CHANGE_EVENT = 'change_annotation';
 
 let state = {
-    annotations: []
+    annotations: {}
 };
 
 const AnnotationStore = Object.assign(EventEmitter.prototype, {
@@ -24,16 +24,21 @@ const AnnotationStore = Object.assign(EventEmitter.prototype, {
     removeChangeListener(callback) {
         this.removeListener(CHANGE_EVENT, callback);
     },
-    getActiveUrlAnnotations() {
-        return state.annotations;
+    getAnnotations() {
+        return state.annotations
     },
-
+    getUrlAnnotations(url) {
+        if (state.annotations.hasOwnProperty(url)) {
+            return state.annotations[url];
+        } else {
+            const results = SearchStore.getSearchResultsMap();
+            return results[url].metadata.annotations;
+        }
+    },
     dispatcherIndex: register(action => {
         switch(action.type) {
             case ActionTypes.GET_ANNOTATIONS:
-                if (SearchStore.getActiveUrl() === action.payload.url) {
-                    _get_annotations(action.payload.url)
-                }
+                _get_annotations(action.payload.url);
                 break;
             case ActionTypes.ADD_ANNOTATION:
                 _add_annotation(action.payload.url, action.payload.annotation);
@@ -52,12 +57,12 @@ let _get_annotations = function(url) {
     request
         .get(`${process.env.REACT_APP_SERVER_URL}/v1/session/${AccountStore.getSessionId()}/annotation/?url=${encodeURIComponent(url)}`)
         .end((err, res) => {
-            if (err || !res.body || res.body.error) {
-                state.annotations = [];
+            if (err || !res.body || res.body.error || res.body.results.length < 1) {
             } else {
-                state.annotations = res.body.results;
+                state.annotations[res.body.results[0].url] = res.body.results;
             }
             AnnotationStore.emitChange();
+            SearchStore.updateMetadata();
         });
 };
 
@@ -73,18 +78,21 @@ let _add_annotation = function(url, annotation) {
         .end(() => {
             _broadcast_change();
         });
-
-    state.annotations.push({
+    if (!state.annotations.hasOwnProperty(url)) {
+        state.annotations[url] = []
+    }
+    state.annotations[url].push({
         url: url,
         annotation: annotation,
         userId: userId,
         created: new Date()
     });
     AnnotationStore.emitChange();
+    SearchStore.updateMetadata();
 };
 
 let _remove_annotation = function(url, position) {
-    const data = state.annotations[position];
+    const data = state.annotations[url][position];
     request
         .delete(`${process.env.REACT_APP_SERVER_URL}/v1/session/${AccountStore.getSessionId()}/annotation`)
         .send({
@@ -95,8 +103,9 @@ let _remove_annotation = function(url, position) {
             _broadcast_change();
         });
 
-    state.annotations = state.annotations.filter((item) => item._id !== data._id);
+    state.annotations[url] = state.annotations[url].filter((item) => item._id !== data._id);
     AnnotationStore.emitChange();
+    SearchStore.updateMetadata();
 };
 
 let _broadcast_change = function() {

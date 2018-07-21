@@ -16,11 +16,11 @@ function formatMetadata(metadata) {
     }
 
     if (config.interface.ratings && 'rating' in metadata) {
-        elements.push(<span><i className="fa fa-thumbs-o-up"/> {metadata.rating}</span>);
+        elements.push(<span><i className="fa fa-thumbs-o-up"/> {metadata.rating.total}</span>);
     }
 
     if (config.interface.annotations && 'annotations' in metadata) {
-        elements.push(<span><i className="fa fa-comments"/> {metadata.annotations}</span>);
+        elements.push(<span><i className="fa fa-comments"/> {metadata.annotations.length}</span>);
     }
 
     if (config.interface.bookmarkTime && metadata.bookmark) {

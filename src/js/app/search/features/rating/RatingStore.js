@@ -11,8 +11,7 @@ import SearchStore from "../../SearchStore";
 const CHANGE_EVENT = 'change_rating';
 
 let state = {
-    rating: 0,
-    total: 0,
+    ratings: {}
 };
 
 const RatingStore = Object.assign(EventEmitter.prototype, {
@@ -25,19 +24,24 @@ const RatingStore = Object.assign(EventEmitter.prototype, {
     removeChangeListener(callback) {
         this.removeListener(CHANGE_EVENT, callback);
     },
-    getState() {
-        return state;
+    getRatings() {
+        return state.ratings
     },
-
+    getUrlRating(url) {
+        if (state.ratings.hasOwnProperty(url)) {
+            return state.ratings[url];
+        } else {
+            const results = SearchStore.getSearchResultsMap();
+            return results[url].metadata.rating;
+        }
+    },
     dispatcherIndex: register(action => {
         switch(action.type) {
             case ActionTypes.GET_RATING:
-                if (SearchStore.getActiveUrl() === action.payload.url) {
-                    _get_rating(action.payload.url)
-                }
+                _get_rating(action.payload.url);
                 break;
             case ActionTypes.SUBMIT_RATING:
-                if (action.payload.rating !== state.rating) {
+                if (action.payload.rating !== state.ratings[action.payload.url].rating) {
                     _submit_rating(action.payload.url, action.payload.rating);
                 }
                 break;
@@ -53,13 +57,15 @@ let _get_rating = function(url) {
         .get(`${process.env.REACT_APP_SERVER_URL}/v1/session/${AccountStore.getSessionId()}/rating/?url=${encodeURIComponent(url)}&userId=${AccountStore.getUserId()}`)
         .end((err, res) => {
             if (err || !res.body || res.body.error) {
-                state.rating = 0;
-                state.total = 0;
+                state.ratings[url].rating = 0;
+                state.ratings[url].total = 0;
             } else {
-                state.rating = res.body.results.rating;
-                state.total = res.body.results.total;
+                state.ratings[url] = {};
+                state.ratings[url].rating = res.body.results.rating;
+                state.ratings[url].total = res.body.results.total;
             }
             RatingStore.emitChange();
+            SearchStore.updateMetadata();
         });
 };
 
@@ -76,9 +82,10 @@ let _submit_rating = function(url, rating) {
             _broadcast_change();
         });
 
-    state.total = state.total - state.rating + rating;
-    state.rating = rating;
+    state.ratings[url].total = state.ratings[url].total - state.ratings[url].rating + rating;
+    state.ratings[url].rating = rating;
     RatingStore.emitChange();
+    SearchStore.updateMetadata();
 };
 
 let _broadcast_change = function() {

@@ -29,13 +29,13 @@ module.exports = {
     // each provider must have at least one vertical
     providerVerticals: providerVerticals,
     interface: {
-        annotations: false,
-        ratings: false,
-        views: false,
-        chat: false,
-        timeIndicator: false,
-        star: false,
-        bookmarkTime: false,
+        annotations: true,
+        ratings: true,
+        views: true,
+        chat: true,
+        timeIndicator: true,
+        star: true,
+        bookmarkTime: true,
         verticals: true
     }
 };

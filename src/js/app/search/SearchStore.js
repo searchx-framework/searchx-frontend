@@ -15,6 +15,8 @@ import SyncStore from '../../stores/SyncStore';
 import AccountStore from '../../stores/AccountStore';
 import history from "../History";
 import BookmarkStore from "./features/bookmark/BookmarkStore";
+import AnnotationStore from "./features/annotation/AnnotationStore";
+import RatingStore from "./features/rating/RatingStore";
 
 const CHANGE_EVENT = 'change_search';
 
@@ -128,7 +130,7 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
         if (state.tutorial) {
             return [
                 {name: "You can view the first result here", id: "1" , snippet: "This is the first result...", metadata: {}},
-                {name: "You can view the second result here", id: "2" , snippet: "This is the second result...", metadata: {bookmark: {userId: AccountStore.getUserId(), date: new Date()}, views: 10, rating: -5, annotations: 10}},
+                {name: "You can view the second result here", id: "2" , snippet: "This is the second result...", metadata: {bookmark: {userId: AccountStore.getUserId(), date: new Date()}, views: 10, rating: {total: -5, rating: 0}, annotations: [1]}},
                 {name: "You can view the third result here", id: "3" , snippet: "This is the third result...", metadata: {bookmark: {userId: 'test', date: new Date() - 2000}}},
                 {name: "You can view the fourth result here", id: "4" , snippet: "This is the fourth result...", metadata: {}},
                 {name: "You can view the fifth result here", id: "5" , snippet: "This is the fifth result...", metadata: {}}
@@ -136,6 +138,12 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
         }
 
         return state.results;
+    },
+    getSearchResultsMap() {
+        return state.results.reduce(function(map, result) {
+            map[result.id] = result;
+            return map;
+        }, {});
     },
     getSearchState() {
         return {
@@ -333,12 +341,25 @@ const _update_metadata = function() {
     excludes.forEach(exclude => {
         excludeMap[exclude.url] = exclude;
     });
+    const annotationsMap = AnnotationStore.getAnnotations();
+    const ratingsMap = RatingStore.getRatings();
+
     state.results = state.results.map(result => {
         const newresult = result;
         newresult.metadata.bookmark = bookmarkMap[result.id];
         newresult.metadata.exclude = excludeMap[result.id];
+
+        if (annotationsMap.hasOwnProperty(result.id)) {
+            newresult.metadata.annotations = annotationsMap[result.id];
+        }
+        if (ratingsMap.hasOwnProperty(result.id)) {
+            newresult.metadata.rating = ratingsMap[result.id];
+        }
         return newresult;
     });
+
+
+
     SearchStore.emitChange();
 };
 
