@@ -1,10 +1,7 @@
 import React from 'react'
-import Enzyme from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
+import { shallow, mount, render } from 'enzyme';
 import config from '../../../../config';
 import SearchVerticals from './SearchVerticals';
-
-Enzyme.configure({ adapter: new Adapter() });
 
 describe('SearchVerticals', ()=> {
     const tests = [
@@ -14,7 +11,7 @@ describe('SearchVerticals', ()=> {
 
     tests.forEach(function(test) {
         const firstVertical = config.providerVerticals[test.provider].keys()[0];
-        const wrapper = Enzyme.shallow(<SearchVerticals vertical={firstVertical} changeHandler={function(){}} provider={test.provider}/>);
+        const wrapper = shallow(<SearchVerticals vertical={firstVertical} changeHandler={function(){}} provider={test.provider}/>);
 
         it('should load ' + test.expected + ' tabs for the ' + test.provider + ' provider', () => {
             expect(wrapper.find(".search-vertical").length).toEqual(test.expected);

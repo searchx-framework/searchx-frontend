@@ -7,10 +7,9 @@ const SearchVerticals = function({activeVertical, changeHandler, provider}) {
     const verticalsMap = config.providerVerticals[provider];
 
 
-    var verticals = "";
+    let verticals = "";
 
-    if (verticalsMap.size == 1) {
-        
+    if (!config.interface.verticals) {
          verticals = "";
     } else {
          verticals = Array.from(verticalsMap.keys()).map((vertical, index) => {

@@ -35,6 +35,7 @@ module.exports = {
         chat: false,
         timeIndicator: false,
         star: false,
-        bookmarkTime: false
+        bookmarkTime: false,
+        verticals: true
     }
 };
