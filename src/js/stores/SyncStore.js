@@ -4,6 +4,7 @@ import io from 'socket.io-client';
 import AccountStore from "./AccountStore";
 import SearchActions from "../actions/SearchActions";
 import SessionActions from "../actions/SessionActions";
+import SearchStore from "../app/search/SearchStore";
 
 const socket = io(process.env.REACT_APP_SERVER_URL + '/session');
 
@@ -107,6 +108,16 @@ SyncStore.emitUserJoin();
 
 socket.on('searchState', (data) => {
     SessionActions.getQueryHistory();
+});
+
+socket.on('viewState', (data) => {
+    const url = data.state.url;
+    const searchResultsMap = SearchStore.getSearchResultsMap();
+    if (searchResultsMap.hasOwnProperty(url)) {
+        SearchStore.modifyMetadata(url, {
+            views: searchResultsMap[url].metadata.views + 1
+        });
+    }
 });
 
 socket.on('bookmarkUpdate', (data) => {
