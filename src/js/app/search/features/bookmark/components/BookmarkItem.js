@@ -47,11 +47,9 @@ const BookmarkItem = function({data, removeHandler, starHandler, clickHandler}) 
                 </a>
             </h2>
 
-            {isNaN(data.url) && (
-                <span>
-                    {data.url}
-                </span>
-            )}
+            <span>
+                {isNaN(data.url) ? data.url : (config.interface.star && <br/>)}
+            </span>
         </div>
     )
 };
