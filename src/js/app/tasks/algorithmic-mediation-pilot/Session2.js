@@ -109,7 +109,7 @@ class Session extends React.PureComponent {
                     src="../sound/notification.mp3"
                     autoPlay
                 />}
-                <TaskedSession timer={timer} taskDescription={taskDescription}/>
+                <TaskedSession timer={timer} taskDescription={taskDescription} lastSession={false} firstSession={false}/>
             </div>
         )
     }

@@ -13,15 +13,15 @@ import config from "../../config";
 
 class Search extends React.Component {
     componentDidMount(){
-        sessionStorage.clear();
 
-        if (config.interface.chat && this.props.collaborative) {
+        if (this.props.firstSession && config.interface.chat && this.props.collaborative) {
+            sessionStorage.clear();
             Chat();
         }
     }
 
     componentWillUnmount() {
-        if (config.interface.chat && this.props.collaborative) {
+        if (this.props.lastSession && config.interface.chat && this.props.collaborative) {
             const messages = document.querySelector(".chat-content").innerHTML;
             log(LoggerEventTypes.CHAT_ARCHIVE, {
                 messages: messages

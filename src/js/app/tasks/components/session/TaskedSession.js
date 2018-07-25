@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import Search from "../../../search/Search";
 
 
-const TaskedSession = function({disableCopy, collaborative, style, children, timer, taskDescription}) {
+const TaskedSession = function({disableCopy, collaborative, style, children, timer, taskDescription, firstSession, lastSession}) {
     function handleCutCopyPaste(e) {
         if (disableCopy) {
             Alert.warning('You cannot copy and paste during the session.', {
@@ -22,7 +22,7 @@ const TaskedSession = function({disableCopy, collaborative, style, children, tim
     return(
         <div className="Session" onPaste={handleCutCopyPaste} onCut={handleCutCopyPaste} onCopy={handleCutCopyPaste}>
             <div className="Medium">
-                <Search collaborative={collaborative} timer={timer} taskDescription={taskDescription}/>
+                <Search collaborative={collaborative} timer={timer} taskDescription={taskDescription} firstSession={firstSession} lastSession={lastSession}/>
             </div>
         </div>
     )
@@ -36,7 +36,9 @@ TaskedSession.propTypes = {
 TaskedSession.defaultProps = {
     disableCopy: false,
     collaborative: true,
-    style: {}
+    style: {},
+    firstSession: true,
+    lastSession: true
 };
 
 export default TaskedSession;
