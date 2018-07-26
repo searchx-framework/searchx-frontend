@@ -12,7 +12,7 @@ const providerVerticals = {
         ['news', NewsSearchResult]
     ]),
     'elasticsearch': new Map([
-        ['web', WebSearchResult],
+        ['text', TextSearchResult],
     ]),
     'indri': new Map([
         ['text', TextSearchResult]
