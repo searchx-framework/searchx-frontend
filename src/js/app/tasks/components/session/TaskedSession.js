@@ -22,7 +22,7 @@ const TaskedSession = function({disableCopy, collaborative, style, children, tim
     return(
         <div className="Session" onPaste={handleCutCopyPaste} onCut={handleCutCopyPaste} onCopy={handleCutCopyPaste}>
             <div className="Medium">
-                <Search collaborative={collaborative} timer={timer} taskDescription={taskDescription} firstSession={firstSession} lastSession={lastSession}/>
+                <Search collaborative={collaborative} timer={timer} taskDescription={taskDescription} firstSession={firstSession} lastSession={lastSession} showAccountInfo={false}/>
             </div>
         </div>
     )

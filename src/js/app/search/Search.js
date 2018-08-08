@@ -35,7 +35,7 @@ class Search extends React.Component {
     render() {
         return (
             <div className="Search">
-                <SearchHeaderContainer timer={this.props.timer}/>
+                <SearchHeaderContainer timer={this.props.timer} showAccountInfo={this.props.showAccountInfo}/>
 
                 <div className="Content">
                     <div className="Main">
@@ -63,7 +63,8 @@ class Search extends React.Component {
 }
 
 Search.defaultProps = {
-    collaborative: true
+    collaborative: true,
+    showAccountInfo: true
 };
 
 export default Search;

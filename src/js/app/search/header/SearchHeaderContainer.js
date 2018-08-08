@@ -7,6 +7,7 @@ import {log} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../utils/LoggerEventTypes';
 import SearchHeader from "./components/SearchHeader";
 import SearchStore from "../SearchStore";
+import AccountStore from "../../../stores/AccountStore"
 
 export default class SearchHeaderContainer extends React.Component {
     constructor() {
@@ -35,6 +36,10 @@ export default class SearchHeaderContainer extends React.Component {
             queryChangeHandler={this.queryChangeHandler}
             verticalChangeHandler={this.verticalChangeHandler}
             timer={this.props.timer}
+            // these props do not update to changes
+            userId={AccountStore.getUserId()}
+            groupId={AccountStore.getGroupId()}
+            showAccountInfo={this.props.showAccountInfo}
         />
     }
 

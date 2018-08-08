@@ -4,9 +4,10 @@ import React from 'react';
 import Logo from './Logo';
 import SearchBox from './SearchBox';
 import SearchVerticals from './SearchVerticals';
+import AccountInfo from "./AccountInfo";
 
 
-const Header = function({query, vertical, provider, searchHandler, queryChangeHandler, verticalChangeHandler, timer}) {
+const Header = function({query, vertical, provider, searchHandler, queryChangeHandler, verticalChangeHandler, timer, userId, groupId, showAccountInfo}) {
     return (
         <div className="SearchHeader">
             <Logo />
@@ -14,6 +15,7 @@ const Header = function({query, vertical, provider, searchHandler, queryChangeHa
                 <SearchBox query={query} changeHandler={queryChangeHandler}/>
                 <SearchVerticals query={query} activeVertical={vertical} changeHandler={verticalChangeHandler} provider={provider}/>
             </form>
+            <AccountInfo userId={userId} groupId={groupId}/>
             {timer}
         </div>
     )

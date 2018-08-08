@@ -31,6 +31,9 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
         return state.task.data;
     },
 
+    // WARNING: using the setter methods below violates flux architecture, and will not cause components to be updated
+    // If changes need to be propagated from this store, event dispatch methods need to be added, and actions with a
+    // dispatcher need to be used instead of setter methods.
     setUserId(userId) {
         state.userId = userId;
         localStorage.setItem("user-id", userId);
@@ -66,14 +69,28 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
     }
 });
 
+// set userId and groupId if specified by url parameter
+const urlGroupId = Helpers.getURLParameter("groupId");
+if (urlGroupId) {
+    if (urlGroupId !== state.groupId) {
+        AccountStore.setUserId(Helpers.generateId());
+    }
+    AccountStore.setSessionId(urlGroupId);
+    AccountStore.setGroupId(urlGroupId);
+}
+const urlUserId = Helpers.getURLParameter("userId");
+if (urlUserId) {
+    AccountStore.setUserId(urlUserId);
+}
+
+// initialize random userId, sessionId, and groupId if they are not set by localstorage or url parameter
 if (!state.userId) {
-    AccountStore.setUserId(Helpers.generateUUID());
+    AccountStore.setUserId(Helpers.generateId());
 }
 if (!state.sessionId) {
-    AccountStore.setSessionId('_default_session_');
-}
-if (!state.groupId) {
-    AccountStore.setSessionId('_default_group_');
+    const id = Helpers.generateId();
+    AccountStore.setSessionId(id);
+    AccountStore.setGroupId(id);
 }
 
 export default AccountStore;
