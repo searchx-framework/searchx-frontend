@@ -315,7 +315,7 @@ const _getById = function (id) {
 const _updateUrl = function(query, vertical, page, provider, variant) {
     const url = window.location.href;
     const route = url.split("/").pop().split("?")[0];
-    let params = 'q='+ query +'&v='+ vertical.toLowerCase() +'&p='+ page + '&provider=' + provider;
+    let params = 'q='+ query +'&v='+ vertical +'&p='+ page + '&provider=' + provider;
     if (config.variantQueryParameter) {
         params += '&variant=' + variant;
     }
