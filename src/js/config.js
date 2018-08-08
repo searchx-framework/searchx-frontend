@@ -15,7 +15,7 @@ const providerVerticals = {
         ['text', TextSearchResult],
     ]),
     'indri': new Map([
-        ['text', TextSearchResult]
+        ['AQUAINT', TextSearchResult]
     ])
 };
 
