@@ -47,9 +47,11 @@ class Search extends React.Component {
                         <BookmarkContainer collaborative={this.props.collaborative}/>
                     </div>
 
-                    <div className="Side">
-                        {this.props.taskDescription}
-                    </div>
+                    {this.props.taskDescription && (
+                        <div className="Side">
+                            {this.props.taskDescription}
+                        </div>
+                    )}
                 </div>
 
                 <div className="text-center" >
