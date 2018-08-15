@@ -12,8 +12,7 @@ import Chat from "./features/chat/Chat";
 import config from "../../config";
 
 class Search extends React.Component {
-    componentDidMount(){
-
+    componentDidMount() {
         if (this.props.firstSession && config.interface.chat && this.props.collaborative) {
             sessionStorage.clear();
             Chat();
@@ -54,7 +53,7 @@ class Search extends React.Component {
                     )}
                 </div>
 
-                <div className="text-center" >
+                <div className="text-center">
                     <p className="Footer">
                         About <a href="/about" target="_blank">SearchX</a>.
                     </p>

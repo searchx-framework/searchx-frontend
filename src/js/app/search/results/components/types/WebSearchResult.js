@@ -6,7 +6,7 @@ import {LoggerEventTypes} from '../../../../../utils/LoggerEventTypes';
 
 ////
 
-const WebSearchResult = function({searchState, serpId, result, metadata, bookmarkButton, excludeButton, urlClickHandler}) {
+const WebSearchResult = function ({searchState, serpId, result, metadata, bookmarkButton, excludeButton, urlClickHandler}) {
     let metaInfo = {
         url: result.url,
         query: searchState.query,
@@ -25,7 +25,7 @@ const WebSearchResult = function({searchState, serpId, result, metadata, bookmar
     };
 
     let contextUrl = () => {
-        log(LoggerEventTypes.SEARCHRESULT_CONTEXT_URL,metaInfo);
+        log(LoggerEventTypes.SEARCHRESULT_CONTEXT_URL, metaInfo);
     };
 
     let hoverEnterSummary = () => {
@@ -33,12 +33,12 @@ const WebSearchResult = function({searchState, serpId, result, metadata, bookmar
     };
 
     let hoverLeaveSummary = () => {
-        log(LoggerEventTypes.SEARCHRESULT_HOVERLEAVE,metaInfo);
+        log(LoggerEventTypes.SEARCHRESULT_HOVERLEAVE, metaInfo);
     };
 
     ////
 
-    return  (
+    return (
         <div className="result-web">
             <VisibilitySensor
                 onChange={viewUrl}
@@ -51,7 +51,7 @@ const WebSearchResult = function({searchState, serpId, result, metadata, bookmar
             {bookmarkButton}
             {excludeButton}
 
-            <div onMouseEnter={hoverEnterSummary} onMouseLeave={hoverLeaveSummary} >
+            <div onMouseEnter={hoverEnterSummary} onMouseLeave={hoverLeaveSummary}>
                 <h2>
                     <a title={result.name} target="_blank" onClick={clickUrl} onContextMenu={contextUrl}>
                         {result.name}

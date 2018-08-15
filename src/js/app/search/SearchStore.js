@@ -27,7 +27,7 @@ const provider = Helpers.getURLParameter('provider') || config.defaultProvider;
 
 let state;
 
-const _setVariant = function() {
+const _setVariant = function () {
     let variant;
     if (config.fallbackToS0ForGroupSize1 && AccountStore.getTaskData().size === 1) {
         variant = 'S0';
@@ -44,7 +44,7 @@ const _setVariant = function() {
 /*
  * Reset all SearchStore state except variant
  */
-const _setState = function() {
+const _setState = function () {
     state = {
         query: Helpers.getURLParameter('q') || '',
         vertical: Helpers.getURLParameter('v') || config.providerVerticals[provider].keys().next().value,
@@ -98,10 +98,10 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
     getActiveUrl() {
         return state.activeUrl
     },
-    getMatches(){
+    getMatches() {
         return state.matches || 0;
     },
-    getElapsedTime(){
+    getElapsedTime() {
         return state.elapsedTime;
     },
     getSerpId() {
@@ -129,18 +129,48 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
     getSearchResults() {
         if (state.tutorial) {
             return [
-                {name: "You can view the first result here", id: "1" , snippet: "This is the first result...", metadata: {}},
-                {name: "You can view the second result here", id: "2" , snippet: "This is the second result...", metadata: {bookmark: {userId: AccountStore.getUserId(), date: new Date()}, views: 10, rating: {total: -5, rating: 0}, annotations: [1]}},
-                {name: "You can view the third result here", id: "3" , snippet: "This is the third result...", metadata: {bookmark: {userId: 'test', date: new Date() - 2000}}},
-                {name: "You can view the fourth result here", id: "4" , snippet: "This is the fourth result...", metadata: {}},
-                {name: "You can view the fifth result here", id: "5" , snippet: "This is the fifth result...", metadata: {}}
+                {
+                    name: "You can view the first result here",
+                    id: "1",
+                    snippet: "This is the first result...",
+                    metadata: {}
+                },
+                {
+                    name: "You can view the second result here",
+                    id: "2",
+                    snippet: "This is the second result...",
+                    metadata: {
+                        bookmark: {userId: AccountStore.getUserId(), date: new Date()},
+                        views: 10,
+                        rating: {total: -5, rating: 0},
+                        annotations: [1]
+                    }
+                },
+                {
+                    name: "You can view the third result here",
+                    id: "3",
+                    snippet: "This is the third result...",
+                    metadata: {bookmark: {userId: 'test', date: new Date() - 2000}}
+                },
+                {
+                    name: "You can view the fourth result here",
+                    id: "4",
+                    snippet: "This is the fourth result...",
+                    metadata: {}
+                },
+                {
+                    name: "You can view the fifth result here",
+                    id: "5",
+                    snippet: "This is the fifth result...",
+                    metadata: {}
+                }
             ];
         }
 
         return state.results;
     },
     getSearchResultsMap() {
-        return state.results.reduce(function(map, result) {
+        return state.results.reduce(function (map, result) {
             map[result.id] = result;
             return map;
         }, {});
@@ -168,7 +198,7 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
                 if (result.id === id) {
                     result.metadata = Object.assign(result.metadata, newData);
                 }
-            } else if (result.url === id ) {
+            } else if (result.url === id) {
                 result.metadata = Object.assign(result.metadata, newData);
             }
         });
@@ -179,7 +209,7 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
     ////
 
     dispatcherIndex: register(action => {
-        switch(action.type) {
+        switch (action.type) {
             case ActionTypes.SEARCH:
                 _search(action.payload.query, action.payload.vertical, action.payload.page);
                 break;
@@ -242,11 +272,11 @@ const _search = (query, vertical, page) => {
     }
 
     request
-        .get(process.env.REACT_APP_SERVER_URL + '/v1/search/'+state.vertical
-            + '/?query='+ state.query
-            + '&page='+ state.page
-            + '&userId='+ AccountStore.getUserId()
-            + '&sessionId='+ AccountStore.getSessionId()
+        .get(process.env.REACT_APP_SERVER_URL + '/v1/search/' + state.vertical
+            + '/?query=' + state.query
+            + '&page=' + state.page
+            + '&userId=' + AccountStore.getUserId()
+            + '&sessionId=' + AccountStore.getSessionId()
             + '&providerName=' + state.provider
             + '&relevanceFeedback=' + state.relevanceFeedback
             + '&distributionOfLabour=' + state.distributionOfLabour
@@ -312,10 +342,10 @@ const _getById = function (id) {
         });
 };
 
-const _updateUrl = function(query, vertical, page, provider, variant) {
+const _updateUrl = function (query, vertical, page, provider, variant) {
     const url = window.location.href;
     const route = url.split("/").pop().split("?")[0];
-    let params = 'q='+ query +'&v='+ vertical +'&p='+ page + '&provider=' + provider;
+    let params = 'q=' + query + '&v=' + vertical + '&p=' + page + '&provider=' + provider;
     if (config.variantQueryParameter) {
         params += '&variant=' + variant;
     }
@@ -330,7 +360,7 @@ const _updateUrl = function(query, vertical, page, provider, variant) {
 /*
  * Update result metadata by refreshing bookmarks and excludes from the BookmarkStore
  */
-const _update_metadata = function() {
+const _update_metadata = function () {
     const bookmarks = BookmarkStore.getBookmarks();
     const excludes = BookmarkStore.getExcludes();
     const bookmarkMap = {};
@@ -357,7 +387,6 @@ const _update_metadata = function() {
         }
         return newresult;
     });
-
 
 
     SearchStore.emitChange();

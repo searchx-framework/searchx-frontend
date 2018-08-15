@@ -58,7 +58,8 @@ class CollapsedSearchResults extends React.Component {
                 <Collapse in={this.props.resultsAreCollapsed}>
                     <div>
                         <div className="result-collapsed">
-                            <Button bsSize="xsmall" onClick={this.clickHandler} className="collapsedResultsButton" title={this.props.results.length + " results hidden"}>
+                            <Button bsSize="xsmall" onClick={this.clickHandler} className="collapsedResultsButton"
+                                    title={this.props.results.length + " results hidden"}>
                                 {resultIcons}
                             </Button>
                         </div>

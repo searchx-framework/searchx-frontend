@@ -5,42 +5,11 @@ import {Button, Collapse} from "react-bootstrap";
 
 import config from "../../../../config";
 
-function formatMetadata(metadata) {
-    let elements = [];
-    if (!metadata) {
-        return <div/>;
-    }
-
-    if (config.interface.views && 'views' in metadata) {
-        elements.push(<span><i className="fa fa-eye"/> {metadata.views}</span>);
-    }
-
-    if (config.interface.ratings && 'rating' in metadata) {
-        elements.push(<span><i className="fa fa-thumbs-o-up"/> {metadata.rating.total}</span>);
-    }
-
-    if (config.interface.annotations && 'annotations' in metadata) {
-        elements.push(<span><i className="fa fa-comments"/> {metadata.annotations.length}</span>);
-    }
-
-    if (config.interface.bookmarkTime && metadata.bookmark) {
-        const date = new Date(metadata.bookmark.date);
-        const now = new Date().toLocaleDateString();
-
-        let formattedTime = date.toLocaleDateString();
-        if (formattedTime === now) formattedTime = date.toLocaleTimeString();
-
-        elements.push(
-            <span style={{color: metadata.bookmark.userColor}}>
-                <i className="fa fa-bookmark"/> {formattedTime}
-            </span>
-        );
-    }
-
-    return <div className="metadata">{elements}</div>;
-}
-
-const SearchResult = function({searchState, serpId, result, bookmarkClickHandler, urlClickHandler, provider, collapsed, excludeClickHandler, hideCollapsedResultsHandler, isCollapsible, visited, index}) {
+const SearchResult = function ({
+                                   searchState, serpId, result, bookmarkClickHandler, urlClickHandler, provider,
+                                   collapsed, excludeClickHandler, hideCollapsedResultsHandler, isCollapsible, visited,
+                                   index
+                               }) {
     let initialBookmark = 0;
     let initialExclude = 0;
     if ('metadata' in result) {
@@ -88,5 +57,40 @@ const SearchResult = function({searchState, serpId, result, bookmarkClickHandler
         </Collapse>
     );
 };
+
+function formatMetadata(metadata) {
+    let elements = [];
+    if (!metadata) {
+        return <div/>;
+    }
+
+    if (config.interface.views && 'views' in metadata) {
+        elements.push(<span><i className="fa fa-eye"/> {metadata.views}</span>);
+    }
+
+    if (config.interface.ratings && 'rating' in metadata) {
+        elements.push(<span><i className="fa fa-thumbs-o-up"/> {metadata.rating.total}</span>);
+    }
+
+    if (config.interface.annotations && 'annotations' in metadata) {
+        elements.push(<span><i className="fa fa-comments"/> {metadata.annotations.length}</span>);
+    }
+
+    if (config.interface.bookmarkTime && metadata.bookmark) {
+        const date = new Date(metadata.bookmark.date);
+        const now = new Date().toLocaleDateString();
+
+        let formattedTime = date.toLocaleDateString();
+        if (formattedTime === now) formattedTime = date.toLocaleTimeString();
+
+        elements.push(
+            <span style={{color: metadata.bookmark.userColor}}>
+                <i className="fa fa-bookmark"/> {formattedTime}
+            </span>
+        );
+    }
+
+    return <div className="metadata">{elements}</div>;
+}
 
 export default SearchResult;

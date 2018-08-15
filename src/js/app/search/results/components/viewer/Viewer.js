@@ -11,7 +11,7 @@ import Modal from "../../../../common/Modal";
 
 import config from '../../../../../config';
 
-const Viewer = function({searchState, serpId, url, documentCloseHandler, doctext}) {
+const Viewer = function ({searchState, serpId, url, documentCloseHandler, doctext}) {
     if (url === "") {
         return <div/>
     }
@@ -29,7 +29,7 @@ const Viewer = function({searchState, serpId, url, documentCloseHandler, doctext
         log(LoggerEventTypes.DOCUMENT_HOVERENTER, metaInfo)
     };
     let hoverLeaveDocument = () => {
-        log(LoggerEventTypes.DOCUMENT_HOVERLEAVE,metaInfo)
+        log(LoggerEventTypes.DOCUMENT_HOVERLEAVE, metaInfo)
     };
     let closeDocument = () => {
         documentCloseHandler();
@@ -52,14 +52,15 @@ const Viewer = function({searchState, serpId, url, documentCloseHandler, doctext
 
     return (
         <Modal width="95%" height="90%">
-            <div className="viewer" onMouseEnter={hoverEnterDocument} onMouseLeave={hoverLeaveDocument} onScroll={scrollDocument}>
+            <div className="viewer" onMouseEnter={hoverEnterDocument} onMouseLeave={hoverLeaveDocument}
+                 onScroll={scrollDocument}>
                 <div className="header">
 
 
                     <div className="pull-right">
                         {!doctext && [
-                                <span className="forward" onClick={openInBrowser}>open in browser</span>,
-                                <span className="divider"/>
+                            <span className="forward" onClick={openInBrowser}>open in browser</span>,
+                            <span className="divider"/>
                         ]}
                         {config.interface.ratings && [
                             <RatingContainer url={url}/>,
@@ -76,7 +77,7 @@ const Viewer = function({searchState, serpId, url, documentCloseHandler, doctext
                         </div>
                     )}
 
-                    <ViewerPage url={url} loadHandler={loadDocument} doctext={doctext} />
+                    <ViewerPage url={url} loadHandler={loadDocument} doctext={doctext}/>
                 </div>
             </div>
         </Modal>

@@ -10,14 +10,14 @@ import {log} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../utils/LoggerEventTypes';
 import Helpers from "../../../utils/Helpers";
 
-const getState = function() {
+const getState = function () {
     return {
         searchState: SearchStore.getSearchState(),
         progress: SearchStore.getSearchProgress(),
-        serpId : SearchStore.getSerpId(),
+        serpId: SearchStore.getSerpId(),
         results: SearchStore.getSearchResults(),
         matches: SearchStore.getMatches(),
-        elapsedTime : ((SearchStore.getElapsedTime())/1000).toFixed(2).toString(),
+        elapsedTime: ((SearchStore.getElapsedTime()) / 1000).toFixed(2).toString(),
         activeUrl: SearchStore.getActiveUrl(),
         provider: SearchStore.getProvider(),
         distributionOfLabour: SearchStore.getDistributionOfLabour(),
@@ -42,8 +42,14 @@ export default class SearchResultsContainer extends React.Component {
         this.isCollapsible = this.isCollapsible.bind(this);
     }
 
-    componentWillMount() {SearchStore.addChangeListener(this._onChange);}
-    componentWillUnmount() {SearchStore.removeChangeListener(this._onChange);}
+    componentWillMount() {
+        SearchStore.addChangeListener(this._onChange);
+    }
+
+    componentWillUnmount() {
+        SearchStore.removeChangeListener(this._onChange);
+    }
+
     _onChange() {
         const newState = getState();
         const resultIdMap = {};
@@ -151,7 +157,11 @@ export default class SearchResultsContainer extends React.Component {
 
     render() {
         return <div>
-            <SearchResults {...this.state} pageChangeHandler={this.pageChangeHandler} key="results" isCollapsible={this.isCollapsible} showCollapsedResults={this.showCollapsedResults} hideCollapsedResults={this.hideCollapsedResults} showAllCollapsedResults={this.showAllCollapsedResults} hideAllCollapsedResults={this.hideAllCollapsedResults}/>
+            <SearchResults {...this.state} pageChangeHandler={this.pageChangeHandler} key="results"
+                           isCollapsible={this.isCollapsible} showCollapsedResults={this.showCollapsedResults}
+                           hideCollapsedResults={this.hideCollapsedResults}
+                           showAllCollapsedResults={this.showAllCollapsedResults}
+                           hideAllCollapsedResults={this.hideAllCollapsedResults}/>
             <DocumentViewer searchState={this.state.searchState} key="viewer"
                             serpId={this.state.serpId}
                             url={this.state.activeUrl}

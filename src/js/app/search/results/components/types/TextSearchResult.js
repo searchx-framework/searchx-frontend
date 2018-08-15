@@ -6,7 +6,10 @@ import {LoggerEventTypes} from '../../../../../utils/LoggerEventTypes';
 
 ////
 
-const TextSearchResult = function({searchState, serpId, result, metadata, bookmarkButton, excludeButton, urlClickHandler, hideCollapsedResultsHandler, isCollapsible, visited}) {
+const TextSearchResult = function ({
+                                       searchState, serpId, result, metadata, bookmarkButton, excludeButton,
+                                       urlClickHandler, hideCollapsedResultsHandler, isCollapsible, visited
+                                   }) {
     let metaInfo = {
         url: result.id,
         query: searchState.query,
@@ -19,10 +22,10 @@ const TextSearchResult = function({searchState, serpId, result, metadata, bookma
         var doctext = result.text.split('\n').map((item, key) => {
             return <span key={key}>{item}<br/></span>
         })
-     
+
         doctext.unshift(<h4> {result.source} <br/></h4>);
         doctext.unshift(<h3> {result.name} <br/></h3>);
-        
+
 
         urlClickHandler(result.id, doctext);
         log(LoggerEventTypes.SEARCHRESULT_CLICK_URL, metaInfo);
@@ -34,7 +37,7 @@ const TextSearchResult = function({searchState, serpId, result, metadata, bookma
     };
 
     let contextUrl = () => {
-        log(LoggerEventTypes.SEARCHRESULT_CONTEXT_URL,metaInfo);
+        log(LoggerEventTypes.SEARCHRESULT_CONTEXT_URL, metaInfo);
     };
 
     let hoverEnterSummary = () => {
@@ -42,7 +45,7 @@ const TextSearchResult = function({searchState, serpId, result, metadata, bookma
     };
 
     let hoverLeaveSummary = () => {
-        log(LoggerEventTypes.SEARCHRESULT_HOVERLEAVE,metaInfo);
+        log(LoggerEventTypes.SEARCHRESULT_HOVERLEAVE, metaInfo);
     };
 
     function createSnippet() {
@@ -63,7 +66,7 @@ const TextSearchResult = function({searchState, serpId, result, metadata, bookma
 
     ////
 
-    return  (
+    return (
         <div className="result-text">
             <VisibilitySensor
                 onChange={viewUrl}
@@ -76,23 +79,24 @@ const TextSearchResult = function({searchState, serpId, result, metadata, bookma
             {bookmarkButton}
             {excludeButton}
 
-            <div onMouseEnter={hoverEnterSummary} onMouseLeave={hoverLeaveSummary} >
+            <div onMouseEnter={hoverEnterSummary} onMouseLeave={hoverLeaveSummary}>
                 <h2>
-                    <a className={visited ? "visited" : ""} title={result.name} target="_blank" onClick={clickUrl} onContextMenu={contextUrl}>
+                    <a className={visited ? "visited" : ""} title={result.name} target="_blank" onClick={clickUrl}
+                       onContextMenu={contextUrl}>
                         {result.name}
                     </a>
                 </h2>
 
                 {isCollapsible ? (
                     <div className="textArea" role="button" onClick={hideCollapsedResults}>
-                        <p dangerouslySetInnerHTML={ createSnippet() }>
+                        <p dangerouslySetInnerHTML={createSnippet()}>
                         </p>
 
                         {metadata}
                     </div>
                 ) : (
                     <div className="textArea">
-                        <p dangerouslySetInnerHTML={ createSnippet() }>
+                        <p dangerouslySetInnerHTML={createSnippet()}>
                         </p>
 
                         {metadata}

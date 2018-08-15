@@ -18,11 +18,11 @@ const SearchResults = function ({
                                     pageChangeHandler, isCollapsible, showCollapsedResults, hideCollapsedResults,
                                     showAllCollapsedResults, hideAllCollapsedResults
                                 }) {
-    const getCollapsibleResultsLength = function() {
+    const getCollapsibleResultsLength = function () {
         return results.filter(result => isCollapsible(result)).length;
     };
 
-    const resultsAreCollapsed = function(results) {
+    const resultsAreCollapsed = function (results) {
         let output = false;
         results.forEach((result) => {
             if (collapsed[Helpers.getId(result)]) {
@@ -38,13 +38,13 @@ const SearchResults = function ({
 
     if (searchState.query === '' && results.length === 0) {
         return <CenteredMessage height="800px" style={style}>
-            <h3> Your search results will appear here :)  </h3>
+            <h3> Your search results will appear here :) </h3>
         </CenteredMessage>
     }
 
     if (progress.resultsNotFound) {
         return <CenteredMessage height="800px" style={style}>
-            <h3> Sorry! :`(  </h3>
+            <h3> Sorry! :`( </h3>
             <h4> We have not found results for you! Try to shorten your query! </h4>
         </CenteredMessage>
     }
@@ -95,14 +95,19 @@ const SearchResults = function ({
         if (distributionOfLabour === 'unbookmarkedSoft') {
             if (collapsed[Helpers.getId(result)]) {
                 lastCollapsedResults.push(result);
-                lastCollapsedResultsComponents.push(<SearchResultContainer {...resultProps} key={Helpers.getId(result)} index={index}/>);
+                lastCollapsedResultsComponents.push(<SearchResultContainer {...resultProps} key={Helpers.getId(result)}
+                                                                           index={index}/>);
             } else {
                 if (lastCollapsedResults.length > 0) {
-                    list.push(<CollapsedResultsButton results={lastCollapsedResults} resultsAreCollapsed={resultsAreCollapsed(lastCollapsedResults)} showCollapsedResultsHandler={showCollapsedResults} hideCollapsedResultsHandler={hideCollapsedResults} searchState={searchState} serpId={serpId} index={index}/>);
+                    list.push(<CollapsedResultsButton results={lastCollapsedResults}
+                                                      resultsAreCollapsed={resultsAreCollapsed(lastCollapsedResults)}
+                                                      showCollapsedResultsHandler={showCollapsedResults}
+                                                      hideCollapsedResultsHandler={hideCollapsedResults}
+                                                      searchState={searchState} serpId={serpId} index={index}/>);
                     list = list.concat(lastCollapsedResultsComponents);
                     list.push(<SearchResultContainer {...resultProps} key={Helpers.getId(result)} index={index}/>);
                     lastCollapsedResults = [];
-                    lastCollapsedResultsComponents =[];
+                    lastCollapsedResultsComponents = [];
                 } else {
                     list.push(<SearchResultContainer {...resultProps} key={Helpers.getId(result)} index={index}/>);
                 }
@@ -115,7 +120,12 @@ const SearchResults = function ({
     }
     if (lastCollapsedResults.length > 0) {
         list = list.concat(lastCollapsedResultsComponents);
-        list.push(<CollapsedResultsButton key={Helpers.getResultIds(lastCollapsedResults)} results={lastCollapsedResults} resultsAreCollapsed={resultsAreCollapsed(lastCollapsedResults)} showCollapsedResultsHandler={showCollapsedResults} hideCollapsedResultsHandler={hideCollapsedResults} searchState={searchState} serpId={serpId}/>);
+        list.push(<CollapsedResultsButton key={Helpers.getResultIds(lastCollapsedResults)}
+                                          results={lastCollapsedResults}
+                                          resultsAreCollapsed={resultsAreCollapsed(lastCollapsedResults)}
+                                          showCollapsedResultsHandler={showCollapsedResults}
+                                          hideCollapsedResultsHandler={hideCollapsedResults} searchState={searchState}
+                                          serpId={serpId}/>);
     }
     const currentCollapsedResultsLength = Object.values(collapsed).filter(value => value).length;
     const allBookmarkedResultsShown = currentCollapsedResultsLength === 0;
@@ -130,17 +140,19 @@ const SearchResults = function ({
                     loaded={results.length > 0 || progress.isRefreshing() || progress.isFinished()}/>
                 }
                 {config.interface.timeIndicator && results.length > 0 &&
-                    <div className="time"> {timeIndicator}</div>
+                <div className="time"> {timeIndicator}</div>
                 }
                 {distributionOfLabour === "unbookmarkedSoft" &&
-                    <div className="collapsedText">
-                        <Button className="allCollapsedResultsButton" onClick={showAllCollapsedResults} disabled={allBookmarkedResultsShown}>
-                            Show all hidden results
-                        </Button>
-                        <Button className="allCollapsedResultsButton" onClick={hideAllCollapsedResults} disabled={allBookmarkedResultsHidden}>
-                            Hide all saved and excluded results
-                        </Button>
-                    </div>
+                <div className="collapsedText">
+                    <Button className="allCollapsedResultsButton" onClick={showAllCollapsedResults}
+                            disabled={allBookmarkedResultsShown}>
+                        Show all hidden results
+                    </Button>
+                    <Button className="allCollapsedResultsButton" onClick={hideAllCollapsedResults}
+                            disabled={allBookmarkedResultsHidden}>
+                        Hide all saved and excluded results
+                    </Button>
+                </div>
                 }
                 <div className="list">
                     {list}

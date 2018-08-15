@@ -6,7 +6,7 @@ import {LoggerEventTypes} from '../../../../../utils/LoggerEventTypes';
 
 ////
 
-const ImagesSearchResult = function({searchState, serpId, result, metadata, bookmarkButton, excludeButton, urlClickHandler}) {
+const ImagesSearchResult = function ({searchState, serpId, result, metadata, bookmarkButton, excludeButton, urlClickHandler}) {
     let metaInfo = {
         url: result.url,
         query: searchState.query,
@@ -41,16 +41,17 @@ const ImagesSearchResult = function({searchState, serpId, result, metadata, book
     return (
         <div className="result-image">
             <VisibilitySensor onChange={viewUrl}
-                scrollCheck
-                delayedCall={true}
-                scrollThrottle={50}
-                intervalDelay={2000}
+                              scrollCheck
+                              delayedCall={true}
+                              scrollThrottle={50}
+                              intervalDelay={2000}
             />
 
             {bookmarkButton}
             {excludeButton}
 
-            <a title={result.name} target="_blank" onClick={clickUrl} onContextMenu={contextUrl} onMouseEnter={hoverEnter} onMouseLeave={hoverLeave}>
+            <a title={result.name} target="_blank" onClick={clickUrl} onContextMenu={contextUrl}
+               onMouseEnter={hoverEnter} onMouseLeave={hoverLeave}>
                 <div className="image" style={{backgroundImage: `url(${result.thumbnailUrl})`}}/>
             </a>
 
