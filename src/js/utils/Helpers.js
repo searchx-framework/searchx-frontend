@@ -1,6 +1,6 @@
 'use strict';
 
-export default {
+const exports = {
     sleep: function(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     },
@@ -43,5 +43,19 @@ export default {
         let arr = new Uint8Array((len || 30) / 2);
         window.crypto.getRandomValues(arr);
         return Array.from(arr, dec2hex).join('')
+    },
+
+    numberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    },
+
+    getId(result) {
+        return result.id ? result.id : result.url;
     }
-}
+};
+
+exports.getResultIds = function(results) {
+    return results.map(result => exports.getId(result));
+};
+
+export default exports;
