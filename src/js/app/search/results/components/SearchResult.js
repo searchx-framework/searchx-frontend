@@ -76,7 +76,7 @@ function formatMetadata(metadata) {
         elements.push(<span><i className="fa fa-comments"/> {metadata.annotations.length}</span>);
     }
 
-    if (config.interface.bookmarkTime && metadata.bookmark) {
+    if (config.interface.saveTimestamp && metadata.bookmark) {
         const date = new Date(metadata.bookmark.date);
         const now = new Date().toLocaleDateString();
 

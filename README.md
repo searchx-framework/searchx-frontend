@@ -8,34 +8,37 @@ It is built on NodeJS using the [React](https://reactjs.org/) + [Flux](https://f
 
 # Setup
 
-- Make sure the [SearchX back end](https://github.com/felipemoraes/searchx-api) is up and running.
+- Make sure the [SearchX back end](https://github.com/felipemoraes/searchx-backend) is up and running.
 
-- Configure the back end API address in `webpack.config.js`:
-```
-externals: {
-    'config': JSON.stringify(process.env.ENV === 'production' ? {
-        serverUrl: "https://myserver.com"
-    } : {
-        serverUrl: "http://localhost:4443"
-    })
-}
-```
-
-- Install all dependencies:
-```
-// Install webpack
-npm i babel webpack webpack-dev-server
-
-// Install rest of dependencies
-npm update
-```
+- Set up the server and install dependencies:
+    ```
+    // Clone the repository
+    git clone https://github.com/felipemoraes/searchx-frontend.git
+    
+    // Change directory to repository
+    cd searchx-frontend
+    
+    // Install dependencies:
+    npm install
+    
+    // Copy example configuration
+    cp .env.example .env
+    ```
 
 - Start the development server:
-```
-npm start
+    ```
+    npm start
+    
+    // Now check http://localhost:8080/search
+    ```
+# Configuration
+The main production configuration keys are can be found in your `.env` file. If the backend runs on the same server as the frontend the default values work for local access. If you want access the frontend publicly you need to set at least the `REACT_APP_PUBLIC_URL` key. The keys are:
+- `PORT`: the port at which the frontend will run
+- `REACT_APP_PUBLIC_URL`: the url at which the server can be accessed publicly
+- `REACT_APP_SERVER_URL`: the url at which the backend server can be accessed by the frontend
+- `REACT_APP_RENDERER_URL`: the url at which the renderer server can be accessed by the frontend
 
-// Now check http://localhost:8080/search
-```
+Configuration to customize SearchX's functionality can be found in `src/js/config.js`. This configuration can be used to toggle various features on and off, see the comments in the file for a description of the available options.
 
 # Modifications
 
