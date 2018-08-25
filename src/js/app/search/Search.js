@@ -65,7 +65,9 @@ class Search extends React.Component {
 
 Search.defaultProps = {
     collaborative: true,
-    showAccountInfo: true
+    showAccountInfo: true,
+    firstSession: true,
+    lastSession: true
 };
 
 export default Search;
