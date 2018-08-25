@@ -7,7 +7,6 @@ import ActionTypes from '../../../../actions/ActionTypes';
 import AccountStore from '../../../../stores/AccountStore';
 import SyncStore from '../../../../stores/SyncStore';
 import SearchStore from "../../SearchStore";
-import SearchActions from "../../../../actions/SearchActions";
 
 const CHANGE_EVENT = 'change_bookmark';
 

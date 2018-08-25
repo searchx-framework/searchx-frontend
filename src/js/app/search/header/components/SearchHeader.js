@@ -7,16 +7,22 @@ import SearchVerticals from './SearchVerticals';
 import AccountInfo from "./AccountInfo";
 
 
-const Header = function({query, vertical, provider, searchHandler, queryChangeHandler, verticalChangeHandler, timer, userId, groupId, showAccountInfo}) {
+const Header = function ({query, vertical, provider, searchHandler, queryChangeHandler, verticalChangeHandler, timer, userId, groupId, showAccountInfo}) {
     return (
         <div className="SearchHeader">
-            <Logo />
-            <form action="/" method="GET" className="form" onSubmit={e => {e.preventDefault();searchHandler();}}>
+            <Logo/>
+            <form action="/" method="GET" className="form" onSubmit={e => {
+                e.preventDefault();
+                searchHandler();
+            }}>
                 <SearchBox query={query} changeHandler={queryChangeHandler}/>
-                <SearchVerticals query={query} activeVertical={vertical} changeHandler={verticalChangeHandler} provider={provider}/>
+                <SearchVerticals query={query} activeVertical={vertical} changeHandler={verticalChangeHandler}
+                                 provider={provider}/>
             </form>
-            <AccountInfo userId={userId} groupId={groupId}/>
-            {timer}
+            {showAccountInfo && <AccountInfo userId={userId} groupId={groupId}/>}
+            <div className="TimerDiv">
+                {timer}
+            </div>
         </div>
     )
 };
