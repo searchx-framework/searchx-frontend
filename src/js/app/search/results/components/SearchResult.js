@@ -24,12 +24,15 @@ const SearchResult = function ({
         title="Save result"
     />;
 
-    const excludeButton = <Rating
-        className="rating" empty="fa fa-ban" full="fa fa-ban red"
-        onClick={excludeClickHandler}
-        stop={1} initialRate={initialExclude}
-        title="Exclude result from future queries"
-    />;
+    // TODO: use variant from SearchStore instead of defaultVariant
+    const excludeButton = <div>
+        {config.defaultVariant === 'S0' ? <div/> : <Rating
+            className="rating" empty="fa fa-ban" full="fa fa-ban red"
+            onClick={excludeClickHandler}
+            stop={1} initialRate={initialExclude}
+            title="Exclude result from future queries"
+        />}
+    </div>;
 
 
     const props = {

@@ -48,7 +48,7 @@ export default class SearchResultContainer extends React.Component {
 
     bookmarkClickHandler() {
         let action = "";
-        const id = this.props.result.id ? this.props.result.id : this.props.result.url;
+        const id = this.props.result.url ? this.props.result.url : this.props.result.id;
         if (this.props.result.metadata.bookmark) {
             action = "remove";
             SessionActions.removeBookmark(id);
@@ -83,7 +83,7 @@ export default class SearchResultContainer extends React.Component {
 
     excludeClickHandler() {
         let action = "";
-        const id = this.props.result.id ? this.props.result.id : this.props.result.url;
+        const id = this.props.result.url ? this.props.result.url : this.props.result.id;
         if (this.props.result.metadata.exclude) {
             action = "remove";
             SessionActions.removeExclude(id);

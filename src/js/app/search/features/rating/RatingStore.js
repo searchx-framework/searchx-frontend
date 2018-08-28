@@ -32,7 +32,9 @@ const RatingStore = Object.assign(EventEmitter.prototype, {
             return state.ratings[url];
         } else {
             const results = SearchStore.getSearchResultsMap();
-            return results[url].metadata.rating;
+            if (results.hasOwnProperty(url)) {
+                return results[url].metadata.rating;
+            }
         }
     },
     dispatcherIndex: register(action => {

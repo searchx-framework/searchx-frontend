@@ -171,7 +171,11 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
     },
     getSearchResultsMap() {
         return state.results.reduce(function (map, result) {
-            map[result.id] = result;
+            if (result.url) {
+                map[result.url] = result;
+            } else {
+                map[result.id] = result;
+            }
             return map;
         }, {});
     },
@@ -325,7 +329,11 @@ const _getById = function (id) {
         .end((err, res) => {
             if (!res.body.error) {
                 const result = res.body.result;
-                state.activeUrl = result.id;
+                if (result.url) {
+                    state.activeUrl = result.activeUrl;
+                } else {
+                    state.activeUrl = result.id;
+                }
 
                 var doctext = result.text.split('\n').map((item, key) => {
                     return <span key={key}>{item}<br/></span>
@@ -376,14 +384,15 @@ const _update_metadata = function () {
 
     state.results = state.results.map(result => {
         const newresult = result;
-        newresult.metadata.bookmark = bookmarkMap[result.id];
-        newresult.metadata.exclude = excludeMap[result.id];
+        const resultId = result.url ? result.url : result.id;
+        newresult.metadata.bookmark = bookmarkMap[resultId];
+        newresult.metadata.exclude = excludeMap[resultId];
 
-        if (annotationsMap.hasOwnProperty(result.id)) {
-            newresult.metadata.annotations = annotationsMap[result.id];
+        if (annotationsMap.hasOwnProperty(resultId)) {
+            newresult.metadata.annotations = annotationsMap[resultId];
         }
-        if (ratingsMap.hasOwnProperty(result.id)) {
-            newresult.metadata.rating = ratingsMap[result.id];
+        if (ratingsMap.hasOwnProperty(resultId)) {
+            newresult.metadata.rating = ratingsMap[resultId];
         }
         return newresult;
     });

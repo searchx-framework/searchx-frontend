@@ -32,7 +32,9 @@ const AnnotationStore = Object.assign(EventEmitter.prototype, {
             return state.annotations[url];
         } else {
             const results = SearchStore.getSearchResultsMap();
-            return results[url].metadata.annotations;
+            if (results.hasOwnProperty(url)) {
+                return results[url].metadata.annotations;
+            }
         }
     },
     dispatcherIndex: register(action => {

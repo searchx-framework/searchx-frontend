@@ -22,7 +22,7 @@ function starHandler(url) {
 function clickHandler(url) {
     if (isNaN(url)){
         SearchActions.openUrl(url);
-    } {
+    } else {
         SearchActions.getDocumentById(url);
     }
 }
