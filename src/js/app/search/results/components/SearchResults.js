@@ -49,7 +49,7 @@ const SearchResults = function ({
         </CenteredMessage>
     }
 
-    if (!progress.finished) {
+    if (progress.querySubmitted && !progress.finished) {
         return <CenteredMessage height="800px">
             <Loader/>
         </CenteredMessage>
