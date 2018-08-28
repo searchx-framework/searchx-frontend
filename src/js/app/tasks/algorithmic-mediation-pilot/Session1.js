@@ -146,12 +146,12 @@ function getIntroSteps() {
                 position: 'bottom'
             },
             {
-                element: '.SearchResults',
+                element: '.SearchResultsContainer',
                 intro: 'The search results for your queries will appear here. You can also see which results have been saved and excluded.',
                 position: 'right'
             },
             {
-                element: '.SearchResults',
+                element: '.SearchResultsContainer',
                 intro: 'Use the Save icon (flag) on the left to save a useful result. Use the Forbidden icon to not show this result anymore for this topic.',
                 position: 'right'
             },

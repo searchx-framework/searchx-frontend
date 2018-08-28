@@ -38,7 +38,9 @@ class Search extends React.Component {
 
                 <div className="Content">
                     <div className="Main">
-                        <SearchResultsContainer/>
+                        <div className="SearchResultsContainer">
+                            <SearchResultsContainer/>
+                        </div>
                     </div>
 
                     <div className="Side">
