@@ -49,7 +49,11 @@ const RatingStore = Object.assign(EventEmitter.prototype, {
                 break;
         }
         RatingStore.emitChange();
-    })
+    }),
+    // Todo: remove this hack by refactoring async fetching to happen in action dispatchers
+    _get_rating(url) {
+        _get_rating(url);
+    }
 });
 
 ////

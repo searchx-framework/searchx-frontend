@@ -7,6 +7,8 @@ import ActionTypes from '../../../../actions/ActionTypes';
 import AccountStore from '../../../../stores/AccountStore';
 import SyncStore from '../../../../stores/SyncStore';
 import SearchStore from "../../SearchStore";
+import AnnotationStore from "../annotation/AnnotationStore";
+import RatingStore from "../rating/RatingStore.js";
 
 const CHANGE_EVENT = 'change_bookmark';
 
@@ -90,6 +92,15 @@ const _get = function(type) {
                 state[type] = [];
             } else {
                 state[type] = res.body.results;
+                res.body.results.forEach(result => {
+                    const resultId = result.url ? result.url : result.id;
+                    if (!AnnotationStore.getUrlAnnotations(resultId)) {
+                        AnnotationStore._get_annotations(resultId);
+                    }
+                    if (!RatingStore.getUrlRating(resultId)) {
+                        RatingStore._get_rating(resultId);
+                    }
+                })
             }
             BookmarkStore.emitChange();
             SearchStore.updateMetadata();

@@ -50,7 +50,11 @@ const AnnotationStore = Object.assign(EventEmitter.prototype, {
                 break;
         }
         AnnotationStore.emitChange();
-    })
+    }),
+    // Todo: remove this hack by refactoring async fetching to happen in action dispatchers
+    _get_annotations(url) {
+        _get_annotations(url);
+    }
 });
 
 ////
@@ -59,9 +63,9 @@ let _get_annotations = function(url) {
     request
         .get(`${process.env.REACT_APP_SERVER_URL}/v1/session/${AccountStore.getSessionId()}/annotation/?url=${encodeURIComponent(url)}`)
         .end((err, res) => {
-            if (err || !res.body || res.body.error || res.body.results.length < 1) {
+            if (err || !res.body || res.body.error) {
             } else {
-                state.annotations[res.body.results[0].url] = res.body.results;
+                state.annotations[url] = res.body.results;
             }
             AnnotationStore.emitChange();
             SearchStore.updateMetadata();
