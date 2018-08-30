@@ -1,4 +1,5 @@
 const requiredEnv = [
+    'REACT_APP_PUBLIC_URL',
     'REACT_APP_SERVER_URL'
 ];
 

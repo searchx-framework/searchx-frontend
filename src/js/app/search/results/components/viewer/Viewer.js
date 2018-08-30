@@ -9,7 +9,9 @@ import AnnotationContainer from "../../../features/annotation/AnnotationContaine
 import RatingContainer from "../../../features/rating/RatingContainer";
 import Modal from "../../../../common/Modal";
 
-const Viewer = function({searchState, serpId, url, documentCloseHandler}) {
+import config from '../../../../../config';
+
+const Viewer = function ({searchState, serpId, url, documentCloseHandler, doctext}) {
     if (url === "") {
         return <div/>
     }
@@ -20,51 +22,62 @@ const Viewer = function({searchState, serpId, url, documentCloseHandler}) {
         url: url,
         query: searchState.query,
         page: searchState.page,
-        vertical: searchState.vertical,
-        serpId: serpId,
+        vertical: searchState.vertical
     };
 
     let hoverEnterDocument = () => {
         log(LoggerEventTypes.DOCUMENT_HOVERENTER, metaInfo)
     };
     let hoverLeaveDocument = () => {
-        log(LoggerEventTypes.DOCUMENT_HOVERLEAVE,metaInfo)
+        log(LoggerEventTypes.DOCUMENT_HOVERLEAVE, metaInfo)
     };
     let closeDocument = () => {
         documentCloseHandler();
         log(LoggerEventTypes.DOCUMENT_CLOSE, metaInfo);
-        document.getElementById("viewer-content-loader").style.display = "block";
     };
     let loadDocument = () => {
         log(LoggerEventTypes.DOCUMENT_LOAD, metaInfo);
-        document.getElementById("viewer-content-loader").style.display = "none";
+        if (!doctext) {
+            document.getElementById("viewer-content-loader").style.display = "none";
+        }
     };
     let openInBrowser = () => {
         log(LoggerEventTypes.DOCUMENT_OPEN_BROWSER, metaInfo);
         window.open(url);
     };
 
+    let scrollDocument = () => {
+        log(LoggerEventTypes.DOCUMENT_SCROLL, metaInfo);
+    };
+
     return (
         <Modal width="95%" height="90%">
-            <div className="viewer" onMouseEnter={hoverEnterDocument} onMouseLeave={hoverLeaveDocument}>
+            <div className="viewer" onMouseEnter={hoverEnterDocument} onMouseLeave={hoverLeaveDocument}
+                 onScroll={scrollDocument}>
                 <div className="header">
-                    <span className="title">{url}</span>
+
 
                     <div className="pull-right">
-                        <span className="forward" onClick={openInBrowser}>open in browser</span>
-                        <span className="divider"/>
-                        <RatingContainer url={url}/>
-                        <span className="divider"/>
+                        {!doctext && [
+                            <span className="forward" onClick={openInBrowser}>open in browser</span>,
+                            <span className="divider"/>
+                        ]}
+                        {config.interface.ratings && [
+                            <RatingContainer url={url}/>,
+                            <span className="divider"/>
+                        ]}
                         <span className="close" onClick={closeDocument}><i className="fa fa-times"/></span>
                     </div>
                 </div>
 
                 <div className="body">
-                    <div className="sidebar">
-                        <AnnotationContainer url={url}/>
-                    </div>
+                    {config.interface.annotations && (
+                        <div className="sidebar">
+                            <AnnotationContainer url={url}/>
+                        </div>
+                    )}
 
-                    <ViewerPage url={url} loadHandler={loadDocument} />
+                    <ViewerPage url={url} loadHandler={loadDocument} doctext={doctext}/>
                 </div>
             </div>
         </Modal>

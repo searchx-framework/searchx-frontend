@@ -12,25 +12,51 @@
         margin-bottom: 15px;
     }
 
+    .collapsedText {
+        color: $description-grey;
+        font-size: 13px;
+        font-weight: normal;
+
+        margin-left: 15px;
+        margin-bottom: 15px;
+    }
+
     .list {
         padding-left: 15px;
     }
 
     .SearchResult {
+        .visited {
+            color: #609;
+        }
+
+        .visited:hover {
+            color: #609;
+        }
+
+        .lineContainer {
+            display: flex;
+            align-items: stretch;
+        }
+        .clickArea {
+            width: 100%;
+        }
+
         a {
             cursor: pointer;
         }
 
         h2 {
+            flex: 1 0 auto;
             font-size: 18px;
             line-height: 21px;
 
             margin-bottom: 1px;
             margin-top: 0;
             max-width: 500px;
-
             display: block;
             overflow: hidden;
+
             text-overflow: ellipsis;
             white-space: nowrap;
 
@@ -78,7 +104,6 @@
         .rating {
             float : left;
             margin-right: 5px;
-            padding-top: 1px;
 
             .fa-bookmark {
                 font-size: 18px;
@@ -87,7 +112,16 @@
 
             .fa-bookmark-o {
                 font-size: 18px;
-                color: #e5c100;
+                color: #cccccc;
+            }
+
+            .fa-ban {
+                font-size: 18px;
+                color: #cccccc;
+            }
+
+            .red {
+                color: #ff0000;
             }
         }
 
@@ -172,6 +206,42 @@
                 margin-bottom: 10px;
                 background-color: black;
             }
+        }
+
+        .result-text {
+            margin-bottom: 15px;
+            margin-left: 0;
+
+            p {
+                max-width: 700px;
+            }
+
+            h2 {
+                max-width: 700px;
+            }
+
+        }
+    }
+
+    .collapsedResultsButton {
+        width: 100%;
+        box-shadow: 0.5px 0.5px 0.5px 0.5px #BFBFBF;
+    }
+
+    .allCollapsedResultsButton {
+        margin-right: 15px;
+        box-shadow: 0.5px 0.5px 0.5px 0.5px #BFBFBF;
+        
+    }
+
+    .result-collapsed {
+        margin-bottom: 15px;
+        margin-left: 0;
+        max-width: 700px;
+
+        .resultIcon {
+            margin-right: 5px;
+            color: #cccccc;
         }
     }
 }

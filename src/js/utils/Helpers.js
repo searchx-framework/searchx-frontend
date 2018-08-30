@@ -1,6 +1,6 @@
 'use strict';
 
-export default {
+const exports = {
     sleep: function(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     },
@@ -29,5 +29,33 @@ export default {
 
     capitalizeFirstLetter: function(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
+    },
+
+    // Not using the Math.random().toString(36) trick, since that may generate an empty string and is not properly random.
+    // Not using an uuid since this needs to be easy to copy (e.g. for a group name).
+    // Use 30 characters for entropy similar to a uuid.
+    // Based on: https://stackoverflow.com/a/27747377
+    generateId (len) {
+        const dec2hex = function(dec) {
+            return ('0' + dec.toString(16)).substr(-2)
+        };
+
+        let arr = new Uint8Array((len || 30) / 2);
+        window.crypto.getRandomValues(arr);
+        return Array.from(arr, dec2hex).join('')
+    },
+
+    numberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    },
+
+    getId(result) {
+        return result.id ? result.id : result.url;
     }
-}
+};
+
+exports.getResultIds = function(results) {
+    return results.map(result => exports.getId(result));
+};
+
+export default exports;

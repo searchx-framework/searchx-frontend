@@ -6,7 +6,7 @@ import {LoggerEventTypes} from '../../../../../utils/LoggerEventTypes';
 
 ////
 
-const NewsSearchResult = function({searchState, serpId, result, metadata, bookmarkButton, urlClickHandler}) {
+const NewsSearchResult = function ({searchState, serpId, result, metadata, bookmarkButton, excludeButton, urlClickHandler}) {
     let metaInfo = {
         url: result.url,
         query: searchState.query,
@@ -17,7 +17,7 @@ const NewsSearchResult = function({searchState, serpId, result, metadata, bookma
 
     let clickUrl = () => {
         urlClickHandler(result.url);
-        log(LoggerEventTypes.SEARCHRESULT_CLICK_URL,metaInfo);
+        log(LoggerEventTypes.SEARCHRESULT_CLICK_URL, metaInfo);
     };
 
     let viewUrl = (isVisible) => {
@@ -48,22 +48,23 @@ const NewsSearchResult = function({searchState, serpId, result, metadata, bookma
     return (
         <div className="result-news">
             <VisibilitySensor onChange={viewUrl}
-                scrollCheck
-                delayedCall={true}
-                scrollThrottle={50}
-                intervalDelay={2000}
+                              scrollCheck
+                              delayedCall={true}
+                              scrollThrottle={50}
+                              intervalDelay={2000}
             />
 
             <div onMouseEnter={hoverEnterSummary} onMouseLeave={hoverLeaveSummary}>
                 <div className="image">
                     {result.image ?
-                        <div> <img src={result.image.thumbnail.contentUrl} /></div> :
-                        <div> <img src='/img/image_placeholder.png'/> </div>
+                        <div><img src={result.image.thumbnail.contentUrl}/></div> :
+                        <div><img src='/img/image_placeholder.png'/></div>
                     }
                 </div>
 
                 <div className="info">
                     {bookmarkButton}
+                    {excludeButton}
 
                     <h2>
                         <a title={result.name} target="_blank" onClick={clickUrl} onContextMenu={contextUrl}>
@@ -72,7 +73,7 @@ const NewsSearchResult = function({searchState, serpId, result, metadata, bookma
                     </h2>
 
                     <span className="source">
-                        { result.provider[0].name + " - " + cdate.getDate().toString() + " "  + monthNames[cdate.getMonth()] + " " + cdate.getFullYear().toString() }
+                        {result.provider[0].name + " - " + cdate.getDate().toString() + " " + monthNames[cdate.getMonth()] + " " + cdate.getFullYear().toString()}
                     </span>
 
                     <p>

@@ -1,3 +1,4 @@
+import React from 'react';
 import request from 'superagent';
 import EventEmitter from 'events';
 import config from "../../config"
@@ -13,6 +14,9 @@ import Helpers from '../../utils/Helpers';
 import SyncStore from '../../stores/SyncStore';
 import AccountStore from '../../stores/AccountStore';
 import history from "../History";
+import BookmarkStore from "./features/bookmark/BookmarkStore";
+import AnnotationStore from "./features/annotation/AnnotationStore";
+import RatingStore from "./features/rating/RatingStore";
 
 const CHANGE_EVENT = 'change_search';
 
@@ -20,26 +24,52 @@ const CHANGE_EVENT = 'change_search';
 
 const provider = Helpers.getURLParameter('provider') || config.defaultProvider;
 
-let state = {
-    query: Helpers.getURLParameter('q') || '',
-    vertical: Helpers.getURLParameter('v') || config.providerVerticals.get(provider).keys().next().value,
-    page: parseInt(Helpers.getURLParameter('p')) || 1,
-    provider: provider,
 
-    finished: false,
-    resultsNotFound: false,
+let state;
 
-    results: [],
-    matches: 0,
-    elapsedTime: 0,
-    serpId: '',
-
-    tutorial: false,
-    activeUrl: ""
+const _setVariant = function () {
+    let variant;
+    if (config.fallbackToS0ForGroupSize1 && AccountStore.getTaskData().size === 1) {
+        variant = 'S0';
+    } else if (config.variantQueryParameter) {
+        variant = Helpers.getURLParameter('variant') || config.defaultVariant;
+    } else {
+        variant = config.defaultVariant;
+    }
+    state.variant = variant;
+    state.relevanceFeedback = variant === 'S2' ? 'individual' : variant === 'S3' ? 'shared' : false;
+    state.distributionOfLabour = variant === 'S0' ? false : variant === 'S1-Hard' ? 'unbookmarkedOnly' : 'unbookmarkedSoft';
 };
 
-////
+/*
+ * Reset all SearchStore state except variant
+ */
+const _setState = function () {
+    state = {
+        query: Helpers.getURLParameter('q') || '',
+        vertical: Helpers.getURLParameter('v') || config.providerVerticals[provider].keys().next().value,
+        page: parseInt(Helpers.getURLParameter('p')) || 1,
+        provider: provider,
 
+        submittedQuery: false,
+        finished: false,
+        resultsNotFound: false,
+
+        results: [],
+        matches: 0,
+        elapsedTime: 0,
+        serpId: '',
+
+        tutorial: false,
+        activeUrl: "",
+        activeDoctext: "",
+    };
+    _setVariant();
+};
+
+_setState();
+
+////
 const SearchStore = Object.assign(EventEmitter.prototype, {
     emitChange() {
         this.emit(CHANGE_EVENT);
@@ -59,16 +89,19 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
         state.tutorial = false;
         this.emitChange();
     },
+    updateMetadata() {
+        _update_metadata()
+    },
 
     ////
 
     getActiveUrl() {
         return state.activeUrl
     },
-    getMatches(){
+    getMatches() {
         return state.matches || 0;
     },
-    getElapsedTime(){
+    getElapsedTime() {
         return state.elapsedTime;
     },
     getSerpId() {
@@ -77,19 +110,74 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
     getProvider() {
         return state.provider;
     },
+    getVariant() {
+        return state.variant;
+    },
+    getDistributionOfLabour() {
+        return state.distributionOfLabour;
+    },
+    getRelevanceFeedback() {
+        return state.relevanceFeedback;
+    },
+    getActiveDoctext() {
+        return state.activeDoctext;
+    },
+    getTutorial() {
+        return state.tutorial;
+    },
 
     getSearchResults() {
         if (state.tutorial) {
             return [
-                {name: "You can view the first result here", displayUrl: "https://www.result1.com" , snippet: "This is the first result..."},
-                {name: "You can view the second result here", displayUrl: "https://www.result2.com" , snippet: "This is the second result...", metadata: {bookmark: {userId: AccountStore.getUserId(), date: new Date()}, views: 10, rating: -5, annotations: 10}},
-                {name: "You can view the third result here", displayUrl: "https://www.result3.com" , snippet: "This is the third result...", metadata: {bookmark: {userId: 'test', date: new Date() - 2000}}},
-                {name: "You can view the fourth result here", displayUrl: "https://www.result4.com" , snippet: "This is the fourth result..."},
-                {name: "You can view the fifth result here", displayUrl: "https://www.result5.com" , snippet: "This is the fifth result..."}
+                {
+                    name: "You can view the first result here",
+                    id: "1",
+                    snippet: "This is the first result...",
+                    metadata: {}
+                },
+                {
+                    name: "You can view the second result here",
+                    id: "2",
+                    snippet: "This is the second result...",
+                    metadata: {
+                        bookmark: {userId: AccountStore.getUserId(), date: new Date()},
+                        views: 10,
+                        rating: {total: -5, rating: 0},
+                        annotations: [1]
+                    }
+                },
+                {
+                    name: "You can view the third result here",
+                    id: "3",
+                    snippet: "This is the third result...",
+                    metadata: {bookmark: {userId: 'test', date: new Date() - 2000}}
+                },
+                {
+                    name: "You can view the fourth result here",
+                    id: "4",
+                    snippet: "This is the fourth result...",
+                    metadata: {}
+                },
+                {
+                    name: "You can view the fifth result here",
+                    id: "5",
+                    snippet: "This is the fifth result...",
+                    metadata: {}
+                }
             ];
         }
 
         return state.results;
+    },
+    getSearchResultsMap() {
+        return state.results.reduce(function (map, result) {
+            if (result.url) {
+                map[result.url] = result;
+            } else {
+                map[result.id] = result;
+            }
+            return map;
+        }, {});
     },
     getSearchState() {
         return {
@@ -108,10 +196,14 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
 
     ////
 
-    modifyMetadata(url, newData) {
-        state.results.forEach((item) => {
-            if (item.url === url ) {
-                item.metadata = Object.assign(item.metadata, newData);
+    modifyMetadata(id, newData) {
+        state.results.forEach((result) => {
+            if (result.id) {
+                if (result.id === id) {
+                    result.metadata = Object.assign(result.metadata, newData);
+                }
+            } else if (result.url === id) {
+                result.metadata = Object.assign(result.metadata, newData);
             }
         });
 
@@ -121,7 +213,7 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
     ////
 
     dispatcherIndex: register(action => {
-        switch(action.type) {
+        switch (action.type) {
             case ActionTypes.SEARCH:
                 _search(action.payload.query, action.payload.vertical, action.payload.page);
                 break;
@@ -132,16 +224,26 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
                 _search(state.query, state.vertical, action.payload.page);
                 break;
             case ActionTypes.UPDATE_METADATA:
-                _updateMetadata(state.query, state.vertical, action.payload.page);
+                _update_metadata();
                 break;
             case ActionTypes.OPEN_URL:
                 state.activeUrl = action.payload.url;
+                state.activeDoctext = action.payload.doctext;
                 SyncStore.emitViewState(action.payload.url);
                 break;
             case ActionTypes.CLOSE_URL:
                 state.activeUrl = "";
+                state.activeDoctext = "";
                 SyncStore.emitViewState(null);
                 break;
+            case ActionTypes.GET_DOCUMENT_BY_ID:
+                _getById(action.payload.id);
+                break;
+            case ActionTypes.RESET:
+                _setState();
+                break;
+            case ActionTypes.CHANGE_VARIANT:
+                _setVariant()
         }
 
         SearchStore.emitChange();
@@ -163,7 +265,7 @@ const _search = (query, vertical, page) => {
     state.finished = false;
     state.resultsNotFound = false;
 
-    _updateUrl(state.query, state.vertical, state.page, state.provider);
+    _updateUrl(state.query, state.vertical, state.page, state.provider, state.variant);
     SyncStore.emitSearchState(SearchStore.getSearchState());
     SearchStore.emitChange();
 
@@ -174,12 +276,14 @@ const _search = (query, vertical, page) => {
     }
 
     request
-        .get(process.env.REACT_APP_SERVER_URL + '/v1/search/'+state.vertical
-            + '/?query='+ state.query
-            + '&page='+ state.page
-            + '&userId='+ AccountStore.getUserId()
-            + '&sessionId='+ AccountStore.getSessionId()
+        .get(process.env.REACT_APP_SERVER_URL + '/v1/search/' + state.vertical
+            + '/?query=' + state.query
+            + '&page=' + state.page
+            + '&userId=' + AccountStore.getUserId()
+            + '&sessionId=' + AccountStore.getSessionId()
             + '&providerName=' + state.provider
+            + '&relevanceFeedback=' + state.relevanceFeedback
+            + '&distributionOfLabour=' + state.distributionOfLabour
         )
         .end((err, res) => {
             if (err || !res.body || res.body.error) {
@@ -216,21 +320,85 @@ const _search = (query, vertical, page) => {
         });
 };
 
-const _updateMetadata = function(query, vertical, page) {
-    if (query === state.query && vertical === state.vertical && page === state.page) {
-        _search(query, vertical, page);
-    }
+const _getById = function (id) {
+    request
+        .get(process.env.REACT_APP_SERVER_URL + '/v1/search/' + state.vertical
+            + '/getById/' + id
+            + '?providerName=' + state.provider
+        )
+        .end((err, res) => {
+            if (!res.body.error) {
+                const result = res.body.result;
+                if (result.url) {
+                    state.activeUrl = result.activeUrl;
+                } else {
+                    state.activeUrl = result.id;
+                }
+
+                var doctext = result.text.split('\n').map((item, key) => {
+                    return <span key={key}>{item}<br/></span>
+                })
+
+                doctext.unshift(<h4> {result.source} <br/></h4>);
+                doctext.unshift(<h3> {result.name} <br/></h3>);
+
+                state.activeDoctext = doctext;
+            }
+
+            SyncStore.emitViewState(id);
+            SearchStore.emitChange();
+        });
 };
 
-const _updateUrl = function(query, vertical, page, provider) {
+const _updateUrl = function (query, vertical, page, provider, variant) {
     const url = window.location.href;
     const route = url.split("/").pop().split("?")[0];
-    const params = 'q='+ query +'&v='+ vertical.toLowerCase() +'&p='+ page + '&provider=' + provider;
+    let params = 'q=' + query + '&v=' + vertical + '&p=' + page + '&provider=' + provider;
+    if (config.variantQueryParameter) {
+        params += '&variant=' + variant;
+    }
 
-    history.push({
+    // todo: change this back to push to enable back button
+    history.replace({
         pathname: route,
         search: params
     });
+};
+
+/*
+ * Update result metadata by refreshing bookmarks and excludes from the BookmarkStore
+ */
+const _update_metadata = function () {
+    const bookmarks = BookmarkStore.getBookmarks();
+    const excludes = BookmarkStore.getExcludes();
+    const bookmarkMap = {};
+    const excludeMap = {};
+    bookmarks.forEach(bookmark => {
+        bookmarkMap[bookmark.url] = bookmark;
+    });
+    excludes.forEach(exclude => {
+        excludeMap[exclude.url] = exclude;
+    });
+    const annotationsMap = AnnotationStore.getAnnotations();
+    const ratingsMap = RatingStore.getRatings();
+
+    state.results = state.results.map(result => {
+        const newresult = result;
+        const resultId = result.url ? result.url : result.id;
+        newresult.metadata.bookmark = bookmarkMap[resultId];
+        newresult.metadata.exclude = excludeMap[resultId];
+
+        if (annotationsMap.hasOwnProperty(resultId)) {
+            newresult.metadata.annotations = annotationsMap[resultId];
+        }
+        if (ratingsMap.hasOwnProperty(resultId)) {
+            newresult.metadata.rating = ratingsMap[resultId];
+        }
+        return newresult;
+    });
+
+
+    SearchStore.emitChange();
 };
 
 ////

@@ -7,12 +7,16 @@ import {log} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../utils/LoggerEventTypes';
 import SearchHeader from "./components/SearchHeader";
 import SearchStore from "../SearchStore";
+import AccountStore from "../../../stores/AccountStore"
 
 export default class SearchHeaderContainer extends React.Component {
     constructor() {
         super();
-        this.state = SearchStore.getSearchState();
-        this.state.storedQuery = this.state.query;
+        const searchState = SearchStore.getSearchState();
+        this.state = {
+            searchState: searchState,
+            query: searchState.query
+        };
 
         this.changeHandler = this.changeHandler.bind(this);
         this.searchHandler = this.searchHandler.bind(this);
@@ -26,32 +30,39 @@ export default class SearchHeaderContainer extends React.Component {
     render() {
         return <SearchHeader
             query={this.state.query}
-            vertical={this.state.vertical}
-            provider={this.state.provider}
+            vertical={this.state.searchState.vertical}
+            provider={this.state.searchState.provider}
             searchHandler={this.searchHandler}
             queryChangeHandler={this.queryChangeHandler}
             verticalChangeHandler={this.verticalChangeHandler}
+            timer={this.props.timer}
+            // these props do not update to changes
+            userId={AccountStore.getUserId()}
+            groupId={AccountStore.getGroupId()}
+            showAccountInfo={this.props.showAccountInfo}
         />
     }
 
     ////
 
     changeHandler() {
-        const nextState = SearchStore.getSearchState();
-        if (nextState.query !== this.state.storedQuery || nextState.vertical !== this.state.vertical) {
-            this.state.storedQuery = nextState.query;
-            this.setState(nextState);
+        const nextSearchState = SearchStore.getSearchState();
+        if (nextSearchState.vertical !== this.state.searchState.vertical || nextSearchState.query !== this.state.searchState.query) {
+            this.setState({
+                searchState: nextSearchState,
+                query: nextSearchState.query
+            });
         }
     }
 
     searchHandler() {
         log(LoggerEventTypes.SEARCH_QUERY, {
             query: this.state.query,
-            vertical: this.state.vertical
+            vertical: this.state.searchState.vertical
         });
 
-        SearchActions.search(this.state.query, this.state.vertical, 1);
-        SessionActions.getBookmarks();
+        SearchActions.search(this.state.query, this.state.searchState.vertical, 1);
+        SessionActions.getBookmarksAndExcludes();
     }
 
     queryChangeHandler(query) {
@@ -64,9 +75,9 @@ export default class SearchHeaderContainer extends React.Component {
         vertical = vertical.toLowerCase();
 
         log(LoggerEventTypes.SEARCH_CHANGE_VERTICAL, {
-            query: this.state.query,
+            query: this.state.searchState.query,
             vertical: vertical,
-            previous: this.state.vertical
+            previous: this.state.searchState.vertical
         });
 
         SearchActions.changeVertical(vertical);

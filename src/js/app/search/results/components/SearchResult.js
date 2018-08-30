@@ -1,11 +1,65 @@
 import React from 'react';
 import Rating from 'react-rating';
 
-import WebSearchResult from './types/WebSearchResult';
-import NewsSearchResult from './types/NewsSearchResult';
-import ImagesSearchResult from './types/ImagesSearchResult';
-import VideosSearchResult from './types/VideosSearchResult';
-import {providerVerticals} from "../../../../config";
+import {Button, Collapse} from "react-bootstrap";
+
+import config from "../../../../config";
+
+const SearchResult = function ({
+                                   searchState, serpId, result, bookmarkClickHandler, urlClickHandler, provider,
+                                   collapsed, excludeClickHandler, hideCollapsedResultsHandler, isCollapsible, visited,
+                                   index
+                               }) {
+    let initialBookmark = 0;
+    let initialExclude = 0;
+    if ('metadata' in result) {
+        initialBookmark = result.metadata.bookmark ? 1 : 0;
+        initialExclude = result.metadata.exclude ? 1 : 0;
+    }
+
+    const bookmarkButton = <Rating
+        className="rating" empty="fa fa-bookmark-o" full="fa fa-bookmark"
+        onClick={bookmarkClickHandler}
+        stop={1} initialRate={initialBookmark}
+        title="Save result"
+    />;
+
+    // TODO: use variant from SearchStore instead of defaultVariant
+    const excludeButton = <div>
+        {config.defaultVariant === 'S0' ? <div/> : <Rating
+            className="rating" empty="fa fa-ban" full="fa fa-ban red"
+            onClick={excludeClickHandler}
+            stop={1} initialRate={initialExclude}
+            title="Exclude result from future queries"
+        />}
+    </div>;
+
+
+    const props = {
+        searchState: searchState,
+        serpId: serpId,
+        result: result,
+        metadata: formatMetadata(result.metadata),
+        bookmarkButton: bookmarkButton,
+        excludeButton: excludeButton,
+        urlClickHandler: urlClickHandler,
+        hideCollapsedResultsHandler: hideCollapsedResultsHandler,
+        isCollapsible: isCollapsible,
+        visited: visited
+    };
+    const ResultType = config.providerVerticals[provider].get(searchState.vertical);
+    const view = <ResultType {...props}/>;
+
+    return (
+        <Collapse in={!collapsed}>
+            <div>
+                <div className="SearchResult">
+                    {view}
+                </div>
+            </div>
+        </Collapse>
+    );
+};
 
 function formatMetadata(metadata) {
     let elements = [];
@@ -13,19 +67,19 @@ function formatMetadata(metadata) {
         return <div/>;
     }
 
-    if ('views' in metadata) {
+    if (config.interface.views && 'views' in metadata) {
         elements.push(<span><i className="fa fa-eye"/> {metadata.views}</span>);
     }
 
-    if ('rating' in metadata) {
-        elements.push(<span><i className="fa fa-thumbs-o-up"/> {metadata.rating}</span>);
+    if (config.interface.ratings && 'rating' in metadata) {
+        elements.push(<span><i className="fa fa-thumbs-o-up"/> {metadata.rating.total}</span>);
     }
 
-    if ('annotations' in metadata) {
-        elements.push(<span><i className="fa fa-comments"/> {metadata.annotations}</span>);
+    if (config.interface.annotations && 'annotations' in metadata) {
+        elements.push(<span><i className="fa fa-comments"/> {metadata.annotations.length}</span>);
     }
 
-    if (metadata.bookmark !== null) {
+    if (config.interface.saveTimestamp && metadata.bookmark) {
         const date = new Date(metadata.bookmark.date);
         const now = new Date().toLocaleDateString();
 
@@ -41,35 +95,5 @@ function formatMetadata(metadata) {
 
     return <div className="metadata">{elements}</div>;
 }
-
-const SearchResult = function({searchState, serpId, result, bookmarkClickHandler, urlClickHandler, provider}) {
-    let initial = 0;
-    if ('metadata' in result) {
-        initial = result.metadata.bookmark !== null ? 1 : 0;
-    }
-
-    const bookmarkButton = <Rating
-        className="rating" empty="fa fa-bookmark-o" full="fa fa-bookmark"
-        onClick={bookmarkClickHandler}
-        stop={1} initialRate={initial}
-    />;
-
-    const props = {
-        searchState: searchState,
-        serpId: serpId,
-        result: result,
-        metadata: formatMetadata(result.metadata),
-        bookmarkButton: bookmarkButton,
-        urlClickHandler: urlClickHandler
-    };
-    const ResultType = providerVerticals.get(provider).get(searchState.vertical);
-    const view = <ResultType {...props}/>;
-
-    return (
-        <div className="SearchResult">
-            {view}
-        </div>
-    );
-};
 
 export default SearchResult;

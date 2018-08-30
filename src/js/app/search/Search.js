@@ -9,18 +9,18 @@ import SearchResultsContainer from "./results/SearchResultsContainer";
 import QueryHistoryContainer from "./features/queryhistory/QueryHistoryContainer";
 import BookmarkContainer from "./features/bookmark/BookmarkContainer";
 import Chat from "./features/chat/Chat";
+import config from "../../config";
 
 class Search extends React.Component {
-    componentDidMount(){
-        sessionStorage.clear();
-
-        if (this.props.collaborative) {
+    componentDidMount() {
+        if (this.props.firstSession && config.interface.chat && this.props.collaborative) {
+            sessionStorage.clear();
             Chat();
         }
     }
 
     componentWillUnmount() {
-        if (this.props.collaborative) {
+        if (this.props.lastSession && config.interface.chat && this.props.collaborative) {
             const messages = document.querySelector(".chat-content").innerHTML;
             log(LoggerEventTypes.CHAT_ARCHIVE, {
                 messages: messages
@@ -34,20 +34,28 @@ class Search extends React.Component {
     render() {
         return (
             <div className="Search">
-                <SearchHeaderContainer/>
+                <SearchHeaderContainer timer={this.props.timer} showAccountInfo={this.props.showAccountInfo}/>
 
                 <div className="Content">
-                    <div className="Side">
-                        <QueryHistoryContainer/>
-                        <BookmarkContainer/>
+                    <div className="Main">
+                        <div className="SearchResultsContainer">
+                            <SearchResultsContainer/>
+                        </div>
                     </div>
 
-                    <div className="Main">
-                        <SearchResultsContainer/>
+                    <div className="Side">
+                        <QueryHistoryContainer collaborative={this.props.collaborative}/>
+                        <BookmarkContainer collaborative={this.props.collaborative}/>
                     </div>
+
+                    {this.props.taskDescription && (
+                        <div className="Side">
+                            {this.props.taskDescription}
+                        </div>
+                    )}
                 </div>
 
-                <div className="text-center" >
+                <div className="text-center">
                     <p className="Footer">
                         About <a href="/about" target="_blank">SearchX</a>.
                     </p>
@@ -58,7 +66,10 @@ class Search extends React.Component {
 }
 
 Search.defaultProps = {
-    collaborative: true
+    collaborative: true,
+    showAccountInfo: true,
+    firstSession: true,
+    lastSession: true
 };
 
 export default Search;

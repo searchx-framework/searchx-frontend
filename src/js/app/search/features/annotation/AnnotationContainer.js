@@ -23,26 +23,22 @@ export default class AnnotationContainer extends React.Component {
     componentWillMount() {AnnotationStore.addChangeListener(this._onChange);}
     componentWillUnmount() {AnnotationStore.removeChangeListener(this._onChange);}
     _onChange() {
-        this.setState({
-            annotations: AnnotationStore.getActiveUrlAnnotations().map((data) => {
-                data.userColor = SessionStore.getMemberColor(data.userId);
-                return data;
-            })
-        });
+        if (SearchStore.getActiveUrl()) {
+            this.setState({
+                annotations: AnnotationStore.getUrlAnnotations(SearchStore.getActiveUrl()).map((data) => {
+                    data.userColor = SessionStore.getMemberColor(data.userId);
+                    return data;
+                })
+            });
+        }
     }
 
     submitHandler(annotation) {
         SessionActions.addAnnotation(this.props.url, annotation);
-        SearchStore.modifyMetadata(this.props.url, {
-            annotations: this.state.annotations.length + 1
-        });
     }
 
     removeHandler(position) {
         SessionActions.removeAnnotation(this.props.url, position);
-        SearchStore.modifyMetadata(this.props.url, {
-            annotations: this.state.annotations.length - 1
-        });
     }
 
     render() {

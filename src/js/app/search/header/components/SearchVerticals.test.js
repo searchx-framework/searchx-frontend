@@ -10,7 +10,7 @@ describe('SearchVerticals', ()=> {
     ];
 
     tests.forEach(function(test) {
-        const firstVertical = config.providerVerticals.get(test.provider).keys()[0];
+        const firstVertical = config.providerVerticals[test.provider].keys()[0];
         const wrapper = shallow(<SearchVerticals vertical={firstVertical} changeHandler={function(){}} provider={test.provider}/>);
 
         it('should load ' + test.expected + ' tabs for the ' + test.provider + ' provider', () => {

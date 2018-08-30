@@ -13,9 +13,9 @@ export default {
 
     //// Bookmark
 
-    getBookmarks() {
+    getBookmarksAndExcludes() {
         dispatch({
-            type: ActionTypes.GET_BOOKMARKS,
+            type: ActionTypes.GET_BOOKMARKS_AND_EXCLUDES,
             payload: {}
         })
     },
@@ -33,6 +33,25 @@ export default {
     removeBookmark(url) {
         dispatch({
             type: ActionTypes.REMOVE_BOOKMARK,
+            payload: {
+                url: url
+            }
+        })
+    },
+
+    addExclude(url, title) {
+        dispatch({
+            type: ActionTypes.ADD_EXCLUDE,
+            payload: {
+                url: url,
+                title: title
+            }
+        })
+    },
+
+    removeExclude(url) {
+        dispatch({
+            type: ActionTypes.REMOVE_EXCLUDE,
             payload: {
                 url: url
             }

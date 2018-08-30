@@ -8,7 +8,7 @@ import SearchStore from "../../SearchStore";
 export default class RatingContainer extends React.Component {
     constructor(props) {
         super(props);
-        this.state = RatingStore.getState();
+        this.state = RatingStore.getUrlRating(this.props.url);
 
         SessionActions.getRating(this.props.url);
         this._onChange = this._onChange.bind(this);
@@ -18,15 +18,14 @@ export default class RatingContainer extends React.Component {
     componentWillMount() {RatingStore.addChangeListener(this._onChange);}
     componentWillUnmount() {RatingStore.removeChangeListener(this._onChange);}
     _onChange() {
-        this.setState(RatingStore.getState());
+        if (this.props.url) {
+            this.setState(RatingStore.getUrlRating(this.props.url));
+        }
     }
 
     submitHandler(rating) {
         if (rating === this.state.rating) rating = 0;
         SessionActions.submitRating(this.props.url, rating);
-        SearchStore.modifyMetadata(this.props.url, {
-            rating: this.state.total - this.state.rating + rating
-        });
     }
 
     render() {

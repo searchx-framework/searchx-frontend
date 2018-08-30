@@ -21,24 +21,28 @@ function validatePagination(vertical, length) {
     return true;
 }
 
-const SearchResultsPagination = function({searchState, matches, changeHandler}) {
+const SearchResultsPagination = function ({searchState, matches, changeHandler}) {
     return (
         <div className="text-center">
             {validatePagination(searchState.vertical, searchState.matches) &&
-                <Pagination activePage={searchState.page}
-                            onChange={changeHandler}
+            <Pagination activePage={searchState.page}
+                        onChange={changeHandler}
 
-                            itemsCountPerPage={10}
-                            totalItemsCount={450}
-                            pageRangeDisplayed={5}
+                        itemsCountPerPage={10}
+                        totalItemsCount={450}
+                        pageRangeDisplayed={5}
+                        hideDisabled={true}
+                        hideFirstLastPages={false}
 
-                            firstPageText={<i className='glyphicon glyphicon-chevron-left'/>}
-                            lastPageText={<i className='glyphicon glyphicon-chevron-right'/>}
-                            prevPageText={<i className='glyphicon glyphicon-menu-left'/>}
-                            nextPageText={<i className='glyphicon glyphicon-menu-right '/>}
-                />
+                        prevPageText='Previous'
+                        nextPageText='Next'
+
+                        firstPageText='First'
+                        lastPageText='Last'
+            />
+
             }
-        </div> 
+        </div>
     )
 };
 

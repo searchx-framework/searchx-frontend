@@ -15,7 +15,7 @@ const QueryHistory = function({history, popup, clickHandler, popupHandler}) {
     return (
         <div className="QueryHistory">
             <h3 className="banner" onClick={popupHandler}>
-                <i className="fa fa-history medium"/> QUERY HISTORY
+                <i className="fa fa-history medium"/> Recent queries
             </h3>
 
             <div className="list">

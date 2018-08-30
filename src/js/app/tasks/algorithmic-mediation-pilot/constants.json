@@ -1,0 +1,9 @@
+{
+    "taskId": "algorithmic-mediation-pilot",
+    "groupSize": 6,
+    "taskDuration": 10,
+    "taskDescriptionWait" : 1,
+    "waitDuration": 10,
+    "switchPageLimit": 3,
+    "completionURL": "https://www.prolific.ac/submissions/complete?cc=DT3Q2IVP"
+}

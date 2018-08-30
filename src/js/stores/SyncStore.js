@@ -4,17 +4,27 @@ import io from 'socket.io-client';
 import AccountStore from "./AccountStore";
 import SearchActions from "../actions/SearchActions";
 import SessionActions from "../actions/SessionActions";
+import SearchStore from "../app/search/SearchStore";
 
 const socket = io(process.env.REACT_APP_SERVER_URL + '/session');
 
 ////
 
 const SyncStore = Object.assign(EventEmitter.prototype, {
-    registerSocket() {
+    emitUserJoin() {
         socket.emit('register', {
             userId: AccountStore.getUserId(),
-            groupId: AccountStore.getSessionId()
+            groupId: AccountStore.getGroupId(),
         });
+    },
+
+    emitUserJoinGroup(groupComplete) {
+        socket.emit('joinGroup', {
+            taskId: AccountStore.getTaskId(),
+            userId: AccountStore.getUserId(),
+            groupId: AccountStore.getGroupId(),
+            groupComplete: groupComplete,
+        })
     },
 
     ////
@@ -25,10 +35,15 @@ const SyncStore = Object.assign(EventEmitter.prototype, {
         });
     },
 
+    stopListenToSyncData() {
+        socket.off('syncData');
+    },
+
     emitSyncSubmit(data) {
         socket.emit('pushSyncSubmit', {
             taskId: AccountStore.getTaskId(),
             userId: AccountStore.getUserId(),
+            groupId: AccountStore.getGroupId(),
             sessionId: AccountStore.getSessionId(),
             data: data
         });
@@ -42,19 +57,29 @@ const SyncStore = Object.assign(EventEmitter.prototype, {
         });
     },
 
+    emitSyncTimeout() {
+        socket.emit('pushSyncTimeout', {
+            taskId: AccountStore.getTaskId(),
+            userId: AccountStore.getUserId(),
+            groupId: AccountStore.getGroupId(),
+        });
+    },
+
     ////
 
     emitSearchState(searchState) {
         socket.emit('pushSearchState', {
             sessionId: AccountStore.getSessionId(),
+            groupId: AccountStore.getGroupId(),
             userId: AccountStore.getUserId(),
-            state: searchState
+            state: searchState,
         });
     },
 
     emitViewState(url) {
         socket.emit('pushViewState', {
             sessionId: AccountStore.getSessionId(),
+            groupId: AccountStore.getGroupId(),
             userId: AccountStore.getUserId(),
             state: {
                 url: url
@@ -63,27 +88,40 @@ const SyncStore = Object.assign(EventEmitter.prototype, {
     },
 
     emitBookmarkUpdate(searchState) {
-        socket.emit('pushBookmarkUpdate', searchState);
+        socket.emit('pushBookmarkUpdate', {
+            searchState: searchState,
+            groupId: AccountStore.getGroupId()
+        });
     },
 
     emitPageMetadataUpdate(activeUrl) {
         socket.emit('pushPageMetadataUpdate', {
-            url: activeUrl
+            url: activeUrl,
+            groupId: AccountStore.getGroupId(),
         });
     },
 });
 
 ////
 
-SyncStore.registerSocket();
+SyncStore.emitUserJoin();
 
 socket.on('searchState', (data) => {
     SessionActions.getQueryHistory();
 });
 
+socket.on('viewState', (data) => {
+    const url = data.state.url;
+    const searchResultsMap = SearchStore.getSearchResultsMap();
+    if (searchResultsMap.hasOwnProperty(url)) {
+        SearchStore.modifyMetadata(url, {
+            views: searchResultsMap[url].metadata.views + 1
+        });
+    }
+});
+
 socket.on('bookmarkUpdate', (data) => {
-    SessionActions.getBookmarks();
-    SearchActions.updateMetadata(data.query, data.vertical, data.page);
+    SessionActions.getBookmarksAndExcludes();
 });
 
 socket.on('pageMetadataUpdate', (data) => {

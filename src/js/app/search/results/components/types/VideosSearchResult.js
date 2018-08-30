@@ -11,7 +11,7 @@ function getTitle(str) {
     if (str.length < 32) {
         return str;
     }
-    return str.slice(0,30) + " ...";
+    return str.slice(0, 30) + " ...";
 }
 
 function numberWithCommas(x) {
@@ -21,7 +21,7 @@ function numberWithCommas(x) {
 function formatInfo(publisher, views, creator) {
     let info = "";
     if (publisher) {
-        info  += publisher;
+        info += publisher;
     }
 
     if (views) {
@@ -30,11 +30,11 @@ function formatInfo(publisher, views, creator) {
         }
 
         views = views.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        info += numberWithCommas(views) +" views"
+        info += numberWithCommas(views) + " views"
     }
 
     if (creator) {
-        info += " · " +  creator;
+        info += " · " + creator;
     }
 
     return info;
@@ -42,7 +42,7 @@ function formatInfo(publisher, views, creator) {
 
 ////
 
-const VideosSearchResult = function({searchState, serpId, result, metadata, bookmarkButton, urlClickHandler}) {
+const VideosSearchResult = function ({searchState, serpId, result, metadata, bookmarkButton, excludeButton, urlClickHandler}) {
     const metaInfo = {
         url: result.url,
         query: searchState.query,
@@ -56,18 +56,18 @@ const VideosSearchResult = function({searchState, serpId, result, metadata, book
     };
 
     const playVideo = () => {
-        const metaInfoVideo = {metaInfo, action:'play'};
-        log(LoggerEventTypes.SEARCHRESULT_VIDEO,metaInfoVideo);
+        const metaInfoVideo = {metaInfo, action: 'play'};
+        log(LoggerEventTypes.SEARCHRESULT_VIDEO, metaInfoVideo);
     };
 
     const pauseVideo = () => {
-        const metaInfoVideo = {metaInfo, action:'pause'};
-        log(LoggerEventTypes.SEARCHRESULT_VIDEO,metaInfoVideo);
+        const metaInfoVideo = {metaInfo, action: 'pause'};
+        log(LoggerEventTypes.SEARCHRESULT_VIDEO, metaInfoVideo);
     };
 
     const stopVideo = () => {
-        const metaInfoVideo = {metaInfo, action:'stop'};
-        log(LoggerEventTypes.SEARCHRESULT_VIDEO,metaInfoVideo);
+        const metaInfoVideo = {metaInfo, action: 'stop'};
+        log(LoggerEventTypes.SEARCHRESULT_VIDEO, metaInfoVideo);
     };
 
     const viewUrl = (isVisible) => {
@@ -94,10 +94,10 @@ const VideosSearchResult = function({searchState, serpId, result, metadata, book
     return (
         <div className="result-video">
             <VisibilitySensor onChange={viewUrl}
-                scrollCheck
-                delayedCall={true}
-                scrollThrottle={50}
-                intervalDelay={2000}
+                              scrollCheck
+                              delayedCall={true}
+                              scrollThrottle={50}
+                              intervalDelay={2000}
             />
 
             <div onMouseEnter={hoverEnter} onMouseLeave={hoverLeave}>
@@ -115,10 +115,11 @@ const VideosSearchResult = function({searchState, serpId, result, metadata, book
 
                 <div className="info">
                     {bookmarkButton}
+                    {excludeButton}
 
                     <h2>
                         <a target="_blank" onClick={clickUrl} onContextMenu={contextUrl}>
-                             {getTitle(result.name)}
+                            {getTitle(result.name)}
                         </a>
                     </h2>
 

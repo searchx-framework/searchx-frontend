@@ -7,11 +7,14 @@ import ActionTypes from '../../../../actions/ActionTypes';
 import AccountStore from '../../../../stores/AccountStore';
 import SyncStore from '../../../../stores/SyncStore';
 import SearchStore from "../../SearchStore";
+import AnnotationStore from "../annotation/AnnotationStore";
+import RatingStore from "../rating/RatingStore.js";
 
 const CHANGE_EVENT = 'change_bookmark';
 
-let state = {
-    bookmarks: [],
+const state = {
+    bookmark: [],
+    exclude: [],
     tutorial: false
 };
 
@@ -34,9 +37,12 @@ const BookmarkStore = Object.assign(EventEmitter.prototype, {
             ];
         }
 
-        const starred = state.bookmarks.filter(x => x.starred);
-        const notStarred = state.bookmarks.filter(x => !x.starred);
+        const starred = state.bookmark.filter(x => x.starred);
+        const notStarred = state.bookmark.filter(x => !x.starred);
         return starred.concat(notStarred);
+    },
+    getExcludes() {
+        return state.exclude;
     },
 
     setBookmarksTutorialData() {
@@ -50,14 +56,24 @@ const BookmarkStore = Object.assign(EventEmitter.prototype, {
 
     dispatcherIndex: register(action => {
         switch(action.type) {
-            case ActionTypes.GET_BOOKMARKS:
-                _get_bookmarks();
+            case ActionTypes.GET_BOOKMARKS_AND_EXCLUDES:
+                _get('bookmark');
+                _get('exclude');
                 break;
             case ActionTypes.ADD_BOOKMARK:
-                _add_bookmark(action.payload.url, action.payload.title);
+                _add(action.payload.url, action.payload.title, 'bookmark');
                 break;
             case ActionTypes.REMOVE_BOOKMARK:
-                _remove_bookmark(action.payload.url);
+                _remove(action.payload.url, 'bookmark');
+                break;
+            case ActionTypes.GET_EXCLUDES:
+                _get('exclude');
+                break;
+            case ActionTypes.ADD_EXCLUDE:
+                _add(action.payload.url, action.payload.title, 'exclude');
+                break;
+            case ActionTypes.REMOVE_EXCLUDE:
+                _remove(action.payload.url, 'exclude');
                 break;
             case ActionTypes.STAR_BOOKMARK:
                 _star_bookmark(action.payload.url);
@@ -68,23 +84,33 @@ const BookmarkStore = Object.assign(EventEmitter.prototype, {
 
 ////
 
-let _get_bookmarks = function() {
+const _get = function(type) {
     request
-        .get(`${process.env.REACT_APP_SERVER_URL}/v1/session/${AccountStore.getSessionId()}/bookmark`)
+        .get(`${process.env.REACT_APP_SERVER_URL}/v1/session/${AccountStore.getSessionId()}/${type}`)
         .end((err, res) => {
             if (err || !res.body || res.body.error) {
-                state.bookmarks = [];
+                state[type] = [];
             } else {
-                state.bookmarks = res.body.results;
+                state[type] = res.body.results;
+                res.body.results.forEach(result => {
+                    const resultId = result.url ? result.url : result.id;
+                    if (!AnnotationStore.getUrlAnnotations(resultId)) {
+                        AnnotationStore._get_annotations(resultId);
+                    }
+                    if (!RatingStore.getUrlRating(resultId)) {
+                        RatingStore._get_rating(resultId);
+                    }
+                })
             }
             BookmarkStore.emitChange();
+            SearchStore.updateMetadata();
         });
 };
 
-let _add_bookmark = function(url, title) {
+const _add = function(url, title, type) {
     const userId = AccountStore.getUserId();
     request
-        .post(`${process.env.REACT_APP_SERVER_URL}/v1/session/${AccountStore.getSessionId()}/bookmark`)
+        .post(`${process.env.REACT_APP_SERVER_URL}/v1/session/${AccountStore.getSessionId()}/${type}`)
         .send({
             userId: userId,
             url: url,
@@ -94,18 +120,19 @@ let _add_bookmark = function(url, title) {
             _broadcast_change();
         });
 
-    state.bookmarks.push({
+    state[type].push({
         url: url,
         title: title,
         userId: userId,
         date: new Date()
     });
     BookmarkStore.emitChange();
+    SearchStore.updateMetadata();
 };
 
-let _remove_bookmark = function(url) {
+const _remove = function(url, type) {
     request
-        .delete(`${process.env.REACT_APP_SERVER_URL}/v1/session/${AccountStore.getSessionId()}/bookmark`)
+        .delete(`${process.env.REACT_APP_SERVER_URL}/v1/session/${AccountStore.getSessionId()}/${type}`)
         .send({
             url: url
         })
@@ -113,11 +140,12 @@ let _remove_bookmark = function(url) {
             _broadcast_change();
         });
 
-    state.bookmarks = state.bookmarks.filter((item) => item.url !== url);
+    state[type] = state[type].filter((item) => item.url !== url);
     BookmarkStore.emitChange();
+    SearchStore.updateMetadata();
 };
 
-let _star_bookmark = function(url) {
+const _star_bookmark = function(url) {
     request
         .post(`${process.env.REACT_APP_SERVER_URL}/v1/session/${AccountStore.getSessionId()}/bookmark/star`)
         .send({
@@ -127,15 +155,16 @@ let _star_bookmark = function(url) {
             _broadcast_change();
         });
 
-    state.bookmarks.forEach((item) => {
+    state.bookmark.forEach((item) => {
         if (item.url === url) {
             item.starred = !item.starred;
         }
     });
     BookmarkStore.emitChange();
+    SearchStore.updateMetadata();
 };
 
-let _broadcast_change = function() {
+const _broadcast_change = function() {
     SyncStore.emitBookmarkUpdate(SearchStore.getSearchState());
 };
 

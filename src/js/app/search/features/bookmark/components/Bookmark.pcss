@@ -9,6 +9,12 @@
         cursor: pointer;
     }
 
+    border: 1px solid #BDC3C7;
+    border-radius: 3px;
+
+    margin-top: 20px;
+    box-shadow: 1px 1px 1px 1px #BFBFBF;
+
     .buttons {
         float: left;
         margin-right: 6px;
@@ -19,15 +25,25 @@
             font-size: 15px;
         }
 
-        .star {
+        .topicon {
             padding-top: 3px;
         }
 
-        .remove {
+        .bottomicon {
             margin-top: -3px;
+        }
+
+        .remove {
             padding-left: 1px;
         }
     }
+
+    h3 {
+        margin-top: 10px;
+        margin-left: 15px;
+
+    }
+
 
     .list {
         height: 100%;
@@ -35,12 +51,11 @@
 
         .item {
             padding: 2px;
-            margin-left: 5px;
+            margin-left: 1px;
             margin-right: 5px;
             margin-bottom: 5px;
 
-            background: $background-grey;
-            border-left: 3px solid;
+
 
             h2 {
                 font-size: 15px;
@@ -52,13 +67,12 @@
                 max-width: 600px;
                 margin: 0;
                 a, a:hover, a:focus {
-                    color: #000;
                     text-decoration: none;
                 }
             }
 
             span {
-                color: #000;
+
                 line-height: 16px;
                 font-size: 12px;
                 max-width: 500px;

@@ -7,6 +7,7 @@ import {log} from "../utils/Logger";
 import SearchStore from "../app/search/SearchStore";
 import QueryHistoryStore from "../app/search/features/queryhistory/QueryHistoryStore";
 import BookmarkStore from "../app/search/features/bookmark/BookmarkStore";
+import $ from 'jquery';
 
 /* global introJs */
 const intro = introJs().setOptions({
@@ -14,6 +15,7 @@ const intro = introJs().setOptions({
     showStepNumbers: false,
     showBullets: false,
     exitOnOverlayClick: false,
+    exitOnEsc: false,
     disableInteraction: true,
 });
 
@@ -37,7 +39,7 @@ const IntroStore = Object.assign(EventEmitter.prototype, {
         BookmarkStore.setBookmarksTutorialData();
 
         intro.setOption('steps', steps);
-        intro.oncomplete(() => {
+        const oncomplete = () => {
             localStorage.setItem("intro-done", true.toString());
 
             SearchStore.removeSearchTutorialData();
@@ -45,10 +47,20 @@ const IntroStore = Object.assign(EventEmitter.prototype, {
             BookmarkStore.removeBookmarksTutorialData();
 
             callback();
-        });
+        };
+        intro.onexit(oncomplete);
+        intro.oncomplete(oncomplete);
 
+        intro.onafterchange(function(){
+            if (this._introItems.length - 1 == this._currentStep || this._introItems.length == 1) {
+                $('.introjs-skipbutton').show();
+            }
+        });
+        
         Alert.closeAll();
         intro.start();
+
+        $('.introjs-skipbutton').hide();
     },
 
     clearIntro() {

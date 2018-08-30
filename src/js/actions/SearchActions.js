@@ -31,22 +31,18 @@ export default {
         })
     },
 
-    updateMetadata(query, vertical, page) {
+    updateMetadata() {
         dispatch({
-            type: ActionTypes.UPDATE_METADATA,
-            payload: {
-                query: query,
-                vertical: vertical,
-                page: page
-            },
+            type: ActionTypes.UPDATE_METADATA
         })
     },
 
-    openUrl(url) {
+    openUrl(url, doctext) {
         dispatch({
             type: ActionTypes.OPEN_URL,
             payload: {
-                url: url
+                url: url,
+                doctext: doctext
             }
         })
     },
@@ -58,4 +54,27 @@ export default {
             }
         })
     },
+
+    getDocumentById(id) {
+        dispatch({
+            type: ActionTypes.GET_DOCUMENT_BY_ID,
+            payload: {
+                id: id
+            }
+        })
+    },
+
+    reset() {
+        dispatch({
+            type: ActionTypes.RESET,
+            payload: {}
+        })
+    },
+
+    changeVariant(variant) {
+        dispatch({
+            type: ActionTypes.CHANGE_VARIANT,
+            payload: {}
+        })
+    }
 }

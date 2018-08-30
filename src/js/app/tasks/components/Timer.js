@@ -28,9 +28,11 @@ class Timer extends React.PureComponent {
     }
 
     render () {
-        const elapsed = Math.round(this.state.elapsed / 1000);
-        let minutes = Math.floor(elapsed/60);
-        let seconds = elapsed-(minutes*60);
+        const durationMillis = this.props.duration * 60 * 1000;
+        const time = this.props.showRemaining ? durationMillis - this.state.elapsed : this.state.elapsed;
+        const roundedTime = Math.round(time / 1000);
+        let minutes = Math.floor(roundedTime/60);
+        let seconds = roundedTime-(minutes*60);
 
         const started = this.props.start !== 0;
         if (!started) {
@@ -40,7 +42,7 @@ class Timer extends React.PureComponent {
 
         return (
             <div className="Timer" style={this.props.style}>
-                {this.props.start > 0 ?
+                {this.props.start > 0 || this.props.showRemaining ?
                     minutes + ':' + padZero(seconds)
                     :
                     '0:0'

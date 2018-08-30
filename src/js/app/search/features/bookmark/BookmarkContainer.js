@@ -6,6 +6,7 @@ import SearchStore from "../../SearchStore";
 import SessionStore from "../../../../stores/SessionStore";
 import BookmarkStore from "./BookmarkStore";
 import SearchActions from "../../../../actions/SearchActions";
+import AccountStore from "../../../../stores/AccountStore";
 
 function removeHandler(url) {
     SessionActions.removeBookmark(url);
@@ -19,18 +20,22 @@ function starHandler(url) {
 }
 
 function clickHandler(url) {
-    SearchActions.openUrl(url);
+    if (isNaN(url)){
+        SearchActions.openUrl(url);
+    } else {
+        SearchActions.getDocumentById(url);
+    }
 }
 
 export default class BookmarkContainer extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             bookmarks: [],
             popup: false
         };
 
-        SessionActions.getBookmarks();
+        SessionActions.getBookmarksAndExcludes();
         this.changeHandler = this.changeHandler.bind(this);
         this.popupHandler = this.popupHandler.bind(this);
     }
@@ -39,6 +44,7 @@ export default class BookmarkContainer extends React.Component {
     componentWillUnmount() {BookmarkStore.removeChangeListener(this.changeHandler);}
 
     render() {
+
         return <Bookmark
             bookmarks={this.state.bookmarks}
             popup={this.state.popup}
@@ -52,11 +58,18 @@ export default class BookmarkContainer extends React.Component {
     ////
 
     changeHandler() {
-        this.setState({
-            bookmarks: BookmarkStore.getBookmarks().map((data) => {
-                data.userColor = SessionStore.getMemberColor(data.userId);
-                return data;
+        let bookmarks = BookmarkStore.getBookmarks();
+        if (!this.props.collaborative) {
+            bookmarks = bookmarks.filter((data) => {
+                return data.userId === AccountStore.getUserId();
             })
+        }
+        bookmarks = bookmarks.map((data) => {
+            data.userColor = SessionStore.getMemberColor(data.userId);
+            return data;
+        });
+        this.setState({
+            bookmarks: bookmarks
         });
     }
 
