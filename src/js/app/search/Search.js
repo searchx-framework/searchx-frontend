@@ -10,6 +10,7 @@ import QueryHistoryContainer from "./features/queryhistory/QueryHistoryContainer
 import BookmarkContainer from "./features/bookmark/BookmarkContainer";
 import Chat from "./features/chat/Chat";
 import config from "../../config";
+import SuggestionsContainer from "./features/querysuggestions/SuggestionsContainer";
 
 class Search extends React.Component {
     componentDidMount() {
@@ -46,6 +47,7 @@ class Search extends React.Component {
                     <div className="Side">
                         <QueryHistoryContainer collaborative={this.props.collaborative}/>
                         <BookmarkContainer collaborative={this.props.collaborative}/>
+                        <SuggestionsContainer/>
                     </div>
 
                     {this.props.taskDescription && (

@@ -1,0 +1,45 @@
+@import '../../../../Variables.pcss';
+
+.Suggestions {
+    display: flex;
+    flex-direction: column;
+    max-height: 600px;
+
+    .banner {
+        cursor: pointer;
+    }
+
+    border: 1px solid #BDC3C7;
+    margin-top: 20px;
+    box-shadow: 1px 1px 1px 1px #BFBFBF;
+
+    h3 {
+        margin-top: 10px;
+        margin-left: 15px;
+    }
+
+    .list {
+        height: 100%;
+
+        .item {
+            padding: 2px;
+            margin-left: 1px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+
+            h2 {
+                font-size: 15px;
+                display: block;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                line-height: 21px;
+                max-width: 600px;
+                margin: 0;
+                a, a:hover, a:focus {
+                    text-decoration: none;
+                }
+            }
+        }
+    }
+}
