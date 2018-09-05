@@ -47,7 +47,6 @@ class Search extends React.Component {
                     <div className="Side">
                         <QueryHistoryContainer collaborative={this.props.collaborative}/>
                         <BookmarkContainer collaborative={this.props.collaborative}/>
-                        <SuggestionsContainer/>
                     </div>
 
                     {this.props.taskDescription && (

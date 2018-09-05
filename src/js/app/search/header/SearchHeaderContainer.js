@@ -22,6 +22,9 @@ export default class SearchHeaderContainer extends React.Component {
         this.searchHandler = this.searchHandler.bind(this);
         this.queryChangeHandler = this.queryChangeHandler.bind(this);
         this.verticalChangeHandler = this.verticalChangeHandler.bind(this);
+        this.showSuggestionsHandler = this.showSuggestionsHandler.bind(this);
+        this.hideSuggestionsHandler = this.hideSuggestionsHandler.bind(this);
+        this.clickSuggestionHandler = this.clickSuggestionHandler.bind(this);
     }
 
     componentWillMount() {SearchStore.addChangeListener(this.changeHandler);}
@@ -40,10 +43,15 @@ export default class SearchHeaderContainer extends React.Component {
             userId={AccountStore.getUserId()}
             groupId={AccountStore.getGroupId()}
             showAccountInfo={this.props.showAccountInfo}
+            hideSuggestionsHandler={this.hideSuggestionsHandler}
+            showSuggestionsHandler={this.showSuggestionsHandler}
+            clickSuggestionHandler={this.clickSuggestionHandler}
+            showSuggestions={this.state.showSuggestions}
         />
     }
 
     ////
+
 
     changeHandler() {
         const nextSearchState = SearchStore.getSearchState();
@@ -81,5 +89,18 @@ export default class SearchHeaderContainer extends React.Component {
         });
 
         SearchActions.changeVertical(vertical);
+    }
+
+    hideSuggestionsHandler() {
+        this.setState({ showSuggestions: false })
+    }
+
+    showSuggestionsHandler() {
+        this.setState({ showSuggestions: true })
+    }
+
+    clickSuggestionHandler(query) {
+        this.hideSuggestionsHandler();
+        SearchActions.search(query, SearchStore.getSearchState().vertical, 1)
     }
 }

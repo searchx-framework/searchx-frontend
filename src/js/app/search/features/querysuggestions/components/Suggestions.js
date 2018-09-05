@@ -1,6 +1,7 @@
 import './Suggestion.pcss';
 import React from 'react';
 import SuggestionItem from "./SuggestionItem";
+import {ListGroup} from "react-bootstrap";
 
 const Suggestions = function({suggestions, clickHandler}) {
     const list = suggestions.map((data, index) => {
@@ -13,9 +14,9 @@ const Suggestions = function({suggestions, clickHandler}) {
 
     return (
         <div className="Suggestions">
-            <div className="list">
+            <ListGroup>
                 {list}
-            </div>
+            </ListGroup>
         </div>
     )
 };
