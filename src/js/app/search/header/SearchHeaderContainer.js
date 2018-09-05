@@ -68,7 +68,7 @@ export default class SearchHeaderContainer extends React.Component {
             query: this.state.query,
             vertical: this.state.searchState.vertical
         });
-
+        this.hideSuggestionsHandler();
         SearchActions.search(this.state.query, this.state.searchState.vertical, 1);
         SessionActions.getBookmarksAndExcludes();
     }

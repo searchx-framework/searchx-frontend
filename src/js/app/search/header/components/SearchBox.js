@@ -1,7 +1,7 @@
 import './SearchHeader.pcss'
 import React from 'react';
 
-const SearchBox = function({query, changeHandler, onFocus}) {
+const SearchBox = function({query, changeHandler, showSuggestionsHandler}) {
     return (
         <div className="box">
             <div className="input-group">
@@ -9,7 +9,8 @@ const SearchBox = function({query, changeHandler, onFocus}) {
                        value={query}
                        onChange={e => changeHandler(e.target.value)}
                        autoComplete={'off'}
-                       onFocus={onFocus}
+                       onFocus={showSuggestionsHandler}
+                       onClick={showSuggestionsHandler}
                 />
 
                 <span className="input-group-btn">

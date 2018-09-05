@@ -16,7 +16,7 @@ const Header = function ({query, vertical, provider, searchHandler, queryChangeH
                 e.preventDefault();
                 searchHandler();
             }}>
-                <SearchBox query={query} changeHandler={queryChangeHandler} onFocus={showSuggestionsHandler}/>
+                <SearchBox query={query} changeHandler={queryChangeHandler} showSuggestionsHandler={showSuggestionsHandler}/>
                 {showSuggestions && [
                     <SuggestionsContainer clickSuggestionHandler={clickSuggestionHandler}/>,
                     <div className="ClickLayer" onClick={hideSuggestionsHandler}/>]}
