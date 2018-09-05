@@ -17,9 +17,16 @@ const SuggestionItem = function({data, clickHandler}) {
         log(LoggerEventTypes.QUERYSUGGESTION_CLICK_URL, metaInfo);
     };
 
+    const width1 = data.score1 * 648;
+    const width2 = data.score2 * 648;
+
     return  (
         <ListGroupItem className="SuggestionItem" onMouseEnter={hoverEnter} onMouseLeave={hoverLeave} onClick={clickUrl} onContextMenu={contextUrl}>
-            {data.query}
+            <div className="ColorBar ColorBar1" style={{width: width1}}/>
+            <div className="ColorBar ColorBar2" style={{width: width2}}/>
+            <div className="TextArea">
+                {data.query}
+            </div>
         </ListGroupItem>
     )
 };
