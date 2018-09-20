@@ -39,14 +39,14 @@ export default class SearchHeaderContainer extends React.Component {
             queryChangeHandler={this.queryChangeHandler}
             verticalChangeHandler={this.verticalChangeHandler}
             timer={this.props.timer}
-            // these props do not update to changes
-            userId={AccountStore.getUserId()}
-            groupId={AccountStore.getGroupId()}
             showAccountInfo={this.props.showAccountInfo}
             hideSuggestionsHandler={this.hideSuggestionsHandler}
             showSuggestionsHandler={this.showSuggestionsHandler}
             clickSuggestionHandler={this.clickSuggestionHandler}
             showSuggestions={this.state.showSuggestions}
+            // these props do not update to changes
+            userId={AccountStore.getUserId()}
+            groupId={AccountStore.getGroupId()}
         />
     }
 
@@ -77,6 +77,7 @@ export default class SearchHeaderContainer extends React.Component {
         this.setState({
             query: query
         });
+        SessionActions.getSuggestions(query);
     }
 
     verticalChangeHandler(vertical) {
@@ -96,7 +97,10 @@ export default class SearchHeaderContainer extends React.Component {
     }
 
     showSuggestionsHandler() {
-        this.setState({ showSuggestions: true })
+        this.setState({ showSuggestions: true });
+        if (this.state.query) {
+            SessionActions.getSuggestions(this.state.query);
+        }
     }
 
     clickSuggestionHandler(query) {

@@ -118,4 +118,13 @@ export default {
             }
         })
     },
+
+    getSuggestions(query) {
+        dispatch({
+            type: ActionTypes.GET_SUGGESTIONS,
+            payload: {
+                query: query
+            }
+        })
+    }
 }
