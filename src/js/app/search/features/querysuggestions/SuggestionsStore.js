@@ -30,22 +30,20 @@ const SuggestionStore = Object.assign(EventEmitter.prototype, {
                 _get(action.payload.query);
                 break;
         }
-        console.log('change emitted');
-        SuggestionStore.emitChange();
     })
 });
 
 ////
 const _get = function(query) {
-    const type = 'collaborative';
     request
-        .get(`${process.env.REACT_APP_SERVER_URL}/v1/sensemaking/scent/?query=${query}&type=${type}&userId=${AccountStore.getUserId()}&sessionId=${AccountStore.getSessionId()}`)
+        .get(`${process.env.REACT_APP_SERVER_URL}/v1/sensemaking/scent/?query=${query}&userId=${AccountStore.getUserId()}&sessionId=${AccountStore.getSessionId()}`)
         .end((err, res) => {
             if (err || !res.body || res.body.error) {
                 console.log('Failed to fetch suggestions');
                 console.log(err);
             } else {
                 state.suggestions = res.body;
+                SuggestionStore.emitChange();
             }
         });
 };
