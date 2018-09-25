@@ -34,7 +34,7 @@ module.exports = {
         annotations: true, /* allow users to place annotations (comments) on documents */
         ratings: true, /* allow users to rate search results and show the ratings for the group */
         views: true, /* show the number of times a result has been viewed */
-        chat: true, /* enable the group chat feature */
+        chat: false, /* enable the group chat feature */
         timeIndicator: true, /* show the time it took to return results */
         star: true, /* allow users to star bookmarks */
         saveTimestamp: true, /* show the time and date at which a document was saved */
