@@ -18,10 +18,11 @@ const SuggestionItem = function({data, clickHandler}) {
     };
 
     const totalWidth = 648;
-    const collaborativeScent = data.length > 3;
-    const unexploredValue = collaborativeScent ? data[3] : data[2];
-    const widthSingleExplored = data[1] * totalWidth;
-    const widthGroupExplored = collaborativeScent ? data[2] * totalWidth : 0;
+    const scentValues = data[1];
+    const collaborativeScent = scentValues.length > 2;
+    const unexploredValue = collaborativeScent ? scentValues[2] : scentValues[1];
+    const widthSingleExplored = scentValues[0] * totalWidth;
+    const widthGroupExplored = collaborativeScent ? scentValues[1] * totalWidth : 0;
     const widthTotal = unexploredValue * totalWidth;
 
     return  (
