@@ -17,13 +17,18 @@ const SuggestionItem = function({data, clickHandler}) {
         log(LoggerEventTypes.QUERYSUGGESTION_CLICK_URL, metaInfo);
     };
 
-    const width1 = data[1] * 648;
-    const width2 = data[2] * 648;
+    const totalWidth = 648;
+    const collaborativeScent = data.length > 3;
+    const unexploredValue = collaborativeScent ? data[3] : data[2];
+    const widthSingleExplored = data[1] * totalWidth;
+    const widthGroupExplored = collaborativeScent ? data[2] * totalWidth : 0;
+    const widthTotal = unexploredValue * totalWidth;
 
     return  (
         <ListGroupItem className="SuggestionItem" onMouseEnter={hoverEnter} onMouseLeave={hoverLeave} onClick={clickUrl} onContextMenu={contextUrl}>
-            <div className="ColorBar ColorBar1" style={{width: width1}}/>
-            <div className="ColorBar ColorBar2" style={{width: width2}}/>
+            <div className="ColorBar ColorBar1" style={{width: widthSingleExplored}}/>
+            <div className="ColorBar ColorBar2" style={{width: widthGroupExplored}}/>
+            <div className="ColorBar ColorBar3" style={{width: widthTotal}}/>
             <div className="TextArea">
                 {data[0]}
             </div>
