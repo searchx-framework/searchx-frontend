@@ -2,11 +2,11 @@ import React from 'react';
 
 import {log} from '../../../../../utils/Logger';
 import {LoggerEventTypes} from '../../../../../utils/LoggerEventTypes';
-import {Button, ListGroupItem} from "react-bootstrap";
+import {Button} from "react-bootstrap";
 
 const SuggestionItem = function({data, clickHandler}) {
     let metaInfo = {
-        query: data[0],
+        suggestion: data,
     };
 
     let hoverEnter = () => log(LoggerEventTypes.QUERYSUGGESTION_HOVERENTER, metaInfo);

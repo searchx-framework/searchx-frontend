@@ -4,6 +4,8 @@ import EventEmitter from 'events'
 import {register} from '../../../../utils/Dispatcher';
 import ActionTypes from '../../../../actions/ActionTypes';
 import AccountStore from "../../../../stores/AccountStore";
+import {LoggerEventTypes} from "../../../../utils/LoggerEventTypes";
+import {log} from "../../../../utils/Logger";
 
 const CHANGE_EVENT = 'change_suggestions';
 
@@ -43,6 +45,10 @@ const _get = function(query) {
                 console.log(err);
             } else {
                 state.suggestions = res.body;
+                const metaInfo = {
+                    suggestions: res.body
+                };
+                log(LoggerEventTypes.QUERYSUGGESTIONS_GET, metaInfo);
                 SuggestionStore.emitChange();
             }
         });
