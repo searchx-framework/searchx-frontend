@@ -18,18 +18,18 @@ const SuggestionItem = function({data, clickHandler}) {
     };
 
     const totalWidth = 648;
-    const scentValues = data[1];
-    const collaborativeScent = scentValues.length > 2;
-    const unexploredValue = collaborativeScent ? scentValues[2] : scentValues[1];
-    const widthSingleExplored = scentValues[0] * totalWidth;
-    const widthGroupExplored = collaborativeScent ? scentValues[1] * totalWidth : 0;
-    const widthTotal = unexploredValue * totalWidth;
+    const individualScent = data[1];
+    const widthTotal = individualScent[0] * totalWidth;
+    const widthSingleUnexplored = individualScent[1] * totalWidth;
+
+    const collaborativeScent = data.length > 2;
+    const widthGroupUnexplored = collaborativeScent ? data[2][1] * totalWidth : 0;
 
     return  (
         <ListGroupItem className="SuggestionItem" onMouseEnter={hoverEnter} onMouseLeave={hoverLeave} onClick={clickUrl} onContextMenu={contextUrl}>
-            <div className="ColorBar ColorBar1" style={{width: widthSingleExplored}}/>
-            <div className="ColorBar ColorBar2" style={{width: widthGroupExplored}}/>
-            <div className="ColorBar ColorBar3" style={{width: widthTotal}}/>
+            <div className="ColorBar ColorBarSingle" style={{width: widthSingleUnexplored}}/>
+            <div className="ColorBar ColorBarGroup" style={{width: widthGroupUnexplored}}/>
+            <div className="ColorBar ColorBarTotal" style={{width: widthTotal}}/>
             <div className="TextArea">
                 {data[0]}
             </div>
