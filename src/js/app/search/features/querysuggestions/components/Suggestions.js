@@ -11,7 +11,7 @@ const Suggestions = function({suggestions, clickHandler, hideSuggestionsHandler,
             clickHandler={clickHandler}
         />
     });
-    if (!showSuggestions) {
+    if (!showSuggestions || !suggestions || suggestions.length === 0) {
         return null;
     } else {
         return (

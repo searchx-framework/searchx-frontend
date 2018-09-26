@@ -7,7 +7,6 @@ export default class SuggestionsContainer extends React.Component {
         super(props);
         this.state = {
             suggestions: [],
-            showSuggestions: false
         };
 
         this.changeHandler = this.changeHandler.bind(this);
