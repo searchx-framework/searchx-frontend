@@ -2,7 +2,7 @@ import React from 'react';
 
 import {log} from '../../../../../utils/Logger';
 import {LoggerEventTypes} from '../../../../../utils/LoggerEventTypes';
-import {ListGroupItem} from "react-bootstrap";
+import {Button, ListGroupItem} from "react-bootstrap";
 
 const SuggestionItem = function({data, clickHandler}) {
     let metaInfo = {
@@ -24,16 +24,17 @@ const SuggestionItem = function({data, clickHandler}) {
 
     const collaborativeScent = data.length > 2;
     const widthGroupUnexplored = collaborativeScent ? data[2][1] * totalWidth : 0;
+    const singleBarColor = collaborativeScent ? "ColorBarSingleExplored" : "ColorBarUnexplored";
 
     return  (
-        <ListGroupItem className="SuggestionItem" onMouseEnter={hoverEnter} onMouseLeave={hoverLeave} onClick={clickUrl} onContextMenu={contextUrl}>
-            <div className="ColorBar ColorBarSingle" style={{width: widthSingleUnexplored}}/>
-            <div className="ColorBar ColorBarGroup" style={{width: widthGroupUnexplored}}/>
+        <Button bsSize="small" className="SuggestionItem" onMouseEnter={hoverEnter} onMouseLeave={hoverLeave} onClick={clickUrl} onContextMenu={contextUrl}>
+            <div className={"ColorBar " + singleBarColor} style={{width: widthSingleUnexplored}}/>
+            <div className="ColorBar ColorBarUnexplored" style={{width: widthGroupUnexplored}}/>
             <div className="ColorBar ColorBarTotal" style={{width: widthTotal}}/>
-            <div className="TextArea">
+            <div className="TextArea pull-left">
                 {data[0]}
             </div>
-        </ListGroupItem>
+        </Button>
     )
 };
 

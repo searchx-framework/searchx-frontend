@@ -1,10 +1,10 @@
 import './Suggestion.pcss';
 import React from 'react';
 import SuggestionItem from "./SuggestionItem";
-import {ListGroup} from "react-bootstrap";
+import {ButtonGroup} from "react-bootstrap";
 
 const Suggestions = function({suggestions, clickHandler, hideSuggestionsHandler, showSuggestions}) {
-    const list = suggestions.map((data, index) => {
+    const suggestionItems = suggestions.map((data, index) => {
         return <SuggestionItem
             key={index}
             data={data}
@@ -17,9 +17,9 @@ const Suggestions = function({suggestions, clickHandler, hideSuggestionsHandler,
         return (
             <div>
                 <div className="Suggestions">
-                    <ListGroup>
-                        {list}
-                    </ListGroup>
+                    <ButtonGroup vertical block>
+                        {suggestionItems}
+                    </ButtonGroup>
                 </div>
                 <div className="ClickLayer" onClick={hideSuggestionsHandler}/>
             </div>
