@@ -2,7 +2,6 @@ import React from 'react';
 import Loader from 'react-loader';
 import isImage from 'is-image';
 
-
 export default class ViewerPage extends React.Component {
     constructor(props) {
         super(props);
@@ -19,14 +18,20 @@ export default class ViewerPage extends React.Component {
             nextProps.loadHandler();
         }
     }
+    
+    createHTML(text) {
+        return {__html: text};
+    }
+    
 
     render() {
         return (
             <div className="page">
                 {this.props.doctext ? (
                         <div className={"textBackground"}>
-                            <div className={"documentText"}>
-                                {this.props.doctext}
+                            <div className={"documentText"} dangerouslySetInnerHTML={this.createHTML(this.props.doctext)} >
+                              
+                           
                             </div>
                         </div>
                     ) :

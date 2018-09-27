@@ -334,14 +334,7 @@ const _getById = function (id) {
                     state.activeUrl = result.id;
                 }
 
-                var doctext = result.text.split('\n').map((item, key) => {
-                    return <span key={key}>{item}<br/></span>
-                })
-
-                doctext.unshift(<h4> {result.source} <br/></h4>);
-                doctext.unshift(<h3> {result.name} <br/></h3>);
-
-                state.activeDoctext = doctext;
+                state.activeDoctext = result.text;
             }
 
             SyncStore.emitViewState(id);

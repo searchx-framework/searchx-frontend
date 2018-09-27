@@ -156,6 +156,8 @@ export default class SearchResultsContainer extends React.Component {
     }
 
     render() {
+
+        
         return <div>
             <SearchResults {...this.state} pageChangeHandler={this.pageChangeHandler} key="results"
                            isCollapsible={this.isCollapsible} showCollapsedResults={this.showCollapsedResults}
@@ -166,7 +168,7 @@ export default class SearchResultsContainer extends React.Component {
                             serpId={this.state.serpId}
                             url={this.state.activeUrl}
                             documentCloseHandler={this.documentCloseHandler}
-                            doctext={this.state.activeDoctext}
+                            doctext={this.state.activeDoctext} 
             />
         </div>
     }
