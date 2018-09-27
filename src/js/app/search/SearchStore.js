@@ -51,7 +51,6 @@ const _setState = function () {
         page: parseInt(Helpers.getURLParameter('p')) || 1,
         provider: provider,
 
-        submittedQuery: false,
         finished: false,
         resultsNotFound: false,
 
