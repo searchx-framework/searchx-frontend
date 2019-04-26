@@ -157,7 +157,7 @@ If you use SearchX to produce results for your scientific publication, please re
     }
     
     
-    @inproceedings{moraesnode,
+    @inproceedings{moraes2019node,
         title={node-indri: moving the Indri toolkit to the modern Web stack},
         author={Moraes, Felipe and Hauff, Claudia},
         booktitle={ECIR},
