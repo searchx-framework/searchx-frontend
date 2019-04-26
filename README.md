@@ -144,6 +144,43 @@ If you use SearchX to produce results for your scientific publication, please re
       pages={1265--1268},
       year={2018}
     }
+    
+### Publications
+
+    @article{moraes2019impact,
+      title={On the impact of group size on collaborative search effectiveness},
+      author={Moraes, Felipe and Grashoff, Kilian and Hauff, Claudia},
+      journal={Information Retrieval Journal},
+      pages={1--23},
+      year={2019},
+      publisher={Springer}
+    }
+    
+    
+    @inproceedings{moraesnode,
+        title={node-indri: moving the Indri toolkit to the modern Web stack},
+        author={Moraes, Felipe and Hauff, Claudia},
+        booktitle={ECIR},
+        pages={241--245},
+        year={2019}
+    }
+
+    @inproceedings{moraes2018contrasting,
+      title={Contrasting Search as a Learning Activity with Instructor-designed Learning},
+      author={Moraes, Felipe and Putra, Sindunuraga Rikarno and Hauff, Claudia},
+      booktitle={CIKM},
+      pages={167--176},
+      year={2018}
+    }
+    
+    @inproceedings{putra2018development,
+        title={On the Development of a Collaborative Search System},
+        author={Putra, Sindunuraga Rikarno and Grashoff, Kilian and Moraes, Felipe and Hauff, Claudia},
+        booktitle={DESIRES},
+        pages={76--82},
+        year={2018}
+    }
+    
 
 # License
 
