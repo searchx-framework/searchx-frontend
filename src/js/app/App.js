@@ -14,6 +14,7 @@ import SimpleSubmit from './tasks/example-simple/Submit';
 import SimpleSession from './tasks/example-simple/Session';
 import SyncRegister from './tasks/example-group-sync/Register';
 import SyncPreTest from './tasks/example-group-sync/PreTest';
+import SyncIntermediateTests from './tasks/example-group-sync/IntermediateTests';
 import SyncPostTest from './tasks/example-group-sync/PostTest';
 import SyncSession from './tasks/example-group-sync/Session';
 import AsyncRegister from './tasks/example-group-async/Register';
@@ -53,6 +54,7 @@ export class App extends React.Component {
 
                     <Route exact path="/sync" component={SyncRegister}/>
                     <Route exact path="/sync/pretest" component={SyncPreTest}/>
+                    <Route exact path="/sync/intermediatetest" component={SyncIntermediateTests}/>
                     <Route exact path="/sync/posttest" component={SyncPostTest}/>
                     <Route path="/sync/session" component={SyncSession}/>
 

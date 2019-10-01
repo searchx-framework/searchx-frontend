@@ -13,6 +13,7 @@ import IntroStore from "../../../stores/IntroStore";
 import FormContainer from "../components/form/FormContainer";
 import Alert from "react-s-alert";
 
+
 class PreTest extends React.Component {
     constructor(props) {
         super(props);
@@ -22,7 +23,6 @@ class PreTest extends React.Component {
 
         this.onComplete = this.onComplete.bind(this);
         this.onSwitchPage = this.onSwitchPage.bind(this);
-        // this.onSync = this.onSync.bind(this);
         this.onLeave = this.onLeave.bind(this);
         this.onTimeout = this.onTimeout.bind(this);
     }
@@ -41,10 +41,9 @@ class PreTest extends React.Component {
                 </FormContainer>
                 :
                 <SyncForm
-                    formData={formData(task.topics)}
+                    formData={formData(task.topic)}
                     onComplete={this.onComplete}
                     onSwitchPage={this.onSwitchPage}
-                    onSync={this.onSync}
                     onLeave={this.onLeave}
                     disableCopy={true}
                 />
@@ -55,12 +54,12 @@ class PreTest extends React.Component {
     ////
 
     onComplete(data) {
-        log(LoggerEventTypes.SURVEY_PRE_TEST_RESULTS, {
+        log(LoggerEventTypes.SURVEY_INTERMEDIATE_TEST_RESULTS, {
             data: data
         });
         // console.log("Test")
-        SyncStore.emitSyncSubmit(data);
-        console.log("Test", data)
+        // SyncStore.emitSyncSubmit(data);
+        console.log("Intermediate test", localStorage.getItem("session-num"), data)
         // Helpers.sleep(constants.waitDuration * 60 * 1000).then(() => {
         //     this.setState({timedOut: true}, () => {
         //         this.onLeave();
@@ -71,14 +70,18 @@ class PreTest extends React.Component {
         //     topicsSize: constants.topicsSize
         // };
 
-        SessionStore.updateTask(constants.taskId, data, (res) => {
-            if (res) {
-                console.log("init", res)
-                if ('topic' in res.taskData) {
-                    this.props.history.push('/sync/session');
-                } 
-            }
-        });
+        // SessionStore.updateTask(constants.taskId, data, (res) => {
+        //     if (res) {
+        //         console.log("init", res)
+        //         if ('topic' in res.taskData) {
+        //             this.props.history.push('/sync/session');
+        //         } 
+        //     }
+        // });
+
+        localStorage.setItem("timer-start", Date.now());
+
+        this.props.history.push('/sync/session');
     }
 
     // onSync(data) {
@@ -94,17 +97,15 @@ class PreTest extends React.Component {
 
     onLeave() {
         log(LoggerEventTypes.SURVEY_EXIT, {
-            step : "pretest",
+            step : "intermediatetest",
+            session: localStorage.getItem("session-num"),
             state : this.state
         });
-
-        SyncStore.emitSyncLeave();
-        AccountStore.clearUserData();
     }
 
     onTimeout() {
         log(LoggerEventTypes.SURVEY_GROUPING_TIMEOUT, {
-            step : "pretest",
+            step : "intermediatetest",
             state: this.state
         });
 
@@ -113,14 +114,14 @@ class PreTest extends React.Component {
     }
 
     onSwitchPage() {
-        let switchTabs = localStorage.getItem("switch-tabs-pretest") || 0;
+        let switchTabs = localStorage.getItem("switch-tabs-intermediatetest") || 0;
         switchTabs++;
-        localStorage.setItem("switch-tabs-pretest", switchTabs);
+        localStorage.setItem("switch-tabs-intermediatetest", switchTabs);
 
         if (switchTabs >= constants.switchPageLimit) {
             this.onLeave();
             this.props.history.push('/sync');
-            localStorage.removeItem("switch-tabs-pretest");
+            localStorage.removeItem("switch-tabs-intermediatetest");
 
             Alert.error('You have been disqualified from the study.', {
                 position: 'top-right',
@@ -146,23 +147,23 @@ class PreTest extends React.Component {
     }
 }
 
-const formData = function(topics) {
+const formData = function(topic) {
     let pages = [];
     let elements = [];
 
-    topics.forEach(topic => {
+    
         elements = [];
 
         elements.push({
             type: "html",
             name: "topic",
             html:
-                `<h2>Diagnostic Test</h2>` +
-                `<h3>Let's find out what you already know first.</h3>` +
+                `<h2>Intermediate Test </h2>` +
+                `<h3>Let's find out what you have learned about the topic from the last search session.</h3>` +
                 `<h3>Answer these questions about <b>${topic.title}</b>:</h3>`
         });
 
-        topic.terms.forEach((term, idx) => {
+        Helpers.shuffle(topic.terms).forEach((term, idx) => {
             const name = `Q-${topic.id}-${idx}`;
 
             elements.push({
@@ -187,10 +188,10 @@ const formData = function(topics) {
                 width: 500,
                 isRequired: true
             });
+    
         });
-
         pages.push({elements:  elements});
-    });
+    
 
     ////
 

@@ -31,7 +31,10 @@ const SyncStore = Object.assign(EventEmitter.prototype, {
 
     listenToSyncData(callback) {
         socket.on('syncData', (data) => {
+            
+            console.log("Inside sync data", data)
             callback(data);
+
         });
     },
 

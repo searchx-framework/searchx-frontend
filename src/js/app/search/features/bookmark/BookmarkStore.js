@@ -100,7 +100,7 @@ const _get = function(type) {
                     if (!RatingStore.getUrlRating(resultId)) {
                         RatingStore._get_rating(resultId);
                     }
-                })
+                })  
             }
             BookmarkStore.emitChange();
             SearchStore.updateMetadata();

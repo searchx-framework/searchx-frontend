@@ -1,7 +1,7 @@
 import React from "react";
 import Form from "../components/form/Form";
 import constants from "./constants";
-
+import Helpers from "../../../utils/Helpers";
 import {log} from "../../../utils/Logger";
 import {LoggerEventTypes} from "../../../utils/LoggerEventTypes";
 
@@ -64,7 +64,7 @@ const formData = function(topic) {
         `<h3>Answer these questions about <b>${topic.title}</b>:</h3>`
     });
 
-    topic.terms.forEach((term, idx) => {
+    Helpers.shuffle(topic.terms).forEach((term, idx) => {
         const name = "Q-"+ topic.id +"-"+ idx;
 
         elements.push({
