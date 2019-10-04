@@ -2,7 +2,7 @@
     "taskId": "example-group-sync",
     "groupSize": 1,
     "topicsSize": 1,
-    "taskDuration": 1,
+    "taskDuration": 2,
     "waitDuration": 20,
     "switchPageLimit": 3,
     "choices": [
