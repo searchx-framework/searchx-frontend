@@ -164,7 +164,7 @@ const formData = function(topic) {
         });
 
         Helpers.shuffle(topic.terms).forEach((term, idx) => {
-            const name = `Q-${topic.id}-${idx}`;
+            const name = `Q-${topic.id}-${term}`;
 
             elements.push({
                 type: "html",
