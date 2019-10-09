@@ -23,15 +23,19 @@ class Session extends React.PureComponent {
     }
 
     componentDidMount() {
+        let sessionNum = localStorage.getItem("session-num") || 0;
         
         IntroStore.startIntro(introSteps, () => {
-            console.log("Compount mount")
             const start = localStorage.getItem("timer-start") || Date.now();
             localStorage.setItem("timer-start", start);
             this.setState({
                 start: start
-            });
+                });
+            
+
+
         });
+
     }
 
     
@@ -43,9 +47,15 @@ class Session extends React.PureComponent {
         const timer = (
             <div style={{marginTop: '10px', textAlign: 'center'}}>
                 <Timer start={this.state.start} duration={constants.taskDuration} onFinish={this.onFinish} style={{fontSize: '2em'}} showRemaining={true}/>
+                
+                
+                <Link className={"btn btn-primary" + (this.state.finished ? '' : ' disabled')} to="/sync/posttest" role="button">
+                        To Final Test
+                </Link>
             </div>
         );
         const metaInfo = {
+
         };
         let handleTaskOpen = () => {
             log(LoggerEventTypes.TASK_OPEN, metaInfo);
@@ -59,20 +69,20 @@ class Session extends React.PureComponent {
             <Collapsible trigger="Your Task" open transitionTime={3} onOpen={handleTaskOpen} onClose={handleTaskClose} >
                <p>
                         The professor requires all students to demonstrate what they learn about a particular topic by
-                         collaboratively conducting searches online and presenting their views on the topic.
-                     To prepare your term paper, your group needs to collect and save all the web pages,
+                         conducting searches online and presenting their views on the topic.
+                     To prepare your term paper, you to collect and save all the web pages,
                         publications, and other online sources that are helpful for you to write a paper.
                      </p>
 
                      <p dangerouslySetInnerHTML={{__html: task.data.topic.description}}/>
                      <hr/>
-
+                    <p> During the search phase you will be asked short questions about the topic at regular intervals. Your payment does not depend on the
+                        accuracy of your answers to these questions.
+                    </p>
                      <p>
-                         After you and your group have completed the search phase, you will be asked to complete 13
-                         exercises;
-                         those exercises include questions about your term paper topic and the writing of an outline for
+                         After you have completed the search phase, you will be asked to complete 11
+                         exercises - 10 vocabulary exercise about your term paper topic and and the writing of an essay for
                          your term paper.
-                         The exercises are to be finished individually (without help from your group members).
                      </p>
 
             </Collapsible>
@@ -80,7 +90,7 @@ class Session extends React.PureComponent {
 
         return (
             <div>
-                <TaskedSession timer={timer} taskDescription={taskDescription} lastSession={false} firstSession={false}/>
+                <TaskedSession timer= {timer} taskDescription={taskDescription} lastSession={false} firstSession={false}/>
             </div>
         )
 
@@ -124,13 +134,24 @@ class Session extends React.PureComponent {
     onFinish() {
         // if (localStorage.session ==1):
         let sessionNum = localStorage.getItem("session-num") || 0;
-        sessionNum++;
-        localStorage.setItem("session-num", sessionNum);
-        if (sessionNum == 3 ){
-            this.props.history.push('/sync/posttest');
+        
+        
+        const flag = localStorage.getItem("full-KG-flag") ;
+        if (flag==1){
+            sessionNum  = 4
         }
-        else {
-            this.props.history.push('/sync/intermediatetest')
+        else{
+            sessionNum++;
+           
+        }
+        localStorage.setItem("session-num", sessionNum);
+        console.log("sessionNum", sessionNum)
+        if (sessionNum == 4 ){
+            this.setState({
+                finished: true
+            });;
+        } else {
+            this.props.history.push('/sync/intermediatetest');
         }
         
     }

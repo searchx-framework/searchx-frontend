@@ -77,25 +77,19 @@ const formData = function() {
         <hr/>
 
         <h3>
-            In this study, you are tasked with learning about a given topic in collaboration with a fellow user.
+            In this study, you are tasked with learning about a given topic by using our web search interface.
             This study is composed of three parts:
         </h3>
         <ol type="1">
-            <li><b>Diagnostic Test (by yourself)</b>.
+            <li><b>Diagnostic Test </b>
                 <p>
-                    This is a multiple-choice question test to find out what you already know.
+                    This is a multiple-choice question test to find out what you already know about 3 topics.
                     Please answer honestly. Your payment is not affected by the number of correct or incorrect answers.
                 </p>
-                <p>
-                    Since this is a collaborative task, after the Diagnostic test you will need to wait for a partner.
-                    How much time that takes depends on how many other users are active right now.
-                    We ask you to wait for ${constants.waitDuration} minutes. We will notify you when you have waited long enough.
-                    Then, please follow the instructions for a partial payment.
-                </p>
             </li>
-            <li><b>Collaborative Learning Phase</b>.
+            <li><b>Learning Phase</b>
                 <p>
-                    We want you, together with your assigned partner, to use our custom web search system (we call it "SearchX") to learn about a given topic.
+                    We want you to use our custom web search system (we call it "SearchX") to learn about a given topic.
                     You are given ${constants.taskDuration} minutes to search for documents about that topic.
                     You need to collect and save all the Web pages, publications, and other online sources that are helpful for you to learn about the topic.
                 </p>
@@ -107,14 +101,20 @@ const formData = function() {
                 </p>
                 <p>
                     In order to learn and search together, we provide you with:
-                    a chat window so that you can communicate with your partner (when asked for a chat name, choose any name you like),
-                    a shared query history so that you can see what your partner is currently searching for
-                    and a shared bookmarking list so that you can easily share worthwhile documents.
+                    a query history so that you can see all your previous queries,
+                    and a  bookmarking list so that you can easily save worthwhile documents.
                 </p>
             </li>
-            <li><b>Final Test (by yourself)</b>.
+            <li> <b>Intermediate Tests </b>
                 <p>
-                    We will give you ${constants.topicsSize} exercises to complete to see how much you have learned through the learning phase;
+                    We will give you exercises at regular intervals during your search session. These are multiple-choice question test similar to the diagnostic test
+                    to find out how much you have learnt about the topic.
+                    Please answer honestly. Your payment is not affected by the number of correct or incorrect answers.
+                </p>
+            </li>
+            <li><b>Final Test </b>
+                <p>
+                    We will give you 2 exercises to complete to see how much you have learned through the learning phase;
                     those exercises include questions about the given topic and the writing of an outline for your paper about the given topic.
                     Please answer honestly. Your payment is not affected by the number of correct or incorrect answers.
                     Note that your answers must exceed a minimum word count and be on your assigned topic.

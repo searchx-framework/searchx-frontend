@@ -55,29 +55,21 @@ class PreTest extends React.Component {
 
     onComplete(data) {
         log(LoggerEventTypes.SURVEY_INTERMEDIATE_TEST_RESULTS, {
-            data: data
+            data: data,
+            session: localStorage.getItem("session-num")
         });
         // console.log("Test")
         // SyncStore.emitSyncSubmit(data);
         console.log("Intermediate test", localStorage.getItem("session-num"), data)
-        // Helpers.sleep(constants.waitDuration * 60 * 1000).then(() => {
-        //     this.setState({timedOut: true}, () => {
-        //         this.onLeave();
-        //     });
-        // });
-        // const taskParams = {
-        //     groupSize: constants.groupSize,
-        //     topicsSize: constants.topicsSize
-        // };
-
-        // SessionStore.updateTask(constants.taskId, data, (res) => {
-        //     if (res) {
-        //         console.log("init", res)
-        //         if ('topic' in res.taskData) {
-        //             this.props.history.push('/sync/session');
-        //         } 
-        //     }
-        // });
+        localStorage.setItem("question-data", JSON.stringify(data))
+        
+        let answers = JSON.parse(localStorage.getItem("question-data"));
+        const values = Object.values(answers);
+        if (values.includes("1") || values.includes("2")) {
+            localStorage.setItem("full-KG-flag", 0)
+        } else {
+            localStorage.setItem("full-KG-flag", 1)
+        }
 
         localStorage.setItem("timer-start", Date.now());
 
@@ -163,7 +155,21 @@ const formData = function(topic) {
                 `<h3>Answer these questions about <b>${topic.title}</b>:</h3>`
         });
 
+        let preAnswer = JSON.parse(localStorage.getItem("question-data"));
+        console.log(preAnswer)
+        var arr = []
+        topic.terms.forEach((term) => {
+            const key = `Q-${topic.id}-${term}`;
+            // s
+            if (preAnswer[key]){
+                if (preAnswer[key] == 1  || preAnswer[key] == 2){
+                    arr.push(term)
+                }
+            }
+        });
+        console.log("arr", arr)
         Helpers.shuffle(topic.terms).forEach((term, idx) => {
+            if (arr.includes(term) ){ 
             const name = `Q-${topic.id}-${term}`;
 
             elements.push({
@@ -188,7 +194,7 @@ const formData = function(topic) {
                 width: 500,
                 isRequired: true
             });
-    
+        }
         });
         pages.push({elements:  elements});
     

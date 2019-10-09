@@ -4,8 +4,9 @@ import constants from "./constants";
 import Helpers from "../../../utils/Helpers";
 import {log} from "../../../utils/Logger";
 import {LoggerEventTypes} from "../../../utils/LoggerEventTypes";
-
+import Alert from "react-s-alert";
 import AccountStore from "../../../stores/AccountStore";
+import SyncStore from "../../../stores/SyncStore";
 
 class PostTest extends React.Component {
     constructor(props) {
@@ -15,6 +16,8 @@ class PostTest extends React.Component {
         };
 
         this.onComplete = this.onComplete.bind(this);
+        this.onSwitchPage = this.onSwitchPage.bind(this);
+        this.onLeave = this.onLeave.bind(this);
     }
 
     render() {
@@ -22,7 +25,10 @@ class PostTest extends React.Component {
         return <Form
             formData={formData(task.data.topic)}
             formValidation={formValidation}
+            onSwitchPage={this.onSwitchPage}
+            
             onComplete={this.onComplete}
+            onLeave={this.onLeave}
             disableCopy={true}
         />
     }
@@ -37,6 +43,47 @@ class PostTest extends React.Component {
         localStorage.setItem('posttest-finish', true.toString());
         this.state.finished = true;
     }
+    onLeave() {
+        log(LoggerEventTypes.SURVEY_EXIT, {
+            step : "pretest",
+            state : this.state
+        });
+
+        SyncStore.emitSyncLeave();
+        AccountStore.clearUserData();
+    }
+    onSwitchPage() {
+        let switchTabs = localStorage.getItem("switch-tabs-pretest") || 0;
+        switchTabs++;
+        localStorage.setItem("switch-tabs-pretest", switchTabs);
+
+        if (switchTabs >= constants.switchPageLimit) {
+            this.onLeave();
+            this.props.history.push('/sync');
+            localStorage.removeItem("switch-tabs-pretest");
+
+            Alert.error('You have been disqualified from the study.', {
+                position: 'top-right',
+                effect: 'scale',
+                beep: true,
+                timeout: "none"
+            });
+        } else {
+            Alert.error('We have noticed that you have tried to change to a different window/tab. Please, focus on completing the diagnostic test.', {
+                position: 'top-right',
+                effect: 'scale',
+                beep: true,
+                timeout: "none"
+            });
+
+            Alert.warning(`Remember that more than ${constants.switchPageLimit} tab changes result in a disqualification. So far you have changed tabs ${switchTabs} time(s)`, {
+                position: 'top-right',
+                effect: 'scale',
+                beep: true,
+                timeout: "none"
+            });
+        }
+    }
 }
 
 const formValidation = function(sender, question) {
@@ -44,7 +91,7 @@ const formValidation = function(sender, question) {
         const text = question.value;
         const c = text.split(" ").length;
 
-        if (c < 50) {
+        if (c < 100) {
             question.error = "You have written only " + c + " words, you need to write at least 50 words to complete the exercises.";
         }
     }
@@ -96,34 +143,24 @@ const formData = function(topic) {
         type: "html",
         name: "outline-description",
         html: `
-            <b> Based on what you have learned from the learning session, please write an outline for your paper. </b>
-            <p> Tip: An outline is an organizational plan to help you draft a paper. Here is a simple template example: </p>
+            <p>  ${topic.description}</p>
+            <b> Based on what you have learned from the learning session, please write an essay of minimum 100 words for your paper. </b>
             
-            <p> 1. Introduction</p>
-            <p> 1.1. Main argument: ...</p>
-            <p> 1.2 Purpose of the paper: ... </p>
-            
-            <p> 2. Body </p>
-            <p> 2.1 Argument 1: ....</p>
-            <p> 2.2 Argument 2: .... </p>
-            
-            <p> 3. Conclusions</p>
-            <p> Summary: ....</p>
             `
     });
 
-    elements.push({
-        title: "Write your outline here:",
-        name: "outline-paper",
-        type: "comment",
-        inputType: "text",
-        description: "",
-        rows: 6,
-        isRequired: true
-    });
+    // elements.push({
+    //     title: "Write your outline here:",
+    //     name: "outline-paper",
+    //     type: "comment",
+    //     inputType: "text",
+    //     description: "",
+    //     rows: 6,
+    //     isRequired: true
+    // });
 
     elements.push({
-        title: "Please write what you have learned about this topic from the learning session. Use at least 50 words.",
+        title: "Please write your essay here.",
         name: "summary",
         type: "comment",
         inputType: "text",
@@ -133,20 +170,50 @@ const formData = function(topic) {
 
     elements.push({
         type: "html",
-        html: "<hr/>"
+        name: "searchx-feedback-description",
+        html: "<b>We would like you to describe your search experience.</b>"
+    });
+   
+
+    // elements.push({
+    //     title: "During your searches did you have difficulties finding information about something? If so, describe briefly what you were looking for.",
+    //     name: "difficulties",
+    //     type: "comment",
+    //     inputType: "text",
+    //     rows: 4,
+    //     isRequired: true
+    // });
+    elements.push({
+        title: "I didn't notice any inconsistencies when I used the system.",
+        name: "inconsistencies",
+        type: "rating",
+        isRequired: true,
+        minRateDescription: "Disagree",
+        maxRateDescription: "Agree"
+    });
+
+
+    elements.push({
+        title: "It was easy to determine if a document was relevant to a task.",
+        name: "relevance",
+        type: "rating",
+        isRequired: true,
+        minRateDescription: "Disagree",
+        maxRateDescription: "Agree"
+    });
+
+
+    elements.push({
+        title: "How difficult was this task?",
+        name: "difficult",
+        type: "rating",
+        isRequired: true,
+        minRateDescription: "Very easy",
+        maxRateDescription: "Very difficult"
     });
 
     elements.push({
-        title: "During your searches did you have difficulties finding information about something? If so, describe briefly what you were looking for.",
-        name: "difficulties",
-        type: "comment",
-        inputType: "text",
-        rows: 4,
-        isRequired: true
-    });
-
-    elements.push({
-        title: "Do you have any additional comments regarding the learning phase?",
+        title: "Do you have any additional comments regarding SearchX?",
         name: "additional-comment",
         type: "comment",
         inputType: "text",

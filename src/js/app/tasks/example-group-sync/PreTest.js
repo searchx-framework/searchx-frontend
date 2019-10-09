@@ -58,6 +58,7 @@ class PreTest extends React.Component {
         log(LoggerEventTypes.SURVEY_PRE_TEST_RESULTS, {
             data: data
         });
+        localStorage.setItem("question-data", JSON.stringify(data))
         // console.log("Test")
         SyncStore.emitSyncSubmit(data);
         console.log("Test", data)
@@ -73,7 +74,7 @@ class PreTest extends React.Component {
 
         SessionStore.updateTask(constants.taskId, data, (res) => {
             if (res) {
-                console.log("init", res)
+                // console.log("init", res)
                 if ('topic' in res.taskData) {
                     this.props.history.push('/sync/session');
                 } 

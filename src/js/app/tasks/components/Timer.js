@@ -42,11 +42,11 @@ class Timer extends React.PureComponent {
 
         return (
             <div className="Timer" style={this.props.style}>
-                {this.props.start > 0 || this.props.showRemaining ?
+                {/* {this.props.start > 0 || this.props.showRemaining ?
                     minutes + ':' + padZero(seconds)
                     :
                     '0:0'
-                }
+                } */}
             </div>
         )
     }
@@ -54,14 +54,28 @@ class Timer extends React.PureComponent {
     ////
 
     tick(){
-        if (this.props.start > 0) {
-            if (!this.state.finished && this.state.elapsed > this.props.duration * 60 * 1000) {
-                this.props.onFinish();
-                this.setState({
-                    finished: true
-                });
-            }
+        let sessionNum = localStorage.getItem("session-num")
+        
+        
+        const flag = localStorage.getItem("full-KG-flag");
 
+        if (this.props.start > 0) {
+            if (flag==1) {
+                if (!this.state.finished && this.state.elapsed > (4-sessionNum)*this.props.duration * 60 * 1000) {
+                    this.props.onFinish();
+                    this.setState({
+                        finished: true
+                    });
+                    
+                }
+            } else {
+                if (!this.state.finished && this.state.elapsed > this.props.duration * 60 * 1000) {
+                    this.props.onFinish();
+                    this.setState({
+                        finished: true
+                    });
+                }
+            }
             this.setState({
                 elapsed: new Date() - this.props.start
             });
