@@ -7,6 +7,9 @@ import {LoggerEventTypes} from "../../../utils/LoggerEventTypes";
 import Alert from "react-s-alert";
 import AccountStore from "../../../stores/AccountStore";
 import SyncStore from "../../../stores/SyncStore";
+import QueryHistoryContainer from "../../search/features/queryhistory/QueryHistoryContainer";
+import BookmarkContainer from "../../search/features/bookmark/BookmarkContainer";
+
 
 class PostTest extends React.Component {
     constructor(props) {
@@ -22,15 +25,22 @@ class PostTest extends React.Component {
 
     render() {
         const task = AccountStore.getTask();
-        return <Form
+        return (
+        <div className="Form">
+        <Form
             formData={formData(task.data.topic)}
             formValidation={formValidation}
             onSwitchPage={this.onSwitchPage}
-            
             onComplete={this.onComplete}
             onLeave={this.onLeave}
             disableCopy={true}
         />
+        <div className="Side">
+        <QueryHistoryContainer collaborative={this.props.collaborative}/>
+        <BookmarkContainer collaborative={this.props.collaborative}/>
+        </div> 
+        </div>
+        )
     }
 
     ////
