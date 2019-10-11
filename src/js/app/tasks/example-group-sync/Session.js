@@ -81,8 +81,7 @@ class Session extends React.PureComponent {
                     </p>
                      <p>
                          After you have completed the search phase, you will be asked to complete 11
-                         exercises - 10 vocabulary exercise about your term paper topic and and the writing of an essay for
-                         your term paper.
+                         exercises - 10 vocabulary exercise about your term paper topic and and the writing of a summary in your own words about what you have learned on the topic.
                      </p>
 
             </Collapsible>

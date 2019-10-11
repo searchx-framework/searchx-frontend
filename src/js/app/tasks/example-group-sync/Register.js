@@ -115,9 +115,9 @@ const formData = function() {
             <li><b>Final Test </b>
                 <p>
                     We will give you 2 exercises to complete to see how much you have learned through the learning phase;
-                    those exercises include questions about the given topic and the writing of an outline for your paper about the given topic.
-                    Please answer honestly. Your payment is not affected by the number of correct or incorrect answers.
-                    Note that your answers must exceed a minimum word count and be on your assigned topic.
+                    those exercises include questions about the given topic and the writing of a summary about what you have learned on the topic.
+                    Your payment is not affected by the number of correct or incorrect answers.
+                    Note that your answers must exceed a minimum word count and has to be on your assigned topic.
                 </p>
             </li>
         </ol>

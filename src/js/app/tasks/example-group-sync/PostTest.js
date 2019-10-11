@@ -144,7 +144,7 @@ const formData = function(topic) {
         name: "outline-description",
         html: `
             <p>  ${topic.description}</p>
-            <b> Based on what you have learned from the learning session, please write an essay of minimum 100 words for your paper. </b>
+            <b> Based on what you have learned from the learning session about the topic, please write, in your own words, a summary at a minimum 100 words. </b>
             
             `
     });
@@ -160,7 +160,7 @@ const formData = function(topic) {
     // });
 
     elements.push({
-        title: "Please write your essay here.",
+        title: "Please write your essay here. ",
         name: "summary",
         type: "comment",
         inputType: "text",
