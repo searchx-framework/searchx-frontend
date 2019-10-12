@@ -75,7 +75,6 @@ const formData = function() {
         </ol>
         
         <hr/>
-
         <h3>
             In this study, you are tasked with learning about a given topic by using our web search interface.
             This study is composed of three parts:
@@ -121,7 +120,6 @@ const formData = function() {
                 </p>
             </li>
         </ol>
-
         <hr/>
         <h3>You will need approximately 55 minutes to complete the whole study.</h3>
         `

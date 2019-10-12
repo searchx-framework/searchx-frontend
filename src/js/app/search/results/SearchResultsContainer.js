@@ -156,6 +156,7 @@ export default class SearchResultsContainer extends React.Component {
     }
 
     render() {
+    
         return <div>
             <SearchResults {...this.state} pageChangeHandler={this.pageChangeHandler} key="results"
                            isCollapsible={this.isCollapsible} showCollapsedResults={this.showCollapsedResults}
