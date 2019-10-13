@@ -58,7 +58,8 @@ class PostTest extends React.Component {
             setTimeout(keepMePosted, 200);
         }
         setTimeout(keepMePosted, 2000);
-    
+        
+        localStorage.setItem("post-test", 1);
         return (
         <div className="Form">
         <Form

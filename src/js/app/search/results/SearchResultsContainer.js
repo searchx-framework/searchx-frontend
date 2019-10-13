@@ -156,13 +156,15 @@ export default class SearchResultsContainer extends React.Component {
     }
 
     render() {
-    
+        let postflag =localStorage.getItem("post-test") || 0;
         return <div>
+            {postflag == 0 &&
             <SearchResults {...this.state} pageChangeHandler={this.pageChangeHandler} key="results"
                            isCollapsible={this.isCollapsible} showCollapsedResults={this.showCollapsedResults}
                            hideCollapsedResults={this.hideCollapsedResults}
                            showAllCollapsedResults={this.showAllCollapsedResults}
-                           hideAllCollapsedResults={this.hideAllCollapsedResults}/>
+                           hideAllCollapsedResults={this.hideAllCollapsedResults}/>}
+                           
             <DocumentViewer searchState={this.state.searchState} key="viewer"
                             serpId={this.state.serpId}
                             url={this.state.activeUrl}
