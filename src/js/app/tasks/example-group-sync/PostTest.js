@@ -140,7 +140,7 @@ const formValidation = function(sender, question) {
         const c = text.split(" ").length;
 
         if (c < 100) {
-            question.error = "You have written only " + c + " words, you need to write at least 50 words to complete the exercises.";
+            question.error = "You have written only " + c + " words, you need to write at least 100 words to complete the exercises.";
         }
     }
 };
@@ -279,7 +279,7 @@ const formData = function(topic) {
         requiredText: "",
         showProgressBar: "top",
         showQuestionNumbers: "off",
-        completedHtml: "<h2>Thank you for taking part in our study.</h2>",
+        completedHtml: "<h2>Thank you for taking part in our study. </h2> <p> Click this <a href='https://app.prolific.co/submissions/complete?cc=2B5F62C7' target='_blank'><b>link</b></a> to go back to Prolific. </p> " ,
     }
 };
 

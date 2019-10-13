@@ -77,7 +77,7 @@ const formData = function() {
         <hr/>
         <h3>
             In this study, you are tasked with learning about a given topic by using our web search interface.
-            This study is composed of three parts:
+            This study is composed of four parts:
         </h3>
         <ol type="1">
             <li><b>Diagnostic Test </b>
