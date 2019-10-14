@@ -66,6 +66,7 @@ const formData = function() {
         type: "html",
         name: "start",
         html: `
+        <h3>You will need approximately 55 minutes to complete the whole study.</h3>
         <h3>Requirements:</h3>
         <ol type="1">
             <li>
@@ -89,19 +90,20 @@ const formData = function() {
             <li><b>Learning Phase</b>
                 <p>
                     We want you to use our custom web search system (we call it "SearchX") to learn about a given topic.
-                    You are given ${constants.taskDuration} minutes to search for documents about that topic.
-                    You need to collect and save all the Web pages, publications, and other online sources that are helpful for you to learn about the topic.
+                    You are given 20 minutes to search for documents and learn about that topic. 
                 </p>
                 <p>
                     Please use only SearchX to learn about the given topic.
                     Do not use any other web search engine or search for an unrelated topic
                     (e.g. your topic is <i>computer science</i>, we consider searches for <i>tomorrow's weather</i>, <i>the latest news</i>, <i>movie reviews</i>, etc. as severely off-topic).
                     If you conduct such off-topic searches, we will cancel your participation.
+                    Moreover, we would not allow you to change tabs more than three times during the search session. 
+                    The document viewer might be unsatisfactory and fail to render all web pages perfectly. However, we ask you to not use anyo other page/search engine other than SearchX for our study.
                 </p>
                 <p>
-                    In order to learn and search together, we provide you with:
+                    In order to learn and search, we provide you with:
                     a query history so that you can see all your previous queries,
-                    and a  bookmarking list so that you can easily save worthwhile documents.
+                    and a  bookmarking list so that you can easily save all the Web pages, publications, and other online sources that are helpful for you to learn about the topic.
                 </p>
             </li>
             <li> <b>Intermediate Tests </b>
@@ -121,7 +123,7 @@ const formData = function() {
             </li>
         </ol>
         <hr/>
-        <h3>You will need approximately 55 minutes to complete the whole study.</h3>
+        
         `
     });
 
@@ -139,7 +141,7 @@ const formData = function() {
     });
 
     elements.push({
-        title: "Insert your assigned ID here",
+        title: "Insert your assigned Prolific ID here",
         name : "userId",
         type :"text",
         inputType:"text",
@@ -153,16 +155,26 @@ const formData = function() {
         type: "radiogroup",
         isRequired: true,
         choices: [
-            {value: 0, text: "High School"},
+            {value: 0, text: "High School or lower"},
             {value: 1, text: "Bachelor"},
             {value: 2, text: "Master"},
-            {value: 3, text: "Doctorate"}
+            {value: 3, text: "Doctorate"},
+            {value: 4, text: "Other"}
         ]
     });
 
     elements.push({
-        title: "For which subject areas do you have a university degree(s)?",
-        visibleIf: "{degree} > 0",
+        title: "For which subject areas do you have a {degree} degree(s)?",
+        visibleIf: "{degree} > 0 & {degree} < 4",
+        name : "background",
+        type :"text",
+        inputType:"text",
+        width: 500,
+        isRequired: true
+    });
+    elements.push({
+        title: "What is your academic degree and for which subject areas do you have the degree ?",
+        visibleIf: "{degree} == 4",
         name : "background",
         type :"text",
         inputType:"text",

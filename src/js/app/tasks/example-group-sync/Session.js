@@ -165,26 +165,26 @@ const introSteps = [
     },
     {
         element: '.SearchHeader',
-        intro: 'We want you to use our custom web search system SearchX.',
+        intro: 'We want you to use our custom web search system SearchX to learn about the topic mentioned in the task description.',
         position: 'bottom-middle-aligned'
     },
     {
         element: '.SearchHeader .form',
-        intro: 'Use SearchX to search for webpages, publications, and other online sources about the topic.'
+        intro: 'Use SearchX to search for webpages, publications, and other online sources to learn about the topic.'
     },
     {
         element: '.QueryHistory',
-        intro: 'The query history shows your and your group\'s past search queries. In this manner you see what the others are doing.',
+        intro: 'The query history shows your past search queries.',
         position: 'top'
     },
     {
         element: '.SearchResults',
-        intro: 'To save a resource that is useful, bookmark it. You also see your group\'s bookmarks here.',
+        intro: 'To save a resource that is useful, bookmark it.',
         position: 'top'
     },
     {
         element: '.Bookmarks',
-        intro: 'The documents you and your group bookmarked will appear here. You can revisit them before completing the session.',
+        intro: 'The documents bookmarked will appear here. You can revisit them before completing the session and while writing the summary on what you have learned about the topic.',
         position: 'top'
     }
     // {
