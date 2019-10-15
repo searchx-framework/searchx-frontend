@@ -114,7 +114,7 @@ const formData = function() {
                     We will also ask you to write a summary about what you have learned on the topic. 
                     When you write the summary you will have access to the web pages and documents that you bookmarked during the search session. 
                     Your payment is not affected by the number of correct or incorrect answers.
-                    Note that your summry must exceed a minimum word count (100) and has to be on your assigned topic.
+                    Note that your summary must exceed a minimum word count (100) and has to be on your assigned topic.
                     Finally, we will ask you to give some brief feedback about the task, your learning phase and our platform!
                 </p>
             </li>
