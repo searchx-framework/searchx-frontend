@@ -228,7 +228,7 @@ const formData = function() {
 
     elements.push({
         title: "How often do you engage in Web search?",
-        visibleIf: "{collab-previous} == 1",
+        visibleIf: "{web-previous} == 1",
         name: "web-frequency",
         type: "radiogroup",
         isRequired: true,
