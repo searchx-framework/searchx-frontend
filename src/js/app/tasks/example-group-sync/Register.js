@@ -263,18 +263,20 @@ const formData = function() {
     elements.push({
         title: "What are your preferred online resources (like Wikipedia, Coursera etc.) to learn?",
         name: "collab-members",
-        type: "text",
+        type: "comment",
+        inputType: "text",
         width: 600,
-        inputType: "number",
+        rows: 1,
         isRequired: true
     });
 
         elements.push({
         title: "What are your preferred offline resources (like an encyclopedia, textbooks etc.) to learn?",
         name: "collab-members",
-        type: "text",
+        type: "comment",
+        inputType: "text",
         width: 600,
-        inputType: "number",
+        rows: 1,
         isRequired: true
     });
 
