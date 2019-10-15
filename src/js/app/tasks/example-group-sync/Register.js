@@ -67,13 +67,6 @@ const formData = function() {
         name: "start",
         html: `
         <h3>You will need approximately 55 minutes to complete the whole study.</h3>
-        <h3>Requirements:</h3>
-        <ol type="1">
-            <li>
-                <a href="https://www.whatismybrowser.com/" target="_blank">Check here</a> if the version of your browser meets our requirements:
-                Google Chrome version 47 (or higher) and Mozilla Firefox version 44 (or higher).
-            </li>
-        </ol>
         
         <hr/>
         <h3>
