@@ -117,7 +117,7 @@ class PostTest extends React.Component {
                 timeout: "none"
             });
         } else {
-            Alert.error('We have noticed that you have tried to change to a different window/tab. Please, focus on completing the diagnostic test.', {
+            Alert.error('We have noticed that you have tried to change to a different window/tab. Please, focus on completing the test.', {
                 position: 'top-right',
                 effect: 'scale',
                 beep: true,
@@ -154,7 +154,7 @@ const formData = function(topic) {
     elements.push({
         type: "html",
         name: "topic",
-        html: `<h2>Final Exercises</h2>` +
+        html: `<h2>Test 5</h2>` +
         `<h3>Let's see how much you've learned.</h3>` +
         `<h3>Answer these questions about <b>${topic.title}</b>:</h3>`
     });
@@ -193,7 +193,7 @@ const formData = function(topic) {
         name: "outline-description",
         html: `
             <p>  ${topic.description}</p>
-            <b> Based on what you have learned from the learning session about the topic, please write, in your own words, a summary at a minimum 100 words. </b>
+            <b> Based on what you have learned from the search session about the topic, please write, in your own words, a summary at a minimum of 100 words. </b>
             
             `
     });
@@ -209,7 +209,7 @@ const formData = function(topic) {
     // });
 
     elements.push({
-        title: "Please write your essay here. ",
+        title: "Please write your summary here. ",
         name: "summary",
         type: "comment",
         inputType: "text",
@@ -220,7 +220,7 @@ const formData = function(topic) {
     elements.push({
         type: "html",
         name: "searchx-feedback-description",
-        html: "<b>We would like you to describe your search experience.</b>"
+        html: "<b>We would also like you to describe your experience while using SearchX and taking part in our study. This information will help us in making SearchX better for future usage. It will also help us to analyze user experience during the study. </b>"
     });
    
 
@@ -279,7 +279,7 @@ const formData = function(topic) {
         requiredText: "",
         showProgressBar: "top",
         showQuestionNumbers: "off",
-        completedHtml: "<h2>Thank you for taking part in our study. </h2> <p> Click this <a href='https://app.prolific.co/submissions/complete?cc=2B5F62C7' target='_blank'><b>link</b></a> to go back to Prolific. </p> " ,
+        completedHtml: "<h2>Thank you for taking part in our study.</h2> <h3>Follow this <a href=" + constants.completionURL + "> link</a> back to Prolific Academic to confirm your participation.</h3>" ,
     }
 };
 

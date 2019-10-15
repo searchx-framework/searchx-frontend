@@ -1,7 +1,7 @@
 import React from 'react'
 import {Route, Router} from 'react-router-dom'
 import MobileDetect from 'mobile-detect';
-
+import Bowser from "bowser"
 import history from './History';
 import {flush} from '../utils/Logger';
 import config from '../config';
@@ -39,6 +39,22 @@ export class App extends React.Component {
         const md = new MobileDetect(window.navigator.userAgent);
         if (md.mobile() !== null) {
             return (<div/>)
+        }
+        const browser = Bowser.getParser(window.navigator.userAgent);
+        const isValidBrowser = browser.satisfies({
+        // or in general
+        chrome: ">=47",
+        firefox: ">=44"
+        });
+
+        if(!isValidBrowser){
+            return (<div>
+                <h3>Your browser does not meet our requriement:
+                    Google Chrome version 47 (or higher) and Mozilla Firefox version 44 (or higher).
+                    Please upgrade your browser to take part in our study</h3>
+            </div>)
+        } else{
+            console.log(browser.getBrowser());
         }
 
         return (

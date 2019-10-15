@@ -69,6 +69,7 @@ class PreTest extends React.Component {
             localStorage.setItem("full-KG-flag", 0)
         } else {
             localStorage.setItem("full-KG-flag", 1)
+            localStorage.setItem("flag-sess", localStorage.getItem("session-num"))
         }
 
         localStorage.setItem("timer-start", Date.now());
@@ -93,6 +94,8 @@ class PreTest extends React.Component {
             session: localStorage.getItem("session-num"),
             state : this.state
         });
+        SyncStore.emitSyncLeave();
+        AccountStore.clearUserData();
     }
 
     onTimeout() {
@@ -122,7 +125,7 @@ class PreTest extends React.Component {
                 timeout: "none"
             });
         } else {
-            Alert.error('We have noticed that you have tried to change to a different window/tab. Please, focus on completing the diagnostic test.', {
+            Alert.error('We have noticed that you have tried to change to a different window/tab. Please, focus on completing the test.', {
                 position: 'top-right',
                 effect: 'scale',
                 beep: true,
@@ -143,6 +146,8 @@ const formData = function(topic) {
     let pages = [];
     let elements = [];
 
+    let sess= localStorage.getItem("session-num") || 0 ;
+    sess++;
     
         elements = [];
 
@@ -150,7 +155,7 @@ const formData = function(topic) {
             type: "html",
             name: "topic",
             html:
-                `<h2>Intermediate Test </h2>` +
+                `<h2>Test ${sess} </h2>` +
                 `<h3>Let's find out what you have learned about the topic from the last search session.</h3>` +
                 `<h3>Answer these questions about <b>${topic.title}</b>:</h3>`
         });

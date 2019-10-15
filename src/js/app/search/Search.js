@@ -3,7 +3,7 @@ import React from 'react';
 
 import {log} from '../../utils/Logger';
 import {LoggerEventTypes} from '../../utils/LoggerEventTypes';
-
+import PropTypes from "prop-types";
 import SearchHeaderContainer from './header/SearchHeaderContainer';
 import SearchResultsContainer from "./results/SearchResultsContainer";
 import QueryHistoryContainer from "./features/queryhistory/QueryHistoryContainer";
@@ -12,11 +12,18 @@ import Chat from "./features/chat/Chat";
 import config from "../../config";
 
 class Search extends React.Component {
+    constructor(props) {
+        super(props);
+
+
+        this.handleVisibilityChange = this.handleVisibilityChange.bind(this);
+    }
     componentDidMount() {
         if (this.props.firstSession && config.interface.chat && this.props.collaborative) {
             sessionStorage.clear();
             Chat();
-        }
+        };
+        document.addEventListener('visibilitychange', this.handleVisibilityChange);
     }
 
     componentWillUnmount() {
@@ -28,7 +35,8 @@ class Search extends React.Component {
 
             const element = document.querySelector("#conversejs");
             element.parentElement.removeChild(element);
-        }
+        };
+        document.removeEventListener('visibilitychange', this.handleVisibilityChange);
     }
 
     render() {
@@ -63,13 +71,25 @@ class Search extends React.Component {
             </div>
         )
     }
+    handleVisibilityChange() {
+        if (document.hidden) {
+        
+            
+            this.props.onSwitchPage();
+        }
+    }
 }
+Search.propTypes = {
+    onSwitchPage: PropTypes.func
+};
+
 
 Search.defaultProps = {
     collaborative: true,
     showAccountInfo: true,
     firstSession: true,
-    lastSession: true
+    lastSession: true,
+    onSwitchPage: () => {},
 };
 
 export default Search;

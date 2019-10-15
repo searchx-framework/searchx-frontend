@@ -1,6 +1,6 @@
 import React from "react";
 import {Link} from "react-router-dom";
-
+import SyncStore from "../../../stores/SyncStore";
 import TaskedSession from "../components/session/TaskedSession";
 import Collapsible from "react-collapsible";
 import Timer from "../components/Timer";
@@ -9,17 +9,18 @@ import {log} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../utils/LoggerEventTypes';
 import AccountStore from "../../../stores/AccountStore";
 import IntroStore from "../../../stores/IntroStore";
-
+import Alert from "react-s-alert";
 
 class Session extends React.PureComponent {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             start: false,
             finished: false,
         };
 
         this.onFinish = this.onFinish.bind(this);
+        this.onSwitchPage = this.onSwitchPage.bind(this);
     }
 
     componentDidMount() {
@@ -46,7 +47,7 @@ class Session extends React.PureComponent {
         console.log("this state", this.state.start)
         const timer = (
             <div style={{marginTop: '10px', textAlign: 'center'}}>
-                <Timer start={this.state.start} duration={constants.taskDuration} onFinish={this.onFinish} style={{fontSize: '2em'}} showRemaining={true}/>
+                <Timer start={this.state.start} duration={constants.taskDuration} onFinish={this.onFinish} style={{fontSize: '2em'}} showRemaining={false}/>
                 
                 
                 <Link className={"btn btn-primary" + (this.state.finished ? '' : ' disabled')} to="/sync/posttest" role="button">
@@ -70,18 +71,26 @@ class Session extends React.PureComponent {
                <p>
                         The professor requires all students to demonstrate what they learn about a particular topic by
                          conducting searches online and presenting their views on the topic.
-                     To prepare your term paper, you to collect and save all the web pages,
-                        publications, and other online sources that are helpful for you to write a paper.
+                     You need to use SearchX to learn about the topic. You must open and read documents/web pages that you think are 
+                     important about the given topic.  You can also bookmark these web pages and other online resources.
                      </p>
 
                      <p dangerouslySetInnerHTML={{__html: task.data.topic.description}}/>
                      <hr/>
-                    <p> During the search phase you will be asked short questions about the topic at regular intervals. Your payment does not depend on the
+                    <p> During the search phase there will be 3 tests (Tests 2, 3 and 4) consisting of multiple choice questions about the topic. They will be
+                        presented to you at regular intervals to assess how much you have learned about the topic. 
+                        Your payment does not depend on the
                         accuracy of your answers to these questions.
                     </p>
                      <p>
-                         After you have completed the search phase, you will be asked to complete 11
-                         exercises - 10 vocabulary exercise about your term paper topic and and the writing of a summary in your own words about what you have learned on the topic.
+                         After you have completed the search session of minimum 20 minutes, you will be asked one more test (Test 5)
+                         consisting of multiple choice questions to assess your final knowledge about the topic.
+                         You will be also asked to write a summary on what you have learned about the given topic in your own words.
+                         Documents that you bookmark during the search session will be available to you when you write the summary.
+
+                     </p>
+                     <p> Note that the "To Final Test" button will only be accessible after 20 minutes. You can search for longer
+                         if you want to know more about the given topic.
                      </p>
 
             </Collapsible>
@@ -89,7 +98,12 @@ class Session extends React.PureComponent {
 
         return (
             <div>
-                <TaskedSession timer= {timer} taskDescription={taskDescription} lastSession={false} firstSession={false}/>
+                <TaskedSession 
+                timer= {timer} 
+                taskDescription={taskDescription} 
+                onSwitchPage={this.onSwitchPage}
+                lastSession={false} 
+                firstSession={false}/>
             </div>
         )
 
@@ -154,6 +168,47 @@ class Session extends React.PureComponent {
         }
         
     }
+    onLeave() {
+        log(LoggerEventTypes.SEARCH_EXIT, {
+            step : "session",
+            state : this.state
+        });
+
+        SyncStore.emitSyncLeave();
+        AccountStore.clearUserData();
+    }
+    onSwitchPage() {
+        let switchTabs = localStorage.getItem("switch-tabs-session") || 0;
+        switchTabs++;
+        localStorage.setItem("switch-tabs-session", switchTabs);
+
+        if (switchTabs >= constants.switchPageLimit) {
+            this.onLeave();
+            this.props.history.push('/sync');
+            localStorage.removeItem("switch-tabs-session");
+
+            Alert.error('You have been disqualified from the study.', {
+                position: 'top-right',
+                effect: 'scale',
+                beep: true,
+                timeout: "none"
+            });
+        } else {
+            Alert.error('We have noticed that you have tried to change to a different window/tab. Please, use SearchX only for your learning about the given topic!', {
+                position: 'top-right',
+                effect: 'scale',
+                beep: true,
+                timeout: "none"
+            });
+
+            Alert.warning(`Remember that more than ${constants.switchPageLimit} tab changes result in a disqualification. So far you have changed tabs ${switchTabs} time(s)`, {
+                position: 'top-right',
+                effect: 'scale',
+                beep: true,
+                timeout: "none"
+            });
+        }
+    }
 }
 
 
@@ -179,7 +234,7 @@ const introSteps = [
     },
     {
         element: '.SearchResults',
-        intro: 'To save a resource that is useful, bookmark it.',
+        intro: 'To save a resource that is useful, bookmark it. Make sure to read the document and not just the snippet!',
         position: 'top'
     },
     {

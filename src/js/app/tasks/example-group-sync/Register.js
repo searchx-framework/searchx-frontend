@@ -81,7 +81,7 @@ const formData = function() {
             This study is composed of four parts:
         </h3>
         <ol type="1">
-            <li><b>Diagnostic Test </b>
+            <li><b>Test 1 </b>
                 <p>
                     This is a multiple-choice question test to find out what you already know about 3 topics.
                     Please answer honestly. Your payment is not affected by the number of correct or incorrect answers.
@@ -89,16 +89,17 @@ const formData = function() {
             </li>
             <li><b>Learning Phase</b>
                 <p>
-                    We want you to use our custom web search system (we call it "SearchX") to learn about a given topic.
-                    You are given 20 minutes to search for documents and learn about that topic. 
+                    We want you to use our custom web search system (we call it "SearchX") to learn about one given topic.
+                    You are required to search for documents, read them and learn about that topic for atleast 20 minutes. It is only when 20 minutes have elapsed you can finish searching and go to the last step of this study by clicking the "To Final Test" button.
+                     Henceforth, we will refer to this learing phase of 20 minutes (minimum) as search session. 
                 </p>
                 <p>
-                    Please use only SearchX to learn about the given topic.
+                    Please use only SearchX to learn about the given topic. You must open and read documents/web pages that you think are important about the given topic.
                     Do not use any other web search engine or search for an unrelated topic
                     (e.g. your topic is <i>computer science</i>, we consider searches for <i>tomorrow's weather</i>, <i>the latest news</i>, <i>movie reviews</i>, etc. as severely off-topic).
                     If you conduct such off-topic searches, we will cancel your participation.
-                    Moreover, we would not allow you to change tabs more than three times during the search session. 
-                    The document viewer might be unsatisfactory and fail to render all web pages perfectly. However, we ask you to not use anyo other page/search engine other than SearchX for our study.
+                    Moreover, we would not allow you to change tabs more than three times during the search session.
+                    Our document viewer might be unsatisfactory and fail to render all web pages perfectly. However, we ask you to not use any other page/search engine other than SearchX for our study. 
                 </p>
                 <p>
                     In order to learn and search, we provide you with:
@@ -106,19 +107,22 @@ const formData = function() {
                     and a  bookmarking list so that you can easily save all the Web pages, publications, and other online sources that are helpful for you to learn about the topic.
                 </p>
             </li>
-            <li> <b>Intermediate Tests </b>
+            <li> <b>Tests 2, 3 and 4 </b>
                 <p>
-                    We will give you exercises at regular intervals during your search session. These are multiple-choice question test similar to the diagnostic test
-                    to find out how much you have learnt about the topic.
+                    We will give you these tests at regular intervals during your search session. These are multiple-choice question test similar to Test 1
+                    to find out how much you have learnt about the topic while searching and reading documents.
                     Please answer honestly. Your payment is not affected by the number of correct or incorrect answers.
                 </p>
             </li>
-            <li><b>Final Test </b>
+            <li><b>Test 5 </b>
                 <p>
-                    We will give you 2 exercises to complete to see how much you have learned through the learning phase;
-                    those exercises include questions about the given topic and the writing of a summary about what you have learned on the topic.
+                After 20 minutes, if you are satisfied with what you have learned and would like to proceed to Test 5, you can click the "To Final Test" button.
+                    In this test, we will give you a multiple-choice question test similar to the previous tests to assess your final knowledge on the topic.
+                    We will also ask you to write a summary about what you have learned on the topic. 
+                    When you write the summary you will have access to the web pages and documents that you bookmarked during the search session. 
                     Your payment is not affected by the number of correct or incorrect answers.
-                    Note that your answers must exceed a minimum word count and has to be on your assigned topic.
+                    Note that your summry must exceed a minimum word count (100) and has to be on your assigned topic.
+                    Finally, we will ask you to give some brief feedback about the task, your learning phase and our platform!
                 </p>
             </li>
         </ol>
@@ -192,9 +196,14 @@ const formData = function() {
             {value: 1, text: "Yes"},
         ]
     });
-
     elements.push({
-        title: "What is your level of English?",
+        html: "<p> Check <a href ='http://www.uefap.com/test/', target='_blank'>this chart </a> to determine your English level. </p>",
+        name: "english-chart",
+        type: "html",
+        visibleIf: "{english} == 0"
+    });
+    elements.push({
+        title: "What is your level of English? ",
         visibleIf: "{english} == 0",
         name : "english-level",
         type: "radiogroup",
@@ -210,6 +219,79 @@ const formData = function() {
     });
 
     pages.push({elements:  elements});
+
+    elements = [];
+
+    elements.push({
+        title: "Have you ever learnt about a particular topic by searching the Web?",
+        name: "web-previous",
+        type: "radiogroup",
+        isRequired: true,
+        choices: [
+            {value: 0, text: "No"},
+            {value: 1, text: "Yes"},
+        ]
+    });
+
+    elements.push({
+        title: "How often do you engage in Web search?",
+        visibleIf: "{collab-previous} == 1",
+        name: "web-frequency",
+        type: "radiogroup",
+        isRequired: true,
+        choices: [
+            {value: 0, text: "Daily"},
+            {value: 1, text: "Weekly"},
+            {value: 2, text: "Monthly"},
+            {value: 3, text: "Less often"},
+        ]
+    });
+
+    elements.push({
+        type: "html",
+        html: "<hr/>"
+    });
+
+    elements.push({
+        type: "html",
+        html: "<b> Think about the most recent time you leanred about a topic or gathered some information by searching the web. </b>"
+    });
+
+    elements.push({
+        title: "Describe what were you trying to learn. (e.g. about a place for planning a trip, learning about a subject for a writing assignment like essays, comparing prices of products, etc.)",
+        name: "collab-information-need",
+        type: "comment",
+        inputType: "text",
+        width: 600,
+        rows: 1,
+        isRequired: true
+    });
+
+    elements.push({
+        title: "What are your preferred online resources (like Wikipedia, Coursera etc.) to learn?",
+        name: "collab-members",
+        type: "text",
+        width: 600,
+        inputType: "number",
+        isRequired: true
+    });
+
+        elements.push({
+        title: "What are your preferred offline resources (like an encyclopedia, textbooks etc.) to learn?",
+        name: "collab-members",
+        type: "text",
+        width: 600,
+        inputType: "number",
+        isRequired: true
+    });
+
+    elements.push({
+        type: "html",
+        html: "<hr/>"
+    });
+
+    pages.push({elements:  elements});
+
 
     ////
 

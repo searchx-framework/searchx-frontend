@@ -130,7 +130,7 @@ class PreTest extends React.Component {
                 timeout: "none"
             });
         } else {
-            Alert.error('We have noticed that you have tried to change to a different window/tab. Please, focus on completing the diagnostic test.', {
+            Alert.error('We have noticed that you have tried to change to a different window/tab. Please, focus on completing the test.', {
                 position: 'top-right',
                 effect: 'scale',
                 beep: true,
@@ -158,7 +158,7 @@ const formData = function(topics) {
             type: "html",
             name: "topic",
             html:
-                `<h2>Diagnostic Test</h2>` +
+                `<h2>Test 1</h2>` +
                 `<h3>Let's find out what you already know first.</h3>` +
                 `<h3>Answer these questions about <b>${topic.title}</b>:</h3>`
         });
