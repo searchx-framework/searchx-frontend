@@ -252,7 +252,7 @@ const formData = function() {
 
     elements.push({
         title: "Describe what were you trying to learn. (e.g. about a place for planning a trip, learning about a subject for a writing assignment like essays, comparing prices of products, etc.)",
-        name: "collab-information-need",
+        name: "web-information-need",
         type: "comment",
         inputType: "text",
         width: 600,
@@ -262,7 +262,7 @@ const formData = function() {
 
     elements.push({
         title: "What are your preferred online resources (like Wikipedia, Coursera etc.) to learn?",
-        name: "collab-members",
+        name: "web-online",
         type: "comment",
         inputType: "text",
         width: 600,
@@ -272,7 +272,7 @@ const formData = function() {
 
         elements.push({
         title: "What are your preferred offline resources (like an encyclopedia, textbooks etc.) to learn?",
-        name: "collab-members",
+        name: "web-offline",
         type: "comment",
         inputType: "text",
         width: 600,
