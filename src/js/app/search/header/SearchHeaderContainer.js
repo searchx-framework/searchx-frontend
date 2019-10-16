@@ -59,7 +59,7 @@ export default class SearchHeaderContainer extends React.Component {
         log(LoggerEventTypes.SEARCH_QUERY, {
             query: this.state.query,
             vertical: this.state.searchState.vertical,
-            session: localStorage.getItem("session-num")
+            session: localStorage.getItem("session-num") || 0,
         });
 
         SearchActions.search(this.state.query, this.state.searchState.vertical, 1);
@@ -79,7 +79,7 @@ export default class SearchHeaderContainer extends React.Component {
             query: this.state.searchState.query,
             vertical: vertical,
             previous: this.state.searchState.vertical,
-            session: localStorage.getItem("session-num")
+            session: localStorage.getItem("session-num") || 0,
         });
 
         SearchActions.changeVertical(vertical);

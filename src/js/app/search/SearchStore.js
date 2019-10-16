@@ -312,7 +312,8 @@ const _search = (query, vertical, page) => {
                 provider: state.provider,
                 vertical: state.vertical,
                 serpId: state.serpId,
-                elapsedTime: state.elapsedTime
+                elapsedTime: state.elapsedTime,
+                session: localStorage.getItem("session-num")
             });
 
             SearchStore.emitChange();

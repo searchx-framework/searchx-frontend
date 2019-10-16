@@ -74,6 +74,7 @@ export default class SearchResultsContainer extends React.Component {
             query: this.state.searchState.query,
             page: this.state.searchState.page,
             serpId: this.state.serpId,
+            session: localStorage.getItem("session-num") || 0,
         }
     }
 
@@ -85,7 +86,8 @@ export default class SearchResultsContainer extends React.Component {
             vertical: this.state.searchState.vertical,
             page: page,
             previous_page: this.state.activePage,
-            serpId: this.state.serpId
+            serpId: this.state.serpId,
+            session: localStorage.getItem("session-num")
         });
 
         SearchActions.changePage(page);
@@ -164,7 +166,7 @@ export default class SearchResultsContainer extends React.Component {
                            hideCollapsedResults={this.hideCollapsedResults}
                            showAllCollapsedResults={this.showAllCollapsedResults}
                            hideAllCollapsedResults={this.hideAllCollapsedResults}/>}
-                           
+
             <DocumentViewer searchState={this.state.searchState} key="viewer"
                             serpId={this.state.serpId}
                             url={this.state.activeUrl}

@@ -77,7 +77,8 @@ export default class SearchResultContainer extends React.Component {
 
         log(LoggerEventTypes.BOOKMARK_ACTION, {
             url: id,
-            action: action
+            action: action,
+            session: localStorage.getItem("session-num") || 0,
         });
     };
 
@@ -113,7 +114,8 @@ export default class SearchResultContainer extends React.Component {
 
         log(LoggerEventTypes.EXCLUDE_ACTION, {
             url: id,
-            action: action
+            action: action,
+            session: localStorage.getItem("session-num") || 0,
         });
     }
 

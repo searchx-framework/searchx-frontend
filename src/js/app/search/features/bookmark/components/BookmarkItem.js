@@ -9,7 +9,8 @@ import config from '../../../../../config';
 const BookmarkItem = function({data, removeHandler, starHandler, clickHandler}) {
     let metaInfo = {
         url: data.url,
-        userId: data.userId
+        userId: data.userId,
+        session: localStorage.getItem("session-num") || 0,
     };
 
     let hoverEnterSummary = () => log(LoggerEventTypes.BOOKMARK_HOVERENTER, metaInfo);

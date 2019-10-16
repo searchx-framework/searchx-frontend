@@ -48,6 +48,7 @@ const VideosSearchResult = function ({searchState, serpId, result, metadata, boo
         query: searchState.query,
         page: searchState.page,
         serpId: serpId,
+        session: localStorage.getItem("session-num") || 0,
     };
 
     const clickUrl = () => {

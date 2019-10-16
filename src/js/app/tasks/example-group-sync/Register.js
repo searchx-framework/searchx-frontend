@@ -247,7 +247,7 @@ const formData = function() {
 
     elements.push({
         type: "html",
-        html: "<b> Think about the most recent time you leanred about a topic or gathered some information by searching the web. </b>"
+        html: "<b> Think about the most recent time you learned about a topic or gathered some information by searching the web. </b>"
     });
 
     elements.push({

@@ -56,6 +56,7 @@ class Session extends React.PureComponent {
             </div>
         );
         const metaInfo = {
+            session: localStorage.getItem("session-num") || 0,
 
         };
         let handleTaskOpen = () => {
