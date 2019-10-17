@@ -24,8 +24,50 @@ class Session extends React.PureComponent {
     }
 
     componentDidMount() {
-        let sessionNum = localStorage.getItem("session-num") || 0;
-        
+        const taskdata = JSON.parse(localStorage.getItem("task-data") === undefined ? "{}" : localStorage.getItem("task-data")) || '';
+        // console.log(taskdata)
+        // console.log(task.data.topic)
+        let td = '<h3> Your task </h3><p> The professor requires all students to demonstrate what they learn about a particular topic by conducting searches online and presenting their views on the topic. You need to use SearchX to learn about the topic. You must open and read documents/web pages that you think are important about the given topic.  You can also save these web pages and other online resources. </p>';
+        td+= taskdata.topic ? taskdata.topic.description:'';
+        td += '<p> During the search phase there will be 3 tests (Tests 2, 3 and 4) consisting of multiple choice questions about the topic. They will be presented to you at regular intervals to assess how much you have learned about the topic. Your payment does not depend on the accuracy of your answers to these questions.</p>';
+        td+= '<p>After you have completed the search session of minimum 20 minutes, you will be asked one more test (Test 5) consisting of multiple choice questions to assess your final knowledge about the topic. You will be also asked to write a summary on what you have learned about the given topic in your own words. Documents that you save during the search session will be available to you when you write the summary.</p> '
+
+        const introSteps = [
+            {
+                element: '.Task',
+                intro: 'Please take a minute to read your task description.',
+                position: 'left'
+            },
+            {
+                element: '.TaskDescription',
+                intro: td
+            },
+            {
+                element: '.SearchHeader',
+                intro: 'We want you to use our custom web search system SearchX to learn about the topic mentioned in the task description for atleast 20 minutes. Note that the "To Final Test" button will only be accessible after 20 minutes. You can search for longer if you want to know more about the given topic.',
+                position: 'bottom-middle-aligned'
+            },
+            {
+                element: '.SearchHeader .form',
+                intro: 'Use SearchX to search for webpages, publications, and other online sources to learn about the topic.'
+            },
+            {
+                element: '.QueryHistory',
+                intro: 'The query history shows your past search queries.',
+                position: 'top'
+            },
+            {
+                element: '.SearchResults',
+                intro: 'Save a resource that is useful by clicking on the yellow flag. Make sure to read the document and not just the snippet!',
+                position: 'top'
+            },
+            {
+                element: '.Bookmarks',
+                intro: 'The documents saved will appear here. You can revisit them before completing the session and while writing the summary on what you have learned about the topic.',
+                position: 'top'
+            }
+
+        ];     
         IntroStore.startIntro(introSteps, () => {
             const start = localStorage.getItem("timer-start") || Date.now();
             localStorage.setItem("timer-start", start);
@@ -73,7 +115,7 @@ class Session extends React.PureComponent {
                         The professor requires all students to demonstrate what they learn about a particular topic by
                          conducting searches online and presenting their views on the topic.
                      You need to use SearchX to learn about the topic. You must open and read documents/web pages that you think are 
-                     important about the given topic.  You can also bookmark these web pages and other online resources.
+                     important about the given topic.  You can also save these web pages and other online resources.
                      </p>
 
                      <p dangerouslySetInnerHTML={{__html: task.data.topic.description}}/>
@@ -87,7 +129,7 @@ class Session extends React.PureComponent {
                          After you have completed the search session of minimum 20 minutes, you will be asked one more test (Test 5)
                          consisting of multiple choice questions to assess your final knowledge about the topic.
                          You will be also asked to write a summary on what you have learned about the given topic in your own words.
-                         Documents that you bookmark during the search session will be available to you when you write the summary.
+                         Documents that you save during the search session will be available to you when you write the summary.
 
                      </p>
                      <p> Note that the "To Final Test" button will only be accessible after 20 minutes. You can search for longer
@@ -213,45 +255,5 @@ class Session extends React.PureComponent {
 }
 
 
-const introSteps = [
-    {
-        element: '.Task',
-        intro: 'Please take a minute to read your task description.',
-        position: 'left'
-    },
-    {
-        element: '.SearchHeader',
-        intro: 'We want you to use our custom web search system SearchX to learn about the topic mentioned in the task description.',
-        position: 'bottom-middle-aligned'
-    },
-    {
-        element: '.SearchHeader .form',
-        intro: 'Use SearchX to search for webpages, publications, and other online sources to learn about the topic.'
-    },
-    {
-        element: '.QueryHistory',
-        intro: 'The query history shows your past search queries.',
-        position: 'top'
-    },
-    {
-        element: '.SearchResults',
-        intro: 'To save a resource that is useful, bookmark it. Make sure to read the document and not just the snippet!',
-        position: 'top'
-    },
-    {
-        element: '.Bookmarks',
-        intro: 'The documents bookmarked will appear here. You can revisit them before completing the session and while writing the summary on what you have learned about the topic.',
-        position: 'top'
-    }
-    // {
-    //     element: '.Search .Content',
-    //     intro: 'The query history and bookmarks are color-coded to show who initiated the action.',
-    //     position: 'top'
-    // }
-    // {
-    //     intro: 'Please use the provided chat window to collaborate with your group during the session.',
-    //     position: 'auto'
-    // }
-];
 
 export default Session;

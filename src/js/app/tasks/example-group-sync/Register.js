@@ -66,61 +66,54 @@ const formData = function() {
         type: "html",
         name: "start",
         html: `
-        <h3>You will need approximately 55 minutes to complete the whole study.</h3>
+        <h3>Search as Learning: spend an hour to learn about a topic by searching the web with our search engine!</h3>
         
         <hr/>
-        <h3>
-            In this study, you are tasked with learning about a given topic by using our web search interface.
-            This study is composed of four parts:
-        </h3>
-        <ol type="1">
-            <li><b>Test 1 </b>
+        <p>The setup of the hour consists of five tests and four search phases:</p>
+        <div align="center">
+            <img src ="img/journey.png" width="650" height="50">
+        </div>
+        <br/>
+        <p> Each test ask you different questions about your knowledge on one or more topics - please answer the questions truthfully. 
+        Your payment is not affected by the number of correct or incorrect answers. 
+        Most questions are multiple-choice questions, in the last test we ask you to write a summary about one topic too.
+        When you write the summary you will have access to the web documents that you saved during the search phases. </p>
+        
+        <p>During the search phases we want you to use our custom web search system to learn about one topic –- you find a description of your topic on the right-hand side of the search interface. 
+        From time to time (this happens automatically) you will be asked to answer test questions again. 
+        Once they are answered, you continue reading and searching to learn more about the topic. 
+        Our search interface has a few items that should help you to learn and search–-we will introduce them to you on the next screen. </p>
+        
+        <p>You are required to search for documents, read them and learn about that topic for at 
+        least 20 minutes–-our interface has a timer, so you can see how much time you already spent searching. 
+        After 20 minutes you can move on to the final test by clicking on the “ To Final Test button. 
+        You can also keep searching for a bit longer and then move on.</p>
+
+        <p> We have a few important points: </p>
+        <ol type="-">
+            <li>
                 <p>
-                    This is a multiple-choice question test to find out what you already know about 3 topics.
-                    Please answer honestly. Your payment is not affected by the number of correct or incorrect answers.
+                Only use the web search interface we provide. 
+                Do not switch browser tabs–-after three tab switches we will cancel your participation.
                 </p>
             </li>
-            <li><b>Learning Phase</b>
+            <li>
                 <p>
-                    We want you to use our custom web search system (we call it "SearchX") to learn about one given topic.
-                    You are required to search for documents, read them and learn about that topic for atleast 20 minutes. It is only when 20 minutes have elapsed you can finish searching and go to the last step of this study by clicking the "To Final Test" button.
-                     Henceforth, we will refer to this learing phase of 20 minutes (minimum) as search session. 
-                </p>
-                <p>
-                    Please use only SearchX to learn about the given topic. You must open and read documents/web pages that you think are important about the given topic.
-                    Do not use any other web search engine or search for an unrelated topic
-                    (e.g. your topic is <i>computer science</i>, we consider searches for <i>tomorrow's weather</i>, <i>the latest news</i>, <i>movie reviews</i>, etc. as severely off-topic).
-                    If you conduct such off-topic searches, we will cancel your participation.
-                    Moreover, we would not allow you to change tabs more than three times during the search session.
-                    Our document viewer might be unsatisfactory and fail to render all web pages perfectly. However, we ask you to not use any other page/search engine other than SearchX for our study. 
-                </p>
-                <p>
-                    In order to learn and search, we provide you with:
-                    a query history so that you can see all your previous queries,
-                    and a  bookmarking list so that you can easily save all the Web pages, publications, and other online sources that are helpful for you to learn about the topic.
+                You can interact with the search results. 
+                A click on a document snippet will open this document in our own document viewer. 
+                We know that this document viewer is not perfect, but please stick with it.
                 </p>
             </li>
-            <li> <b>Tests 2, 3 and 4 </b>
+            <li> 
                 <p>
-                    We will give you these tests at regular intervals during your search session. These are multiple-choice question test similar to Test 1
-                    to find out how much you have learnt about the topic while searching and reading documents.
-                    Please answer honestly. Your payment is not affected by the number of correct or incorrect answers.
-                </p>
-            </li>
-            <li><b>Test 5 </b>
-                <p>
-                After 20 minutes, if you are satisfied with what you have learned and would like to proceed to Test 5, you can click the "To Final Test" button.
-                    In this test, we will give you a multiple-choice question test similar to the previous tests to assess your final knowledge on the topic.
-                    We will also ask you to write a summary about what you have learned on the topic. 
-                    When you write the summary you will have access to the web pages and documents that you bookmarked during the search session. 
-                    Your payment is not affected by the number of correct or incorrect answers.
-                    Note that your summary must exceed a minimum word count (100) and has to be on your assigned topic.
-                    Finally, we will ask you to give some brief feedback about the task, your learning phase and our platform!
+                Keep your searches on the topic and avoid searches on unrelated topics. 
+                For example, if your topic is computer science, we consider searches for tomorrow's weather, the latest news on Brexit, movie reviews of the Avenger movies, as off-topic and will cancel your participation.
                 </p>
             </li>
         </ol>
         <hr/>
-        
+        <p>Finally, a reminder before you continue:
+        please read the task description on the right-hand side of the search interface carefully. </p>
         `
     });
 
@@ -153,16 +146,19 @@ const formData = function() {
         isRequired: true,
         choices: [
             {value: 0, text: "High School or lower"},
-            {value: 1, text: "Bachelor"},
-            {value: 2, text: "Master"},
-            {value: 3, text: "Doctorate"},
-            {value: 4, text: "Other"}
+            {value: 1, text: "Associate's degree(s) (e.g., AA AE, AFA, AS, ASN)"},
+            {value: 2, text: "Bachelor's degree(s) (e.g., BA, BBA, BFA, BS)"},
+            {value: 3, text: "Master's degree(s) (e.g., MA, MBA, MFA, MS, MSW)"},
+            {value: 4, text: "Specialist degree(s) (e.g., EdS)"},
+            {value: 5, text: "Applied or professional doctorate degree(s) (e.g., MD, DDC, DDS, JD, PharmD)"},
+            {value: 6, text: "Doctorate degree(s) (e.g., EdD, PhD)"},
+            {value: 7, text: "Other"}
         ]
     });
 
     elements.push({
-        title: "For which subject areas do you have a {degree} degree(s)?",
-        visibleIf: "{degree} > 0 & {degree} < 4",
+        title: "For which subject areas do you have a {degree}?",
+        visibleIf: "{degree} > 0 & {degree} < 7",
         name : "background",
         type :"text",
         inputType:"text",
@@ -171,7 +167,7 @@ const formData = function() {
     });
     elements.push({
         title: "What is your academic degree and for which subject areas do you have the degree ?",
-        visibleIf: "{degree} == 4",
+        visibleIf: "{degree} == 7",
         name : "background",
         type :"text",
         inputType:"text",
@@ -214,9 +210,22 @@ const formData = function() {
     pages.push({elements:  elements});
 
     elements = [];
+    
+    elements.push({
+        type: "html",
+        name: "topic",
+        html: 
+        `<h3>Search as Learning</h3>
+        <br/> More often than not we search the web for the purpose of learning. 
+        For example, we learn about a place when we are planning a trip, or learn about a topic for preparing for a writing assignment like essay, or
+        we learn about how to cook a particular dish of our choice etc.
+        <br/>
+        `
+    });
+
 
     elements.push({
-        title: "Have you ever learnt about a particular topic by searching the Web?",
+        title: "Have you ever learnt about a particular topic (as mentioned above) by searching the Web ?",
         name: "web-previous",
         type: "radiogroup",
         isRequired: true,
@@ -227,16 +236,17 @@ const formData = function() {
     });
 
     elements.push({
-        title: "How often do you engage in Web search?",
+        title: "How often do you engage in Web search for the purpose of learning?",
         visibleIf: "{web-previous} == 1",
         name: "web-frequency",
         type: "radiogroup",
         isRequired: true,
         choices: [
-            {value: 0, text: "Daily"},
-            {value: 1, text: "Weekly"},
-            {value: 2, text: "Monthly"},
-            {value: 3, text: "Less often"},
+            {value: 0, text: "Few times in a week"},
+            {value: 1, text: "Once every day"},
+            {value: 2, text: "Twice every day"},
+            {value: 3, text: "More often"},
+            
         ]
     });
 
@@ -247,11 +257,11 @@ const formData = function() {
 
     elements.push({
         type: "html",
-        html: "<b> Think about the most recent time you learned about a topic or gathered some information by searching the web. </b>"
+        html: "<b> Think about the most recent time you learned about a topic by searching the web. </b>"
     });
 
     elements.push({
-        title: "Describe what were you trying to learn. (e.g. about a place for planning a trip, learning about a subject for a writing assignment like essays, comparing prices of products, etc.)",
+        title: "Describe what were you trying to learn.",
         name: "web-information-need",
         type: "comment",
         inputType: "text",
@@ -261,7 +271,7 @@ const formData = function() {
     });
 
     elements.push({
-        title: "What are your preferred online resources (like Wikipedia, Coursera etc.) to learn?",
+        title: "What are your preferred online resources (like Wikipedia, Coursera, Youtube etc.) to learn?",
         name: "web-online",
         type: "comment",
         inputType: "text",

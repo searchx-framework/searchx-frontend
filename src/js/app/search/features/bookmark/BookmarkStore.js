@@ -31,9 +31,9 @@ const BookmarkStore = Object.assign(EventEmitter.prototype, {
     getBookmarks() {
         if (state.tutorial) {
             return [
-                {title: "You can view your bookmarked documents here", url: "https://www.viewbookmark.com", userId: AccountStore.getUserId()},
+                {title: "You can view your bookmarked documents here", url: "https://www.viewbookmark.com"},
                 {title: "You also can delete any bookmarked documents here", url: "https://www.deletebookmark.com"},
-                {title: "A starred bookmark will appear on top", url: "https://www.starredbookmark.com", starred: true, userId: AccountStore.getUserId()}
+                {title: "A starred bookmark will appear on top", url: "https://www.starredbookmark.com", starred: true}
             ];
         }
 

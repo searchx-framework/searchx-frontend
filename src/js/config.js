@@ -11,8 +11,8 @@ const providerVerticals = {
     'bing': new Map([
         ['web', WebSearchResult],
         ['images', ImagesSearchResult],
-        ['videos', VideosSearchResult],
-        ['news', NewsSearchResult]
+        ['videos', VideosSearchResult]
+        // ['news', NewsSearchResult]
     ]),
     'elasticsearch': new Map([
         ['text', TextSearchResult],
