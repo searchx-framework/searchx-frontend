@@ -216,16 +216,21 @@ const formData = function() {
         name: "topic",
         html: 
         `<h3>Search as Learning</h3>
-        <br/> More often than not we search the web for the purpose of learning. 
-        For example, we learn about a place when we are planning a trip, or learn about a topic for preparing for a writing assignment like essay, or
-        we learn about how to cook a particular dish of our choice etc.
+        <br/> We often search the web to learn about a number of academic topics like radioactivity, quantum theory, sedimentary rocks etc.
+        There can be different goals of the learning process: getting familiarized with some topic specific terms, writing a summary on the topic etc. 
         <br/>
+        <br/>
+        <div align="center">
+        <img src ="img/journey_2.jpeg" width="450" height="250">
+        </div>
+        
         `
     });
 
+ 
 
     elements.push({
-        title: "Have you ever learnt about a particular topic (as mentioned above) by searching the Web ?",
+        title: "Have you ever learnt about an academic topic (as mentioned above) by searching the Web?",
         name: "web-previous",
         type: "radiogroup",
         isRequired: true,
@@ -236,7 +241,7 @@ const formData = function() {
     });
 
     elements.push({
-        title: "How often do you engage in Web search for the purpose of learning?",
+        title: "How often do you engage in Web search for the purpose of learning about an academic topic?",
         visibleIf: "{web-previous} == 1",
         name: "web-frequency",
         type: "radiogroup",
@@ -257,7 +262,7 @@ const formData = function() {
 
     elements.push({
         type: "html",
-        html: "<b> Think about the most recent time you learned about a topic by searching the web. </b>"
+        html: "<b> Think about the most recent time you learned about an academic topic by searching the web. </b>"
     });
 
     elements.push({
@@ -271,7 +276,7 @@ const formData = function() {
     });
 
     elements.push({
-        title: "What are your preferred online resources (like Wikipedia, Coursera, Youtube etc.) to learn?",
+        title: "What are your preferred online resources (like Wikipedia, Coursera, Youtube etc.) to learn about an academic topic?",
         name: "web-online",
         type: "comment",
         inputType: "text",
@@ -281,7 +286,7 @@ const formData = function() {
     });
 
         elements.push({
-        title: "What are your preferred offline resources (like an encyclopedia, textbooks etc.) to learn?",
+        title: "What are your preferred offline resources (like an encyclopedia, textbooks etc.) to learn about an academic topic?",
         name: "web-offline",
         type: "comment",
         inputType: "text",
