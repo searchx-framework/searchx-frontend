@@ -29,8 +29,8 @@ class Session extends React.PureComponent {
         // console.log(task.data.topic)
         let td = '<h3> Your task </h3><p> The professor requires all students to demonstrate what they learn about a particular topic by conducting searches online and presenting their views on the topic. You need to use SearchX to learn about the topic. You must open and read documents/web pages that you think are important about the given topic.  You can also save these web pages and other online resources. </p>';
         td+= taskdata.topic ? taskdata.topic.description:'';
-        td += '<p> During the search phase there will be 3 tests (Tests 2, 3 and 4) consisting of multiple choice questions about the topic. They will be presented to you at regular intervals to assess how much you have learned about the topic. Your payment does not depend on the accuracy of your answers to these questions.</p>';
-        td+= '<p>After you have completed the search session of minimum 20 minutes, you will be asked one more test (Test 5) consisting of multiple choice questions to assess your final knowledge about the topic. You will be also asked to write a summary on what you have learned about the given topic in your own words. Documents that you save during the search session will be available to you when you write the summary.</p> '
+        td += '<p> During the search phase there will be 3 tests consisting of multiple choice questions about the topic. They will be presented to you at regular intervals to assess how much you have learned about the topic. Your payment does not depend on the accuracy of your answers to these questions.</p>';
+        td+= '<p>After you have completed the search session of minimum 20 minutes, you will be asked one more test consisting of multiple choice questions to assess your final knowledge about the topic. You will be also asked to write a summary on what you have learned about the given topic in your own words. Documents that you save during the search session will be available to you when you write the summary.</p> '
 
         const introSteps = [
             {
@@ -120,13 +120,13 @@ class Session extends React.PureComponent {
 
                      <p dangerouslySetInnerHTML={{__html: task.data.topic.description}}/>
                      <hr/>
-                    <p> During the search phase there will be 3 tests (Tests 2, 3 and 4) consisting of multiple choice questions about the topic. They will be
+                    <p> During the search phase there will be 3 tests consisting of multiple choice questions about the topic. They will be
                         presented to you at regular intervals to assess how much you have learned about the topic. 
                         Your payment does not depend on the
                         accuracy of your answers to these questions.
                     </p>
                      <p>
-                         After you have completed the search session of minimum 20 minutes, you will be asked one more test (Test 5)
+                         After you have completed the search session of minimum 20 minutes, you will be asked one more test
                          consisting of multiple choice questions to assess your final knowledge about the topic.
                          You will be also asked to write a summary on what you have learned about the given topic in your own words.
                          Documents that you save during the search session will be available to you when you write the summary.

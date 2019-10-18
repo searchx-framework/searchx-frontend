@@ -216,8 +216,7 @@ const formData = function() {
         name: "topic",
         html: 
         `<h3>Search as Learning</h3>
-        <br/> We often search the web to learn about a number of academic topics like radioactivity, quantum theory, sedimentary rocks etc.
-        There can be different goals of the learning process: getting familiarized with some topic specific terms, writing a summary on the topic etc. 
+        <br/> People often search the web to learn about something---whether it is knowledge they require for work, their study or just for fun. For the next few questions, we want you to think about how often you use the web when learning something about a scientific topic (e.g. how does partial differentiation work? what is a qubit? how can you determine the water quality of a pond?).
         <br/>
         <br/>
         <div align="center">
@@ -230,30 +229,17 @@ const formData = function() {
  
 
     elements.push({
-        title: "Have you ever learnt about an academic topic (as mentioned above) by searching the Web?",
+        title: "How often do you learn about a scientific topic (see the examples above) by searching the web?",
         name: "web-previous",
         type: "radiogroup",
-        isRequired: true,
-        choices: [
-            {value: 0, text: "No"},
-            {value: 1, text: "Yes"},
-        ]
+        type: "comment",
+        inputType: "text",
+        width: 600,
+        rows: 1,
+        isRequired: true
     });
 
-    elements.push({
-        title: "How often do you engage in Web search for the purpose of learning about an academic topic?",
-        visibleIf: "{web-previous} == 1",
-        name: "web-frequency",
-        type: "radiogroup",
-        isRequired: true,
-        choices: [
-            {value: 0, text: "Few times in a week"},
-            {value: 1, text: "Once every day"},
-            {value: 2, text: "Twice every day"},
-            {value: 3, text: "More often"},
-            
-        ]
-    });
+
 
     elements.push({
         type: "html",
@@ -262,7 +248,7 @@ const formData = function() {
 
     elements.push({
         type: "html",
-        html: "<b> Think about the most recent time you learned about an academic topic by searching the web. </b>"
+        html: "<b> Think about the most recent time you learned about a scientific topic by searching the web. </b>"
     });
 
     elements.push({
@@ -276,7 +262,7 @@ const formData = function() {
     });
 
     elements.push({
-        title: "What are your preferred online resources (like Wikipedia, Coursera, Youtube etc.) to learn about an academic topic?",
+        title: "What are your preferred online resources (like Wikipedia, Coursera, Youtube etc.) to learn about a scientific topic?",
         name: "web-online",
         type: "comment",
         inputType: "text",
@@ -286,7 +272,7 @@ const formData = function() {
     });
 
         elements.push({
-        title: "What are your preferred offline resources (like an encyclopedia, textbooks etc.) to learn about an academic topic?",
+        title: "What are your preferred offline resources (can be books, people, institutions) to learn about a scientific topic?",
         name: "web-offline",
         type: "comment",
         inputType: "text",
