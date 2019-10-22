@@ -98,7 +98,7 @@ class PreTest extends React.Component {
             step : "pretest",
             state : this.state
         });
-
+        
         SyncStore.emitSyncLeave();
         AccountStore.clearUserData();
     }
@@ -120,15 +120,17 @@ class PreTest extends React.Component {
 
         if (switchTabs >= constants.switchPageLimit) {
             this.onLeave();
-            this.props.history.push('/sync');
+            localStorage.setItem("invalid-user",1);
+            this.props.history.push('/disq');
             localStorage.removeItem("switch-tabs-pretest");
+            
 
-            Alert.error('You have been disqualified from the study.', {
-                position: 'top-right',
-                effect: 'scale',
-                beep: true,
-                timeout: "none"
-            });
+            // Alert.error('You have been disqualified from the study.', {
+            //     position: 'top-right',
+            //     effect: 'scale',
+            //     beep: true,
+            //     timeout: "none"
+            // });
         } else {
             Alert.error('We have noticed that you have tried to change to a different window/tab. Please, focus on completing the test.', {
                 position: 'top-right',
@@ -160,7 +162,7 @@ const formData = function(topics) {
             html:
                 `<h2>Test 1</h2>` +
                 `<h3>Let's find out what you already know first.</h3>` +
-                `<h3>Answer these questions about <b>${topic.title}</b>:</h3>`
+                `<h3>Answer these questions about <b style ="color: #00A6D3;">${topic.title}</b>:</h3>`
         });
 
         topic.terms.forEach((term, idx) => {

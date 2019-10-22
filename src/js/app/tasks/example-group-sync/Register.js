@@ -86,7 +86,7 @@ const formData = function() {
         
         <p>You are required to search for documents, read them and learn about that topic for at 
         least 20 minutes–-our interface has a timer, so you can see how much time you already spent searching. 
-        After 20 minutes you can move on to the final test by clicking on the “ To Final Test button. 
+        After 20 minutes you can move on to the final test by clicking on the <span style="background-color: #00A6D3"><font color="white">To Final Test</span></font> button. 
         You can also keep searching for a bit longer and then move on.</p>
 
         <p> We have a few important points: </p>
@@ -252,7 +252,7 @@ const formData = function() {
     });
 
     elements.push({
-        title: "Describe what were you trying to learn.",
+        title: "Describe what you were trying to learn.",
         name: "web-information-need",
         type: "comment",
         inputType: "text",

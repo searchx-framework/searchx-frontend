@@ -60,7 +60,7 @@ const Viewer = function ({searchState, serpId, url, documentCloseHandler, doctex
 
                     <div className="pull-right">
                         {!doctext && [
-                            <span className="forward" onClick={openInBrowser}>open in browser</span>,
+                            // <span className="forward" onClick={openInBrowser}>open in browser</span>,
                             <span className="divider"/>
                         ]}
                         {config.interface.ratings && [

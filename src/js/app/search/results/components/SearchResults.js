@@ -60,6 +60,7 @@ const SearchResults = function ({
 
     // Trick to remove last page from pagination;
     $(".pagination").find("a").last().hide();
+    
     const pagination = <SearchResultsPagination
         searchState={searchState}
         finished={results.length > 0 || progress.finished}

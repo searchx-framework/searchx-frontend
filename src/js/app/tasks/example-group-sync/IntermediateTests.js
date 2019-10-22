@@ -115,7 +115,8 @@ class PreTest extends React.Component {
 
         if (switchTabs >= constants.switchPageLimit) {
             this.onLeave();
-            this.props.history.push('/sync');
+            localStorage.setItem("invalid-user",1);
+            this.props.history.push('/disq');
             localStorage.removeItem("switch-tabs-intermediatetest");
 
             Alert.error('You have been disqualified from the study.', {
@@ -157,7 +158,7 @@ const formData = function(topic) {
             html:
                 `<h2>Test ${sess} </h2>` +
                 `<h3>Let's find out what you have learned about the topic from the last search session.</h3>` +
-                `<h3>Answer these questions about <b>${topic.title}</b>:</h3>`
+                `<h3>Answer these questions about <b style ="color: #00A6D3;">${topic.title}</b>:</h3>`
         });
 
         let preAnswer = JSON.parse(localStorage.getItem("question-data"));

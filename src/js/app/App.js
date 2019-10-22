@@ -13,6 +13,7 @@ import SimpleRegister from './tasks/example-simple/Register';
 import SimpleSubmit from './tasks/example-simple/Submit';
 import SimpleSession from './tasks/example-simple/Session';
 import SyncRegister from './tasks/example-group-sync/Register';
+import Disqualified from './tasks/example-group-sync/Disqualified';
 import SyncPreTest from './tasks/example-group-sync/PreTest';
 import SyncIntermediateTests from './tasks/example-group-sync/IntermediateTests';
 import SyncPostTest from './tasks/example-group-sync/PostTest';
@@ -34,6 +35,7 @@ export class App extends React.Component {
     componentWillMount(){
         setInterval(flush, config.logTimeInterval);
     };
+
 
     render() {
         const md = new MobileDetect(window.navigator.userAgent);
@@ -57,6 +59,16 @@ export class App extends React.Component {
             console.log(browser.getBrowser());
         }
 
+        // console.log(setInterval(function(){}, 2000));
+        let invalid = localStorage.getItem("invalid-user") || 0;
+        if(invalid == 1 ){
+            return (<div>
+                <h3>You have been disqualified from the study.</h3>
+            </div>)
+        }
+
+
+
         return (
             <Router history={history}>
                 <div>
@@ -69,6 +81,7 @@ export class App extends React.Component {
                     <Route path="/simple/session" component={SimpleSession}/>
 
                     <Route exact path="/sync" component={SyncRegister}/>
+                    <Route exact path="/disq" component={Disqualified}/>
                     <Route exact path="/sync/pretest" component={SyncPreTest}/>
                     <Route exact path="/sync/intermediatetest" component={SyncIntermediateTests}/>
                     <Route exact path="/sync/posttest" component={SyncPostTest}/>

@@ -107,7 +107,8 @@ class PostTest extends React.Component {
 
         if (switchTabs >= constants.switchPageLimit) {
             this.onLeave();
-            this.props.history.push('/sync');
+            localStorage.setItem("invalid-user",1);
+            this.props.history.push('/disq');
             localStorage.removeItem("switch-tabs-pretest");
 
             Alert.error('You have been disqualified from the study.', {
@@ -156,7 +157,7 @@ const formData = function(topic) {
         name: "topic",
         html: `<h2>Test 5</h2>` +
         `<h3>Let's see how much you've learned.</h3>` +
-        `<h3>Answer these questions about <b>${topic.title}</b>:</h3>`
+        `<h3>Answer these questions about <b style ="color: #00A6D3;">${topic.title}</b>:</h3>`
     });
 
     Helpers.shuffle(topic.terms).forEach((term, idx) => {
