@@ -102,7 +102,7 @@ const formData = function() {
                 You can interact with the search results. 
                 A click on a document snippet will open this document in our own document viewer. 
                 We know that this document viewer is not perfect, but please stick with it. 
-                Do not click on any links inside the document viewer as it might result in switching of the browser tabs leading to disqualification.
+                
                 </p>
             </li>
             <li> 

@@ -49,7 +49,7 @@ class Session extends React.PureComponent {
             },
             {
                 element: '.SearchHeader .form',
-                intro: 'Use SearchX to search for webpages, publications, and other online sources to learn about the topic. Use our document viewer to read those documents. Do not click on any links inside the document viewer as it might result in switching of the browser tabs.'
+                intro: 'Use SearchX to search for webpages, publications, and other online sources to learn about the topic. '
             },
             {
                 element: '.QueryHistory',
