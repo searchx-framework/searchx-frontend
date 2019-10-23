@@ -112,6 +112,10 @@ class PreTest extends React.Component {
         let switchTabs = localStorage.getItem("switch-tabs-intermediatetest") || 0;
         switchTabs++;
         localStorage.setItem("switch-tabs-intermediatetest", switchTabs);
+        log(LoggerEventTypes.TAB_CHANGE, {
+            step: "intermediatetest",
+            switch: switchTabs
+        });
 
         if (switchTabs >= constants.switchPageLimit) {
             this.onLeave();

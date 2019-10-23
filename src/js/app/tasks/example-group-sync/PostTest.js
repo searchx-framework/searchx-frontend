@@ -93,7 +93,7 @@ class PostTest extends React.Component {
     }
     onLeave() {
         log(LoggerEventTypes.SURVEY_EXIT, {
-            step : "pretest",
+            step : "postest",
             state : this.state
         });
 
@@ -104,6 +104,10 @@ class PostTest extends React.Component {
         let switchTabs = localStorage.getItem("switch-tabs-pretest") || 0;
         switchTabs++;
         localStorage.setItem("switch-tabs-pretest", switchTabs);
+        log(LoggerEventTypes.TAB_CHANGE, {
+            step: "postest",
+            switch: switchTabs
+        });
 
         if (switchTabs >= constants.switchPageLimit) {
             this.onLeave();
