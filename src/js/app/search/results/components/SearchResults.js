@@ -60,6 +60,7 @@ const SearchResults = function ({
 
     // Trick to remove last page from pagination;
     $(".pagination").find("a").last().hide();
+    
     const pagination = <SearchResultsPagination
         searchState={searchState}
         finished={results.length > 0 || progress.finished}
@@ -144,13 +145,13 @@ const SearchResults = function ({
                 }
                 {distributionOfLabour === "unbookmarkedSoft" &&
                 <div className="collapsedText">
-                    <Button className="allCollapsedResultsButton" onClick={showAllCollapsedResults}
+                    {/* <Button className="allCollapsedResultsButton" onClick={showAllCollapsedResults}
                             disabled={allBookmarkedResultsShown}>
                         Show all hidden results
-                    </Button>
+                    </Button> */}
                     <Button className="allCollapsedResultsButton" onClick={hideAllCollapsedResults}
                             disabled={allBookmarkedResultsHidden}>
-                        Hide all saved and excluded results
+                        Hide all saved results
                     </Button>
                 </div>
                 }

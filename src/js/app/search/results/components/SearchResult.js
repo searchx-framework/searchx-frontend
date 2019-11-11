@@ -25,14 +25,14 @@ const SearchResult = function ({
     />;
 
     // TODO: use variant from SearchStore instead of defaultVariant
-    const excludeButton = <div>
-        {config.defaultVariant === 'S0' ? <div/> : <Rating
-            className="rating" empty="fa fa-ban" full="fa fa-ban red"
-            onClick={excludeClickHandler}
-            stop={1} initialRate={initialExclude}
-            title="Exclude result from future queries"
-        />}
-    </div>;
+    // const excludeButton = <div>
+    //     {config.defaultVariant === 'S0' ? <div/> : <Rating
+    //         className="rating" empty="fa fa-ban" full="fa fa-ban red"
+    //         onClick={excludeClickHandler}
+    //         stop={1} initialRate={initialExclude}
+    //         title="Exclude result from future queries"
+    //     />}
+    // </div>;
 
 
     const props = {
@@ -41,7 +41,7 @@ const SearchResult = function ({
         result: result,
         metadata: formatMetadata(result.metadata),
         bookmarkButton: bookmarkButton,
-        excludeButton: excludeButton,
+        // excludeButton: excludeButton,
         urlClickHandler: urlClickHandler,
         hideCollapsedResultsHandler: hideCollapsedResultsHandler,
         isCollapsible: isCollapsible,

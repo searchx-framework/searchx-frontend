@@ -1,10 +1,11 @@
 {
     "taskId": "example-group-sync",
-    "groupSize": 2,
-    "topicsSize": 1,
-    "taskDuration": 20,
+    "groupSize": 1,
+    "topicsSize": 3,
+    "taskDuration": 5,
     "waitDuration": 20,
     "switchPageLimit": 3,
+    "completionURL": "https://app.prolific.co/submissions/complete?cc=100CDEC0",
     "choices": [
         {
             "value": 1,

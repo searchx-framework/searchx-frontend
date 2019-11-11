@@ -39,7 +39,7 @@ export default class ViewerPage extends React.Component {
                             :
                             <iframe scrolling="yes"
                                     frameBorder="0"
-                                    src={`${process.env.REACT_APP_RENDERER_URL}/${this.props.url}`}
+                                    src={`${process.env.REACT_APP_RENDERER_URL}/?url=${this.props.url}`}
                                     onLoad={this.props.loadHandler}>
                             </iframe>
                     ]

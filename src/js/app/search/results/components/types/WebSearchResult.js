@@ -12,6 +12,7 @@ const WebSearchResult = function ({searchState, serpId, result, metadata, bookma
         query: searchState.query,
         page: searchState.page,
         serpId: serpId,
+        session: localStorage.getItem("session-num") || 0, 
     };
 
     let clickUrl = () => {

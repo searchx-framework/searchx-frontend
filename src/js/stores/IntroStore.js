@@ -19,6 +19,7 @@ const intro = introJs().setOptions({
     disableInteraction: true,
 });
 
+// let intro_done = localStorage.getItem("intro-done") || false.toString();
 let state = {
     introDone: localStorage.getItem("intro-done") === 'true'
 };
@@ -69,7 +70,10 @@ const IntroStore = Object.assign(EventEmitter.prototype, {
     },
 
     isIntroDone() {
+        let introdone = localStorage.getItem("intro-done") === 'true'
+        state.introDone = introdone;
         return state.introDone;
+        
     },
 });
 

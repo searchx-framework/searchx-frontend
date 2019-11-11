@@ -4,7 +4,7 @@ import ReactPlayer from 'react-player'
 
 import {log} from '../../../../../utils/Logger';
 import {LoggerEventTypes} from '../../../../../utils/LoggerEventTypes';
-
+import $ from 'jquery';
 ////
 
 function getTitle(str) {
@@ -48,6 +48,7 @@ const VideosSearchResult = function ({searchState, serpId, result, metadata, boo
         query: searchState.query,
         page: searchState.page,
         serpId: serpId,
+        session: localStorage.getItem("session-num") || 0,
     };
 
     const clickUrl = () => {
@@ -90,7 +91,7 @@ const VideosSearchResult = function ({searchState, serpId, result, metadata, boo
     ////
 
     const creator = result.creator ? result.creator : {name: false};
-
+    
     return (
         <div className="result-video">
             <VisibilitySensor onChange={viewUrl}
@@ -110,6 +111,19 @@ const VideosSearchResult = function ({searchState, serpId, result, metadata, boo
                                  onEnded={stopVideo}
                                  onPause={pauseVideo}
                                  controls={true}
+                                 config={{
+                                    youtube: {
+                                      playerVars: { fs: 0 }
+                                    },
+                                    dailymotion:{
+                                        params : {controls: false }
+                                    }, 
+                                    twitch: {
+                                        options : {allowfullscreen: false}
+                                    }
+                                }
+                            }
+                            vimeoConfig={{ iframeParams: { fullscreen: 0 } }}
                     />
                 </div>
 

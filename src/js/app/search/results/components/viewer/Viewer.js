@@ -22,7 +22,8 @@ const Viewer = function ({searchState, serpId, url, documentCloseHandler, doctex
         url: url,
         query: searchState.query,
         page: searchState.page,
-        vertical: searchState.vertical
+        vertical: searchState.vertical,
+        session: localStorage.getItem("session-num") || 0,
     };
 
     let hoverEnterDocument = () => {
@@ -59,7 +60,7 @@ const Viewer = function ({searchState, serpId, url, documentCloseHandler, doctex
 
                     <div className="pull-right">
                         {!doctext && [
-                            <span className="forward" onClick={openInBrowser}>open in browser</span>,
+                            // <span className="forward" onClick={openInBrowser}>open in browser</span>,
                             <span className="divider"/>
                         ]}
                         {config.interface.ratings && [

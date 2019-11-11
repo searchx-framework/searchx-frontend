@@ -49,7 +49,9 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
         localStorage.setItem("group-id", groupId);
     },
 
+
     setTask(id, data) {
+        console.log("inside set task")
         state.task.id = id;
         state.task.data = data;
         localStorage.setItem("task-id", id);

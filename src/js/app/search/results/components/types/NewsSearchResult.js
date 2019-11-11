@@ -13,6 +13,7 @@ const NewsSearchResult = function ({searchState, serpId, result, metadata, bookm
         page: searchState.page,
         vertical: 'news',
         serpId: serpId,
+        session: localStorage.getItem("session-num") || 0,
     };
 
     let clickUrl = () => {

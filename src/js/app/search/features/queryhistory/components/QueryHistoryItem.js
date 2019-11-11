@@ -6,7 +6,8 @@ import {log} from "../../../../../utils/Logger";
 const QueryHistoryItem = function({data, clickHandler}) {
     const metaInfo = {
         url: data.query,
-        userId: data.userId
+        userId: data.userId,
+        session: localStorage.getItem("session-num") || 0,
     };
 
     const clickUrlLog = () => log(LoggerEventTypes.QUERYHISTORY_CLICK_URL, metaInfo);
