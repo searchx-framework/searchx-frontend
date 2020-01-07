@@ -58,8 +58,8 @@ const NewsSearchResult = function ({searchState, serpId, result, metadata, bookm
             <div onMouseEnter={hoverEnterSummary} onMouseLeave={hoverLeaveSummary}>
                 <div className="image">
                     {result.image ?
-                        <div><img src={result.image.thumbnail.contentUrl}/></div> :
-                        <div><img src='/img/image_placeholder.png'/></div>
+                        <div><img src={result.image.thumbnail.contentUrl} alt={result.image.thumbnail.contentUrl}/></div> :
+                        <div><img src='/img/image_placeholder.png'alt={'/img/image_placeholder.png'}/></div>
                     }
                 </div>
 
@@ -68,7 +68,7 @@ const NewsSearchResult = function ({searchState, serpId, result, metadata, bookm
                     {excludeButton}
 
                     <h2>
-                        <a title={result.name} target="_blank" onClick={clickUrl} onContextMenu={contextUrl}>
+                        <a title={result.name} href={result.name} onClick={clickUrl} onContextMenu={contextUrl}>
                             {result.name}
                         </a>
                     </h2>

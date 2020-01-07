@@ -244,6 +244,9 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
                 break;
             case ActionTypes.CHANGE_VARIANT:
                 _setVariant()
+                break;
+            default:
+                break;
         }
 
         SearchStore.emitChange();

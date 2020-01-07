@@ -1,8 +1,6 @@
 import React from "react";
 import PropTypes from 'prop-types';
 import Form from "./Form";
-import SyncStore from "../../../../stores/SyncStore";
-import SessionStore from "../../../../stores/SessionStore";
 
 class SyncForm extends React.PureComponent {
     constructor(props) {
@@ -19,12 +17,7 @@ class SyncForm extends React.PureComponent {
         window.addEventListener('beforeunload', this.handleBeforeUnload);
         window.addEventListener('unload', this.handleUnload);
         window.addEventListener('popstate', this.handleUnload);
-        this.state.isReady = true;
-        // SyncStore.listenToSyncData((data) => {
-        //     this.state.isReady = true;
-        //     this.props.onSync(data);
-        
-        // });
+        this.setState({isReady: true});
     }
 
     componentWillUnmount() {

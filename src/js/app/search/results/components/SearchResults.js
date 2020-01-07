@@ -129,7 +129,6 @@ const SearchResults = function ({
                                           serpId={serpId}/>);
     }
     const currentCollapsedResultsLength = Object.values(collapsed).filter(value => value).length;
-    const allBookmarkedResultsShown = currentCollapsedResultsLength === 0;
     const allBookmarkedResultsHidden = currentCollapsedResultsLength === getCollapsibleResultsLength();
 
 

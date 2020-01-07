@@ -35,7 +35,7 @@ class Timer extends React.PureComponent {
         // console.log("elapsed", this.state.elapsed)
         let time_sess;
         const time = this.props.showRemaining ? durationMillis - this.state.elapsed : this.state.elapsed;
-        if (flag==1){
+        if (flag===1){
             let flag_sess = localStorage.getItem('flag-sess')
             time_sess = sess<4?time + sess*this.props.duration * 60 * 1000: time + flag_sess*this.props.duration * 60 * 1000 ;
         } else {
@@ -73,7 +73,7 @@ class Timer extends React.PureComponent {
         const flag = localStorage.getItem("full-KG-flag");
 
         if (this.props.start > 0) {
-            if (flag==1) {
+            if (flag===1) {
                 if (!this.state.finished && (this.state.elapsed) > (4-sessionNum)*this.props.duration * 60 * 1000) {
                     this.props.onFinish();
                     this.setState({

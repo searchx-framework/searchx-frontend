@@ -4,12 +4,10 @@ import constants from "./constants";
 
 import {log} from "../../../utils/Logger";
 import {LoggerEventTypes} from "../../../utils/LoggerEventTypes";
-import Helpers from "../../../utils/Helpers";
 
 import AccountStore from "../../../stores/AccountStore";
 import SyncStore from "../../../stores/SyncStore";
 import SessionStore from "../../../stores/SessionStore";
-import IntroStore from "../../../stores/IntroStore";
 import FormContainer from "../components/form/FormContainer";
 import Alert from "react-s-alert";
 

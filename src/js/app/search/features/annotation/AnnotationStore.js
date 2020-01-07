@@ -48,6 +48,8 @@ const AnnotationStore = Object.assign(EventEmitter.prototype, {
             case ActionTypes.REMOVE_ANNOTATION:
                 _remove_annotation(action.payload.url, action.payload.position);
                 break;
+            default:
+                break;
         }
         AnnotationStore.emitChange();
     }),

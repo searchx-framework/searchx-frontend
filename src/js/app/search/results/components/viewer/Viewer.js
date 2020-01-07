@@ -42,10 +42,10 @@ const Viewer = function ({searchState, serpId, url, documentCloseHandler, doctex
             document.getElementById("viewer-content-loader").style.display = "none";
         }
     };
-    let openInBrowser = () => {
-        log(LoggerEventTypes.DOCUMENT_OPEN_BROWSER, metaInfo);
-        window.open(url);
-    };
+    // let openInBrowser = () => {
+    //     log(LoggerEventTypes.DOCUMENT_OPEN_BROWSER, metaInfo);
+    //     window.open(url);
+    // };
 
     let scrollDocument = () => {
         log(LoggerEventTypes.DOCUMENT_SCROLL, metaInfo);

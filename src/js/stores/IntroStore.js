@@ -16,7 +16,7 @@ const intro = introJs().setOptions({
     showBullets: false,
     exitOnOverlayClick: false,
     exitOnEsc: false,
-    disableInteraction: true,
+    disableInteraction: true
 });
 
 // let intro_done = localStorage.getItem("intro-done") || false.toString();
@@ -53,7 +53,7 @@ const IntroStore = Object.assign(EventEmitter.prototype, {
         intro.oncomplete(oncomplete);
 
         intro.onafterchange(function(){
-            if (this._introItems.length - 1 == this._currentStep || this._introItems.length == 1) {
+            if (this._introItems.length - 1 === this._currentStep || this._introItems.length === 1) {
                 $('.introjs-skipbutton').show();
             }
         });

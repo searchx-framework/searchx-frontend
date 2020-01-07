@@ -233,7 +233,6 @@ const formData = function() {
         title: "How often do you learn about a scientific topic (see the examples above) by searching the web?",
         name: "web-previous",
         type: "radiogroup",
-        type: "comment",
         inputType: "text",
         width: 600,
         rows: 1,

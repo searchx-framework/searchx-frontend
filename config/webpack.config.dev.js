@@ -78,6 +78,7 @@ module.exports = {
             test: /\.(js|jsx|mjs)$/,
             include: paths.appSrc,
             loader: require.resolve('babel-loader'),
+            exclude: /node_modules/,
             options: {
               cacheDirectory: true,
             },
@@ -102,7 +103,7 @@ module.exports = {
                     require('postcss-nested'),
                     require('postcss-simple-vars'),
                     autoprefixer({
-                      browsers: [
+                      overrideBrowserslist: [
                         '>1%',
                         'last 4 versions',
                         'Firefox ESR',
@@ -130,11 +131,11 @@ module.exports = {
   },
 
   plugins: [
-    new InterpolateHtmlPlugin(env.raw),
     new HtmlWebpackPlugin({
       inject: true,
       template: paths.appHtml,
     }),
+    new InterpolateHtmlPlugin(HtmlWebpackPlugin, env.raw),
     new webpack.NamedModulesPlugin(),
     new webpack.DefinePlugin(env.stringified),
     new webpack.HotModuleReplacementPlugin(),
@@ -154,4 +155,5 @@ module.exports = {
   performance: {
     hints: false,
   },
+  mode: 'development'
 };

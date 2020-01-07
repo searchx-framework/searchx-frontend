@@ -1,15 +1,11 @@
 import React from "react";
 import SyncForm from "../components/form/SyncForm";
 import constants from "./constants";
-
 import {log} from "../../../utils/Logger";
 import {LoggerEventTypes} from "../../../utils/LoggerEventTypes";
 import Helpers from "../../../utils/Helpers";
-
 import AccountStore from "../../../stores/AccountStore";
 import SyncStore from "../../../stores/SyncStore";
-import SessionStore from "../../../stores/SessionStore";
-import IntroStore from "../../../stores/IntroStore";
 import FormContainer from "../components/form/FormContainer";
 import Alert from "react-s-alert";
 
@@ -172,7 +168,7 @@ const formData = function(topic) {
             const key = `Q-${topic.id}-${term}`;
             // s
             if (preAnswer[key]){
-                if (preAnswer[key] == 1  || preAnswer[key] == 2){
+                if (preAnswer[key] === 1  || preAnswer[key] === 2){
                     arr.push(term)
                 }
             }

@@ -65,6 +65,8 @@ const QueryHistoryStore = Object.assign(EventEmitter.prototype, {
             case ActionTypes.GET_QUERY_HISTORY:
                 _get_query_history();
                 break;
+            default:
+                break;
         }
         QueryHistoryStore.emitChange();
     })

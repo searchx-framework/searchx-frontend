@@ -4,7 +4,6 @@ import ReactPlayer from 'react-player'
 
 import {log} from '../../../../../utils/Logger';
 import {LoggerEventTypes} from '../../../../../utils/LoggerEventTypes';
-import $ from 'jquery';
 ////
 
 function getTitle(str) {
@@ -132,7 +131,7 @@ const VideosSearchResult = function ({searchState, serpId, result, metadata, boo
                     {excludeButton}
 
                     <h2>
-                        <a target="_blank" onClick={clickUrl} onContextMenu={contextUrl}>
+                        <a  href={result.name} onClick={clickUrl} onContextMenu={contextUrl}>
                             {getTitle(result.name)}
                         </a>
                     </h2>

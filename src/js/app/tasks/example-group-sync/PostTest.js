@@ -9,8 +9,6 @@ import AccountStore from "../../../stores/AccountStore";
 import SyncStore from "../../../stores/SyncStore";
 import SearchStore from "../../search/SearchStore";
 import SearchResultsContainer from "../../search/results/SearchResultsContainer";
-// import QueryHistoryContainer from "../../search/features/queryhistory/QueryHistoryContainer";
-import DocumentViewer from "../../search/results/components/viewer/Viewer";
 import SearchActions from '../../../actions/SearchActions';
 import BookmarkContainer from "../../search/features/bookmark/BookmarkContainer";
 
@@ -42,14 +40,14 @@ class PostTest extends React.Component {
             var els = document.getElementsByClassName('btn-green');
             var hideme = document.getElementById("hideme");
             Array.prototype.forEach.call(els, function(el) {
-                if (el.value == "Next" || el.value == "Previous") {
+                if (el.value === "Next" || el.value === "Previous") {
                     el.onclick=function(){
-                        window.globalPage=window.globalPage==1?2:1;		
+                        window.globalPage=window.globalPage===1?2:1;		
                     }
             }
             });
             if (hideme!=null){
-                if (window.globalPage==1){
+                if (window.globalPage===1){
                     hideme.style.display="none";
                 } else {
                     hideme.style.display="block";
@@ -74,7 +72,6 @@ class PostTest extends React.Component {
                             <SearchResultsContainer/>
                         </div>
         <div className="Side" id="hideme">
-        {/* <QueryHistoryContainer collaborative={this.props.collaborative}/> */}
         <BookmarkContainer collaborative={this.props.collaborative}/>
         </div> 
         </div>
@@ -89,7 +86,7 @@ class PostTest extends React.Component {
         });
 
         localStorage.setItem('posttest-finish', true.toString());
-        this.state.finished = true;
+        this.setState({ finished :true});
     }
     onLeave() {
         log(LoggerEventTypes.SURVEY_EXIT, {

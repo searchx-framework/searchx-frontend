@@ -5,7 +5,6 @@ import SearchActions from "../../../../actions/SearchActions";
 import SessionActions from "../../../../actions/SessionActions";
 import QueryHistoryStore from "./QueryHistoryStore";
 import SessionStore from "../../../../stores/SessionStore";
-import BookmarkStore from "../bookmark/BookmarkStore";
 import AccountStore from "../../../../stores/AccountStore";
 
 function queryClickHandler(query) {

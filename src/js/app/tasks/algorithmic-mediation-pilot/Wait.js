@@ -12,7 +12,7 @@ import Helpers from "../../../utils/Helpers";
 
 import './Pilot.pcss';
 import Timer from "../components/Timer";
-import {Button, Collapse, Panel} from "react-bootstrap";
+import {Button} from "react-bootstrap";
 import {openSnake, closeSnake} from "./Snake";
 import SearchActions from "../../../actions/SearchActions";
 
@@ -46,7 +46,7 @@ class Wait extends React.Component {
         window.addEventListener('popstate', this.handleUnload);
 
         SyncStore.listenToSyncData((data) => {
-            this.state.isReady = true;
+            this.setState({isReady: true});
             this.onSync(data);
         });
 
@@ -78,14 +78,6 @@ class Wait extends React.Component {
     }
 
     render() {
-        const task = AccountStore.getTaskData();
-
-        const SNAKE_WRAPPER_STYLE = {
-            margin : '30px auto',
-            height : 700,
-            width  : 700
-        };
-
         return <div className="Wait waitBox">
             <div>
                 <h2>Waiting for your group members...</h2>

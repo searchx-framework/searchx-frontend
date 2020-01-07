@@ -3,7 +3,6 @@ import React from 'react';
 import SessionActions from "../../../../actions/SessionActions";
 import RatingStore from "./RatingStore";
 import Rating from "./components/Rating";
-import SearchStore from "../../SearchStore";
 
 export default class RatingContainer extends React.Component {
     constructor(props) {

@@ -78,6 +78,8 @@ const BookmarkStore = Object.assign(EventEmitter.prototype, {
             case ActionTypes.STAR_BOOKMARK:
                 _star_bookmark(action.payload.url);
                 break;
+            default:
+                break;
         }
     })
 });

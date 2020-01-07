@@ -3,8 +3,6 @@ import {Route, Router} from 'react-router-dom'
 import MobileDetect from 'mobile-detect';
 import Bowser from "bowser"
 import history from './History';
-import {flush} from '../utils/Logger';
-import config from '../config';
 
 import About from './pages/About';
 import Search from './search/Search';
@@ -32,10 +30,6 @@ import PilotDescription3 from './tasks/algorithmic-mediation-pilot/TaskDescripti
 import PilotPostTest from './tasks/algorithmic-mediation-pilot/PostTest';
 
 export class App extends React.Component {
-    componentWillMount(){
-        setInterval(flush, config.logTimeInterval);
-    };
-
 
     render() {
         const md = new MobileDetect(window.navigator.userAgent);
@@ -61,7 +55,7 @@ export class App extends React.Component {
 
         // console.log(setInterval(function(){}, 2000));
         let invalid = localStorage.getItem("invalid-user") || 0;
-        if(invalid == 1 ){
+        if(invalid === 1 ){
             return (<div>
                 <h3>You have been disqualified from the study.</h3>
             </div>)

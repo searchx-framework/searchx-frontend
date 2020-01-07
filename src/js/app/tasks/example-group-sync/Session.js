@@ -25,8 +25,6 @@ class Session extends React.PureComponent {
 
     componentDidMount() {
         const taskdata = JSON.parse(localStorage.getItem("task-data") === undefined ? "{}" : localStorage.getItem("task-data")) || '';
-        // console.log(taskdata)
-        // console.log(task.data.topic)
         let td = '<h3> Your task </h3><p> The professor requires all students to demonstrate what they learn about a particular topic by conducting searches online and presenting their views on the topic. </p>';
         td+= taskdata.topic ? taskdata.topic.description:'';
         // td += `Remember: there will be three intermittent tests. After searching for at least 20 minutes you can move on to the final test by clicking on the "To Final Test" button. 
@@ -182,7 +180,7 @@ class Session extends React.PureComponent {
         
         
         const flag = localStorage.getItem("full-KG-flag") ;
-        if (flag==1){
+        if (flag===1){
             sessionNum  = 4
         }
         else{
@@ -191,7 +189,7 @@ class Session extends React.PureComponent {
         }
         localStorage.setItem("session-num", sessionNum);
         console.log("sessionNum", sessionNum)
-        if (sessionNum == 4 ){
+        if (sessionNum === 4 ){
             this.setState({
                 finished: true
             });;

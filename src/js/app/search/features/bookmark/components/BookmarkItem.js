@@ -42,7 +42,7 @@ const BookmarkItem = function({data, removeHandler, starHandler, clickHandler}) 
             </div>
 
             <h2>
-                <a title={data.title} style={{color: color, cursor: 'pointer'}} target="_blank" onClick={clickUrl} onContextMenu={contextUrl}>
+                <a title={data.title} href={data.title} style={{color: color, cursor: 'pointer'}} onClick={clickUrl} onContextMenu={contextUrl}>
                     {data.title}
                 </a>
             </h2>

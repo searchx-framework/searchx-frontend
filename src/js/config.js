@@ -11,8 +11,8 @@ const providerVerticals = {
     'bing': new Map([
         ['web', WebSearchResult],
         ['images', ImagesSearchResult],
-        ['videos', VideosSearchResult]
-        // ['news', NewsSearchResult]
+        ['videos', VideosSearchResult],
+        ['news', NewsSearchResult]
     ]),
     'elasticsearch': new Map([
         ['text', TextSearchResult],
@@ -22,7 +22,7 @@ const providerVerticals = {
     ])
 };
 
-module.exports = {
+var config = {
     aboutPrefixAt: 1000, /* at how many search results do we start saying 'About X results' vs. 'X results' */
     logTimeInterval: 5000,
     defaultProvider: 'bing',
@@ -41,3 +41,5 @@ module.exports = {
         verticals: true /* show the vertical selection menu */
     }
 };
+
+export default config;

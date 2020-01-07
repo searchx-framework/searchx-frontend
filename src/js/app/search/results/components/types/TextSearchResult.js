@@ -82,7 +82,7 @@ const TextSearchResult = function ({
 
             <div onMouseEnter={hoverEnterSummary} onMouseLeave={hoverLeaveSummary}>
                 <h2>
-                    <a className={visited ? "visited" : ""} title={result.name} target="_blank" onClick={clickUrl}
+                    <a className={visited ? "visited" : ""} href={result.name} title={result.name} onClick={clickUrl}
                        onContextMenu={contextUrl}>
                         {result.name}
                     </a>

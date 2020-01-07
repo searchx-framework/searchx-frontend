@@ -5,14 +5,10 @@ import {LoggerEventTypes} from "../../../utils/LoggerEventTypes";
 
 import AccountStore from "../../../stores/AccountStore";
 import SearchStore from "../../search/SearchStore";
-import SyncStore from "../../../stores/SyncStore";
-import IntroStore from "../../../stores/IntroStore";
 import constants from "./constants";
-import Helpers from "../../../utils/Helpers";
 
 import './Pilot.pcss';
 import Timer from "../components/Timer";
-import {Link} from 'react-router-dom';
 import ReactAudioPlayer from 'react-audio-player';
 
 const metaInfo = {
@@ -59,10 +55,6 @@ class TaskDescription1 extends React.Component {
         
         const task = AccountStore.getTaskData();
 
-        let waited = false;
-        if (this.props.location.state) {
-            waited = this.props.location.state.waited;
-        }
 
         return <div className="Wait waitBox">
             <ReactAudioPlayer
