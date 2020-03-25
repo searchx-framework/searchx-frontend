@@ -58,6 +58,7 @@ if (process.env.HOST) {
   console.log();
 }
 
+
 // We attempt to use the default port but if it is busy, we offer the user to
 // run on a different port. `choosePort()` Promise resolves to the next free port.
 choosePort(HOST, DEFAULT_PORT)
@@ -70,7 +71,7 @@ choosePort(HOST, DEFAULT_PORT)
     const appName = require(paths.appPackageJson).name;
     const urls = prepareUrls(protocol, HOST, port);
     // Create a webpack compiler that is configured with custom messages.
-    const compiler = createCompiler(webpack, config, appName, urls, useYarn);
+    const compiler = createCompiler({webpack, config, appName, urls, useYarn});
     // Load proxy config
     const proxySetting = require(paths.appPackageJson).proxy;
     const proxyConfig = prepareProxy(proxySetting, paths.appPublic);
@@ -100,6 +101,7 @@ choosePort(HOST, DEFAULT_PORT)
     });
   })
   .catch(err => {
+    console.log(err);
     if (err && err.message) {
       console.log(err.message);
     }

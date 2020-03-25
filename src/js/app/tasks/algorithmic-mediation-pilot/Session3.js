@@ -1,20 +1,16 @@
 import React from "react";
-import {Redirect} from "react-router-dom";
 
 import TaskedSession from "../components/session/TaskedSession";
 import constants from "./constants";
 
 import AccountStore from "../../../stores/AccountStore";
-import IntroStore from "../../../stores/IntroStore";
-import Helpers from "../../../utils/Helpers";
 import Collapsible from "react-collapsible";
 import Timer from "../components/Timer";
 
 import {log} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../utils/LoggerEventTypes';
 import ReactAudioPlayer from 'react-audio-player';
-import {withRouter} from 'react-router'
-import $ from 'jquery';
+import {withRouter} from 'react-router';
 import SearchActions from "../../../actions/SearchActions";
 
 

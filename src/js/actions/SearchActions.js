@@ -23,6 +23,7 @@ export default {
     },
 
     changePage(page) {
+        
         dispatch({
             type: ActionTypes.CHANGE_PAGE,
             payload: {

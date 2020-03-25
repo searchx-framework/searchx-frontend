@@ -16,6 +16,7 @@ class CollapsedSearchResults extends React.Component {
             query: this.props.searchState.query,
             page: this.props.searchState.page,
             serpId: this.props.serpId,
+            session: localStorage.getItem("session-num") || 0,
         }
     }
 

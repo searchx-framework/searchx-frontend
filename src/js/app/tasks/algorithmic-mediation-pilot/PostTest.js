@@ -5,8 +5,6 @@ import constants from "./constants";
 import {log} from "../../../utils/Logger";
 import {LoggerEventTypes} from "../../../utils/LoggerEventTypes";
 
-import AccountStore from "../../../stores/AccountStore";
-
 class PostTest extends React.Component {
     constructor(props) {
         super(props);
@@ -45,7 +43,6 @@ class PostTest extends React.Component {
     }
 
     render() {
-        const task = AccountStore.getTask();
         return <Form
             formData={formData(this.state.returnCode)}
             onComplete={this.onComplete}
@@ -62,7 +59,8 @@ class PostTest extends React.Component {
         });
 
         localStorage.setItem('posttest-finish', true.toString());
-        this.state.finished = true;
+
+        this.setState( { finished : true});
     }
 }
 

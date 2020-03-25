@@ -6,14 +6,12 @@ import constants from "./constants";
 
 import AccountStore from "../../../stores/AccountStore";
 import IntroStore from "../../../stores/IntroStore";
-import Helpers from "../../../utils/Helpers";
 import Collapsible from "react-collapsible";
 import Timer from "../components/Timer";
 
 import {log} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../utils/LoggerEventTypes';
 import ReactAudioPlayer from 'react-audio-player';
-import $ from 'jquery';
 
 
 class Session extends React.PureComponent {
@@ -123,7 +121,6 @@ class Session extends React.PureComponent {
 }
 
 function getIntroSteps() {
-    const task = AccountStore.getTask();
 
     return [
             {

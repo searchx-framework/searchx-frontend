@@ -43,7 +43,6 @@ const QueryHistoryStore = Object.assign(EventEmitter.prototype, {
         if (state.tutorial) {
             return [
                 {query: "first query", created: new Date() - 20000},
-                {query: "first query", created: new Date() - 20000, userId: AccountStore.getUserId()},
                 {query: "second query", created: new Date() - 10000},
                 {query: "third query", created: new Date()},
             ];
@@ -65,6 +64,8 @@ const QueryHistoryStore = Object.assign(EventEmitter.prototype, {
         switch(action.type) {
             case ActionTypes.GET_QUERY_HISTORY:
                 _get_query_history();
+                break;
+            default:
                 break;
         }
         QueryHistoryStore.emitChange();

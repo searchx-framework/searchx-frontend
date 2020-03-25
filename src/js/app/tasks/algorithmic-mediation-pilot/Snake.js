@@ -120,7 +120,7 @@ exports.openSnake = function() {
          **/
         if (0 <= code && code < 4 && code !== turn[0]) {
             turn.unshift(code);
-        } else if (-5 == code) {
+        } else if (-5 === code) {
             if (interval) {
                 window.clearInterval(interval);
                 interval = null;
@@ -129,7 +129,7 @@ exports.openSnake = function() {
             }
         } else { // O.o
             dir = sum + code;
-            if (dir == 44||dir==94||dir==126||dir==171) {
+            if (dir === 44||dir===94||dir===126||dir===171) {
                 sum+= code
             } else if (dir === 218) easy = 1;
         }

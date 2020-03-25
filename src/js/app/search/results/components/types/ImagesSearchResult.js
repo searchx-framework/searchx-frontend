@@ -12,6 +12,7 @@ const ImagesSearchResult = function ({searchState, serpId, result, metadata, boo
         query: searchState.query,
         page: searchState.page,
         serpId: serpId,
+        session: localStorage.getItem("session-num") || 0,
     };
 
     let clickUrl = () => {
@@ -50,7 +51,7 @@ const ImagesSearchResult = function ({searchState, serpId, result, metadata, boo
             {bookmarkButton}
             {excludeButton}
 
-            <a title={result.name} target="_blank" onClick={clickUrl} onContextMenu={contextUrl}
+            <a href="#/" title={result.name} onClick={clickUrl} onContextMenu={contextUrl}
                onMouseEnter={hoverEnter} onMouseLeave={hoverLeave}>
                 <div className="image" style={{backgroundImage: `url(${result.thumbnailUrl})`}}/>
             </a>

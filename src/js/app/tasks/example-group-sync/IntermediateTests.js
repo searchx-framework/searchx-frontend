@@ -1,15 +1,14 @@
 import React from "react";
 import SyncForm from "../components/form/SyncForm";
 import constants from "./constants";
-
 import {log} from "../../../utils/Logger";
 import {LoggerEventTypes} from "../../../utils/LoggerEventTypes";
-
+import Helpers from "../../../utils/Helpers";
 import AccountStore from "../../../stores/AccountStore";
 import SyncStore from "../../../stores/SyncStore";
-import SessionStore from "../../../stores/SessionStore";
 import FormContainer from "../components/form/FormContainer";
 import Alert from "react-s-alert";
+
 
 class PreTest extends React.Component {
     constructor(props) {
@@ -20,7 +19,6 @@ class PreTest extends React.Component {
 
         this.onComplete = this.onComplete.bind(this);
         this.onSwitchPage = this.onSwitchPage.bind(this);
-        this.onSync = this.onSync.bind(this);
         this.onLeave = this.onLeave.bind(this);
         this.onTimeout = this.onTimeout.bind(this);
     }
@@ -39,10 +37,9 @@ class PreTest extends React.Component {
                 </FormContainer>
                 :
                 <SyncForm
-                    formData={formData(task.topics)}
+                    formData={formData(task.topic)}
                     onComplete={this.onComplete}
                     onSwitchPage={this.onSwitchPage}
-                    onSync={this.onSync}
                     onLeave={this.onLeave}
                     disableCopy={true}
                 />
@@ -53,28 +50,24 @@ class PreTest extends React.Component {
     ////
 
     onComplete(data) {
-        log(LoggerEventTypes.SURVEY_PRE_TEST_RESULTS, {
-            data: data
+        log(LoggerEventTypes.SURVEY_INTERMEDIATE_TEST_RESULTS, {
+            data: data,
+            session: localStorage.getItem("session-num")
         });
         localStorage.setItem("question-data", JSON.stringify(data))
-        SyncStore.emitSyncSubmit(data);
-        Helpers.sleep(constants.waitDuration * 60 * 1000).then(() => {
-            this.setState({timedOut: true}, () => {
-                this.onLeave();
-            });
-        });
-        const taskParams = {
-            groupSize: constants.groupSize,
-            topicsSize: constants.topicsSize
-        };
+        
+        let answers = JSON.parse(localStorage.getItem("question-data"));
+        const values = Object.values(answers);
+        if (values.includes("1") || values.includes("2")) {
+            localStorage.setItem("full-KG-flag", 0)
+        } else {
+            localStorage.setItem("full-KG-flag", 1)
+            localStorage.setItem("flag-sess", localStorage.getItem("session-num"))
+        }
 
-        SessionStore.updateTask(constants.taskId, data, (res) => {
-            if (res) {
-                if ('topic' in res.taskData) {
-                    this.props.history.push('/sync/session');
-                } 
-            }
-        });
+        localStorage.setItem("timer-start", Date.now());
+
+        this.props.history.push('/sync/session');
     }
 
     onSync(data) {
@@ -89,17 +82,17 @@ class PreTest extends React.Component {
 
     onLeave() {
         log(LoggerEventTypes.SURVEY_EXIT, {
-            step : "pretest",
+            step : "intermediatetest",
+            session: localStorage.getItem("session-num"),
             state : this.state
         });
-        
         SyncStore.emitSyncLeave();
         AccountStore.clearUserData();
     }
 
     onTimeout() {
         log(LoggerEventTypes.SURVEY_GROUPING_TIMEOUT, {
-            step : "pretest",
+            step : "intermediatetest",
             state: this.state
         });
 
@@ -108,12 +101,11 @@ class PreTest extends React.Component {
     }
 
     onSwitchPage() {
-
-        let switchTabs = localStorage.getItem("switch-tabs-pretest") || 0;
+        let switchTabs = localStorage.getItem("switch-tabs-intermediatetest") || 0;
         switchTabs++;
-        localStorage.setItem("switch-tabs-pretest", switchTabs);
+        localStorage.setItem("switch-tabs-intermediatetest", switchTabs);
         log(LoggerEventTypes.TAB_CHANGE, {
-            step: "pretest",
+            step: "intermediatetest",
             switch: switchTabs
         });
 
@@ -121,8 +113,7 @@ class PreTest extends React.Component {
             this.onLeave();
             localStorage.setItem("invalid-user",1);
             this.props.history.push('/disq');
-            localStorage.removeItem("switch-tabs-pretest");
-            
+            localStorage.removeItem("switch-tabs-intermediatetest");
 
             Alert.error('You have been disqualified from the study.', {
                 position: 'top-right',
@@ -148,23 +139,36 @@ class PreTest extends React.Component {
     }
 }
 
-const formData = function(topics) {
+const formData = function(topic) {
     let pages = [];
     let elements = [];
 
-    topics.forEach(topic => {
+    let sess= localStorage.getItem("session-num") || 0 ;
+    sess++;
+    
         elements = [];
 
         elements.push({
             type: "html",
             name: "topic",
             html:
-                `<h2>Test 1</h2>` +
-                `<h3>Let's find out what you already know first.</h3>` +
+                `<h2>Test ${sess} </h2>` +
+                `<h3>Let's find out what you have learned about the topic from the last search session.</h3>` +
                 `<h3>Answer these questions about <b style ="color: #00A6D3;">${topic.title}</b>:</h3>`
         });
 
-        topic.terms.forEach((term, idx) => {
+        let preAnswer = JSON.parse(localStorage.getItem("question-data"));
+        var arr = []
+        topic.terms.forEach((term) => {
+            const key = `Q-${topic.id}-${term}`;
+            if (preAnswer[key]){
+                if (preAnswer[key] === 1  || preAnswer[key] === 2){
+                    arr.push(term)
+                }
+            }
+        });
+        Helpers.shuffle(topic.terms).forEach((term, idx) => {
+            if (arr.includes(term) ){ 
             const name = `Q-${topic.id}-${term}`;
 
             elements.push({
@@ -189,10 +193,10 @@ const formData = function(topics) {
                 width: 500,
                 isRequired: true
             });
+        }
         });
-
         pages.push({elements:  elements});
-    });
+    
 
     ////
 

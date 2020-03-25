@@ -15,6 +15,7 @@ const TextSearchResult = function ({
         query: searchState.query,
         page: searchState.page,
         serpId: serpId,
+        session: localStorage.getItem("session-num") || 0,
     };
 
     let clickUrl = () => {
@@ -76,7 +77,7 @@ const TextSearchResult = function ({
 
             <div onMouseEnter={hoverEnterSummary} onMouseLeave={hoverLeaveSummary}>
                 <h2>
-                    <a className={visited ? "visited" : ""} title={result.name} target="_blank" onClick={clickUrl}
+                    <a className={visited ? "visited" : ""} href="#/"  title={result.name} onClick={clickUrl}
                        onContextMenu={contextUrl}>
                         {result.name}
                     </a>

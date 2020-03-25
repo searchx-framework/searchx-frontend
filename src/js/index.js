@@ -7,7 +7,6 @@ import {checkRequiredEnv} from './requireEnv';
 import Alert from "react-s-alert";
 import "react-s-alert/dist/s-alert-default.css";
 import "react-s-alert/dist/s-alert-css-effects/scale.css";
-import "../../node_modules/normalize.css/normalize.css";
 
 const app = (
     <div>

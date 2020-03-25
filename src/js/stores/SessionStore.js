@@ -22,6 +22,18 @@ const SessionStore = Object.assign(EventEmitter.prototype, {
             callback(res);
         });
     },
+    
+    updateTask(id, qdata, callback) {
+        let res = null;
+        _postUserTask(AccountStore.getUserId(), id, qdata, (data) => {
+            if (data) {
+                AccountStore.setGroup(data._id, data.members);
+                AccountStore.setTask(data.taskId, data.taskData);
+                res = data;
+            }
+            callback(res);
+        });
+    },
 
     getMemberColor(userId) {
         if (state.group.members === '') {
@@ -79,6 +91,21 @@ const SessionStore = Object.assign(EventEmitter.prototype, {
 function _getUserTask(userId, taskId, params, callback) {
     request
         .get(`${process.env.REACT_APP_SERVER_URL}/v1/users/${userId}/task/${taskId}/?${Helpers.generateQueryString(params)}`)
+        .end((err, res) => {
+            if(!err && res) {
+                const data = res.body.results;
+                callback(data);
+            } else {
+                callback(null);
+            }
+        })
+}
+function _postUserTask(userId, taskId, qdata, callback) {
+    request
+        .post(`${process.env.REACT_APP_SERVER_URL}/v1/users/${userId}/task/${taskId}/topic`)
+        .send({
+            data: qdata
+        })
         .end((err, res) => {
             if(!err && res) {
                 const data = res.body.results;

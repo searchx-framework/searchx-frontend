@@ -6,7 +6,8 @@ import {log} from "../../../../../utils/Logger";
 const QueryHistoryItem = function({data, clickHandler}) {
     const metaInfo = {
         url: data.query,
-        userId: data.userId
+        userId: data.userId,
+        session: localStorage.getItem("session-num") || 0,
     };
 
     const clickUrlLog = () => log(LoggerEventTypes.QUERYHISTORY_CLICK_URL, metaInfo);
@@ -21,7 +22,7 @@ const QueryHistoryItem = function({data, clickHandler}) {
     return (
         <div className="item" style={{borderColor: color}} onMouseEnter={hoverEnter} onMouseLeave={hoverLeave}>
             <span className="text">
-                <a style={{color: color, cursor: 'pointer'}} onContextMenu={contextUrlLog} onClick={() => {clickHandler(data.query);clickUrlLog();}}>
+                <a href="#/"   style={{color: color, cursor: 'pointer'}} onContextMenu={contextUrlLog} onClick={() => {clickHandler(data.query);clickUrlLog();}}>
                     {data.query}
                 </a>
             </span>

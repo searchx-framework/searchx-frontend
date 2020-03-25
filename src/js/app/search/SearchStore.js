@@ -243,6 +243,9 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
                 break;
             case ActionTypes.CHANGE_VARIANT:
                 _setVariant()
+                break;
+            default:
+                break;
         }
 
         SearchStore.emitChange();
@@ -311,7 +314,8 @@ const _search = (query, vertical, page) => {
                 provider: state.provider,
                 vertical: state.vertical,
                 serpId: state.serpId,
-                elapsedTime: state.elapsedTime
+                elapsedTime: state.elapsedTime,
+                session: localStorage.getItem("session-num")
             });
 
             SearchStore.emitChange();

@@ -2,7 +2,6 @@ import EventEmitter from 'events';
 import io from 'socket.io-client';
 
 import AccountStore from "./AccountStore";
-import SearchActions from "../actions/SearchActions";
 import SessionActions from "../actions/SessionActions";
 import SearchStore from "../app/search/SearchStore";
 
@@ -32,6 +31,7 @@ const SyncStore = Object.assign(EventEmitter.prototype, {
     listenToSyncData(callback) {
         socket.on('syncData', (data) => {
             callback(data);
+
         });
     },
 

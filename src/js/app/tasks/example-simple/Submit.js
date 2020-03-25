@@ -6,9 +6,6 @@ import {log} from "../../../utils/Logger";
 import {LoggerEventTypes} from "../../../utils/LoggerEventTypes";
 
 class Submit extends React.Component {
-    constructor(props) {
-        super(props);
-    }
 
     render() {
         return <Form

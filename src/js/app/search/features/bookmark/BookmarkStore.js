@@ -31,9 +31,9 @@ const BookmarkStore = Object.assign(EventEmitter.prototype, {
     getBookmarks() {
         if (state.tutorial) {
             return [
-                {title: "You can view your bookmarked documents here", url: "https://www.viewbookmark.com", userId: AccountStore.getUserId()},
+                {title: "You can view your bookmarked documents here", url: "https://www.viewbookmark.com"},
                 {title: "You also can delete any bookmarked documents here", url: "https://www.deletebookmark.com"},
-                {title: "A starred bookmark will appear on top", url: "https://www.starredbookmark.com", starred: true, userId: AccountStore.getUserId()}
+                {title: "A starred bookmark will appear on top", url: "https://www.starredbookmark.com", starred: true}
             ];
         }
 
@@ -78,6 +78,8 @@ const BookmarkStore = Object.assign(EventEmitter.prototype, {
             case ActionTypes.STAR_BOOKMARK:
                 _star_bookmark(action.payload.url);
                 break;
+            default:
+                break;
         }
     })
 });
@@ -100,7 +102,7 @@ const _get = function(type) {
                     if (!RatingStore.getUrlRating(resultId)) {
                         RatingStore._get_rating(resultId);
                     }
-                })
+                })  
             }
             BookmarkStore.emitChange();
             SearchStore.updateMetadata();

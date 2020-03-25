@@ -12,6 +12,7 @@ const WebSearchResult = function ({searchState, serpId, result, metadata, bookma
         query: searchState.query,
         page: searchState.page,
         serpId: serpId,
+        session: localStorage.getItem("session-num") || 0, 
     };
 
     let clickUrl = () => {
@@ -53,7 +54,7 @@ const WebSearchResult = function ({searchState, serpId, result, metadata, bookma
 
             <div onMouseEnter={hoverEnterSummary} onMouseLeave={hoverLeaveSummary}>
                 <h2>
-                    <a title={result.name} target="_blank" onClick={clickUrl} onContextMenu={contextUrl}>
+                    <a title={result.name} href="#/" onClick={clickUrl} onContextMenu={contextUrl}>
                         {result.name}
                     </a>
                 </h2>

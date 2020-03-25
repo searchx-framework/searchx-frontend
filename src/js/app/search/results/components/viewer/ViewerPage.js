@@ -3,10 +3,6 @@ import Loader from 'react-loader';
 import isImage from 'is-image';
 
 export default class ViewerPage extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     componentDidMount() {
         if (this.props.doctext) {
             this.props.loadHandler();
@@ -40,11 +36,11 @@ export default class ViewerPage extends React.Component {
                             <Loader/>
                         </div>,
                         isImage(this.props.url) ?
-                            <img src={this.props.url} onLoad={this.props.loadHandler}/>
+                            <img src={this.props.url} onLoad={this.props.loadHandler} alt={this.props.url}/>
                             :
-                            <iframe scrolling="yes"
+                            <iframe title={this.props.url} scrolling="yes"
                                     frameBorder="0"
-                                    src={`${process.env.REACT_APP_RENDERER_URL}/${this.props.url}`}
+                                    src={`${process.env.REACT_APP_RENDERER_URL}/?url=${this.props.url}`}
                                     onLoad={this.props.loadHandler}>
                             </iframe>
                     ]

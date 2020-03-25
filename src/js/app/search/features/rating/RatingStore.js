@@ -47,6 +47,8 @@ const RatingStore = Object.assign(EventEmitter.prototype, {
                     _submit_rating(action.payload.url, action.payload.rating);
                 }
                 break;
+            default:
+                break;
         }
         RatingStore.emitChange();
     }),

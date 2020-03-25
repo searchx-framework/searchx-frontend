@@ -4,15 +4,11 @@ import {log} from "../../../utils/Logger";
 import {LoggerEventTypes} from "../../../utils/LoggerEventTypes";
 
 import AccountStore from "../../../stores/AccountStore";
-import SyncStore from "../../../stores/SyncStore";
-import IntroStore from "../../../stores/IntroStore";
 import SearchStore from "../../search/SearchStore";
 import constants from "./constants";
-import Helpers from "../../../utils/Helpers";
 
 import './Pilot.pcss';
 import Timer from "../components/Timer";
-import {Link} from 'react-router-dom';
 import ReactAudioPlayer from 'react-audio-player';
 
 const metaInfo = {
