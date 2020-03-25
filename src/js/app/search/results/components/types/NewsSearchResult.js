@@ -68,7 +68,7 @@ const NewsSearchResult = function ({searchState, serpId, result, metadata, bookm
                     {excludeButton}
 
                     <h2>
-                        <a title={result.name} href={result.name} onClick={clickUrl} onContextMenu={contextUrl}>
+                        <a title={result.name} href="#/" onClick={clickUrl} onContextMenu={contextUrl}>
                             {result.name}
                         </a>
                     </h2>

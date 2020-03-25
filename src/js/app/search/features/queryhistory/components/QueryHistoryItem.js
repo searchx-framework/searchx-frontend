@@ -22,7 +22,7 @@ const QueryHistoryItem = function({data, clickHandler}) {
     return (
         <div className="item" style={{borderColor: color}} onMouseEnter={hoverEnter} onMouseLeave={hoverLeave}>
             <span className="text">
-                <a href={data.query} style={{color: color, cursor: 'pointer'}} onContextMenu={contextUrlLog} onClick={() => {clickHandler(data.query);clickUrlLog();}}>
+                <a href="#/"   style={{color: color, cursor: 'pointer'}} onContextMenu={contextUrlLog} onClick={() => {clickHandler(data.query);clickUrlLog();}}>
                     {data.query}
                 </a>
             </span>

@@ -30,19 +30,19 @@ const BookmarkItem = function({data, removeHandler, starHandler, clickHandler}) 
         <div className="item" style={{borderColor: color}} onMouseEnter={hoverEnterSummary} onMouseLeave={hoverLeaveSummary}>
             <div className="buttons">
                 {config.interface.star && (
-                    <Rating className="topicon" empty="fa fa-star-o" full="fa fa-star"
+                    <Rating className="topicon" emptySymbol="fa fa-star-o" fullSymbol="fa fa-star"
                             onClick={() => starHandler(data.url)}
-                            stop={1} initialRate={data.starred ? 1 : 0}
+                            stop={1} initialRating={data.starred ? 1 : 0}
                     />
                 )}
-                <Rating className={(config.interface.star ? "bottomicon " : "topicon ") + "remove"} empty="fa fa-trash-o" full="fa fa-trash"
+                <Rating className={(config.interface.star ? "bottomicon " : "topicon ") + "remove"} emptySymbol="fa fa-trash-o" fullSymbol="fa fa-trash"
                         onClick={() => removeHandler(data.url)}
-                        stop={1} initialRate={0}
+                        stop={1} initialRating={0}
                 />
             </div>
 
             <h2>
-                <a title={data.title} href={data.title} style={{color: color, cursor: 'pointer'}} onClick={clickUrl} onContextMenu={contextUrl}>
+                <a title={data.title} href="#/"  style={{color: color, cursor: 'pointer'}} onClick={clickUrl} onContextMenu={contextUrl}>
                     {data.title}
                 </a>
             </h2>

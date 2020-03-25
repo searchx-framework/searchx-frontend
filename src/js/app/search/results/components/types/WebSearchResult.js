@@ -54,7 +54,7 @@ const WebSearchResult = function ({searchState, serpId, result, metadata, bookma
 
             <div onMouseEnter={hoverEnterSummary} onMouseLeave={hoverLeaveSummary}>
                 <h2>
-                    <a title={result.name} href={result.name} onClick={clickUrl} onContextMenu={contextUrl}>
+                    <a title={result.name} href="#/" onClick={clickUrl} onContextMenu={contextUrl}>
                         {result.name}
                     </a>
                 </h2>

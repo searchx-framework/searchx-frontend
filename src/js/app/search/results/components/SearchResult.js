@@ -18,18 +18,18 @@ const SearchResult = function ({
     }
 
     const bookmarkButton = <Rating
-        className="rating" empty="fa fa-bookmark-o" full="fa fa-bookmark"
+        className="rating" emptySymbol="fa fa-bookmark-o" fullSymbol="fa fa-bookmark"
         onClick={bookmarkClickHandler}
-        stop={1} initialRate={initialBookmark}
+        stop={1} initialRating={initialBookmark}
         title="Save result"
     />;
 
     // TODO: use variant from SearchStore instead of defaultVariant
     const excludeButton = <div>
         {config.defaultVariant === 'S0' ? <div/> : <Rating
-            className="rating" empty="fa fa-ban" full="fa fa-ban red"
+            className="rating" emptySymbol="fa fa-ban" fullSymbol="fa fa-ban red"
             onClick={excludeClickHandler}
-            stop={1} initialRate={initialExclude}
+            stop={1} initialRating={initialExclude}
             title="Exclude result from future queries"
         />}
     </div>;

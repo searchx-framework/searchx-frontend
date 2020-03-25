@@ -131,7 +131,7 @@ const VideosSearchResult = function ({searchState, serpId, result, metadata, boo
                     {excludeButton}
 
                     <h2>
-                        <a  href={result.name} onClick={clickUrl} onContextMenu={contextUrl}>
+                        <a  href="#/" onClick={clickUrl} onContextMenu={contextUrl}>
                             {getTitle(result.name)}
                         </a>
                     </h2>
