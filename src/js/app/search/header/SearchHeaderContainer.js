@@ -15,13 +15,17 @@ export default class SearchHeaderContainer extends React.Component {
         const searchState = SearchStore.getSearchState();
         this.state = {
             searchState: searchState,
-            query: searchState.query
+            query: searchState.query,
+            lastQueryUsedForSuggestions: ""
         };
 
         this.changeHandler = this.changeHandler.bind(this);
         this.searchHandler = this.searchHandler.bind(this);
         this.queryChangeHandler = this.queryChangeHandler.bind(this);
         this.verticalChangeHandler = this.verticalChangeHandler.bind(this);
+        this.showSuggestionsHandler = this.showSuggestionsHandler.bind(this);
+        this.hideSuggestionsHandler = this.hideSuggestionsHandler.bind(this);
+        this.clickSuggestionHandler = this.clickSuggestionHandler.bind(this);
     }
 
     componentWillMount() {SearchStore.addChangeListener(this.changeHandler);}
@@ -36,14 +40,19 @@ export default class SearchHeaderContainer extends React.Component {
             queryChangeHandler={this.queryChangeHandler}
             verticalChangeHandler={this.verticalChangeHandler}
             timer={this.props.timer}
+            showAccountInfo={this.props.showAccountInfo}
+            hideSuggestionsHandler={this.hideSuggestionsHandler}
+            showSuggestionsHandler={this.showSuggestionsHandler}
+            clickSuggestionHandler={this.clickSuggestionHandler}
+            showSuggestions={this.state.showSuggestions}
             // these props do not update to changes
             userId={AccountStore.getUserId()}
             groupId={AccountStore.getGroupId()}
-            showAccountInfo={this.props.showAccountInfo}
         />
     }
 
     ////
+
 
     changeHandler() {
         const nextSearchState = SearchStore.getSearchState();
@@ -61,7 +70,7 @@ export default class SearchHeaderContainer extends React.Component {
             vertical: this.state.searchState.vertical,
             session: localStorage.getItem("session-num") || 0,
         });
-
+        this.hideSuggestionsHandler();
         SearchActions.search(this.state.query, this.state.searchState.vertical, 1);
         SessionActions.getBookmarksAndExcludes();
     }
@@ -70,6 +79,13 @@ export default class SearchHeaderContainer extends React.Component {
         this.setState({
             query: query
         });
+        const lastQuery = this.state.lastQueryUsedForSuggestions;
+        const lengthDifference = query.length - lastQuery.length;
+        const lastQueryContainsQuery = lastQuery.indexOf(query) !== -1;
+        if (lengthDifference > 2 || lengthDifference < -2 || (!lastQueryContainsQuery && lengthDifference < 0)) {
+            this.setState({lastQueryUsedForSuggestions: query});
+            SessionActions.getSuggestions(query);
+        }
     }
 
     verticalChangeHandler(vertical) {
@@ -83,5 +99,21 @@ export default class SearchHeaderContainer extends React.Component {
         });
 
         SearchActions.changeVertical(vertical);
+    }
+
+    hideSuggestionsHandler() {
+        this.setState({ showSuggestions: false })
+    }
+
+    showSuggestionsHandler() {
+        this.setState({ showSuggestions: true });
+        if (this.state.query) {
+            SessionActions.getSuggestions(this.state.query);
+        }
+    }
+
+    clickSuggestionHandler(query) {
+        this.hideSuggestionsHandler();
+        SearchActions.search(query, SearchStore.getSearchState().vertical, 1)
     }
 }

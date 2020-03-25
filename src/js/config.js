@@ -18,7 +18,7 @@ const providerVerticals = {
         ['text', TextSearchResult],
     ]),
     'indri': new Map([
-        ['AQUAINT', TextSearchResult]
+        ['CW12B', TextSearchResult]
     ])
 };
 
@@ -26,7 +26,7 @@ var config = {
     aboutPrefixAt: 1000, /* at how many search results do we start saying 'About X results' vs. 'X results' */
     logTimeInterval: 5000,
     defaultProvider: 'indri',
-    defaultVariant: 'S3',
+    defaultVariant: 'S0',
     variantQueryParameter: false, /* allow the variant to be modified by a query parameter, or fix it to the default or variant set by the task */
     fallbackToS0ForGroupSize1: false, /* always make group sizes of size 1 use variant S0 */
     providerVerticals: providerVerticals,
@@ -38,7 +38,7 @@ var config = {
         timeIndicator: true, /* show the time it took to return results */
         star: true, /* allow users to star bookmarks */
         saveTimestamp: true, /* show the time and date at which a document was saved */
-        verticals: true /* show the vertical selection menu */
+        verticals: false /* show the vertical selection menu */
     }
 };
 

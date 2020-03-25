@@ -49,7 +49,7 @@ const SearchResults = function ({
         </CenteredMessage>
     }
 
-    if (progress.querySubmitted && !progress.finished) {
+    if (!tutorial && !progress.finished) {
         return <CenteredMessage height="800px">
             <Loader/>
         </CenteredMessage>
@@ -135,10 +135,6 @@ const SearchResults = function ({
     return (
         <div>
             <div className="SearchResults" id="intro-search-results">
-                {progress.querySubmitted &&
-                <Loader
-                    loaded={results.length > 0 || progress.isRefreshing() || progress.isFinished()}/>
-                }
                 {config.interface.timeIndicator && results.length > 0 &&
                 <div className="time"> {timeIndicator}</div>
                 }
