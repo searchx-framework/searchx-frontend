@@ -49,11 +49,8 @@ export class App extends React.Component {
                     Google Chrome version 47 (or higher) and Mozilla Firefox version 50 (or higher).
                     Please upgrade your browser to take part in our study</h3>
             </div>)
-        } else{
-            console.log(browser.getBrowser());
-        }
+        } 
 
-        // console.log(setInterval(function(){}, 2000));
         let invalid = localStorage.getItem("invalid-user") || 0;
         if(invalid === 1 ){
             return (<div>

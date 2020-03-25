@@ -42,7 +42,6 @@ class Register extends React.Component {
             if (res) {
                 
                 if ('topic' in res.taskData) {
-                    // console.log("register", res);
                     this.props.history.push('/sync/session');
                 } else {
                     this.props.history.push('/sync/pretest');

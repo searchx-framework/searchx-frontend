@@ -20,7 +20,7 @@ class PreTest extends React.Component {
 
         this.onComplete = this.onComplete.bind(this);
         this.onSwitchPage = this.onSwitchPage.bind(this);
-        // this.onSync = this.onSync.bind(this);
+        this.onSync = this.onSync.bind(this);
         this.onLeave = this.onLeave.bind(this);
         this.onTimeout = this.onTimeout.bind(this);
     }
@@ -57,22 +57,19 @@ class PreTest extends React.Component {
             data: data
         });
         localStorage.setItem("question-data", JSON.stringify(data))
-        // console.log("Test")
         SyncStore.emitSyncSubmit(data);
-        console.log("Test", data)
-        // Helpers.sleep(constants.waitDuration * 60 * 1000).then(() => {
-        //     this.setState({timedOut: true}, () => {
-        //         this.onLeave();
-        //     });
-        // });
-        // const taskParams = {
-        //     groupSize: constants.groupSize,
-        //     topicsSize: constants.topicsSize
-        // };
+        Helpers.sleep(constants.waitDuration * 60 * 1000).then(() => {
+            this.setState({timedOut: true}, () => {
+                this.onLeave();
+            });
+        });
+        const taskParams = {
+            groupSize: constants.groupSize,
+            topicsSize: constants.topicsSize
+        };
 
         SessionStore.updateTask(constants.taskId, data, (res) => {
             if (res) {
-                // console.log("init", res)
                 if ('topic' in res.taskData) {
                     this.props.history.push('/sync/session');
                 } 
@@ -80,16 +77,15 @@ class PreTest extends React.Component {
         });
     }
 
-    // onSync(data) {
-    //     console.log("Test2")
-    //     console.log(data)
-    //     // AccountStore.setGroup(data._id, data.members);
-    //     AccountStore.setTask(data.taskId, data.taskData);
+    onSync(data) {
+
+        AccountStore.setGroup(data._id, data.members);
+        AccountStore.setTask(data.taskId, data.taskData);
         
         
-    //     IntroStore.clearIntro();
-    //     this.props.history.push('/sync/session');
-    // }
+        IntroStore.clearIntro();
+        this.props.history.push('/sync/session');
+    }
 
     onLeave() {
         log(LoggerEventTypes.SURVEY_EXIT, {
@@ -128,12 +124,12 @@ class PreTest extends React.Component {
             localStorage.removeItem("switch-tabs-pretest");
             
 
-            // Alert.error('You have been disqualified from the study.', {
-            //     position: 'top-right',
-            //     effect: 'scale',
-            //     beep: true,
-            //     timeout: "none"
-            // });
+            Alert.error('You have been disqualified from the study.', {
+                position: 'top-right',
+                effect: 'scale',
+                beep: true,
+                timeout: "none"
+            });
         } else {
             Alert.error('We have noticed that you have tried to change to a different window/tab. Please, focus on completing the test.', {
                 position: 'top-right',

@@ -31,14 +31,14 @@ const TaskedSession = function({disableCopy, collaborative, style, children, tim
 TaskedSession.propTypes = {
     disableCopy: PropTypes.bool,
     collaborative: PropTypes.bool,
-    // onSwitchPage: PropTypes.func,
+    onSwitchPage: PropTypes.func,
 };
 
 TaskedSession.defaultProps = {
     disableCopy: false,
     collaborative: true,
     style: {},
-    // onSwitchPage: () => {},
+    onSwitchPage: () => {},
     firstSession: true,
     lastSession: true
 };

@@ -42,10 +42,11 @@ const Viewer = function ({searchState, serpId, url, documentCloseHandler, doctex
             document.getElementById("viewer-content-loader").style.display = "none";
         }
     };
-    // let openInBrowser = () => {
-    //     log(LoggerEventTypes.DOCUMENT_OPEN_BROWSER, metaInfo);
-    //     window.open(url);
-    // };
+
+    let openInBrowser = () => {
+        log(LoggerEventTypes.DOCUMENT_OPEN_BROWSER, metaInfo);
+        window.open(url);
+    };
 
     let scrollDocument = () => {
         log(LoggerEventTypes.DOCUMENT_SCROLL, metaInfo);
@@ -60,7 +61,7 @@ const Viewer = function ({searchState, serpId, url, documentCloseHandler, doctex
 
                     <div className="pull-right">
                         {!doctext && [
-                            // <span className="forward" onClick={openInBrowser}>open in browser</span>,
+                            <span className="forward" onClick={openInBrowser}>open in browser</span>,
                             <span className="divider"/>
                         ]}
                         {config.interface.ratings && [

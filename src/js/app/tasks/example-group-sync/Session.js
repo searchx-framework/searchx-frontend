@@ -83,8 +83,6 @@ class Session extends React.PureComponent {
 
     render() {
         const task = AccountStore.getTask();
-        
-        console.log("this state", this.state.start)
         const timer = (
             <div style={{marginTop: '10px', textAlign: 'center'}}>
                 <Timer start={this.state.start} duration={constants.taskDuration} onFinish={this.onFinish} style={{fontSize: '2em'}} showRemaining={false}/>
@@ -127,49 +125,38 @@ class Session extends React.PureComponent {
         );
 
         return (
-            <div>
-                <TaskedSession 
-                timer= {timer} 
-                taskDescription={taskDescription} 
-                onSwitchPage={this.onSwitchPage}
-                lastSession={false} 
-                firstSession={false}/>
-            </div>
+            <TaskedSession>
+                <div className="box" style={{marginBottom: '20px', textAlign: 'center'}}>
+                    <Timer start={this.state.start} duration={constants.taskDuration} onFinish={this.onFinish} style={{fontSize: '2em'}}/>
+                    <Link className={"btn btn-primary" + (this.state.finished ? '' : ' disabled')} to="/sync/posttest" role="button">
+                        To Final Test
+                    </Link>
+                </div>
+
+                <div className="box" style={{flexGrow: '1'}}>
+                    <h3 style={{textAlign: 'center'}}>Task Description</h3>
+                    <hr/>
+
+                    <p>
+                        The professor requires all students to demonstrate what they learn about a particular topic by
+                        collaboratively conducting searches online and presenting their views on the topic.
+                        To prepare your term paper, your group needs to collect and save all the web pages,
+                        publications, and other online sources that are helpful for you to write a paper.
+                    </p>
+
+                    <p dangerouslySetInnerHTML={{__html: task.data.topic.description}}/>
+                    <hr/>
+
+                    <p>
+                        After you and your group have completed the search phase, you will be asked to complete 13
+                        exercises;
+                        those exercises include questions about your term paper topic and the writing of an outline for
+                        your term paper.
+                        The exercises are to be finished individually (without help from your group members).
+                    </p>
+                </div>
+            </TaskedSession>
         )
-
-        // return (
-        //     <TaskedSession>
-        //         <div className="box" style={{marginBottom: '20px', textAlign: 'center'}}>
-        //             <Timer start={this.state.start} duration={constants.taskDuration} onFinish={this.onFinish} style={{fontSize: '2em'}}/>
-        //             <Link className={"btn btn-primary" + (this.state.finished ? '' : ' disabled')} to="/sync/posttest" role="button">
-        //                 To Final Test
-        //             </Link>
-        //         </div>
-
-        //         <div className="box" style={{flexGrow: '1'}}>
-        //             <h3 style={{textAlign: 'center'}}>Task Description</h3>
-        //             <hr/>
-
-        //             <p>
-        //                 The professor requires all students to demonstrate what they learn about a particular topic by
-        //                 collaboratively conducting searches online and presenting their views on the topic.
-        //                 To prepare your term paper, your group needs to collect and save all the web pages,
-        //                 publications, and other online sources that are helpful for you to write a paper.
-        //             </p>
-
-        //             <p dangerouslySetInnerHTML={{__html: task.data.topic.description}}/>
-        //             <hr/>
-
-        //             <p>
-        //                 After you and your group have completed the search phase, you will be asked to complete 13
-        //                 exercises;
-        //                 those exercises include questions about your term paper topic and the writing of an outline for
-        //                 your term paper.
-        //                 The exercises are to be finished individually (without help from your group members).
-        //             </p>
-        //         </div>
-        //     </TaskedSession>
-        // )
     }
 
     ////
@@ -188,7 +175,6 @@ class Session extends React.PureComponent {
            
         }
         localStorage.setItem("session-num", sessionNum);
-        console.log("sessionNum", sessionNum)
         if (sessionNum === 4 ){
             this.setState({
                 finished: true

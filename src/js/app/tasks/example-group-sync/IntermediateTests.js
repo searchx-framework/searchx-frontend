@@ -54,9 +54,6 @@ class PreTest extends React.Component {
             data: data,
             session: localStorage.getItem("session-num")
         });
-        // console.log("Test")
-        // SyncStore.emitSyncSubmit(data);
-        console.log("Intermediate test", localStorage.getItem("session-num"), data)
         localStorage.setItem("question-data", JSON.stringify(data))
         
         let answers = JSON.parse(localStorage.getItem("question-data"));
@@ -73,16 +70,15 @@ class PreTest extends React.Component {
         this.props.history.push('/sync/session');
     }
 
-    // onSync(data) {
-    //     console.log("Test2")
-    //     console.log(data)
-    //     // AccountStore.setGroup(data._id, data.members);
-    //     AccountStore.setTask(data.taskId, data.taskData);
+    onSync(data) {
+
+        AccountStore.setGroup(data._id, data.members);
+        AccountStore.setTask(data.taskId, data.taskData);
         
         
-    //     IntroStore.clearIntro();
-    //     this.props.history.push('/sync/session');
-    // }
+        IntroStore.clearIntro();
+        this.props.history.push('/sync/session');
+    }
 
     onLeave() {
         log(LoggerEventTypes.SURVEY_EXIT, {
@@ -162,18 +158,15 @@ const formData = function(topic) {
         });
 
         let preAnswer = JSON.parse(localStorage.getItem("question-data"));
-        console.log(preAnswer)
         var arr = []
         topic.terms.forEach((term) => {
             const key = `Q-${topic.id}-${term}`;
-            // s
             if (preAnswer[key]){
                 if (preAnswer[key] === 1  || preAnswer[key] === 2){
                     arr.push(term)
                 }
             }
         });
-        console.log("arr", arr)
         Helpers.shuffle(topic.terms).forEach((term, idx) => {
             if (arr.includes(term) ){ 
             const name = `Q-${topic.id}-${term}`;
