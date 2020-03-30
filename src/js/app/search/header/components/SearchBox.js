@@ -1,6 +1,7 @@
 import './SearchHeader.pcss'
 import React from 'react';
 
+
 const SearchBox = function({query, changeHandler, showSuggestionsHandler}) {
     return (
         <div className="box">

@@ -10,7 +10,6 @@ import QueryHistoryContainer from "./features/queryhistory/QueryHistoryContainer
 import BookmarkContainer from "./features/bookmark/BookmarkContainer";
 import Chat from "./features/chat/Chat";
 import config from "../../config";
-import SuggestionsContainer from "./features/querysuggestions/SuggestionsContainer";
 
 class Search extends React.Component {
     constructor(props) {

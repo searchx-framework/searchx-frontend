@@ -10,6 +10,8 @@ import SyncStore from "../../../stores/SyncStore";
 import SessionStore from "../../../stores/SessionStore";
 import FormContainer from "../components/form/FormContainer";
 import Alert from "react-s-alert";
+import Helpers from '../../../utils/Helpers';
+import IntroStore from '../../../stores/IntroStore';
 
 class PreTest extends React.Component {
     constructor(props) {
@@ -63,10 +65,6 @@ class PreTest extends React.Component {
                 this.onLeave();
             });
         });
-        const taskParams = {
-            groupSize: constants.groupSize,
-            topicsSize: constants.topicsSize
-        };
 
         SessionStore.updateTask(constants.taskId, data, (res) => {
             if (res) {

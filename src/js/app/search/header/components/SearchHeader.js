@@ -17,7 +17,7 @@ const Header = function ({query, vertical, provider, searchHandler, queryChangeH
                 searchHandler();
             }}>
                 <SearchBox query={query} changeHandler={queryChangeHandler} showSuggestionsHandler={showSuggestionsHandler}/>
-                <SuggestionsContainer clickSuggestionHandler={clickSuggestionHandler} hideSuggestionsHandler={hideSuggestionsHandler} showSuggestions={showSuggestions}/>
+                <SuggestionsContainer clickSuggestionHandler={clickSuggestionHandler} hideSuggestionsHandler={hideSuggestionsHandler} showSuggestions={showSuggestions}/>    
                 <SearchVerticals query={query} activeVertical={vertical} changeHandler={verticalChangeHandler}
                                  provider={provider}/>
             </form>

@@ -127,7 +127,7 @@ exports.openSnake = function() {
             } else {
                 interval = window.setInterval(clock, 60);
             }
-        } else { // O.o
+        } else { 
             dir = sum + code;
             if (dir === 44||dir===94||dir===126||dir===171) {
                 sum+= code

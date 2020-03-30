@@ -2,7 +2,7 @@ import React from "react";
 import {Link} from "react-router-dom";
 import SyncStore from "../../../stores/SyncStore";
 import TaskedSession from "../components/session/TaskedSession";
-import Collapsible from "react-collapsible";
+// import Collapsible from "react-collapsible";
 import Timer from "../components/Timer";
 import constants from "./constants";
 import {log} from '../../../utils/Logger';
@@ -83,46 +83,46 @@ class Session extends React.PureComponent {
 
     render() {
         const task = AccountStore.getTask();
-        const timer = (
-            <div style={{marginTop: '10px', textAlign: 'center'}}>
-                <Timer start={this.state.start} duration={constants.taskDuration} onFinish={this.onFinish} style={{fontSize: '2em'}} showRemaining={false}/>
+        // const timer = (
+        //     <div style={{marginTop: '10px', textAlign: 'center'}}>
+        //         <Timer start={this.state.start} duration={constants.taskDuration} onFinish={this.onFinish} style={{fontSize: '2em'}} showRemaining={false}/>
                 
                 
-                <Link className={"btn btn-primary" + (this.state.finished ? '' : ' disabled')} to="/sync/posttest" role="button">
-                        To Final Test
-                </Link>
-            </div>
-        );
-        const metaInfo = {
-            session: localStorage.getItem("session-num") || 0,
+        //         <Link className={"btn btn-primary" + (this.state.finished ? '' : ' disabled')} to="/sync/posttest" role="button">
+        //                 To Final Test
+        //         </Link>
+        //     </div>
+        // );
+        // const metaInfo = {
+        //     session: localStorage.getItem("session-num") || 0,
 
-        };
-        let handleTaskOpen = () => {
-            log(LoggerEventTypes.TASK_OPEN, metaInfo);
-        };
+        // };
+        // let handleTaskOpen = () => {
+        //     log(LoggerEventTypes.TASK_OPEN, metaInfo);
+        // };
 
-        let handleTaskClose = () => {
-            log(LoggerEventTypes.TASK_CLOSE, metaInfo);
-        };
+        // let handleTaskClose = () => {
+        //     log(LoggerEventTypes.TASK_CLOSE, metaInfo);
+        // };
 
-        const taskDescription = (
-            <Collapsible trigger="Your Task" open transitionTime={3} onOpen={handleTaskOpen} onClose={handleTaskClose} >
-               <p>
-                        The professor requires all students to demonstrate what they learn about a particular topic by
-                         conducting searches online and presenting their views on the topic.
-                     You need to use SearchX to learn about the topic. You must open and read documents/web pages that you think are 
-                     important about the given topic.  
-                     </p>
+        // const taskDescription = (
+        //     <Collapsible trigger="Your Task" open transitionTime={3} onOpen={handleTaskOpen} onClose={handleTaskClose} >
+        //        <p>
+        //                 The professor requires all students to demonstrate what they learn about a particular topic by
+        //                  conducting searches online and presenting their views on the topic.
+        //              You need to use SearchX to learn about the topic. You must open and read documents/web pages that you think are 
+        //              important about the given topic.  
+        //              </p>
 
-                     <p dangerouslySetInnerHTML={{__html: task.data.topic.description}}/>
-                     <hr/>
-                    <p> Remember: there will be three intermittent tests. After searching for at least 20 minutes you can move on to the final test by clicking on the "To Final Test" button. 
-                        The documents you saved will be available to you when writing (in your own words) a short summary about the topic.
-                    </p>
+        //              <p dangerouslySetInnerHTML={{__html: task.data.topic.description}}/>
+        //              <hr/>
+        //             <p> Remember: there will be three intermittent tests. After searching for at least 20 minutes you can move on to the final test by clicking on the "To Final Test" button. 
+        //                 The documents you saved will be available to you when writing (in your own words) a short summary about the topic.
+        //             </p>
 
 
-            </Collapsible>
-        );
+        //     </Collapsible>
+        // );
 
         return (
             <TaskedSession>

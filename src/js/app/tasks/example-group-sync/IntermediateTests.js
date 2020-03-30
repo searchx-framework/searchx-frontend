@@ -8,7 +8,7 @@ import AccountStore from "../../../stores/AccountStore";
 import SyncStore from "../../../stores/SyncStore";
 import FormContainer from "../components/form/FormContainer";
 import Alert from "react-s-alert";
-
+import IntroStore from '../../../stores/IntroStore';
 
 class PreTest extends React.Component {
     constructor(props) {

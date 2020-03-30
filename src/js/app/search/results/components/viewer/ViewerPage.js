@@ -25,8 +25,8 @@ export default class ViewerPage extends React.Component {
             <div className="page">
                 {this.props.doctext ? (
                         <div className={"textBackground"}>
-                            <div className={"documentText"} dangerouslySetInnerHTML={this.createHTML(this.props.doctext)} >
-                              
+                            <div className={"documentText"} >
+                                    {this.props.doctext}
                            
                             </div>
                         </div>

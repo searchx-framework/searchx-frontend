@@ -13,25 +13,14 @@ const SuggestionItem = function({data, clickHandler}) {
     let hoverLeave = () => log(LoggerEventTypes.QUERYSUGGESTION_HOVERLEAVE, metaInfo);
     let contextUrl = () => log(LoggerEventTypes.QUERYSUGGESTION_CONTEXT_URL, metaInfo);
     let clickUrl = () => {
-        clickHandler(data[0]);
+        clickHandler(data);
         log(LoggerEventTypes.QUERYSUGGESTION_CLICK_URL, metaInfo);
     };
 
-    const individualScent = data[1];
-    const widthTotal = individualScent[0] * 100;
-    const widthSingleUnexplored = individualScent[1] * 100;
-
-    const collaborativeScent = data.length > 2;
-    const widthGroupUnexplored = collaborativeScent ? data[2][1] * 100 : 0;
-    const singleBarColor = collaborativeScent ? "ColorBarSingleExplored" : "ColorBarUnexplored";
-
     return  (
         <Button bsSize="small" className="SuggestionItem" onMouseEnter={hoverEnter} onMouseLeave={hoverLeave} onClick={clickUrl} onContextMenu={contextUrl}>
-            <div className={"ColorBar " + singleBarColor} style={{width: widthSingleUnexplored + "%"}}/>
-            <div className="ColorBar ColorBarUnexplored" style={{width: widthGroupUnexplored + "%"}}/>
-            <div className="ColorBar ColorBarTotal" style={{width: widthTotal + "%"}}/>
             <div className="TextArea pull-left">
-                {data[0]}
+                {data}
             </div>
         </Button>
     )

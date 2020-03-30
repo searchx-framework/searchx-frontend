@@ -1,4 +1,3 @@
-import React from 'react';
 import request from 'superagent';
 import EventEmitter from 'events';
 import config from "../../config"
@@ -17,7 +16,7 @@ import history from "../History";
 import BookmarkStore from "./features/bookmark/BookmarkStore";
 import AnnotationStore from "./features/annotation/AnnotationStore";
 import RatingStore from "./features/rating/RatingStore";
-
+import React from 'react';
 const CHANGE_EVENT = 'change_search';
 
 ////
@@ -338,7 +337,14 @@ const _getById = function (id) {
                     state.activeUrl = result.id;
                 }
 
-                state.activeDoctext = result.text;
+                var doctext = result.text.split('\n').map((item, key) => {
+                    return <span key={key}>{item}<br/></span>
+                })
+
+                doctext.unshift(<h4> {result.source} <br/></h4>);
+                doctext.unshift(<h3> {result.name} <br/></h3>);
+
+                state.activeDoctext = doctext;
             }
 
             SyncStore.emitViewState(id);

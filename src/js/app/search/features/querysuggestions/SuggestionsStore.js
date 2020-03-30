@@ -31,6 +31,8 @@ const SuggestionStore = Object.assign(EventEmitter.prototype, {
             case ActionTypes.GET_SUGGESTIONS:
                 _get(action.payload.query);
                 break;
+            default:
+                break;
         }
     })
 });
@@ -38,7 +40,7 @@ const SuggestionStore = Object.assign(EventEmitter.prototype, {
 ////
 const _get = function(query) {
     request
-        .get(`${process.env.REACT_APP_SERVER_URL}/v1/sensemaking/scent/?query=${query}&userId=${AccountStore.getUserId()}&sessionId=${AccountStore.getSessionId()}`)
+        .get(`${process.env.REACT_APP_SERVER_URL}/v1/suggestions?query=${query}&userId=${AccountStore.getUserId()}&sessionId=${AccountStore.getSessionId()}`)
         .end((err, res) => {
             if (err || !res.body || res.body.error) {
                 console.log('Failed to fetch suggestions');
