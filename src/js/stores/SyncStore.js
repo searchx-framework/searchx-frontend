@@ -100,6 +100,13 @@ const SyncStore = Object.assign(EventEmitter.prototype, {
             groupId: AccountStore.getGroupId(),
         });
     },
+
+    emitChatUpdate() {
+        socket.emit('pushChatUpdate', {
+            groupId: AccountStore.getGroupId()
+        });
+    }
+
 });
 
 ////
@@ -127,6 +134,10 @@ socket.on('bookmarkUpdate', (data) => {
 socket.on('pageMetadataUpdate', (data) => {
     SessionActions.getAnnotations(data.url);
     SessionActions.getRating(data.url);
+});
+
+socket.on('chatUpdate', (data) => {
+    SessionActions.getChatMessageList();
 });
 
 export default SyncStore;

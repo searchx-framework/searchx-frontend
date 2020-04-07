@@ -29,6 +29,14 @@ import PilotSession3 from './tasks/algorithmic-mediation-pilot/Session3';
 import PilotDescription3 from './tasks/algorithmic-mediation-pilot/TaskDescription3';
 import PilotPostTest from './tasks/algorithmic-mediation-pilot/PostTest';
 
+
+import RoleBasedRegister from './tasks/role-based/Register';
+import RoleBasedWait from './tasks/role-based/Wait';
+import RoleBasedSession from './tasks/role-based/Session';
+import RoleBasedDescription from './tasks/role-based/TaskDescription';
+import RoleBasedPostTest from './tasks/role-based/PostTest';
+import Chat from './search/features/chat/Chat';
+
 export class App extends React.Component {
 
     render() {
@@ -66,6 +74,7 @@ export class App extends React.Component {
                     <Route exact path="/" component={About}/>
                     <Route exact path="/about" component={About}/>
                     <Route path="/search" component={Search}/>
+                    <Route path="/chat" component={Chat}/>
 
                     <Route exact path="/simple" component={SimpleRegister}/>
                     <Route exact path="/simple/submit" component={SimpleSubmit}/>
@@ -91,6 +100,13 @@ export class App extends React.Component {
                     <Route path="/pilot/session3" component={PilotSession3}/>
                     <Route path="/pilot/description3" component={PilotDescription3}/>
                     <Route exact path="/pilot/posttest" component={PilotPostTest}/>
+
+                    <Route exact path="/role-based" component={RoleBasedRegister}/>
+                    <Route exact path="/role-based/wait" component={RoleBasedWait}/>
+                    <Route path="/role-based/session" component={RoleBasedSession}/>
+                    <Route path="/role-based/description" component={RoleBasedDescription}/>
+                    <Route exact path="/role-based/posttest" component={RoleBasedPostTest}/>
+
                 </div>
             </Router>
         );

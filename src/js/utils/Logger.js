@@ -13,7 +13,7 @@ export function log(event, meta) {
     sendLog(log)
 }
 
-function sendLog(log, errorCallback) {
+function sendLog(log) {
     request.post(`${process.env.REACT_APP_SERVER_URL}/v1/users/${AccountStore.getUserId()}/logs`)
         .send({
             data: [log]

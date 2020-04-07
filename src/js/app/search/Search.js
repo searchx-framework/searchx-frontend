@@ -19,10 +19,10 @@ class Search extends React.Component {
         this.handleVisibilityChange = this.handleVisibilityChange.bind(this);
     }
     componentDidMount() {
-        if (this.props.firstSession && config.interface.chat && this.props.collaborative) {
-            sessionStorage.clear();
-            Chat();
-        };
+        // if (this.props.firstSession && config.interface.chat && this.props.collaborative) {
+        //     sessionStorage.clear();
+        //     Chat();
+        // };
         document.addEventListener('visibilitychange', this.handleVisibilityChange);
     }
 
@@ -62,7 +62,7 @@ class Search extends React.Component {
                         </div>
                     )}
                 </div>
-
+                <Chat/>
                 <div className="text-center">
                     <p className="Footer">
                         About <a href="/about" target="_blank">SearchX</a>.
