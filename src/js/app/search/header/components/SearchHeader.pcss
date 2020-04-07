@@ -42,7 +42,7 @@
             input {
                 color: #000;
                 height: 44px;
-                z-index: 3;
+                z-index: 4;
 
                 border-bottom: 1px solid #BDC3C7;
                 border-top: 1px solid #BDC3C7;
@@ -52,7 +52,7 @@
 
             input, textarea {
                 outline: none;
-
+                border-radius: 0px;
                 box-shadow:none !important;
                 border-bottom: 1px solid #BDC3C7;
                 border-top: 1px solid #BDC3C7;
@@ -67,7 +67,7 @@
                 width: 47px;
                 height: 44px;
                 z-index: 3;
-
+                border-radius: 0px;
                 border-bottom: 1px solid #BDC3C7;
                 border-top: 1px solid #BDC3C7;
                 border-left: 0px solid #BDC3C7;
@@ -78,6 +78,7 @@
 
                     text-decoration: none;
                 }
+
 
             }
         }
@@ -127,8 +128,28 @@
     flex-shrink: 0;
     margin-left: auto;
     margin-top: 8px;
+    font-size: 14px;
+    .userId {
+        margin: 0;
+    }
+
+    .groupId {
+        margin: 0;
+        a {
+        color: $primary-color;
+    }
+    }
 }
 
 .resetGroupButton {
     margin-left:5px;
+    box-shadow: 0.5px 0.5px 0.5px 0.5px #BFBFBF;
+    background-color: white;
+    color: $description-grey;
+    border: 1px solid #BDC3C7;
+    font-size: 13px;
+    height: 30px;
+    .hover {
+        background-color: $description-grey;
+    }
 }

@@ -2,7 +2,6 @@ import React from 'react';
 
 import {log} from '../../../../../utils/Logger';
 import {LoggerEventTypes} from '../../../../../utils/LoggerEventTypes';
-import {Button} from "react-bootstrap";
 
 const SuggestionItem = function({data, clickHandler}) {
     let metaInfo = {
@@ -18,11 +17,11 @@ const SuggestionItem = function({data, clickHandler}) {
     };
 
     return  (
-        <Button bsSize="small" className="SuggestionItem" onMouseEnter={hoverEnter} onMouseLeave={hoverLeave} onClick={clickUrl} onContextMenu={contextUrl}>
+        <div className="SuggestionItem" onMouseEnter={hoverEnter} onMouseLeave={hoverLeave} onClick={clickUrl} onContextMenu={contextUrl}>
             <div className="TextArea pull-left">
                 {data}
             </div>
-        </Button>
+        </div>
     )
 };
 

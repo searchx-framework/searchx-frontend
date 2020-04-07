@@ -15,7 +15,7 @@ const SearchBox = function({query, changeHandler, showSuggestionsHandler}) {
                 />
 
                 <span className="input-group-btn">
-                    <button className="btn" type="submit" disabled={query.length === 0}>
+                    <button className="btn rounded-0" type="submit" disabled={query.length === 0}>
                         <span className="fa fa-search"/>
                     </button>
                 </span>

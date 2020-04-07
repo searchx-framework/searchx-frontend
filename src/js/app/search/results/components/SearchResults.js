@@ -92,11 +92,11 @@ const SearchResults = function ({
             isCollapsible: isCollapsible(result),
             visited: visitedUrls[Helpers.getId(result)] === true
         };
-
+        
         if (distributionOfLabour === 'unbookmarkedSoft') {
             if (collapsed[Helpers.getId(result)]) {
                 lastCollapsedResults.push(result);
-                lastCollapsedResultsComponents.push(<SearchResultContainer {...resultProps} key={Helpers.getId(result)}
+                lastCollapsedResultsComponents.push(<SearchResultContainer {...resultProps} key={index}
                                                                            index={index}/>);
             } else {
                 if (lastCollapsedResults.length > 0) {
@@ -106,15 +106,15 @@ const SearchResults = function ({
                                                       hideCollapsedResultsHandler={hideCollapsedResults}
                                                       searchState={searchState} serpId={serpId} index={index}/>);
                     list = list.concat(lastCollapsedResultsComponents);
-                    list.push(<SearchResultContainer {...resultProps} key={Helpers.getId(result)} index={index}/>);
+                    list.push(<SearchResultContainer {...resultProps} key={index} index={index}/>);
                     lastCollapsedResults = [];
                     lastCollapsedResultsComponents = [];
                 } else {
-                    list.push(<SearchResultContainer {...resultProps} key={Helpers.getId(result)} index={index}/>);
+                    list.push(<SearchResultContainer {...resultProps} key={index} index={index}/>);
                 }
             }
         } else {
-            list.push(<SearchResultContainer {...resultProps} key={Helpers.getId(result)} index={index}/>);
+            list.push(<SearchResultContainer {...resultProps} key={index} index={index}/>);
         }
 
 
@@ -144,7 +144,7 @@ const SearchResults = function ({
                             disabled={allBookmarkedResultsShown}>
                         Show all hidden results
                     </Button> */}
-                    <Button className="allCollapsedResultsButton" onClick={hideAllCollapsedResults}
+                    <Button variant="light" className="allCollapsedResultsButton" onClick={hideAllCollapsedResults}
                             disabled={allBookmarkedResultsHidden}>
                         Hide all saved results
                     </Button>
