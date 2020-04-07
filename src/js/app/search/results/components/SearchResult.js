@@ -4,6 +4,8 @@ import Rating from 'react-rating';
 import {Collapse} from "react-bootstrap";
 
 import config from "../../../../config";
+import Identicon from "identicon.js";
+import md5 from 'md5';
 
 const SearchResult = function ({
                                    searchState, serpId, result, bookmarkClickHandler, urlClickHandler, provider,
@@ -67,6 +69,9 @@ function formatMetadata(metadata) {
         return <div/>;
     }
 
+    
+
+  
     if (config.interface.views && 'views' in metadata) {
         elements.push(<span><i className="fa fa-eye"/> {metadata.views}</span>);
     }
@@ -82,13 +87,17 @@ function formatMetadata(metadata) {
     if (config.interface.saveTimestamp && metadata.bookmark) {
         const date = new Date(metadata.bookmark.date);
         const now = new Date().toLocaleDateString();
-
+        let options = {
+            size : 20
+        }
+        let icon = new Identicon(md5(metadata.bookmark.userId), options).toString();
+        let iconUrl = "data:image/png;base64," + icon 
         let formattedTime = date.toLocaleDateString();
         if (formattedTime === now) formattedTime = date.toLocaleTimeString();
 
         elements.push(
-            <span style={{color: metadata.bookmark.userColor}}>
-                <i className="fa fa-bookmark"/> {formattedTime}
+            <span>
+                <i className="fa fa-bookmark"/> <img src={iconUrl} alt={"User " + md5(metadata.bookmark.userId)}/>  {formattedTime}
             </span>
         );
     }

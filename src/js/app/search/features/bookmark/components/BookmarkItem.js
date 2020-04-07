@@ -3,7 +3,8 @@ import Rating from 'react-rating';
 
 import {log} from '../../../../../utils/Logger';
 import {LoggerEventTypes} from '../../../../../utils/LoggerEventTypes';
-
+import Identicon from "identicon.js";
+import md5 from 'md5';
 import config from '../../../../../config';
 
 const BookmarkItem = function({data, removeHandler, starHandler, clickHandler}) {
@@ -25,9 +26,25 @@ const BookmarkItem = function({data, removeHandler, starHandler, clickHandler}) 
 
     const color = data.userColor;
 
+    let options = {
+        size : 20
+    }
+    let icon = new Identicon(md5(data.userId), options).toString();
+    let iconUrl = "data:image/png;base64," + icon 
+
     // todo: put id vs url in bookmark model instead of isNaN hack
     return  (
         <div className="item" style={{borderColor: color}} onMouseEnter={hoverEnterSummary} onMouseLeave={hoverLeaveSummary}>
+
+
+            
+            <img src={iconUrl} alt={"User " + md5(data.userId)}/>  
+            
+            <a title={data.title} href="#/"  style={{cursor: 'pointer'}} onClick={clickUrl} onContextMenu={contextUrl}>
+                    {data.title}
+                </a>
+            
+
             <div className="buttons">
                 {config.interface.star && (
                     <Rating className="topicon" emptySymbol="fa fa-star-o" fullSymbol="fa fa-star"
@@ -40,16 +57,12 @@ const BookmarkItem = function({data, removeHandler, starHandler, clickHandler}) 
                         stop={1} initialRating={0}
                 />
             </div>
-
-            <h2>
-                <a title={data.title} href="#/"  style={{color: color, cursor: 'pointer'}} onClick={clickUrl} onContextMenu={contextUrl}>
-                    {data.title}
-                </a>
-            </h2>
-
+            
             <span>
                 {isNaN(data.url) ? data.url : (config.interface.star && <br/>)}
             </span>
+
+            
         </div>
     )
 };

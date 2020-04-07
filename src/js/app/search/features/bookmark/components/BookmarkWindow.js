@@ -10,7 +10,7 @@ const BookmarkWindow = function({active, list, closeHandler}) {
         <Modal width="600px" height="90%">
             <div className="popup">
                 <div className="header">
-                    <span className="title"><i className="fa fa-bookmark medium"/> BOOKMARKS</span>
+                    <span className="title"><i className="fa fa-bookmark medium"/> Saved documents</span>
                     <div className="pull-right">
                         <span className="close" onClick={closeHandler}><i className="fa fa-times"/></span>
                     </div>

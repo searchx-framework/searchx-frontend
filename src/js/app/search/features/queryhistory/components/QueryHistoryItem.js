@@ -2,6 +2,8 @@ import React from "react";
 
 import {LoggerEventTypes} from "../../../../../utils/LoggerEventTypes";
 import {log} from "../../../../../utils/Logger";
+import Identicon from "identicon.js";
+import md5 from 'md5';
 
 const QueryHistoryItem = function({data, clickHandler}) {
     const metaInfo = {
@@ -16,13 +18,20 @@ const QueryHistoryItem = function({data, clickHandler}) {
     const hoverLeave = () => log(LoggerEventTypes.QUERYHISTORY_HOVERLEAVE, metaInfo);
 
     ////
-
-    const color = data.userColor;
+    
+    let options = {
+        size : 20
+    }
+    let icon = new Identicon(md5(data.userId), options).toString();
+    let iconUrl = "data:image/png;base64," + icon 
 
     return (
-        <div className="item" style={{borderColor: color}} onMouseEnter={hoverEnter} onMouseLeave={hoverLeave}>
+        <div className="item" onMouseEnter={hoverEnter} onMouseLeave={hoverLeave}>
+            {/* <div className="sc-message--avatar" style={{
+            backgroundImage: `url(${iconUrl})`
+          }}></div> */}
             <span className="text">
-                <a href="#/"   style={{color: color, cursor: 'pointer'}} onContextMenu={contextUrlLog} onClick={() => {clickHandler(data.query);clickUrlLog();}}>
+            <img src={iconUrl} alt={"User " + md5(data.userId)}/> <a href="#/"   style={{ cursor: 'pointer'}} onContextMenu={contextUrlLog} onClick={() => {clickHandler(data.query);clickUrlLog();}}>
                     {data.query}
                 </a>
             </span>

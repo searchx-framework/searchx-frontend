@@ -10,7 +10,7 @@ const QueryHistoryWindow = function({active, list, closeHandler}) {
         <Modal width="600px" height="90%">
             <div className="popup">
                 <div className="header">
-                    <span className="title"><i className="fa fa-history medium"/> QUERY HISTORY</span>
+                    <span className="title"><i className="fa fa-history medium"/> Recent queries</span>
                     <div className="pull-right">
                         <span className="close" onClick={closeHandler}><i className="fa fa-times"/></span>
                     </div>
