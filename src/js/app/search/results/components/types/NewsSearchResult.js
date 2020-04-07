@@ -10,6 +10,7 @@ const NewsSearchResult = function ({searchState, serpId, result, metadata, bookm
     let metaInfo = {
         url: result.url,
         query: searchState.query,
+        index: index,
         page: searchState.page,
         vertical: 'news',
         serpId: serpId,

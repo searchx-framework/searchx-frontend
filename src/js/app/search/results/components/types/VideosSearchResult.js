@@ -41,11 +41,12 @@ function formatInfo(publisher, views, creator) {
 
 ////
 
-const VideosSearchResult = function ({searchState, serpId, result, metadata, bookmarkButton, excludeButton, urlClickHandler}) {
+const VideosSearchResult = function ({searchState, serpId, index, result, metadata, bookmarkButton, excludeButton, urlClickHandler}) {
     const metaInfo = {
         url: result.url,
         query: searchState.query,
         page: searchState.page,
+        index: index,
         serpId: serpId,
         session: localStorage.getItem("session-num") || 0,
     };

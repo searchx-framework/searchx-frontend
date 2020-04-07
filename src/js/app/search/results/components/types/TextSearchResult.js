@@ -7,11 +7,12 @@ import {LoggerEventTypes} from '../../../../../utils/LoggerEventTypes';
 ////
 
 const TextSearchResult = function ({
-                                       searchState, serpId, result, metadata, bookmarkButton, excludeButton,
+                                       searchState, serpId, index, result, metadata, bookmarkButton, excludeButton,
                                        urlClickHandler, hideCollapsedResultsHandler, isCollapsible, visited
                                    }) {
     let metaInfo = {
         url: result.id,
+        index: index,
         query: searchState.query,
         page: searchState.page,
         serpId: serpId,
@@ -96,6 +97,7 @@ const TextSearchResult = function ({
                     </div>
                 ) : (
                     <div className="textArea">
+                        <div className="fakeSpace"></div>
                         <p dangerouslySetInnerHTML={createSnippet()}>
                         </p>
 
