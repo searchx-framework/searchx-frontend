@@ -40,6 +40,7 @@ export default class SearchHeaderContainer extends React.Component {
             queryChangeHandler={this.queryChangeHandler}
             verticalChangeHandler={this.verticalChangeHandler}
             timer={this.props.timer}
+            statusbar={this.props.statusbar}
             showAccountInfo={this.props.showAccountInfo}
             hideSuggestionsHandler={this.hideSuggestionsHandler}
             showSuggestionsHandler={this.showSuggestionsHandler}

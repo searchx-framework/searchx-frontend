@@ -42,7 +42,7 @@ class Search extends React.Component {
     render() {
         return (
             <div className="Search">
-                <SearchHeaderContainer timer={this.props.timer} showAccountInfo={this.props.showAccountInfo}/>
+                <SearchHeaderContainer timer={this.props.timer} statusbar={this.props.statusbar} showAccountInfo={this.props.showAccountInfo}/>
 
                 <div className="Content">
                     <div className="Main">
