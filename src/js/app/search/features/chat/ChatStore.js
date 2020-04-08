@@ -70,11 +70,9 @@ const _set_author = (message) => {
 
 
 const _add_message_list = function(message) {
-    const userId = AccountStore.getUserId();
     request
         .post(`${process.env.REACT_APP_SERVER_URL}/v1/session/${AccountStore.getSessionId()}/chat`)
         .send({
-            userId: userId,
             message: message
         })
         .end(() => {

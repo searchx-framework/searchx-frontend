@@ -4,6 +4,9 @@ import {Launcher} from 'searchx-chat'
 import SessionActions from "../../../../actions/SessionActions";
 import ChatStore from "./ChatStore";
 import AccountStore from "../../../../stores/AccountStore";
+import {log} from '../../../../utils/Logger';
+import {LoggerEventTypes} from '../../../../utils/LoggerEventTypes';
+import config from '../../../../config';
 
 export default class Chat extends Component {
 
@@ -11,17 +14,46 @@ export default class Chat extends Component {
     super();
     this.state = {
       messageList: [
-      ]
+      ],
+      isOpen: false
     };
     SessionActions.getChatMessageList();
     this.changeHandler = this.changeHandler.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
+
+  
+
   componentWillMount() {ChatStore.addChangeListener(this.changeHandler);}
-  componentWillUnmount() {ChatStore.removeChangeListener(this.changeHandler);}
+  componentWillUnmount() {ChatStore.removeChangeListener(this.changeHandler);
+    }
+
+
+    handleClick() {
+      if (this.props.handleClick !== undefined) {
+        this.props.handleClick();
+      } else {
+        this.setState({
+          isOpen: !this.state.isOpen,
+        });
+      }
+      let metaInfo = {
+        isOpen: this.state.isOpen
+      }
+      log(LoggerEventTypes.CHAT_CLICK, metaInfo);
+    }
+
+  
 
   _onMessageWasSent(message) {
     message.sender = AccountStore.getUserId();
+    message.data.date = new Date();
+    let metaInfo = {
+      userId: message.sender,
+      message: message
+    };
+    log(LoggerEventTypes.CHAT_MESSAGE, metaInfo);
     SessionActions.addChatMessage(message);
   }
 
@@ -35,7 +67,9 @@ export default class Chat extends Component {
 
 
   render() {
-    console.log(this.state.messageList);
+    if (config.interface.chat === false ) {
+      return <div/>
+    }
     return (<div>
       
        <Launcher
@@ -47,6 +81,9 @@ export default class Chat extends Component {
         messageList={this.state.messageList}
         showEmoji
         showFile={false}
+        isOpen={this.state.isOpen}
+        handleClick={this.handleClick}
+        onClick={()=> console.log("click")}
       /> 
     </div>)
   }
