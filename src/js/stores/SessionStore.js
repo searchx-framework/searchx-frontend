@@ -77,6 +77,10 @@ const SessionStore = Object.assign(EventEmitter.prototype, {
         AccountStore.setSessionId(groupId);
     },
 
+    getGroupMembers(){
+        return JSON.parse(localStorage.getItem("group-members"));
+    },
+
     setNewGroupMember(userData) {
         state.group.members[userData.userId] = userData;
         localStorage.setItem("group-members", JSON.stringify(state.group.members));
