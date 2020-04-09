@@ -66,7 +66,6 @@ const TextSearchResult = function ({
     };
 
     ////
-
     return (
         <div className="result-text">
             <VisibilitySensor
@@ -89,8 +88,8 @@ const TextSearchResult = function ({
                 </h2>
 
                 {isCollapsible ? (
-                    <div className="textArea" role="button" onClick={hideCollapsedResults}>
-                        <p dangerouslySetInnerHTML={createSnippet()}>
+                    <div className="textArea" draggable="true" role="button" onClick={hideCollapsedResults}>
+                        <p dangerouslySetInnerHTML={createSnippet()} >
                         </p>
 
                         {metadata}

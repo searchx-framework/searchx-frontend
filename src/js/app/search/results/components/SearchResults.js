@@ -106,15 +106,15 @@ const SearchResults = function ({
                                                       hideCollapsedResultsHandler={hideCollapsedResults}
                                                       searchState={searchState} serpId={serpId} index={index}/>);
                     list = list.concat(lastCollapsedResultsComponents);
-                    list.push(<SearchResultContainer {...resultProps} key={index} index={index}/>);
+                    list.push(<SearchResultContainer {...resultProps} key={Helpers.getId(result)} index={index}/>);
                     lastCollapsedResults = [];
                     lastCollapsedResultsComponents = [];
                 } else {
-                    list.push(<SearchResultContainer {...resultProps} key={index} index={index}/>);
+                    list.push(<SearchResultContainer {...resultProps} key={Helpers.getId(result)} index={index}/>);
                 }
             }
         } else {
-            list.push(<SearchResultContainer {...resultProps} key={index} index={index}/>);
+            list.push(<SearchResultContainer {...resultProps} key={Helpers.getId(result)} index={index}/>);
         }
 
 
