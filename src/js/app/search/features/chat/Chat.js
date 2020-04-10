@@ -12,10 +12,12 @@ export default class Chat extends Component {
 
   constructor() {
     super();
+
     this.state = {
       messageList: [
       ],
-      isOpen: false
+      isOpen: false,
+      newMessagesCount:  0
     };
     SessionActions.getChatMessageList();
     this.changeHandler = this.changeHandler.bind(this);
@@ -31,17 +33,23 @@ export default class Chat extends Component {
 
 
     handleClick() {
-      if (this.props.handleClick !== undefined) {
-        this.props.handleClick();
-      } else {
-        this.setState({
-          isOpen: !this.state.isOpen,
-        });
+
+      if (this.state.isOpen) {
+        ChatStore.setNewMessagesCount();
       }
       let metaInfo = {
         isOpen: this.state.isOpen
       }
       log(LoggerEventTypes.CHAT_CLICK, metaInfo);
+
+      if (this.props.handleClick !== undefined) {
+        this.props.handleClick();
+      } else {
+        this.setState({
+          isOpen: !this.state.isOpen,
+          newMessagesCount: ChatStore.getNewMessagesCount()
+        });
+      }
     }
 
   
@@ -60,8 +68,15 @@ export default class Chat extends Component {
 
   changeHandler() {
     let messageList = ChatStore.getChatMessageList();
+    let newMessagesCount;
+    if (this.state.isOpen) {
+      newMessagesCount = 0;
+    } else {
+      newMessagesCount = ChatStore.getNewMessagesCount();
+    }
     this.setState({
-      messageList: messageList
+      messageList: messageList,
+      newMessagesCount: newMessagesCount
     });
   }
 
@@ -79,6 +94,7 @@ export default class Chat extends Component {
         }}
         onMessageWasSent={this._onMessageWasSent.bind(this)}
         messageList={this.state.messageList}
+        newMessagesCount={this.state.newMessagesCount}
         showEmoji
         showFile={false}
         isOpen={this.state.isOpen}

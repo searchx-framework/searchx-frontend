@@ -11,7 +11,9 @@ const CHANGE_EVENT = 'change_chat';
 ////
 
 let state = {
-    messageList: []
+    messageList: [],
+    messageCount: 0,
+    newMessagesCount: 0
 };
 
 ////
@@ -29,6 +31,20 @@ const ChatStore = Object.assign(EventEmitter.prototype, {
 
     getChatMessageList(){
         return state.messageList;
+    },
+
+    getNewMessagesCount(){
+        let messageCount = localStorage.getItem("message-count");
+        if (messageCount === null) {
+            localStorage.setItem("message-count", state.messageList.length);
+            return state.messageList.length;
+        } else {
+            return state.messageList.length - messageCount;
+        }
+    },
+
+    setNewMessagesCount(){
+        localStorage.setItem("message-count", state.messageList.length);
     },
 
     dispatcherIndex: register(action => {
@@ -53,6 +69,7 @@ const _get_chat_message_list = () => {
                 state.messageList = [];
             } else {
                 state.messageList = res.body.results.messageList.map((message) => _set_author(message))
+                state.messageCount = state.messageList.length;
             }
             ChatStore.emitChange();
         });
