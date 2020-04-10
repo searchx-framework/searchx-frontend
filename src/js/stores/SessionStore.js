@@ -66,6 +66,15 @@ const SessionStore = Object.assign(EventEmitter.prototype, {
 
     ////
 
+    getMemberRole(userId) {
+
+        if (userId in state.group.members) {
+            return state.group.members[userId].role;
+        }
+
+        return 'none';
+    },
+
     setGroup(groupId, groupMembers) {
         let members = {};
         groupMembers.forEach(member => members[member.userId] = member);
