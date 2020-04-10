@@ -58,7 +58,7 @@ const formData = function() {
     elements.push({
         type: "html",
         name: "topic",
-        html: "<h2 class='text-center'>STUDY DESCRIPTION</h2>"
+        html: "<h2>STUDY DESCRIPTION</h2>"
     });
 
     elements.push({

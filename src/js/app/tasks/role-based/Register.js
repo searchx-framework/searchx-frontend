@@ -230,7 +230,7 @@ const formData = function() {
 
         elements.push({
             type: "html",
-            html: "<b> Think about the most recent time you collaborated with others to search the web. </b>"
+            html: "<h5> Think about the most recent time you collaborated with others to search the web. </h5>"
         });
 
         elements.push({

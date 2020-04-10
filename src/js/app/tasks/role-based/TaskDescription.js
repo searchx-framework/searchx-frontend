@@ -10,12 +10,14 @@ import constants from "./constants";
 import './RoleBased.pcss';
 import Timer from "../components/Timer";
 import ReactAudioPlayer from 'react-audio-player';
+import {getTaskDescription} from "./Utils";
+import SessionStore from "../../../stores/SessionStore";
 
 const metaInfo = {
     currentTopic : localStorage.getItem("current-topic")
 };
 
-class TaskDescription1 extends React.Component {
+class TaskDescription extends React.Component {
 
     constructor(props) {
         super(props);
@@ -56,8 +58,10 @@ class TaskDescription1 extends React.Component {
         
         const task = AccountStore.getTaskData();
 
+        const role = SessionStore.getMemberRole(AccountStore.getUserId());
+        const t = metaInfo.currentTopic;
 
-        return <div className="Wait waitBox">
+        return ( <div className="Wait waitBox">
             <ReactAudioPlayer
                     src="../sound/notification.mp3"
                     play
@@ -65,25 +69,16 @@ class TaskDescription1 extends React.Component {
 
             <h3> Please read your task description:</h3>
             
-            <p>Imagine you are a reporter for a newspaper. Your editor has just told you to write a story about <font color="#33BEFF"> <strong>{task.topics[0].title}</strong> </font>.</p>
-                <p>There's a meeting in an hour, so your editor asks you and your colleagues to spend 10 minutes together and search
-                    for <strong>as many useful documents (news articles) as possible</strong>.</p>
 
-                <p>Collect documents according to the following criteria:</p>
-                <strong> <font color="#33BEFF">
-                <p>{task.topics[0].description}</p>
-                </font> </strong>
+            {getTaskDescription(role, task.topics[t].title, task.topics[t].description)}
 
-                <br/>
-
-
-                <p> SearchX is a specialized search engine for news articles, use it to find relevant articles for the topic. Do not use any other Web search engine. </p>
+            <p> SearchX is a specialized search engine for news articles, use it to find relevant articles for the topic. Do not use any other Web search engine. </p>
 
             <p> You will be redirected once the time is up!</p>
             <Timer start={new Date()} duration={constants.taskDescriptionWait} onFinish={this.onFinish} style={{fontSize: '2em'}} showRemaining={true}/>
         </div>
-    
+        )
     }
 }
 
-export default TaskDescription1;
+export default TaskDescription;

@@ -1,4 +1,5 @@
 import React from "react";
+import Collapsible from "react-collapsible";
 import {withRouter} from "react-router";
 
 import TaskedSession from "../components/session/TaskedSession";
@@ -6,13 +7,14 @@ import constants from "./constants";
 
 import AccountStore from "../../../stores/AccountStore";
 import IntroStore from "../../../stores/IntroStore";
-import Collapsible from "react-collapsible";
 import Timer from "../components/Timer";
 
 import {log} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../utils/LoggerEventTypes';
 import ReactAudioPlayer from 'react-audio-player';
 import StatusBar from "../components/GroupStatusBar";
+import SessionStore from "../../../stores/SessionStore";
+import {getTaskDescription} from "./Utils";
 
 class Session extends React.PureComponent {
     constructor(props) {
@@ -56,7 +58,7 @@ class Session extends React.PureComponent {
                 <Timer start={this.state.start} duration={constants.taskDuration} onFinish={this.onFinish} style={{fontSize: '2em'}} showRemaining={true}/>
             </div>
         );
-
+        console.log(AccountStore.getTaskData());
         const statusbar = (<div style={{marginTop: '10px', textAlign: 'center'}}><StatusBar/></div>)
 
         const metaInfo = {
@@ -76,27 +78,23 @@ class Session extends React.PureComponent {
             waited = this.props.location.state.waited;
         }
 
-
+        const role = SessionStore.getMemberRole(AccountStore.getUserId());
+        const t = this.state.currentTopic;
         const taskDescription = (
-            <Collapsible open trigger="Your Task 1" transitionTime={3} onOpen={handleTaskOpen} onClose={handleTaskClose} >
+            
+            <Collapsible open trigger="Your Task" transitionTime={3} onOpen={handleTaskOpen} onClose={handleTaskClose} >
 
-                <p>Imagine you are a reporter for a newspaper. Your editor has just told you to write a story about <font color="#33BEFF"> <strong>{task.data.topics[0].title}</strong> </font>.</p>
-                <p>There's a meeting in an hour, so your editor asks you and your colleagues to spend 10 minutes together and search
-                    for <strong>as many useful documents (news articles) as possible</strong>.</p>
+            {getTaskDescription(role, task.data.topics[t].title, task.data.topics[t].description)}
 
-                <p>Collect documents according to the following criteria:</p>
-                <strong> <font color="#33BEFF">
-                <p>{task.data.topics[0].description}</p>
-                </font> </strong>
-
-                <br/>
+            <br/>
 
 
-                <p> SearchX is a specialized search engine for news articles, use it to find relevant articles for the topic. Do not use any other Web search engine. </p>
+            <p> SearchX is a specialized search engine for news articles, use it to find relevant articles for the topic. Do not use any other Web search engine. </p>
 
-                <hr/>
+            <hr/>
 
-                <font color="#9C9C9C"> <p> After 10 minutes the system will give your next search task. </p> </font>
+            <font color="#9C9C9C"> <p> After 10 minutes the system will give your next search task. </p> </font>
+
 
             </Collapsible>
         );

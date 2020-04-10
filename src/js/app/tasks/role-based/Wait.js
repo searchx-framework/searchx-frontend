@@ -81,11 +81,11 @@ class Wait extends React.Component {
         return <div className="Wait waitBox">
             <div>
                 <h2>Waiting for your group members...</h2>
-                <h3>Time elapsed:</h3>
-                <Timer start={this.state.start} duration={constants.waitDuration} onFinish={this.onFinish} style={{fontSize: '2em'}}/>
-                <h4>Please do not refresh or close this page. If you turn on your audio you can switch to other tabs or applications, we will try to play a notification sound when you can start the task. Please check the tab again regularly, because the sound may not play in the background in some browsers.</h4>
-                <h4>The task will start after your group forms. This may take a few minutes, at most {constants.waitDuration}.</h4>
-                <h4>You can play Snake to pass the time if you want to:</h4>
+                <h3>Time elapsed :
+                <Timer start={this.state.start} duration={constants.waitDuration} onFinish={this.onFinish} style={{fontSize: '2em'}}/></h3>
+                <p>Please do not refresh or close this page. If you turn on your audio you can switch to other tabs or applications, we will try to play a notification sound when you can start the task. Please check the tab again regularly, because the sound may not play in the background in some browsers.</p>
+                <p>The task will start after your group forms. This may take a few minutes, at most {constants.waitDuration}.</p>
+                <p>You can play Snake to pass the time if you want to:</p>
                 <Button onClick={() => {
                     if (!this.state.open){
                         openSnake();

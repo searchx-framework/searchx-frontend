@@ -66,6 +66,9 @@ export default class SearchHeaderContainer extends React.Component {
     }
 
     searchHandler() {
+        if (this.state.query.replace(/[^a-zA-Z]/g, "") === "") {
+            return;
+        }
         log(LoggerEventTypes.SEARCH_QUERY, {
             query: this.state.query,
             vertical: this.state.searchState.vertical,
