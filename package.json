@@ -30,9 +30,11 @@
     "react-router-dom": "^5.1.2",
     "react-s-alert": "^1.4.1",
     "react-snake-game": "^1.0.9",
+    "react-tetris": "^0.1.1",
     "react-visibility-sensor": "^5.1.1",
     "searchx-chat": "0.0.4",
     "socket.io-client": "^2.3.0",
+    "styled-components": "^5.1.0",
     "superagent": "^5.2.1",
     "survey-react": "^1.1.29",
     "typescript": "^3.7.4"
