@@ -13,8 +13,8 @@ import Helpers from "../../../utils/Helpers";
 import './RoleBased.pcss';
 import Timer from "../components/Timer";
 import {Button} from "react-bootstrap";
-import {openSnake, closeSnake} from "./Snake";
 import SearchActions from "../../../actions/SearchActions";
+import Tetris from './Tetris';
 
 class Wait extends React.Component {
     constructor(props) {
@@ -42,7 +42,7 @@ class Wait extends React.Component {
 
     componentDidMount() {
         window.addEventListener('beforeunload', this.handleBeforeUnload);
-        window.addEventListener('unload', this.handleUnload);
+       // window.addEventListener('unload', this.handleUnload);
         window.addEventListener('popstate', this.handleUnload);
 
         SyncStore.listenToSyncData((data) => {
@@ -58,16 +58,17 @@ class Wait extends React.Component {
 
     componentWillUnmount() {
         window.removeEventListener('beforeunload', this.handleBeforeUnload);
-        window.removeEventListener('unload', this.handleUnload);
+    //    window.removeEventListener('unload', this.handleUnload);
         window.removeEventListener('popstate', this.handleUnload);
         this.handleUnload();
     }
 
     handleBeforeUnload(e) {
         if (!this.state.isReady) {
-            const dialogText = 'Leaving this page will quit the task. Are you sure?';
-            e.returnValue = dialogText;
-            return dialogText;
+            this.handleUnload();    
+            // const dialogText = 'Leaving this page will quit the task. Are you sure?';
+            // e.returnValue = dialogText;
+            // return dialogText;
         }
     }
 
@@ -85,42 +86,48 @@ class Wait extends React.Component {
                 <Timer start={this.state.start} duration={constants.waitDuration} onFinish={this.onFinish} style={{fontSize: '2em'}}/></h3>
                 <p>Please do not refresh or close this page. If you turn on your audio you can switch to other tabs or applications, we will try to play a notification sound when you can start the task. Please check the tab again regularly, because the sound may not play in the background in some browsers.</p>
                 <p>The task will start after your group forms. This may take a few minutes, at most {constants.waitDuration}.</p>
-                <p>You can play Snake to pass the time if you want to:</p>
+                <p>You can play Tetris to pass the time if you want to:</p>
                 <Button onClick={() => {
                     if (!this.state.open){
-                        openSnake();
-                        log(LoggerEventTypes.SNAKE_OPEN, {});
+                        log(LoggerEventTypes.TETRIS_OPEN, {});
                     } else {
-                        closeSnake();
-                        log(LoggerEventTypes.SNAKE_CLOSE, {});
+                        log(LoggerEventTypes.TETRIS_CLOSE, {});
                     }
                     this.setState({ open: !this.state.open })}
                 }>
-                    {this.state.open ? "Close Snake" : "Play Snake"}
+                    {this.state.open ? "Close Tetris" : "Play Tetris"}
                 </Button>
-                <div id="snake-container"/>
+                {this.state.open ? <Tetris/> : <div/> }
             </div>
         </div>
     }
 
     onSync(data) {
-        SessionStore.setGroup(data._id, data.members);
-        AccountStore.setTask(data.taskId, data.taskData);
-        SearchActions.reset();
-        IntroStore.clearIntro();
-        closeSnake();
-        SyncStore.stopListenToSyncData();
+        console.log(data);
+        if (data.newUser === AccountStore.getUserId()) {
+            SyncStore.emitSyncLeaveGroup();
+            SessionStore.setGroup(data.newGroup._id, data.newGroup.members);
+            AccountStore.setTask(data.newGroup.taskId, data.newGroup.taskData);
+            SyncStore.emitUserJoinGroup(false);
+        }
+        else {
+            SessionStore.setGroup(data._id, data.members);
+            AccountStore.setTask(data.taskId, data.taskData);
+            SearchActions.reset();
+            IntroStore.clearIntro();
+            SyncStore.stopListenToSyncData();
 
-        log(LoggerEventTypes.SURVEY_GROUP_WAIT_FINISH, {
-            step : "wait",
-            state : this.state
-        });
+            log(LoggerEventTypes.SURVEY_GROUP_WAIT_FINISH, {
+                step : "wait",
+                state : this.state
+            });
 
-    
-        this.props.history.replace({
-            pathname: '/role-based/description',
-            state: { waited: true }
-        });
+        
+            this.props.history.replace({
+                pathname: '/role-based/description',
+                state: { waited: true }
+            });
+        }
     }
 
     onLeave() {
