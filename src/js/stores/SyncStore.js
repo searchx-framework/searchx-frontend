@@ -4,6 +4,7 @@ import io from 'socket.io-client';
 import AccountStore from "./AccountStore";
 import SessionActions from "../actions/SessionActions";
 import SearchStore from "../app/search/SearchStore";
+import Helpers from "../utils/Helpers";
 
 const socket = io(process.env.REACT_APP_SERVER_URL + '/session');
 
@@ -51,6 +52,14 @@ const SyncStore = Object.assign(EventEmitter.prototype, {
 
     emitSyncLeave() {
         socket.emit('pushSyncLeave', {
+            taskId: AccountStore.getTaskId(),
+            userId: AccountStore.getUserId(),
+            sessionId: AccountStore.getSessionId(),
+        });
+    },
+
+    emitSyncLeaveGroup() {
+        socket.emit('pushSyncLeaveGroup', {
             taskId: AccountStore.getTaskId(),
             userId: AccountStore.getUserId(),
             sessionId: AccountStore.getSessionId(),
@@ -114,7 +123,12 @@ const SyncStore = Object.assign(EventEmitter.prototype, {
 SyncStore.emitUserJoin();
 
 socket.on('searchState', (data) => {
-    SessionActions.getQueryHistory();
+
+    Helpers.sleep(1000).then(() => {
+        SessionActions.getQueryHistory();
+    });
+
+   
 });
 
 socket.on('viewState', (data) => {

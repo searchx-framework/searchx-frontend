@@ -32,7 +32,6 @@ class Register extends React.Component {
         const userId = data['userId'].trim();
         AccountStore.clearUserData();
         AccountStore.setUserId(userId);
-
         const taskParams = {
             groupSize: constants.groupSize,
         };

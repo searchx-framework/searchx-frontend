@@ -85,7 +85,7 @@ export default class Chat extends Component {
     if (config.interface.chat === false ) {
       return <div/>
     }
-    return (<div>
+    return (<div className="Chat">
       
        <Launcher
         agentProfile={{

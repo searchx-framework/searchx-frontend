@@ -42,7 +42,9 @@ const IntroStore = Object.assign(EventEmitter.prototype, {
         intro.setOption('steps', steps);
         const oncomplete = () => {
             localStorage.setItem("intro-done", true.toString());
-
+            log(LoggerEventTypes.SURVEY_INTRO_END, {
+                end: Date.now()
+            });
             SearchStore.removeSearchTutorialData();
             QueryHistoryStore.removeQueryHistoryTutorialData();
             BookmarkStore.removeBookmarksTutorialData();

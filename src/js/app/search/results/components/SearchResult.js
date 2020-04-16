@@ -41,6 +41,7 @@ const SearchResult = function ({
         searchState: searchState,
         serpId: serpId,
         result: result,
+        index: index,
         metadata: formatMetadata(result.metadata),
         bookmarkButton: bookmarkButton,
         excludeButton: excludeButton,

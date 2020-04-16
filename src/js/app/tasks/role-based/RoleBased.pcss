@@ -1,8 +1,8 @@
 @import url('../../Variables.pcss');
 
 .waitBox {
-    padding: 0 20px 0 20px;
 
+    padding: 20px;
     background-color: #ffffff;
     border: 1px solid lightgrey;
     border-radius: 4px;
@@ -30,12 +30,39 @@ canvas {
     width: 50%;
 }
 
-#snake-container {
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-
 .btn-primary, .btn-primary:focus, .btn-primary:hover {
     background-color: $primary-color;
     border-color: $primary-color;
+}
+
+.game-block {
+  margin: 0;
+  padding: 0;
+  width: 1.5em;
+  height: 1.5em;
+  border: 1px solid #ddd;
+}
+.piece-i {
+  background-color: #ec858b;
+}
+.piece-j {
+  background-color: #f1b598;
+}
+.piece-l {
+  background-color: #f8efae;
+}
+.piece-o {
+  background-color: #b5a677;
+}
+.piece-s {
+  background-color: #816e56;
+}
+.piece-t {
+  background-color: #b77c72;
+}
+.piece-z {
+  background-color: #e3be58;
+}
+.piece-preview {
+  background-color: #eee;
 }

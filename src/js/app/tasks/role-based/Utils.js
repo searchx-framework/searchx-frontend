@@ -25,8 +25,7 @@ const minerDescription = (title, description) => (
         <p> Imagine you are a reporter for a newspaper. Your editor has just told you to write a story about <font color="#33BEFF"> <strong>{title}</strong></font> together with a group of colleagues. Before writing the story, your editor called for meeting, and asked you and your colleagues to collect in 10 minutes materials that will support writing the story. </p>
         <p>Your group distributes the work by splitting the task into two subtasks: (1) finding useful documents and (2) examining them in detail. Some of your colleagues will be saving documents while you look at them in details. </p>
         <p> Your job is to carefully examine the documents in the shared list and retain the most useful ones. You can also conduct your own searches and add documents to this shared list. The final list will be shared with your editor during the meeting. </p>
-        <p>Note that there is a chat tool you can use to communicate with your colleagues about the task at hand and coordinate your task. Collect documents according to the following criteria: ROBUST05 topic description. </p>
-
+        <p>Note that there is a chat tool you can use to communicate with your colleagues about the task at hand and coordinate your task. Collect documents according to the following criteria: </p>
 
         <strong> <font color="#33BEFF">
             <p>{description}</p>

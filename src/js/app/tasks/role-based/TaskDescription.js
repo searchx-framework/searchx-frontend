@@ -14,7 +14,7 @@ import {getTaskDescription} from "./Utils";
 import SessionStore from "../../../stores/SessionStore";
 
 const metaInfo = {
-    currentTopic : localStorage.getItem("current-topic")
+    currentTopic : parseInt(localStorage.getItem("current-topic")) || 0
 };
 
 class TaskDescription extends React.Component {
@@ -34,9 +34,6 @@ class TaskDescription extends React.Component {
     componentDidMount() {
         window.addEventListener('beforeunload', this.handleBeforeUnload);
         window.addEventListener('popstate', this.handleBeforeUnload);
-        const task = AccountStore.getTaskData();
-        const groupId = AccountStore.getGroupId();
-        AccountStore.setSessionId(groupId+"-"+ task.topics[0].id + "-" + SearchStore.getVariant() );
         log(LoggerEventTypes.TASK_DESCRIPTION_LOAD,metaInfo);
     }
 
@@ -47,6 +44,7 @@ class TaskDescription extends React.Component {
 
     onFinish(e) {
         log(LoggerEventTypes.TASK_DESCRIPTION_CONTINUE,metaInfo);
+        localStorage.setItem("timer-start", Date.now());
         this.props.history.replace({
             pathname: '/role-based/session',
             state: { waited: true }
@@ -59,8 +57,11 @@ class TaskDescription extends React.Component {
         const task = AccountStore.getTaskData();
 
         const role = SessionStore.getMemberRole(AccountStore.getUserId());
-        const t = metaInfo.currentTopic;
 
+        let t  = parseInt(localStorage.getItem("current-topic")) || 0;
+        localStorage.setItem("current-topic", t || 0);
+        const groupId = AccountStore.getGroupId();
+        AccountStore.setSessionId(groupId+"-"+ task.topics[t].id + "-" + SearchStore.getVariant() );
         return ( <div className="Wait waitBox">
             <ReactAudioPlayer
                     src="../sound/notification.mp3"

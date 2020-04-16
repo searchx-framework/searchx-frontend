@@ -39,7 +39,7 @@ const ChatStore = Object.assign(EventEmitter.prototype, {
             localStorage.setItem("message-count", state.messageList.length);
             return state.messageList.length;
         } else {
-            return state.messageList.length - messageCount;
+            return Math.max(0, state.messageList.length - messageCount);
         }
     },
 

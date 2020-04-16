@@ -15,13 +15,14 @@ import ReactAudioPlayer from 'react-audio-player';
 import StatusBar from "../components/GroupStatusBar";
 import SessionStore from "../../../stores/SessionStore";
 import {getTaskDescription} from "./Utils";
+import SearchActions from "../../../actions/SearchActions";
 
 class Session extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
             start: false,
-            currentTopic: localStorage.getItem("current-topic") || null
+            currentTopic: parseInt(localStorage.getItem("current-topic")) 
         };
         this.onFinish = this.onFinish.bind(this);
         this.handleBeforeUnload = this.handleBeforeUnload.bind(this);
@@ -51,14 +52,14 @@ class Session extends React.PureComponent {
     }
 
     render() {
-        
         const task = AccountStore.getTask();
+        const t = this.state.currentTopic;
+        let duration = t === 0 ? constants.taskDuration + 1 : constants.taskDuration;
         const timer = (
             <div style={{marginTop: '10px', textAlign: 'center'}}>
-                <Timer start={this.state.start} duration={constants.taskDuration} onFinish={this.onFinish} style={{fontSize: '2em'}} showRemaining={true}/>
+                <Timer start={this.state.start} duration={duration} onFinish={this.onFinish} style={{fontSize: '2em'}} showRemaining={true}/>
             </div>
         );
-        console.log(AccountStore.getTaskData());
         const statusbar = (<div style={{marginTop: '10px', textAlign: 'center'}}><StatusBar/></div>)
 
         const metaInfo = {
@@ -79,7 +80,6 @@ class Session extends React.PureComponent {
         }
 
         const role = SessionStore.getMemberRole(AccountStore.getUserId());
-        const t = this.state.currentTopic;
         const taskDescription = (
             
             <Collapsible open trigger="Your Task" transitionTime={3} onOpen={handleTaskOpen} onClose={handleTaskClose} >
@@ -113,17 +113,19 @@ class Session extends React.PureComponent {
     ////
 
     onFinish() {
-        // const task = AccountStore.getTask();
-        // if (task.data.topics.length > (this.state.currentTopic+1)) {
-        //     this.props.history.replace({
-        //         pathname: '/role-based/posttest'
-        //     });
-        // } else {
-        //     localStorage.setItem("current-topic", this.state.currentTopic+1);
-        //     this.props.history.replace({
-        //         pathname: '/role-based/description'
-        //     });
-        // }
+        const task = AccountStore.getTask();
+        SearchActions.reset();
+        log(LoggerEventTypes.SESSION_END, {});
+        if ((this.state.currentTopic+1) < task.data.topics.length ) {
+            localStorage.setItem("current-topic", this.state.currentTopic+1);
+            this.props.history.replace({
+                pathname: '/role-based/description'
+            });
+        } else {
+            this.props.history.replace({
+                pathname: '/role-based/posttest'
+            });
+        }
     }
 }
 
@@ -143,6 +145,10 @@ function getIntroSteps() {
             {
                 element: '.SearchHeader .form',
                 intro: 'Use SearchX to search for news articles as described in the task.'
+            },
+            {
+                element: '.SearchHeader .StatusBarDiv',
+                intro: 'You can see your group here with color-based icons.'
             },
             {
                 element: '.QueryHistory',
@@ -166,9 +172,20 @@ function getIntroSteps() {
             },
             {
                 element: '.Side',
-                intro: 'The recent queries and saved documents are color-coded to show which collaborator initiated the action.',
+                intro: 'The recent queries and saved documents are with color-coded icons to show which collaborator initiated the action.',
+                position: 'left'
+            },
+            {
+                element: '.sc-launcher',
+                intro: 'Use the chat to discuss with your group about the task at hand. Do not use it for daily conversations.',
+                position: 'left'
+            },
+            {
+                element: '.sc-launcher',
+                intro: 'Use the chat to discuss with your group about the task at hand. Do not use it for daily conversations.',
                 position: 'left'
             }
+
     ];
 }
 
