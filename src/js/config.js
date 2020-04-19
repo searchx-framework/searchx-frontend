@@ -3,6 +3,7 @@ import ImagesSearchResult from "./app/search/results/components/types/ImagesSear
 import VideosSearchResult from "./app/search/results/components/types/VideosSearchResult";
 import NewsSearchResult from "./app/search/results/components/types/NewsSearchResult";
 import TextSearchResult from "./app/search/results/components/types/TextSearchResult";
+import CovidSearchResult from "./app/search/results/components/types/CovidSearchResult";
 
 // The keys in this mapping determines the order and names of the verticals shown to the user.
 // The values are the types of the result components that are used for each vertical.
@@ -18,7 +19,7 @@ const providerVerticals = {
         ['text', TextSearchResult],
     ]),
     'indri': new Map([
-        ['AQUAINT', TextSearchResult]
+        ['COVID19', CovidSearchResult]
     ])
 };
 

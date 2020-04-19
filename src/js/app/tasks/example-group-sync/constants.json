@@ -4,7 +4,7 @@
     "topicsSize": 3,
     "taskDuration": 5,
     "waitDuration": 20,
-    "switchPageLimit": 3,
+    "switchPageLimit": 300,
     "completionURL": "https://app.prolific.co/submissions/complete?cc=100CDEC0",
     "choices": [
         {
