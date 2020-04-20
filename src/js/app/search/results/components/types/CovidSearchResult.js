@@ -29,7 +29,7 @@ const CovidSearchResult = function ({
         doctext.unshift(<h3> <br/> <b>Full Text:</b> <br/></h3>);
         doctext.unshift( <div align="left">  {" "} {result.abstract}  <br/></div>);
         doctext.unshift(<h3 >  <b>Abstract:</b> <br/></h3>);
-        // doctext.unshift( <p dangerouslySetInnerHTML = {result.author}>  <br/></p>);
+        doctext.unshift( <p> {result.author} <br/></p>);
         doctext.unshift(<h4> <b>Authors:</b> <br/></h4>);
         doctext.unshift(<h2> {" "} {result.name} <br/></h2>);
        
@@ -108,10 +108,12 @@ const CovidSearchResult = function ({
                     </a>
                 </h2>
                 <div>
+                    <p> {result.author}. <i> {result.journal === "nan" ? "" : result.journal} </i> ({result.pubtime})  
                     <a href= {result.url} target="_blank"
                        onContextMenu={contextUrl}>
-                        Article url
+                        &nbsp; [Url]
                     </a>
+                    </p>
                 </div>
 
                 {isCollapsible ? (
