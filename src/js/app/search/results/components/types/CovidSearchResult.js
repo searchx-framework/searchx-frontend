@@ -86,10 +86,10 @@ const CovidSearchResult = function ({
         result.name = toTitleCase(result.name);
     }
     
-    let authors = result.author.split(";", 5)
-    let author_string;
+    let authors = result.author.split(";", 5);
+    let author_string = '';
     authors.forEach(element => {
-        author_string.concat(element, ";")
+        author_string.concat(element, "; ")
         
     });
     ////
