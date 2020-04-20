@@ -18,7 +18,7 @@ const CovidSearchResult = function ({
         serpId: serpId,
         session: localStorage.getItem("session-num") || 0,
     };
-    console.log(result)
+    // console.log(result)
     let clickUrl = () => {
 
         var doctext = result.text.split('\n').map((item, key) => {
@@ -85,7 +85,13 @@ const CovidSearchResult = function ({
     if (result.name === result.name.toUpperCase()) {
         result.name = toTitleCase(result.name);
     }
-
+    
+    let authors = result.author.split(";", 5)
+    let author_string;
+    authors.forEach(element => {
+        author_string.concat(element, ";")
+        
+    });
     ////
     return (
         <div className="result-text">
@@ -108,7 +114,7 @@ const CovidSearchResult = function ({
                     </a>
                 </h2>
                 <div>
-                    <p> {result.author}. <i> {result.journal === "nan" ? "" : result.journal} </i> ({result.pubtime})  
+                    <p> {author_string} &nbsp;... <i> {result.journal === "nan" ? "" : result.journal} </i> ({result.pubtime})  
                     <a href= {result.url} target="_blank"
                        onContextMenu={contextUrl}>
                         &nbsp; [Url]
