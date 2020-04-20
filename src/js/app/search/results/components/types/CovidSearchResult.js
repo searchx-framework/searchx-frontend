@@ -87,18 +87,23 @@ const CovidSearchResult = function ({
     }
     let author_string = '';
     let authors = result.author.split(";");
-    if (length(authors) > 5) {
+    if (authors.length > 5) {
         
-        authors.forEach(element => {
-            author_string.concat(element, "; ")
+        authors.forEach((element ,idx) => {
+            // console.log(element)
+            if(idx <=5) {
+            author_string = author_string.concat(element, "; ")
+            }
             
         });
+        author_string = author_string.concat("...")
+        
     } else {
         author_string = result.author
     }
 
     ////
-    console.log(author_string)
+    
     return (
         <div className="result-text">
             <VisibilitySensor
@@ -120,7 +125,7 @@ const CovidSearchResult = function ({
                     </a>
                 </h2>
                 <div>
-                    <p> {author_string} &nbsp;... <i> {result.journal === "nan" ? "" : result.journal} </i> ({result.pubtime})  
+                    <p> {author_string}. <i> {result.journal === "nan" ? "" : result.journal} </i> ({result.pubtime})  
                     <a href= {result.url} target="_blank"
                        onContextMenu={contextUrl}>
                         &nbsp; [Url]
