@@ -22,12 +22,14 @@ const CovidSearchResult = function ({
     let clickUrl = () => {
 
         var doctext = result.text.split('\n').map((item, key) => {
-            return <span key={key}>{item}<br/></span>
+            const regex = /CC-BY.*medRxiv preprint/g;
+            let cleaned_item = item.replace(regex, '');
+            return <p><span key={key}>{cleaned_item}<br/></span> </p>
         })
 
         // doctext.unshift(<h4> {result.source} <br/></h4>);
         doctext.unshift(<h3> <br/> <b>Full Text:</b> <br/></h3>);
-        doctext.unshift( <div align="left">  {" "} {result.abstract}  <br/></div>);
+        doctext.unshift( <div align="left">  {" "} {result.abstract} <br/></div>);
         doctext.unshift(<h3 >  <b>Abstract:</b> <br/></h3>);
         doctext.unshift( <p> {result.author} <br/></p>);
         doctext.unshift(<h4> <b>Authors:</b> <br/></h4>);
