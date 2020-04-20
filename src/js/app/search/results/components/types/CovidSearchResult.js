@@ -85,16 +85,16 @@ const CovidSearchResult = function ({
     if (result.name === result.name.toUpperCase()) {
         result.name = toTitleCase(result.name);
     }
-    
+    let author_string = '';
     let authors = result.author.split(";");
     if (length(authors) > 5) {
-        let author_string = '';
+        
         authors.forEach(element => {
             author_string.concat(element, "; ")
             
         });
     } else {
-        let author_string = result.author
+        author_string = result.author
     }
 
     ////
