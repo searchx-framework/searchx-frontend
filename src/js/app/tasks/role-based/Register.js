@@ -68,20 +68,30 @@ const formData = function() {
         <h3>Requirements:</h3>
         <ol type="1">
             <li>
-                <a href="https://www.whatismybrowser.com/" target="_blank">Check here</a> if the version of your browser meets our requirements:
+                We have automatically detected if your browser is compatible. Still, you can also <a href="https://www.whatismybrowser.com/" target="_blank">check here</a> if the version of your browser meets our requirements:
                 Google Chrome version 47 (or higher) and Mozilla Firefox version 44 (or higher).
             </li>
+            <li>You will need approximately 60 minutes to complete the whole study.</li>
+            <li>We will detect if you were active in our study to decide if we will give your contribution.</li>
+            <li>This is a collaborative study: this means you will be interacting with other participants during the experiment. </li>
+        
         </ol>
         
         <hr/>
 
-        <h3>
-            In this study, you are tasked with searching a collection of news articles with fellow users. You will be given three different topics to work on and each takes about 10 minutes to complete. At the end we have an exit questionnaire for you. 
-        </h3>
+        
+        In this study, you are tasked with searching for a number of documents in a collection of news articles with fellow users. The experiment has four main parts:
+            <ol type="-">
+            <li><strong>Pre-questionnaire</strong>: we will ask about your experience searching the Web with other users before.</li>
+            <li><strong>Waiting phase</strong>: we will try to find a group of participants, and you will start the next phase (at least 10 minutes). You can play Tetris while you wait.</li>
+            <li><strong>Collaborative search phase</strong>: you and your fellow participants will be given three different topics to work together on, and each takes about 15 minutes to complete. </li>
+            <li><strong>Post-questionnaire</strong>: we will ask about how was your overall experience with our experiment.
+            </ol>
+        
 
 
         <hr/>
-        <h3>You will need approximately 45 minutes to complete the whole study.</h3>
+        <h3>Good luck and thank you for participating.</h3>
         `
     });
 
@@ -233,7 +243,7 @@ const formData = function() {
         });
 
         elements.push({
-            title: "Describe what were you looking for. (e.g. husband and wife planning a trip for the family, a group of students working on a writing assignment and sharing search results/findings, a couple shopping for a new sofa, etc.)",
+            title: "Describe what you were looking for. As an example, you may be a husband and wife planning a trip for your family, a group of students working on a writing assignment and sharing search results/findings, or a couple shopping for a new sofa.",
             name: "collab-information-need",
             type: "comment",
             inputType: "text",
@@ -243,11 +253,31 @@ const formData = function() {
         });
 
         elements.push({
-            title: "With how many others did you collaborate (not including yourself)?",
+            title: "How many others did you collaborate with (not including yourself)?",
             name: "collab-members",
             type: "text",
             width: 600,
             inputType: "number",
+            isRequired: true
+        });
+
+        elements.push({
+            title: "Given the example scenario you provided above, describe how you and your partner/friend/colleague performed the search activity. As examples of what we are interested in, did one person perform all the exploratory searching, with another examining the findings in detail? Or did each person involved look after individual components of the search activity (e.g. when booking a holiday, did one person focus on booking flights, with another looking at a hotel)?",
+            name: "collab-information-setting",
+            type: "comment",
+            inputType: "text",
+            width: 600,
+            rows: 1,
+            isRequired: true
+        });
+
+        elements.push({
+            title: "When performing the example scenario you provided, how did you communicate with others you were performing the search activity with?",
+            name: "collab-information-communication",
+            type: "comment",
+            inputType: "text",
+            width: 600,
+            rows: 1,
             isRequired: true
         });
 

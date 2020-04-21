@@ -153,6 +153,42 @@ const formData = function(returnCode) {
     });
 
     elements.push({
+        title: "It was easy to understand what was my job in the task.",
+        name: "role",
+        type: "rating",
+        isRequired: true,
+        minRateDescription: "Disagree",
+        maxRateDescription: "Agree"
+    });
+
+    elements.push({
+        title: "I could communicate well with my partners.",
+        name: "communicate",
+        type: "rating",
+        isRequired: true,
+        minRateDescription: "Disagree",
+        maxRateDescription: "Agree"
+    });
+
+    elements.push({
+        title: "I could see what they others were searching and examining during the task.",
+        name: "awareness",
+        type: "rating",
+        isRequired: true,
+        minRateDescription: "Disagree",
+        maxRateDescription: "Agree"
+    });
+
+    elements.push({
+        title: "It was easy to share what I found useful during my searches with my partners.",
+        name: "share",
+        type: "rating",
+        isRequired: true,
+        minRateDescription: "Disagree",
+        maxRateDescription: "Agree"
+    });
+
+    elements.push({
         title: "Did you find the collaborative features useful?",
         name: "collab-rating",
         type: "matrix",
@@ -185,6 +221,10 @@ const formData = function(returnCode) {
                 value: "bookmarks",
                 text: "Saved documents"
             }, {
+                value: "chat",
+                text: "Chat tool"
+            },
+            {
                 value: "hidden-results",
                 text: "Hiding saved and excluded results"
             }
