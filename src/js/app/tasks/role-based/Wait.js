@@ -85,7 +85,7 @@ class Wait extends React.Component {
                 <h3>Time elapsed :
                 <Timer start={this.state.start} duration={constants.waitDuration} onFinish={this.onFinish} style={{fontSize: '2em'}}/></h3>
                 <p>Please do not refresh or close this page. If you turn on your audio you can switch to other tabs or applications, we will try to play a notification sound when you can start the task. Please check the tab again regularly, because the sound may not play in the background in some browsers.</p>
-                <p>The task will start after your group forms. This may take a few minutes, at most {constants.waitDuration}.</p>
+                <p>The task will start after your group forms. This may take a few minutes, at most {constants.waitDuration}. If we do not find a group for you, you will do the task alone.</p>
                 <p>You can play Tetris to pass the time if you want to:</p>
                 <Button onClick={() => {
                     if (!this.state.open){
