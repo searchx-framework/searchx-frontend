@@ -164,7 +164,7 @@ const formData = function(topic) {
         const name = "Q-"+ topic[idx]['@number'] +"-"+ topic[idx]['query'];
 
         elements.push({
-            title: "Information need:  \"" + topic[idx]['narrative'] + "\"?",
+            title: "Information need:  \"" + topic[idx]['narrative'] + "\" Your query:",
             name: topic[idx]['query'],
             type: "comment",
             inputType: "text",
