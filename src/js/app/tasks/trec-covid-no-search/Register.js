@@ -65,13 +65,13 @@ const formData = function() {
         type: "html",
         name: "start",
         html: `
-        <h3> <img src ="img/coronavirus.png" width="50" height="50"> Help us learn more about the novel coronavirus!  </h3>
+        <h3> <img src ="img/virus.png" width="50" height="50"> Help us learn more about the novel coronavirus!  </h3>
         
         <hr/>
         <p> As researchers, clinicians, and policy makers are involved with the response to COVID-19 (the novel coronavirus), it is becoming increasingly necessary for them and for the rest of us to find reliable information about the disease. In this study, we require you to help us with a critical step of the process when searching for information on COVID-19 -- formulating queries that can be issued to a search engine.
         </p>
         
-        <h3> <img src ="img/virus.png" width="50" height="50"> Searching the web  </h3>
+        <h3> <img src ="img/coronavirus.png" width="50" height="50"> Searching the web  </h3>
         <p> We use the web on a regular basis to find various information we need. To do so, we often express our information need (e.g. ‘comparing prices of two smartphones’) by formulating a query (e.g. ‘iphone vs. samsung galaxy cost’ etc.) and type it in to a search engine. The search engine in turn provides us with a list of results that we analyse. If the query is not well formed or ambiguous, there is a chance that we won't be able to find what we are looking for. <p> 
         
         <h3> <img src ="img/experiment.png" width="50" height="50"> The experiment  </h3>
