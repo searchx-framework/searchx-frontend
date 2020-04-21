@@ -3,6 +3,7 @@ import VisibilitySensor from 'react-visibility-sensor';
 
 import {log} from '../../../../../utils/Logger';
 import {LoggerEventTypes} from '../../../../../utils/LoggerEventTypes';
+import {generateSnippetText} from '../../../../../utils/SimpleSnippetFragmentGenerator'
 
 ////
 
@@ -60,7 +61,9 @@ const CovidSearchResult = function ({
     };
 
     function createSnippet() {
-        return {__html: result.snippet};
+        /* result.text and searchState.query */
+        /* generateSnippetText(result.text, searchState.query) */
+        return {__html: generateSnippetText(result.text, searchState.query)};
     }
 
     const hideCollapsedResults = function () {
