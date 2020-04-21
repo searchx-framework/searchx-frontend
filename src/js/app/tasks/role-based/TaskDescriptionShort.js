@@ -9,7 +9,6 @@ import constants from "./constants";
 
 import './RoleBased.pcss';
 import Timer from "../components/Timer";
-import ReactAudioPlayer from 'react-audio-player';
 
 const metaInfo = {
     currentTopic : parseInt(localStorage.getItem("current-topic")) || 0
@@ -33,6 +32,8 @@ class TaskDescription extends React.Component {
         window.addEventListener('beforeunload', this.handleBeforeUnload);
         window.addEventListener('popstate', this.handleBeforeUnload);
         log(LoggerEventTypes.TASK_DESCRIPTION_LOAD,metaInfo);
+        var audio = new Audio("/sounds/notification.mp3");
+        audio.play();
     }
 
     componentWillUnmount() {
@@ -59,10 +60,6 @@ class TaskDescription extends React.Component {
         const groupId = AccountStore.getGroupId();
         AccountStore.setSessionId(groupId+"-"+ task.topics[t].id + "-" + SearchStore.getVariant() );
         return ( <div className="Wait waitBox">
-            <ReactAudioPlayer
-                    src="../sound/notification.mp3"
-                    play
-            />
 
             <h3> Please read your task description:</h3>
             
@@ -72,7 +69,7 @@ class TaskDescription extends React.Component {
             <strong> <font color="#33BEFF">
                 <p>{task.topics[t].description}</p>
                 </font> </strong>
-            <img className="topicVisual" src={'/img/' + task.topics[t].id + ".png"} alt="Topic Image Description"/>
+            <img className="topicVisual" src={'/img/' + task.topics[t].id + ".png"} alt={task.topics[t].title}/>
             <br/>
             <p> SearchX is a specialized search engine for news articles, use it to find relevant articles for the topic. Do not use any other Web search engine. </p>
 

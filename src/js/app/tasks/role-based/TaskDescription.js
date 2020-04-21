@@ -9,7 +9,6 @@ import constants from "./constants";
 
 import './RoleBased.pcss';
 import Timer from "../components/Timer";
-import ReactAudioPlayer from 'react-audio-player';
 import {getTaskDescription} from "./Utils";
 import SessionStore from "../../../stores/SessionStore";
 
@@ -72,7 +71,7 @@ class TaskDescription extends React.Component {
             
 
             {getTaskDescription(role, task.topics[t].title, task.topics[t].description)}
-            <img className="topicVisual" src={'/img/' + task.topics[t].id + ".png"} alt="Topic Image Description"/>
+            <img className="topicVisual" src={'/img/' + task.topics[t].id + ".png"} alt={task.topics[t].title}/>
             <br/>
             <p> SearchX is a specialized search engine for news articles, use it to find relevant articles for the topic. Do not use any other Web search engine. </p>
 
