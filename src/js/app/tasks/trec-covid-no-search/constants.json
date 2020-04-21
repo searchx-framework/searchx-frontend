@@ -1,0 +1,27 @@
+{
+    "taskId": "trec-covid-no-search",
+    "groupSize": 1,
+    "topicsSize": 10,
+    "taskDuration": 5,
+    "waitDuration": 20,
+    "switchPageLimit": 300,
+    "completionURL": "https://app.prolific.co/submissions/complete?cc=100CDEC0",
+    "choices": [
+        {
+            "value": 1,
+            "text": "I don't remember having seen this term/phrase before."
+        },
+        {
+            "value": 2,
+            "text": "I have seen this term/phrase before, but I don't think I know what it means."
+        },
+        {
+            "value": 3,
+            "text": "I have seen this term/phrase before, and I think I know what it means."
+        },
+        {
+            "value": 4,
+            "text": "I know this term/phrase."
+        }
+    ]
+}

@@ -9,6 +9,9 @@ import Search from './search/Search';
 
 import SimpleRegister from './tasks/example-simple/Register';
 import SimpleSubmit from './tasks/example-simple/Submit';
+import CovidNoSearchRegister from './tasks/trec-covid-no-search/Register';
+import CovidNoSearchDisqualified from './tasks/trec-covid-no-search/Disqualified';
+import CovidNoSearchPostTest from './tasks/trec-covid-no-search/PostTest';
 import SimpleSession from './tasks/example-simple/Session';
 import SyncRegister from './tasks/example-group-sync/Register';
 import Disqualified from './tasks/example-group-sync/Disqualified';
@@ -86,6 +89,10 @@ export class App extends React.Component {
                     <Route exact path="/sync/intermediatetest" component={SyncIntermediateTests}/>
                     <Route exact path="/sync/posttest" component={SyncPostTest}/>
                     <Route path="/sync/session" component={SyncSession}/>
+
+                    <Route exact path="/covidnosearch" component={CovidNoSearchRegister}/>
+                    <Route exact path="/disq" component={CovidNoSearchDisqualified}/>
+                    <Route exact path="/covidnosearch/posttest" component={CovidNoSearchPostTest}/>
 
                     <Route exact path="/async" component={AsyncRegister}/>
                     <Route exact path="/async/feedback" component={AsyncFeedback}/>
