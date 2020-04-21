@@ -65,20 +65,20 @@ const formData = function() {
         type: "html",
         name: "start",
         html: `
-        <h3> <img src ="img/virus.png" width="50" height="50"> Help us learn more about the novel coronavirus!  </h3>
+        <h3> <img src ="/img/virus.png" width="50" height="50"> Help us learn more about the novel coronavirus!  </h3>
         
         <hr/>
         <p> As researchers, clinicians, and policy makers are involved with the response to COVID-19 (the novel coronavirus), it is becoming increasingly necessary for them and for the rest of us to find reliable information about the disease. In this study, we require you to help us with a critical step of the process when searching for information on COVID-19 -- formulating queries that can be issued to a search engine.
         </p>
         
-        <h3> <img src ="img/coronavirus.png" width="50" height="50"> Searching the web  </h3>
+        <h3> <img src ="/img/coronavirus.png" width="50" height="50"> Searching the web  </h3>
         <p> We use the web on a regular basis to find various information we need. To do so, we often express our information need (e.g. ‘comparing prices of two smartphones’) by formulating a query (e.g. ‘iphone vs. samsung galaxy cost’ etc.) and type it in to a search engine. The search engine in turn provides us with a list of results that we analyse. If the query is not well formed or ambiguous, there is a chance that we won't be able to find what we are looking for. <p> 
         
-        <h3> <img src ="img/experiment.png" width="50" height="50"> The experiment  </h3>
+        <h3> <img src ="/img/experiment.png" width="50" height="50"> The experiment  </h3>
         <p>In this study, we will provide you with 10 information needs related to COVID-19 (e.g. ‘Looking for information on all possible ways to contract COVID-19 from people, animals and objects’). With each of these information needs, you have to provide us with the best query that represents that particular information need. There is no right answer here. If you were to imagine that you are searching the web for this particular information need, what we are after are the terms that you type into the search engine to get the documents/websites/links that will answer your information need.</p>
-        <h3> <img src ="img/list.png" width="50" height="50"> Your role  </h3>
+        <h3> <img src ="/img/list.png" width="50" height="50"> Your role  </h3>
         <p> Imagine that you are searching the web with that particular information need. Provide us with the query that you would issue in the web to get documents or websites or links answering your information need. On the next page, we will ask you to enter some basic information regarding your demographics. Following that, we will provide you with the list of the ten information need related to COVID-19. For each of them, there will be space for you to provide the query that you would issue for that need. Please provide only <b>one</b> query per information need. Try to make sure there are no spelling mistakes before submitting your final query.</p>
-        <h3> <img src ="img/error.png" width="50" height="50"> Keep in mind...  </h3>
+        <h3> <img src ="/img/error.png" width="50" height="50"> Keep in mind...  </h3>
         <p> We have a few important points: </p>
         <ol type="-">
             <li>
