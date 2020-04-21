@@ -34,9 +34,9 @@ import RoleBasedRegister from './tasks/role-based/Register';
 import RoleBasedWait from './tasks/role-based/Wait';
 import RoleBasedSession from './tasks/role-based/Session';
 import RoleBasedDescription from './tasks/role-based/TaskDescription';
+import RoleBasedDescriptionShort from './tasks/role-based/TaskDescriptionShort';
 import RoleBasedPostTest from './tasks/role-based/PostTest';
 import Chat from './search/features/chat/Chat';
-
 export class App extends React.Component {
 
     render() {
@@ -105,6 +105,7 @@ export class App extends React.Component {
                     <Route exact path="/role-based/wait" component={RoleBasedWait}/>
                     <Route path="/role-based/session" component={RoleBasedSession}/>
                     <Route path="/role-based/description" component={RoleBasedDescription}/>
+                    <Route path="/role-based/description/short" component={RoleBasedDescriptionShort}/>
                     <Route exact path="/role-based/posttest" component={RoleBasedPostTest}/>
 
                 </div>
