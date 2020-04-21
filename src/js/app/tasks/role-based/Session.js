@@ -16,6 +16,7 @@ import StatusBar from "../components/GroupStatusBar";
 import SessionStore from "../../../stores/SessionStore";
 import {getTaskDescription} from "./Utils";
 import SearchActions from "../../../actions/SearchActions";
+import config from "../../../config";
 
 class Session extends React.PureComponent {
     constructor(props) {
@@ -39,6 +40,7 @@ class Session extends React.PureComponent {
                 start: start
             });
         });
+        SearchActions.reset();
     }
     componentWillUnmount() {
         window.removeEventListener('beforeunload', this.handleBeforeUnload);
@@ -80,6 +82,10 @@ class Session extends React.PureComponent {
         }
 
         const role = SessionStore.getMemberRole(AccountStore.getUserId());
+
+        if (role ===  "single") {
+            config.interface.chat = false;
+        }
         const taskDescription = (
             
             <Collapsible open trigger="Your Task" transitionTime={3} onOpen={handleTaskOpen} onClose={handleTaskClose} >
@@ -114,12 +120,11 @@ class Session extends React.PureComponent {
 
     onFinish() {
         const task = AccountStore.getTask();
-        SearchActions.reset();
         log(LoggerEventTypes.SESSION_END, {});
         if ((this.state.currentTopic+1) < task.data.topics.length ) {
             localStorage.setItem("current-topic", this.state.currentTopic+1);
             this.props.history.replace({
-                pathname: '/role-based/description'
+                pathname: '/role-based/description/short'
             });
         } else {
             this.props.history.replace({
@@ -173,11 +178,6 @@ function getIntroSteps() {
             {
                 element: '.Side',
                 intro: 'The recent queries and saved documents are with color-coded icons to show which collaborator initiated the action.',
-                position: 'left'
-            },
-            {
-                element: '.sc-launcher',
-                intro: 'Use the chat to discuss with your group about the task at hand. Do not use it for daily conversations.',
                 position: 'left'
             },
             {
