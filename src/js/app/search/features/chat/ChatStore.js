@@ -63,7 +63,7 @@ const ChatStore = Object.assign(EventEmitter.prototype, {
 
 const _get_chat_message_list = () => {
     request
-        .get(`${process.env.REACT_APP_SERVER_URL}/v1/session/${AccountStore.getSessionId()}/chat`)
+        .get(`${process.env.REACT_APP_SERVER_URL}/v1/session/${AccountStore.getGroupId()}/chat`)
         .end((err, res) => {
             if (err || !res.body || res.body.error) {
                 state.messageList = [];
@@ -88,7 +88,7 @@ const _set_author = (message) => {
 
 const _add_message_list = function(message) {
     request
-        .post(`${process.env.REACT_APP_SERVER_URL}/v1/session/${AccountStore.getSessionId()}/chat`)
+        .post(`${process.env.REACT_APP_SERVER_URL}/v1/session/${AccountStore.getGroupId()}/chat`)
         .send({
             message: message
         })
