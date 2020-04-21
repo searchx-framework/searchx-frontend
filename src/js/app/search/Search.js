@@ -38,8 +38,9 @@ class Search extends React.Component {
         };
         document.removeEventListener('visibilitychange', this.handleVisibilityChange);
     }
-
+    
     render() {
+       
         return (
             <div className="Search">
                 <SearchHeaderContainer timer={this.props.timer} statusbar={this.props.statusbar} showAccountInfo={this.props.showAccountInfo}/>

@@ -2,7 +2,7 @@ import React from "react";
 import {Link} from "react-router-dom";
 import SyncStore from "../../../stores/SyncStore";
 import TaskedSession from "../components/session/TaskedSession";
-// import Collapsible from "react-collapsible";
+import Collapsible from "react-collapsible";
 import Timer from "../components/Timer";
 import constants from "./constants";
 import {log} from '../../../utils/Logger';
@@ -25,8 +25,8 @@ class Session extends React.PureComponent {
 
     componentDidMount() {
         const taskdata = JSON.parse(localStorage.getItem("task-data") === undefined ? "{}" : localStorage.getItem("task-data")) || '';
-        let td = '<h3> Your task </h3><p> The professor requires all students to demonstrate what they learn about a particular topic by conducting searches online and presenting their views on the topic. </p>';
-        td+= taskdata.topic ? taskdata.topic.description:'';
+        let td = '<h3> Your task </h3><p> We require to find information regarding an information need pertaining to COVID19. It will be shown on the right side of your screen. Read it carefully and then you can use our search engine to observe which query gives the best set of documents. </p>';
+
         // td += `Remember: there will be three intermittent tests. After searching for at least 20 minutes you can move on to the final test by clicking on the "To Final Test" button. 
         // The documents you saved will be available to you when writing (in your own words) a short summary about the topic.`
 
@@ -42,12 +42,12 @@ class Session extends React.PureComponent {
             },
             {
                 element: '.SearchHeader',
-                intro: 'We want you to use our custom web search system SearchX to learn about the topic mentioned in the task description for at least 20 minutes. Note that the "To Final Test" button will only be accessible after 20 minutes. You can search for longer if you want to know more about the given topic.',
+                intro: 'We want you to use our custom web search system SearchX to learn about the information need mentioned in the task description. Once you are satisfied with the results you obtained press the Next button to submit the query you found most useful for the corresponding information need.',
                 position: 'bottom-middle-aligned'
             },
             {
                 element: '.SearchHeader .form',
-                intro: 'Use SearchX to search for webpages, publications, and other online sources to learn about the topic. '
+                intro: 'Use SearchX to search for  publications, and other online sources to learn about the topic. '
             },
             {
                 element: '.QueryHistory',
@@ -61,7 +61,7 @@ class Session extends React.PureComponent {
             },
             {
                 element: '.Bookmarks',
-                intro: 'The saved documents saved will appear here. You can revisit them before completing the session and while writing the summary on what you have learned about the topic.',
+                intro: 'The saved documents saved will appear here.',
                 position: 'top'
             }
 
@@ -83,79 +83,56 @@ class Session extends React.PureComponent {
 
     render() {
         const task = AccountStore.getTask();
-        // const timer = (
-        //     <div style={{marginTop: '10px', textAlign: 'center'}}>
-        //         <Timer start={this.state.start} duration={constants.taskDuration} onFinish={this.onFinish} style={{fontSize: '2em'}} showRemaining={false}/>
+        const sessionNum = localStorage.getItem("session-num") || 0;
+
+        const timer = (
+            <div style={{marginTop: '10px', textAlign: 'center'}}>
+                {/* <Timer start={this.state.start} duration={constants.taskDuration} onFinish={this.onFinish} style={{fontSize: '2em'}} showRemaining={false}/> */}
                 
                 
-        //         <Link className={"btn btn-primary" + (this.state.finished ? '' : ' disabled')} to="/sync/posttest" role="button">
-        //                 To Final Test
-        //         </Link>
-        //     </div>
-        // );
-        // const metaInfo = {
-        //     session: localStorage.getItem("session-num") || 0,
+                <Link className={"btn btn-primary" } to={sessionNum < constants.topicsSize-1 ? "/covidsearch/intermediatetest" : "/covidsearch/posttest"} role="button">
+                        Next
+                </Link>
+            </div>
+        );
+        const metaInfo = {
+            session: localStorage.getItem("session-num") || 0,
 
-        // };
-        // let handleTaskOpen = () => {
-        //     log(LoggerEventTypes.TASK_OPEN, metaInfo);
-        // };
+        };
+        let handleTaskOpen = () => {
+            log(LoggerEventTypes.TASK_OPEN, metaInfo);
+        };
 
-        // let handleTaskClose = () => {
-        //     log(LoggerEventTypes.TASK_CLOSE, metaInfo);
-        // };
+        let handleTaskClose = () => {
+            log(LoggerEventTypes.TASK_CLOSE, metaInfo);
+        };
 
-        // const taskDescription = (
-        //     <Collapsible trigger="Your Task" open transitionTime={3} onOpen={handleTaskOpen} onClose={handleTaskClose} >
-        //        <p>
-        //                 The professor requires all students to demonstrate what they learn about a particular topic by
-        //                  conducting searches online and presenting their views on the topic.
-        //              You need to use SearchX to learn about the topic. You must open and read documents/web pages that you think are 
-        //              important about the given topic.  
-        //              </p>
+        const taskDescription = (
+            <Collapsible trigger="Your Task" open transitionTime={3} onOpen={handleTaskOpen} onClose={handleTaskClose} >
+                <p>
+                        We require to find research regarding the following information need:
+                </p>
 
-        //              <p dangerouslySetInnerHTML={{__html: task.data.topic.description}}/>
-        //              <hr/>
-        //             <p> Remember: there will be three intermittent tests. After searching for at least 20 minutes you can move on to the final test by clicking on the "To Final Test" button. 
-        //                 The documents you saved will be available to you when writing (in your own words) a short summary about the topic.
-        //             </p>
+                <p ><b><i>"{ task.data.topics[sessionNum].narrative }"</i></b></p> 
+                <hr/>
+
+                <p>
+                    After you are satisfied with knowledge you acquired, click the Next button above to submit the query which you found to be most resourceful for this particular information need.
+                </p>
 
 
-        //     </Collapsible>
-        // );
+            </Collapsible>
+        );
 
         return (
-            <TaskedSession>
-                <div className="box" style={{marginBottom: '20px', textAlign: 'center'}}>
-                    <Timer start={this.state.start} duration={constants.taskDuration} onFinish={this.onFinish} style={{fontSize: '2em'}}/>
-                    <Link className={"btn btn-primary" + (this.state.finished ? '' : ' disabled')} to="/sync/posttest" role="button">
-                        To Final Test
-                    </Link>
-                </div>
-
-                <div className="box" style={{flexGrow: '1'}}>
-                    <h3 style={{textAlign: 'center'}}>Task Description</h3>
-                    <hr/>
-
-                    <p>
-                        The professor requires all students to demonstrate what they learn about a particular topic by
-                        collaboratively conducting searches online and presenting their views on the topic.
-                        To prepare your term paper, your group needs to collect and save all the web pages,
-                        publications, and other online sources that are helpful for you to write a paper.
-                    </p>
-
-                    <p dangerouslySetInnerHTML={{__html: task.data.topic.description}}/>
-                    <hr/>
-
-                    <p>
-                        After you and your group have completed the search phase, you will be asked to complete 13
-                        exercises;
-                        those exercises include questions about your term paper topic and the writing of an outline for
-                        your term paper.
-                        The exercises are to be finished individually (without help from your group members).
-                    </p>
-                </div>
-            </TaskedSession>
+            <div>
+                <TaskedSession 
+                timer= {timer} 
+                taskDescription={taskDescription} 
+                onSwitchPage={this.onSwitchPage}
+                lastSession={false} 
+                firstSession={false}/>
+            </div>
         )
     }
 
@@ -166,21 +143,15 @@ class Session extends React.PureComponent {
         let sessionNum = localStorage.getItem("session-num") || 0;
         
         
-        const flag = localStorage.getItem("full-KG-flag") ;
-        if (flag===1){
-            sessionNum  = 4
-        }
-        else{
-            sessionNum++;
-           
-        }
+        sessionNum++ 
+
         localStorage.setItem("session-num", sessionNum);
         if (sessionNum === 4 ){
             this.setState({
                 finished: true
             });;
         } else {
-            this.props.history.push('/sync/intermediatetest');
+            this.props.history.push('/covidsearch/intermediatetest');
         }
         
     }

@@ -5,7 +5,7 @@ import {log} from "../../../../../utils/Logger";
 import Identicon from "identicon.js";
 import md5 from 'md5';
 
-const QueryHistoryItem = function({data, clickHandler}) {
+const QueryHistoryItem = function({data, clickHandler, test}) {
     const metaInfo = {
         url: data.query,
         userId: data.userId,
@@ -31,7 +31,8 @@ const QueryHistoryItem = function({data, clickHandler}) {
             backgroundImage: `url(${iconUrl})`
           }}></div> */}
             <span className="text">
-            <img src={iconUrl} alt={"User " + md5(data.userId)}/> <a href="#/"   style={{ cursor: 'pointer'}} onContextMenu={contextUrlLog} onClick={() => {clickHandler(data.query);clickUrlLog();}}>
+                
+            <img src={iconUrl} alt={"User " + md5(data.userId)}/> <a href="#/"   style={test?{ cursor: 'text'}:{ cursor: 'pointer'}} onContextMenu={contextUrlLog} onClick={test?() => {}:() => {clickHandler(data.query);clickUrlLog();}}>
                     {data.query}
                 </a>
             </span>

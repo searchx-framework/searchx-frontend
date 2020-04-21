@@ -38,11 +38,13 @@ export default class QueryHistoryContainer extends React.Component {
     }
 
     render() {
+        
         return <QueryHistory
             history={this.state.history}
             popup={this.state.popup}
             clickHandler={queryClickHandler}
             popupHandler={this.popupHandler}
+            test = {this.props.test}
         />
     }
 

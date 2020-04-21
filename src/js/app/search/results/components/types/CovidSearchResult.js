@@ -90,21 +90,26 @@ const CovidSearchResult = function ({
     if (result.name === result.name.toUpperCase()) {
         result.name = toTitleCase(result.name);
     }
-    let author_string = '';
-    let authors = result.author.split(";");
-    if (authors.length > 5) {
-        
-        authors.forEach((element ,idx) => {
-            // console.log(element)
-            if(idx <=5) {
-            author_string = author_string.concat(element, "; ")
-            }
+    
+    const getAuthorString = function(str) {
+        let author_string = '';
+        let authors = str.split(";");
+        if (authors.length > 5) {
             
-        });
-        author_string = author_string.concat("...")
-        
-    } else {
-        author_string = result.author
+            authors.forEach((element ,idx) => {
+                // console.log(element)
+                if(idx <=5) {
+                author_string = author_string.concat(element, "; ")
+                }
+                
+            });
+            author_string = author_string.concat("...")
+            return author_string
+            
+        } else {
+            author_string = result.author
+            return author_string
+        }
     }
 
     ////
@@ -130,7 +135,7 @@ const CovidSearchResult = function ({
                     </a>
                 </h2>
                 <div>
-                    <p> {author_string}. <i> {result.journal === "nan" ? "" : result.journal} </i> ({result.pubtime})  
+                    <p> {getAuthorString(result.author)}. <i> {result.journal === "nan" ? "" : result.journal} </i> ({result.pubtime})  
                     <a href= {result.url} target="_blank"
                        onContextMenu={contextUrl}>
                         &nbsp; [Url]

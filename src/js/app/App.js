@@ -12,6 +12,11 @@ import SimpleSubmit from './tasks/example-simple/Submit';
 import CovidNoSearchRegister from './tasks/trec-covid-no-search/Register';
 import CovidNoSearchDisqualified from './tasks/trec-covid-no-search/Disqualified';
 import CovidNoSearchPostTest from './tasks/trec-covid-no-search/PostTest';
+import CovidSearchRegister from './tasks/trec-covid-search/Register';
+import CovidSearchDisqualified from './tasks/trec-covid-search/Disqualified';
+import CovidSearchPostTest from './tasks/trec-covid-search/PostTest';
+import CovidSearchSession from './tasks/trec-covid-search/Session';
+import CovidIntermediateTests from './tasks/trec-covid-search/IntermediateTests';
 import SimpleSession from './tasks/example-simple/Session';
 import SyncRegister from './tasks/example-group-sync/Register';
 import Disqualified from './tasks/example-group-sync/Disqualified';
@@ -93,6 +98,13 @@ export class App extends React.Component {
                     <Route exact path="/covidnosearch" component={CovidNoSearchRegister}/>
                     <Route exact path="/disq" component={CovidNoSearchDisqualified}/>
                     <Route exact path="/covidnosearch/posttest" component={CovidNoSearchPostTest}/>
+
+                    <Route exact path="/covidsearch" component={CovidSearchRegister}/>
+                    <Route exact path="/disq" component={CovidSearchDisqualified}/>
+                    <Route exact path="/covidsearch/posttest" component={CovidSearchPostTest}/>
+                    <Route path="/covidsearch/session" component={CovidSearchSession}/>
+                    <Route path="/covidsearch/intermediatetest" component={CovidIntermediateTests}/>
+
 
                     <Route exact path="/async" component={AsyncRegister}/>
                     <Route exact path="/async/feedback" component={AsyncFeedback}/>

@@ -131,12 +131,18 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
                     name: "You can view the first result here",
                     id: "1",
                     snippet: "This is the first result...",
+                    author: "John Smith",
+                    journal: "Journal A",
+                    pubtime: "2020-03-19",
                     metadata: {}
                 },
                 {
                     name: "You can view the second result here",
                     id: "2",
                     snippet: "This is the second result...",
+                    author: "John Doe",
+                    journal: "Journal B",
+                    pubtime: "2020-03-19",
                     metadata: {
                         bookmark: {userId: AccountStore.getUserId(), date: new Date()},
                         views: 10,
@@ -148,18 +154,27 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
                     name: "You can view the third result here",
                     id: "3",
                     snippet: "This is the third result...",
+                    author: "Doe Smith",
+                    journal: "Journal C",
+                    pubtime: "2020-03-19",
                     metadata: {bookmark: {userId: 'test', date: new Date() - 2000}}
                 },
                 {
                     name: "You can view the fourth result here",
                     id: "4",
                     snippet: "This is the fourth result...",
+                    author: "Smith Joe",
+                    journal: "Journal D",
+                    pubtime: "2020-03-19",
                     metadata: {}
                 },
                 {
                     name: "You can view the fifth result here",
                     id: "5",
                     snippet: "This is the fifth result...",
+                    author: "Joe Guy",
+                    journal: "Journal E",
+                    pubtime: "2020-03-19",
                     metadata: {}
                 }
             ];

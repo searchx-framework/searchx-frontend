@@ -165,7 +165,7 @@ const formData = function(topic) {
 
         elements.push({
             title: "Information need:  \"" + topic[idx]['narrative'] + "\" Your query:",
-            name: topic[idx]['query'],
+            name: name,
             type: "comment",
             inputType: "text",
             width: 600,

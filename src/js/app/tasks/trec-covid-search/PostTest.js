@@ -10,6 +10,7 @@ import SyncStore from "../../../stores/SyncStore";
 import SearchStore from "../../search/SearchStore";
 import SearchResultsContainer from "../../search/results/SearchResultsContainer";
 import SearchActions from '../../../actions/SearchActions';
+import QueryHistoryContainer from "../../search/features/queryhistory/QueryHistoryContainer";
 import BookmarkContainer from "../../search/features/bookmark/BookmarkContainer";
 
 
@@ -22,7 +23,8 @@ class PostTest extends React.Component {
             searchState: SearchStore.getSearchState(),
         progress: SearchStore.getSearchProgress(),
         serpId: SearchStore.getSerpId(),
-        activeUrl: SearchStore.getActiveUrl()
+        activeUrl: SearchStore.getActiveUrl(),
+        test: true
         };
 
         this.onComplete = this.onComplete.bind(this);
@@ -61,7 +63,7 @@ class PostTest extends React.Component {
         return (
         <div className="Form">
         <Form
-            formData={formData(task.data.topic)}
+            formData={formData(task.data.topics)}
             formValidation={formValidation}
             onSwitchPage={this.onSwitchPage}
             onComplete={this.onComplete}
@@ -71,8 +73,8 @@ class PostTest extends React.Component {
                         <div className="SearchResultsContainer">
                             <SearchResultsContainer/>
                         </div>
-        <div className="Side" id="hideme">
-        <BookmarkContainer collaborative={this.props.collaborative}/>
+        <div className="Side">
+        <QueryHistoryContainer collaborative={this.props.collaborative} test={this.state.test}/>
         </div> 
         </div>
         )
@@ -152,35 +154,27 @@ const formData = function(topic) {
     let elements = [];
 
     ////
+    let sess= localStorage.getItem("session-num") || 0 ;
+    const topickey = sess
+    sess++
 
     elements.push({
         type: "html",
         name: "topic",
-        html: `<h2>Test 5</h2>` +
-        `<h3>Let's see how much you've learned.</h3>` +
-        `<h3>Answer these questions about <b style ="color: #00A6D3;">${topic.title}</b>:</h3>`
+        html:  `<h2> Information Need ${sess} </h2>` +
+        `<h3>Let's find out what you have learned about the topic from the last search session.</h3>` +
+        `<h3>For the information need you just searched for, provide us with ONE query that will help us find relevant information.</h3>`
     });
+    const name = "Q-"+ topic[topickey]['@number'] +"-"+ topic[topickey]['query'];
 
-    Helpers.shuffle(topic.terms).forEach((term, idx) => {
-        const name = "Q-"+ topic.id +"-"+ term;
-
-        elements.push({
-            title: "How much do you know about \"" + term + "\"?",
-            type: "radiogroup",
-            isRequired: true,
-            name: name,
-            choices: constants.choices
-        });
-
-        elements.push({
-            title: "In your own words, what do you think the meaning is?",
-            visibleIf: "{" + name + "} > 2",
-            name: "meaning-" + idx,
-            type: "text",
-            inputType: "text",
-            width: 500,
-            isRequired: true,
-        });
+    elements.push({
+        title: "Information need:  \"" + topic[topickey]['narrative'] + "\" Your query:",
+        name: name,
+        type: "comment",
+        inputType: "text",
+        width: 600,
+        rows: 1,
+        isRequired: true
     });
 
     pages.push({elements:  elements});
@@ -190,15 +184,15 @@ const formData = function(topic) {
 
     elements = [];
 
-    elements.push({
-        type: "html",
-        name: "outline-description",
-        html: `
-            <p>  ${topic.description}</p>
-            <b> Based on what you have learned from the search session about the topic, please write, in your own words, a summary at a minimum of 100 words. </b>
+    // elements.push({
+    //     type: "html",
+    //     name: "outline-description",
+    //     html: `
+    //         <p>  ${topic.description}</p>
+    //         <b> Based on what you have learned from the search session about the topic, please write, in your own words, a summary at a minimum of 100 words. </b>
             
-            `
-    });
+    //         `
+    // });
 
     // elements.push({
     //     title: "Write your outline here:",
@@ -210,14 +204,14 @@ const formData = function(topic) {
     //     isRequired: true
     // });
 
-    elements.push({
-        title: "Please write your summary here. ",
-        name: "summary",
-        type: "comment",
-        inputType: "text",
-        rows: 6,
-        isRequired: true
-    });
+    // elements.push({
+    //     title: "Please write your summary here. ",
+    //     name: "summary",
+    //     type: "comment",
+    //     inputType: "text",
+    //     rows: 6,
+    //     isRequired: true
+    // });
 
     elements.push({
         type: "html",
