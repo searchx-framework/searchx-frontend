@@ -65,33 +65,38 @@ const formData = function() {
         type: "html",
         name: "start",
         html: `
-        <h3>Requirements:</h3>
+        <h3>Requirements</h3>
+        <img  src='/img/list.png' width="50" style="margin-left: 20px;margin-bottom: 20px;"alt='participants'/>
+        </br>
         <ol type="1">
             <li>
-                We have automatically detected if your browser is compatible. Still, you can also <a href="https://www.whatismybrowser.com/" target="_blank">check here</a> if the version of your browser meets our requirements:
-                Google Chrome version 47 (or higher) and Mozilla Firefox version 44 (or higher).
+                Your browser is compatible with our study's requirements.
             </li>
             <li>You will need approximately 60 minutes to complete the whole study.</li>
-            <li>We will detect if you were active in our study to decide if we will give your contribution.</li>
+            <li>We require you to be active in our study in order to receive payment.</li>
             <li>This is a collaborative study: this means you will be interacting with other participants during the experiment. </li>
         
         </ol>
-        
+        <img src='/img/noun_users_64757.png' width="150" style="margin-left: auto;margin-right:auto;display: block;"alt='participants'/>
         <hr/>
 
-        
+        <h3>The Experiment</h3>
+        <img  src='/img/experiment.png' width="50" style="margin-left: 20px;margin-bottom: 20px;"alt='participants'/>
+        </br>
         In this study, you are tasked with searching for a number of documents in a collection of news articles with fellow users. The experiment has four main parts:
             <ol type="-">
             <li><strong>Pre-questionnaire</strong>: we will ask about your experience searching the Web with other users before.</li>
             <li><strong>Waiting phase</strong>: we will try to find a group of participants, and you will start the next phase (at least 10 minutes). You can play Tetris while you wait.</li>
             <li><strong>Collaborative search phase</strong>: you and your fellow participants will be given three different topics to work together on, and each takes about 15 minutes to complete. </li>
+            <img src='/img/noun_user group_326172.png' width="100" style="margin-left: 30px;margin-bottom: 20px;" alt='participants'/>
+            <img src='/img/noun_Web Search_1173263.png' width="120" style="margin-left: 30px;margin-bottom: 20px;" alt='participants'/>
             <li><strong>Post-questionnaire</strong>: we will ask about how was your overall experience with our experiment.
             </ol>
         
 
 
         <hr/>
-        <h3>Good luck and thank you for participating.</h3>
+        <h3>Thank you for your contribution and time!</h3>
         `
     });
 
