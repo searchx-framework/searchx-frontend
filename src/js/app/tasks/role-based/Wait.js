@@ -103,7 +103,6 @@ class Wait extends React.Component {
     }
 
     onSync(data) {
-        console.log(data);
         if (data.newUser === AccountStore.getUserId()) {
             SyncStore.emitSyncLeaveGroup();
             SessionStore.setGroup(data.newGroup._id, data.newGroup.members);

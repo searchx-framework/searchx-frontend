@@ -31,11 +31,20 @@ const SuggestionStore = Object.assign(EventEmitter.prototype, {
             case ActionTypes.GET_SUGGESTIONS:
                 _get(action.payload.query);
                 break;
+            case ActionTypes.CLEAR_SUGGESTIONS:
+                _clear();
+                break;
             default:
                 break;
         }
     })
 });
+
+const _clear = function(){
+    state.suggestions = [];
+}
+
+
 
 ////
 const _get = function(query) {

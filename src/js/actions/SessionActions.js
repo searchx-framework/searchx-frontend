@@ -145,5 +145,13 @@ export default {
                 query: query
             }
         })
+    },
+
+    clearSuggestions() {
+        dispatch({
+            type: ActionTypes.CLEAR_SUGGESTIONS,
+            payload: {
+            }
+        })
     }
 }

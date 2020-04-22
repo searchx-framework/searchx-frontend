@@ -77,6 +77,7 @@ export default class SearchHeaderContainer extends React.Component {
         this.hideSuggestionsHandler();
         SearchActions.search(this.state.query, this.state.searchState.vertical, 1);
         SessionActions.getBookmarksAndExcludes();
+        SessionActions.clearSuggestions()
     }
 
     queryChangeHandler(query) {
@@ -88,7 +89,11 @@ export default class SearchHeaderContainer extends React.Component {
         const lastQueryContainsQuery = lastQuery.indexOf(query) !== -1;
         if (lengthDifference > 2 || lengthDifference < -2 || (!lastQueryContainsQuery && lengthDifference < 0)) {
             this.setState({lastQueryUsedForSuggestions: query});
-            SessionActions.getSuggestions(query);
+            if (query.length > 0) {
+                SessionActions.getSuggestions(query);
+            } else if (query.length === 0) {
+                SessionActions.clearSuggestions();
+            }
         }
     }
 
@@ -110,10 +115,10 @@ export default class SearchHeaderContainer extends React.Component {
     }
 
     showSuggestionsHandler() {
-        this.setState({ showSuggestions: true });
         if (this.state.query) {
             SessionActions.getSuggestions(this.state.query);
         }
+        this.setState({ showSuggestions: true });
     }
 
     clickSuggestionHandler(query) {

@@ -11,7 +11,6 @@ import Timer from "../components/Timer";
 
 import {log} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../utils/LoggerEventTypes';
-import ReactAudioPlayer from 'react-audio-player';
 import StatusBar from "../components/GroupStatusBar";
 import SessionStore from "../../../stores/SessionStore";
 import {getTaskDescription} from "./Utils";
@@ -40,7 +39,11 @@ class Session extends React.PureComponent {
                 start: start
             });
         });
-        SearchActions.reset();
+        if (this.state.currentTopic > 0) {
+            SearchActions.reset();
+        }
+        var audio = new Audio("/sounds/notification.mp3");
+        audio.play();
     }
     componentWillUnmount() {
         window.removeEventListener('beforeunload', this.handleBeforeUnload);
@@ -54,6 +57,12 @@ class Session extends React.PureComponent {
     }
 
     render() {
+
+        if (localStorage.getItem("invalid-user") === "true") {
+            this.props.history.replace({
+                pathname: '/disq'
+            });
+        }
         const task = AccountStore.getTask();
         const t = this.state.currentTopic;
         let duration = t === 0 ? constants.taskDuration + 1 : constants.taskDuration;
@@ -76,11 +85,6 @@ class Session extends React.PureComponent {
             log(LoggerEventTypes.TASK_CLOSE, metaInfo);
         };
 
-        let waited = false;
-        if (this.props.location.state) {
-            waited = this.props.location.state.waited;
-        }
-
         const role = SessionStore.getMemberRole(AccountStore.getUserId());
 
         if (role ===  "single") {
@@ -99,20 +103,14 @@ class Session extends React.PureComponent {
 
             <hr/>
 
-            <font color="#9C9C9C"> <p> After 10 minutes the system will give your next search task. </p> </font>
+            <font color="#9C9C9C"> <p> After 15 minutes the system will give your next search task. </p> </font>
 
 
             </Collapsible>
         );
 
         return (
-            <div>
-                {waited && <ReactAudioPlayer
-                    src="../sound/notification.mp3"
-                    autoPlay
-                />}
-                <TaskedSession timer={timer} taskDescription={taskDescription} statusbar={statusbar} lastSession={false} firstSession={true}/>
-            </div>
+            <TaskedSession timer={timer} taskDescription={taskDescription} statusbar={statusbar} lastSession={false} firstSession={true}/>
         )
     }
 
@@ -124,7 +122,7 @@ class Session extends React.PureComponent {
         if ((this.state.currentTopic+1) < task.data.topics.length ) {
             localStorage.setItem("current-topic", this.state.currentTopic+1);
             this.props.history.replace({
-                pathname: '/role-based/description/short'
+                pathname: '/role-based/description_short'
             });
         } else {
             this.props.history.replace({
