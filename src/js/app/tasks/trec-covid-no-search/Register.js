@@ -290,12 +290,10 @@ const formData = function() {
     elements.push({
         title: "Does your educational background provide you with a deep scientific understanding of COVID-19 and other coronaviruses?",
         name: "virusexpert",
-        type: "radiogroup",
+        type: "rating",
         isRequired: true,
-        choices: [
-            {value: 0, text: "No"},
-            {value: 1, text: "Yes"}
-        ]
+        minRateDescription: "Not at all knowledgeable",
+        maxRateDescription: "Very knowledgeable -- it is my area of study"
     });
 
     elements.push({
