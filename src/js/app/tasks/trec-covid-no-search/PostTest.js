@@ -156,7 +156,8 @@ const formData = function(topic) {
         type: "html",
         name: "topic",
         html: `<h2>Help us learn more about the novel coronavirus!</h2>` +
-        `<h3>For each information need, provide us with ONE query that will help us find relevant information about that need</h3>` 
+        `<h3>For each information need, provide us with TWO queries that will help us find relevant information. </h3>` 
+        
         // `<h3>Answer these questions about <b style ="color: #00A6D3;">${topic.title}</b>:</h3>`
     });
 
@@ -164,8 +165,23 @@ const formData = function(topic) {
         const name = "Q-"+ topic[idx]['@number'] +"-"+ topic[idx]['query'];
 
         elements.push({
-            title: "Information need:  \"" + topic[idx]['narrative'] + "\" Your query:",
-            name: name,
+            type: "html",
+            name: "information-need" + idx,
+            html: `<h3> Information need: <i>${topic[idx]['narrative']}</i>` 
+        });
+        
+        elements.push({
+            title: "Query 1:",
+            name: name +' query1',
+            type: "comment",
+            inputType: "text",
+            width: 600,
+            rows: 1,
+            isRequired: true
+        });
+        elements.push({
+            title: "Query 2:",
+            name: name +' query2',
             type: "comment",
             inputType: "text",
             width: 600,
