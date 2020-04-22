@@ -2,10 +2,10 @@
     "taskId": "trec-covid-no-search",
     "groupSize": 1,
     "topicsSize": 10,
-    "taskDuration": 5,
+    "taskDuration": 20,
     "waitDuration": 20,
-    "switchPageLimit": 300,
-    "completionURL": "https://app.prolific.co/submissions/complete?cc=100CDEC0",
+    "switchPageLimit": 2,
+    "completionURL": "https://app.prolific.co/submissions/complete?cc=32306149",
     "choices": [
         {
             "value": 1,
