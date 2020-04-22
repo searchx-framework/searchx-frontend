@@ -288,12 +288,14 @@ const formData = function() {
         ]
     });
     elements.push({
-        title: "Given your educational background, how knowledgeable are you with the intricacies of biology/science/virology?",
+        title: "Does your educational background provide you with a deep scientific understanding of COVID-19 and other coronaviruses?",
         name: "virusexpert",
-        type: "rating",
+        type: "radiogroup",
         isRequired: true,
-        minRateDescription: "Not at all knowledgeable",
-        maxRateDescription: "Very knowledgeable"
+        choices: [
+            {value: 0, text: "No"},
+            {value: 1, text: "Yes"}
+        ]
     });
 
     elements.push({
