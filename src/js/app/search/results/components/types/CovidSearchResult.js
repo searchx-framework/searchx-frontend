@@ -13,6 +13,7 @@ const CovidSearchResult = function ({
                                    }) {
     let metaInfo = {
         url: result.id,
+        docno: result.collectionId,
         index: index,
         query: searchState.query,
         page: searchState.page,

@@ -25,6 +25,7 @@ class Register extends React.Component {
     ////
 
     onComplete(data) {
+        console.log("SURVEY DATA", data)
         log(LoggerEventTypes.SURVEY_REGISTER_RESULTS, {
             data: data
         });
@@ -79,14 +80,14 @@ const formData = function() {
         
         <h3> <img src ="/img/experiment.png" width="50" height="50"> The experiment  </h3>
         <hr/>
-        <p> In this study, we will provide you with 10 information needs related to COVID-19 (e.g. ‘Looking for information on all possible ways to contract COVID-19 from people, animals and objects’). With each of these information needs, you have to provide us with the best query that represents that particular information need. There is no right answer here. If you were to imagine that you are searching the web for this particular information need, what we are after are the terms that you type into the search engine to get the documents/websites/links that will answer your information need.</p>
+        <p> In this study, we will provide you with 3 information needs related to COVID-19 (e.g. ‘Looking for information on all possible ways to contract COVID-19 from people, animals and objects’). With each of these information needs, you have to provide us with two good (but different) queries that represents that particular information need. There is no right answer here. If you were to imagine that you are searching the web for this particular information need, what we are after are the terms that you type into the search engine to get the documents that will answer your information need.</p>
         <h3> <img src ="/img/list.png" width="50" height="50"> Your role  </h3>
         <hr/>
         <p> Imagine that you are searching the web with that particular information need in mind. You can use our SearchX system to issue queries and examine a series of documents we have collated that discuss various issues related coronavirus. After providing us with some basic demographics information, we will present the search interface.</p>
         <ol type="-">
             <li>
-                <p>  Use SearchX as you would Google. Issue as many queries as you like, and examine whatever documents you like.
-                </p> 
+                <p>  Use SearchX just as you would your chosen web search engine. Issue as many queries as you like, and examine whatever documents you like. 
+                 </p> 
             </li>
             <li>
                 <p> The information need we wish you to find a good query for will be outlined on the right of the screen.
@@ -311,6 +312,26 @@ const formData = function() {
         width: 600,
         rows: 1,
         isRequired: true
+    });
+    elements.push({
+        title: "How often do you look up information related to COVID-19?",
+        name: "covidsearch",
+        type: "radiogroup",
+        isRequired: true,
+        choices: [
+            {value: 0, text: "Never"},
+            {value: 1, text: "Weekly"},
+            {value: 2, text: "Daily"},
+            {value: 3, text: "Multiple times a day"}
+        ]
+    });
+    elements.push({
+        title: "Does your educational background provide you with a deep scientific understanding of COVID-19 and other coronaviruses?",
+        name: "virusexpert",
+        type: "rating",
+        isRequired: true,
+        minRateDescription: "Not at all knowledgeable",
+        maxRateDescription: "Very knowledgeable -- it is my area of study"
     });
 
     elements.push({

@@ -25,7 +25,7 @@ class Session extends React.PureComponent {
 
     componentDidMount() {
         const taskdata = JSON.parse(localStorage.getItem("task-data") === undefined ? "{}" : localStorage.getItem("task-data")) || '';
-        let td = '<h3> Your task </h3><p> We require to find information regarding an information need pertaining to COVID19. It will be shown on the right side of your screen. Read it carefully and then you can use our search engine to observe which query gives the best set of documents. </p>';
+        let td = '<h3> Your task </h3><p> We require to find information regarding an information need pertaining to COVID19. It will be shown on the right side of your screen. Read it carefully and then you can use our search engine to observe which queries gives the best set of documents. </p>';
 
         // td += `Remember: there will be three intermittent tests. After searching for at least 20 minutes you can move on to the final test by clicking on the "To Final Test" button. 
         // The documents you saved will be available to you when writing (in your own words) a short summary about the topic.`
@@ -42,7 +42,7 @@ class Session extends React.PureComponent {
             },
             {
                 element: '.SearchHeader',
-                intro: 'We want you to use our custom web search system SearchX to learn about the information need mentioned in the task description. Once you are satisfied with the results you obtained press the Next button to submit the query you found most useful for the corresponding information need.',
+                intro: 'We want you to use our custom web search system SearchX to learn about the information need mentioned in the task description. Once you are satisfied with the results you obtained press the Next button to submit the two queries you found most useful for the corresponding information need.',
                 position: 'bottom-middle-aligned'
             },
             {
@@ -117,7 +117,7 @@ class Session extends React.PureComponent {
                 <hr/>
 
                 <p>
-                    After you are satisfied with knowledge you acquired, click the Next button above to submit the query which you found to be most resourceful for this particular information need.
+                    After you are satisfied with knowledge you acquired, click the Next button above to submit the two queries which you found to be most resourceful for this particular information need.
                 </p>
 
 
