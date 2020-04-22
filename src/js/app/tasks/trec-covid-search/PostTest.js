@@ -163,7 +163,7 @@ const formData = function(topic) {
         name: "topic",
         html:  `<h2> Information Need ${sess} </h2>` +
         `<h3>Let's find out what you have learned about the topic from the last search session.</h3>` +
-        `<h3>For the information need you just searched for, provide us with ONE query that will help us find relevant information.</h3>`
+        `<h3>For the information need you just searched for, provide us with two queries that will help us find relevant information.</h3>`
     });
     const name = "Q-"+ topic[topickey]['@number'] +"-"+ topic[topickey]['query'];
 
