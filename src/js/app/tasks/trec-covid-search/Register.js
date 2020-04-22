@@ -118,7 +118,7 @@ const formData = function() {
         <ol type="-">
             <li>
                 <p>
-                Only make use of the interface that we provide. Do not use another web search interface to dry run your queries. W
+                Only make use of the interface that we provide. Do not use another web search interface to dry run your queries. 
                 Do not switch browser tabs–-after three tab switches we will cancel your participation.
                 </p>
             </li>
