@@ -61,14 +61,14 @@ export default class Viewer extends React.Component  {
     
     
                         <div className="pull-right">
-                            {!this.props.doctext && [
+                            {/* {!this.props.doctext && [
                                 <span className="forward" onClick={openInBrowser}>open in browser</span>,
                                 <span className="divider"/>
                             ]}
                             {config.interface.ratings && [
                                 <RatingContainer url={this.props.url}/>,
                                 <span className="divider"/>
-                            ]}
+                            ]} */}
                             <span className="close" onClick={closeDocument}><i className="fa fa-times"/></span>
                         </div>
                     </div>
