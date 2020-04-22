@@ -77,10 +77,10 @@ const formData = function() {
         
         <h3> <img src ="/img/experiment.png" width="50" height="50"> The experiment  </h3>
         <hr/>
-        <p>In this study, we will provide you with 10 information needs related to COVID-19 (e.g. ‘Looking for information on all possible ways to contract COVID-19 from people, animals and objects’). With each of these information needs, you have to provide us with the best query that represents that particular information need. There is no right answer here. If you were to imagine that you are searching the web for this particular information need, what we are after are the terms that you type into the search engine to get the documents/websites/links that will answer your information need.</p>
+        <p>In this study, we will provide you with 10 information needs related to COVID-19 (e.g. ‘Looking for information on all possible ways to contract COVID-19 from people, animals and objects’). With each of these information needs, we ask you to provide us with two good (but different) queries that represent that particular information need. There is no right answer here. <b>If you were to imagine that you are searching the web for this particular information need, what we are after are the terms that you type into the search engine to get the documents/websites/links that will answer your information need.</b></p>
         <h3> <img src ="/img/list.png" width="50" height="50"> Your role  </h3>
         <hr/>
-        <p> Imagine that you are searching the web with that particular information need in mind. Provide us with the query that you would issue in the web to get documents or websites or links answering your information need. On the next page, we will ask you to enter some basic information regarding your demographics. Following that, we will provide you with the list of the ten information need related to COVID-19. For each of them, there will be space for you to provide the query that you would issue for that need. Please provide only <b>one</b> query per information need. Try to make sure there are no spelling mistakes before submitting your final query.</p>
+        <p> <b>Imagine</b> that you are searching the web with that particular information need in mind. Provide us with two queries that you would issue in the web to get documents or websites or links answering your information need. On the next page, we will ask you to enter some basic information regarding your demographics. Following that, we will provide you with the list of the ten information need related to COVID-19. For each of them, there will be space for you to provide <b>two</b> queries that you would issue for that need. Try to make sure there are no spelling mistakes before submitting your final queries.</p>
         <h3> <img src ="/img/error.png" width="50" height="50"> Keep in mind...  </h3>
         <hr/>
         <p> We have a few important points: </p>
@@ -274,6 +274,26 @@ const formData = function() {
         width: 600,
         rows: 1,
         isRequired: true
+    });
+    elements.push({
+        title: "How often do you look up information related to COVID-19?",
+        name: "covidsearch",
+        type: "radiogroup",
+        isRequired: true,
+        choices: [
+            {value: 0, text: "Never"},
+            {value: 1, text: "Weekly"},
+            {value: 2, text: "Daily"},
+            {value: 3, text: "Multiple times a day"}
+        ]
+    });
+    elements.push({
+        title: "Given your educational background, how knowledgeable are you with the intricacies of biology/science/virology?",
+        name: "virusexpert",
+        type: "rating",
+        isRequired: true,
+        minRateDescription: "Not at all knowledgeable",
+        maxRateDescription: "Very knowledgeable"
     });
 
     elements.push({

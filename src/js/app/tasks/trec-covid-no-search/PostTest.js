@@ -167,7 +167,7 @@ const formData = function(topic) {
         elements.push({
             type: "html",
             name: "information-need" + idx,
-            html: `<h3> Information need: <i>${topic[idx]['narrative']}</i>` 
+            html: `<p> Information need: <b><i>${topic[idx]['narrative']}</i></b></p>` 
         });
         
         elements.push({

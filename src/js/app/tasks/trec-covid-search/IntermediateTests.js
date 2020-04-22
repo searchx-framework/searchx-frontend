@@ -183,8 +183,23 @@ const formData = function(topic) {
             const name = "Q-"+ topic[topickey]['@number'] +"-"+ topic[topickey]['query'];
     
             elements.push({
-                title: "Information need:  \"" + topic[topickey]['narrative'] + "\" Your query:",
-                name: name,
+                type: "html",
+                name: "information-need" + topickey,
+                html: `<p> Information need: <b><i>${topic[topickey]['narrative']}</i></b></p>` 
+            });
+            
+            elements.push({
+                title: "Query 1:",
+                name: name +' query1',
+                type: "comment",
+                inputType: "text",
+                width: 600,
+                rows: 1,
+                isRequired: true
+            });
+            elements.push({
+                title: "Query 2:",
+                name: name +' query2',
                 type: "comment",
                 inputType: "text",
                 width: 600,
