@@ -31,6 +31,7 @@ import PilotPostTest from './tasks/algorithmic-mediation-pilot/PostTest';
 
 
 import RoleBasedRegister from './tasks/role-based/Register';
+import RoleBasedReRegister from './tasks/role-based/ReRegister';
 import RoleBasedWait from './tasks/role-based/Wait';
 import RoleBasedSession from './tasks/role-based/Session';
 import RoleBasedDescription from './tasks/role-based/TaskDescription';
@@ -102,6 +103,7 @@ export class App extends React.Component {
                     <Route exact path="/pilot/posttest" component={PilotPostTest}/>
 
                     <Route exact path="/role-based" component={RoleBasedRegister}/>
+                    <Route exact path="/role-based/register" component={RoleBasedReRegister}/>
                     <Route exact path="/role-based/wait" component={RoleBasedWait}/>
                     <Route path="/role-based/session" component={RoleBasedSession}/>
                     <Route path="/role-based/description" component={RoleBasedDescription}/>

@@ -14,7 +14,6 @@ import './RoleBased.pcss';
 import Timer from "../components/Timer";
 import {Button} from "react-bootstrap";
 import SearchActions from "../../../actions/SearchActions";
-import Tetris from './Tetris';
 
 class Wait extends React.Component {
     constructor(props) {
@@ -80,19 +79,22 @@ class Wait extends React.Component {
 
     render() {
 
-        if (localStorage.getItem("current-path") !== '/role-based/wait') {
+        // if (localStorage.getItem("current-path") !== '/role-based/wait') {
+        //     this.props.history.replace({
+        //         pathname: localStorage.getItem("current-path")
+        //     });
+        // }
 
+        // if (localStorage.getItem("invalid-user") === "true") {
+        //     this.props.history.replace({
+        //         pathname: '/disq'
+        //     });
+        // }
 
-            this.props.history.replace({
-                pathname: localStorage.getItem("current-path")
-            });
-        }
-
-        if (localStorage.getItem("invalid-user") === "true") {
-            this.props.history.replace({
-                pathname: '/disq'
-            });
-        }
+        const Tetris = <iframe title="Tetris" scrolling="yes"
+        frameBorder="0" className="Tetris"
+        src={`${process.env.REACT_APP_TETRIS}`} height>
+        </iframe>
 
         return <div className="Wait waitBox">
             <div>
@@ -112,7 +114,7 @@ class Wait extends React.Component {
                 }>
                     {this.state.open ? "Close Tetris" : "Play Tetris"}
                 </Button>
-                {this.state.open ? <Tetris/> : <div/> }
+                {this.state.open ? Tetris : <div/> }
             </div>
         </div>
     }
@@ -152,7 +154,7 @@ class Wait extends React.Component {
 
         SyncStore.emitSyncLeave();
         AccountStore.clearUserData();
-        localStorage.setItem("invalid-user", true.toString());
+        //localStorage.setItem("invalid-user", true.toString());
     }
 
     onTimeout() {
