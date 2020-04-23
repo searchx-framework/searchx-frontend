@@ -35,7 +35,7 @@ var config = {
         annotations: false, /* allow users to place annotations (comments) on documents */
         ratings: false, /* allow users to rate search results and show the ratings for the group */
         views: false, /* show the number of times a result has been viewed */
-        chat: false, /* enable the group chat feature */
+        chat: true, /* enable the group chat feature */
         timeIndicator: false, /* show the time it took to return results */
         star: true, /* allow users to star bookmarks */
         saveTimestamp: true, /* show the time and date at which a document was saved */

@@ -139,7 +139,7 @@ const CovidSearchResult = function ({
                     <p> {getAuthorString(result.author)}. <i> {result.journal === "nan" ? "" : result.journal} </i> ({result.pubtime})  
                     <a href= {result.url} target="_blank"
                        onContextMenu={contextUrl}>
-                        &nbsp; [Url]
+                        &nbsp; [Link]
                     </a>
                     </p>
                 </div>
