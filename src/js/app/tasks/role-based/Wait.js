@@ -73,12 +73,27 @@ class Wait extends React.Component {
     }
 
     handleUnload() {
-        if (!this.state.isReady) {
+        if (!this.state.isReady & localStorage.getItem("current-path") === '/role-based/wait') {
             this.onLeave();
         }
     }
 
     render() {
+
+        if (localStorage.getItem("current-path") !== '/role-based/wait') {
+
+
+            this.props.history.replace({
+                pathname: localStorage.getItem("current-path")
+            });
+        }
+
+        if (localStorage.getItem("invalid-user") === "true") {
+            this.props.history.replace({
+                pathname: '/disq'
+            });
+        }
+
         return <div className="Wait waitBox">
             <div>
                 <h2>Waiting for your group members...</h2>
@@ -121,7 +136,7 @@ class Wait extends React.Component {
                 state : this.state
             });
 
-        
+            localStorage.setItem("current-path", '/role-based/description');
             this.props.history.replace({
                 pathname: '/role-based/description',
                 state: { waited: true }
@@ -137,6 +152,7 @@ class Wait extends React.Component {
 
         SyncStore.emitSyncLeave();
         AccountStore.clearUserData();
+        localStorage.setItem("invalid-user", true.toString());
     }
 
     onTimeout() {

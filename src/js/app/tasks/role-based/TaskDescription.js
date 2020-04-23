@@ -48,6 +48,7 @@ class TaskDescription extends React.Component {
     onFinish(e) {
         log(LoggerEventTypes.TASK_DESCRIPTION_CONTINUE,metaInfo);
         localStorage.setItem("timer-start", Date.now());
+        localStorage.setItem("current-path", '/role-based/session');
         this.props.history.replace({
             pathname: '/role-based/session',
             state: { waited: true }
@@ -56,7 +57,20 @@ class TaskDescription extends React.Component {
 
 
     render() {
-        
+        const start = localStorage.getItem("timer-start") || Date.now();
+        localStorage.setItem("timer-start", start);
+        if (localStorage.getItem("current-path") !== '/role-based/description') {
+            this.props.history.replace({
+                pathname: localStorage.getItem("current-path")
+            });
+        }
+
+        if (localStorage.getItem("invalid-user") === "true") {
+            this.props.history.replace({
+                pathname: '/disq'
+            });
+        }
+
         const task = AccountStore.getTaskData();
 
         const role = SessionStore.getMemberRole(AccountStore.getUserId());
@@ -75,8 +89,8 @@ class TaskDescription extends React.Component {
             <br/>
             <p> SearchX is a specialized search engine for news articles, use it to find relevant articles for the topic. Do not use any other Web search engine. </p>
 
-            <p> You will be redirected once the time is up!</p>
-            <Timer start={new Date()} duration={constants.taskDescriptionWait + 1} onFinish={this.onFinish} style={{fontSize: '2em'}} showRemaining={true}/>
+            <p> You will be redirected once the time is up! <b>DO NOT PRESS THE BROWSER BACK BUTTON!</b> This will invalidate your participation!</p>
+            <Timer start={start} duration={constants.taskDescriptionWait + 1} onFinish={this.onFinish} style={{fontSize: '2em'}} showRemaining={true}/>
         </div>
         )
     }

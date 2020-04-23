@@ -30,7 +30,6 @@ class Session extends React.PureComponent {
 
     componentDidMount() {
         window.addEventListener('beforeunload', this.handleBeforeUnload);
-        window.addEventListener('popstate', this.handleBeforeUnload);
 
         IntroStore.startIntro(getIntroSteps(), () => {
             const start = localStorage.getItem("timer-start") || Date.now();
@@ -58,14 +57,21 @@ class Session extends React.PureComponent {
 
     render() {
 
+        if (localStorage.getItem("current-path") !== '/role-based/session') {
+            this.props.history.replace({
+                pathname: localStorage.getItem("current-path")
+            });
+        }
+
         if (localStorage.getItem("invalid-user") === "true") {
             this.props.history.replace({
                 pathname: '/disq'
             });
         }
+        
         const task = AccountStore.getTask();
         const t = this.state.currentTopic;
-        let duration = t === 0 ? constants.taskDuration + 1 : constants.taskDuration;
+        let duration = t === 0 ? constants.taskDuration + 2 : constants.taskDuration;
         const timer = (
             <div style={{marginTop: '10px', textAlign: 'center'}}>
                 <Timer start={this.state.start} duration={duration} onFinish={this.onFinish} style={{fontSize: '2em'}} showRemaining={true}/>
@@ -103,7 +109,7 @@ class Session extends React.PureComponent {
 
             <hr/>
 
-            <font color="#9C9C9C"> <p> After 15 minutes the system will give your next search task. </p> </font>
+            <font color="#9C9C9C"> <p> After 15 minutes the system will give your next search task. <b>DO NOT PRESS THE BROWSER BACK BUTTON!</b> This will invalidate your participation! </p> </font>
 
 
             </Collapsible>
@@ -121,10 +127,12 @@ class Session extends React.PureComponent {
         log(LoggerEventTypes.SESSION_END, {});
         if ((this.state.currentTopic+1) < task.data.topics.length ) {
             localStorage.setItem("current-topic", this.state.currentTopic+1);
+            localStorage.setItem("current-path", '/role-based/description_short');
             this.props.history.replace({
                 pathname: '/role-based/description_short'
             });
         } else {
+            localStorage.setItem("current-path", '/role-based/posttest');
             this.props.history.replace({
                 pathname: '/role-based/posttest'
             });

@@ -75,7 +75,7 @@ const singleDescription = (title, description) => (
     <span style={{"background-color" : "#FFFF00"}}>Your editor has just told you to write a story about <font color="#33BEFF"> <strong>{title}</strong></font></span>. 
     However, before you can write the story, <span style={{"background-color" : "#FFFF00"}}> you need to collect in 15 minutes a number of documents that will support writing the story.</span></p>
     <p><span style={{"background-color" : "#FFFF00"}}>Your job is to identify as many documents (news articles) as possible that appear on first sight to be useful (considering different aspects of <font color="#33BEFF"><strong>{title}</strong></font>), and filter them down to produce a final list of documents that you are satisfied with. </span>
-    The final list will be shared with your. </p>
+    The final list will be shared with your editor. </p>
 
     <p><span style={{"background-color" : "#FFFF00"}}>Documents should be collected that comply with the following criteria: </span></p>
 

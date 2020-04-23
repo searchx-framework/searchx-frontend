@@ -43,6 +43,19 @@ class PostTest extends React.Component {
     }
 
     render() {
+
+        if (localStorage.getItem("current-path") !== '/role-based/posttest') {
+            this.props.history.replace({
+                pathname: localStorage.getItem("current-path")
+            });
+        }
+
+        if (localStorage.getItem("invalid-user") === "true") {
+            this.props.history.replace({
+                pathname: '/disq'
+            });
+        }
+
         return <Form
             formData={formData(this.state.returnCode)}
             onComplete={this.onComplete}
@@ -80,7 +93,7 @@ const formData = function(returnCode) {
     elements.push({
         type: "html",
         name: "collab-feedback-description",
-        html: "<b>We would like you to describe your search experience.</b>"
+        html: "<b><p>DO NOT PRESS THE BROWSER BACK BUTTON! This will invalidate your participation!</p> <p>We would like you to describe your search experience.</p></b>"
     });
     
 

@@ -16,6 +16,22 @@ class Register extends React.Component {
     }
 
     render() {
+
+        if (localStorage.getItem("current-path") === null) {
+            localStorage.setItem("current-path", '/role-based/');
+        } else if (localStorage.getItem("current-path") !== '/role-based/') {
+            this.props.history.replace({
+                pathname: localStorage.getItem("current-path")
+            });
+        }
+
+
+        if (localStorage.getItem("invalid-user") === "true") {
+            this.props.history.replace({
+                pathname: '/disq'
+            });
+        }
+
         return <Form
             formData={formData()}
             onComplete={this.onComplete}
@@ -41,9 +57,12 @@ class Register extends React.Component {
                 localStorage.setItem("current-topic", 0);
                 if ('topics' in res.taskData) {
                     SyncStore.emitUserJoinGroup(true);
+                    localStorage.setItem("timer-start", Date.now());
+                    localStorage.setItem("current-path", '/role-based/description');
                     this.props.history.replace('/role-based/description');
                 } else {
                     SyncStore.emitUserJoinGroup(false);
+                    localStorage.setItem("current-path", '/role-based/wait');
                     this.props.history.replace('/role-based/wait');
                 }
             }
@@ -92,7 +111,37 @@ const formData = function() {
             <img src='/img/noun_Web Search_1173263.png' width="120" style="margin-left: 30px;margin-bottom: 20px;" alt='participants'/>
             <li><strong>Post-questionnaire</strong>: we will ask about how was your overall experience with our experiment.
             </ol>
-        
+        <p> We have a few important points: </p>
+        <ol type="-">
+            <li>
+                <p>
+                Only make use of the interface that we provide. Do not use another web search interface to dry run your queries. 
+                Do not switch browser tabs–-after three tab switches we will cancel your participation.
+                </p>
+            </li>
+            <li>
+                <p>You can interact with the search results. 
+                    A click on a document snippet will open this document in our own document viewer. 
+                    We know that this document viewer is not perfect, but please stick with it. 
+                </p>
+            </li>
+            <li>
+            <p>You will search a collection of news articles. These are not the most recent news articles. </p>
+            </li>
+            <li> 
+                <p>
+                Keep your queries in line with the information need. 
+                For example, please do not issue queries for a prior topic once you have begun the search process for a new topic. Keep the queries you issue (and subsequently select) on point, and relevant to the topic outline provided on the right of the search interface.
+                If you begin issuing queries that are totally off topic (e.g. queries on ice skating, Brexit, or anything else you can think of), we will cancel your participation.
+                </p>
+            </li>
+
+            <li> 
+            <p>
+            The system will guide you forward to new pages. <b>DO NOT PRESS THE BROWSER BACK BUTTON!</b> This may bring unexpected behaviour and you will not be able to move forward again.
+            </p>
+        </li>
+        </ol>
 
 
         <hr/>
