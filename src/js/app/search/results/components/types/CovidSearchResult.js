@@ -26,7 +26,25 @@ const CovidSearchResult = function ({
         var doctext = result.text.split('\n').map((item, key) => {
             const regex = /CC-BY.*medRxiv preprint/g;
             let cleaned_item = item.replace(regex, '');
-            return <p><span key={key}>{cleaned_item}<br/></span> </p>
+            const regex2 = /All rights reserved. No reuse allowed without permission./g;
+            let cleaned_item1 = cleaned_item.replace(regex2, '');
+            const regex3 = /author\/funder, who has granted medRxiv a license to display the preprint in perpetuity./g;
+            let cleaned_item2 = cleaned_item1.replace(regex3, '');
+            const regex4 = /The copyright holder for this preprint.*preprint/g;
+            let cleaned_item3 = cleaned_item2.replace(regex4, '');
+            const regex5 = /\. CC-BY-NC-ND 4.0.*under a/g;
+            let cleaned_item4 = cleaned_item3.replace(regex5, '');
+            const regex6 = /The copyright holder for this preprint/g;
+            let cleaned_item5 = cleaned_item4.replace(regex6, '');
+            const regex7 = /is the \(which was not peer-reviewed\)/g;
+            let cleaned_item6 = cleaned_item5.replace(regex7, '');
+            const regex8 = /\(which was not peer-reviewed\) is the/g;
+            let cleaned_item7 = cleaned_item6.replace(regex8, '');
+            const regex9 = /https\:\/\/.*/g;
+            let cleaned_item8 = cleaned_item7.replace(regex9, '');
+
+
+            return <p><span key={key}>{cleaned_item8}<br/></span> </p>
         })
 
         // doctext.unshift(<h4> {result.source} <br/></h4>);
