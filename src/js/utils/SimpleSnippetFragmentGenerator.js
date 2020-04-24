@@ -481,7 +481,7 @@ export function generateSnippetText(docText, queryTerms) {
 */
 function createFragmentWindows(searchTerms, phraseMatches) {
     const windows = [];
-
+    
     for (let matchedPhrase of phraseMatches) {
         for (let searchTerm of searchTerms) {
             let indexPosition = matchedPhrase.indexOf(searchTerm);
@@ -511,7 +511,7 @@ function createFragmentWindows(searchTerms, phraseMatches) {
             }
         }
     }
-
+    console.log(windows)
     return windows;
 }
 
@@ -549,7 +549,7 @@ function splitQuery(queryTerms) {
     const stopwordsRemoved = splitQuery.filter(function(term) {
         return isStopword(term);
     });
-
+    console.log("cleanrquery", stopwordsRemoved)
     return stopwordsRemoved;
 }
 
@@ -574,11 +574,12 @@ function isStopword(term) {
 */
 function doesPhraseMatch(searchTerms, phrase) {
     phrase = phrase.toLowerCase();
-
+    // console.log(phrase)
     for (let searchTerm of searchTerms) {
         const matchFound = phrase.includes(searchTerm);
 
         if (matchFound) {
+            // console.log(phrase)
             return true;
         }
     }
