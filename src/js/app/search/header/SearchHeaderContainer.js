@@ -15,8 +15,7 @@ export default class SearchHeaderContainer extends React.Component {
         const searchState = SearchStore.getSearchState();
         this.state = {
             searchState: searchState,
-            query: searchState.query,
-            lastQueryUsedForSuggestions: ""
+            query: searchState.query
         };
 
         this.changeHandler = this.changeHandler.bind(this);
@@ -83,12 +82,10 @@ export default class SearchHeaderContainer extends React.Component {
         this.setState({
             query: query
         });
-        const lastQuery = this.state.lastQueryUsedForSuggestions;
-        const lengthDifference = query.length - lastQuery.length;
-        const lastQueryContainsQuery = lastQuery.indexOf(query) !== -1;
-        if (lengthDifference > 2 || lengthDifference < -2 || (!lastQueryContainsQuery && lengthDifference < 0)) {
-            this.setState({lastQueryUsedForSuggestions: query});
+   	if (query.length >= 3) {
             SessionActions.getSuggestions(query);
+        } else {
+            SessionActions.clearSuggestions();
         }
     }
 

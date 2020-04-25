@@ -49,9 +49,9 @@ export class App extends React.Component {
 
     render() {
         const md = new MobileDetect(window.navigator.userAgent);
-        if (md.mobile() !== null) {
-            return (<div/>)
-        }
+	// if (md.mobile() !== null) {
+        //    return (<div/>)
+        //}
         const browser = Bowser.getParser(window.navigator.userAgent);
         const isValidBrowser = browser.satisfies({
         // or in general
@@ -59,13 +59,13 @@ export class App extends React.Component {
         firefox: ">=50"
         });
 
-        if(!isValidBrowser){
-            return (<div>
-                <h3>Your browser does not meet our requriement:
-                    Google Chrome version 47 (or higher) and Mozilla Firefox version 50 (or higher).
-                    Please upgrade your browser to take part in our study</h3>
-            </div>)
-        } 
+        //if(!isValidBrowser){
+        //    return (<div>
+        //        <h3>Your browser does not meet our requriement:
+        //            Google Chrome version 47 (or higher) and Mozilla Firefox version 50 (or higher).
+        //            Please upgrade your browser to take part in our study</h3>
+        //    </div>)
+        // } 
 
         let invalid = localStorage.getItem("invalid-user") || 0;
         if(invalid === 1 ){
