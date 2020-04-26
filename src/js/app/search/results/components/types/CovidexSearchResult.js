@@ -51,7 +51,7 @@ const CovidSearchResult = function ({
         doctext.unshift(<h3> <br/> <b>Full Text:</b> <br/></h3>);
         doctext.unshift( <div align="left">  {" "} {result.abstract} <br/></div>);
         doctext.unshift(<h3 >  <b>Abstract:</b> <br/></h3>);
-        doctext.unshift( <p> {result.author} <br/></p>);
+        doctext.unshift( <p> {result.author.join("; ")} <br/></p>);
         doctext.unshift(<h4> <b>Authors:</b> <br/></h4>);
         doctext.unshift(<h2> {" "} {result.name} <br/></h2>);
        
@@ -109,10 +109,11 @@ const CovidSearchResult = function ({
     if (result.name === result.name.toUpperCase()) {
         result.name = toTitleCase(result.name);
     }
+  
     
     const getAuthorString = function(str) {
         let author_string = '';
-        let authors = str.split(";");
+        let authors = str;
         if (authors.length > 5) {
             
             authors.forEach((element ,idx) => {

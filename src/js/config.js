@@ -4,22 +4,26 @@ import VideosSearchResult from "./app/search/results/components/types/VideosSear
 import NewsSearchResult from "./app/search/results/components/types/NewsSearchResult";
 import TextSearchResult from "./app/search/results/components/types/TextSearchResult";
 import CovidSearchResult from "./app/search/results/components/types/CovidSearchResult";
+import CovidexSearchResult from "./app/search/results/components/types/CovidexSearchResult";
 
 // The keys in this mapping determines the order and names of the verticals shown to the user.
 // The values are the types of the result components that are used for each vertical.
 // Each provider must have at least one vertical.
 const providerVerticals = {
     'bing': new Map([
-        ['web', WebSearchResult]
-        // ['images', ImagesSearchResult],
-        // ['videos', VideosSearchResult],
-        // ['news', NewsSearchResult]
+        ['web', WebSearchResult],
+        ['images', ImagesSearchResult],
+        ['videos', VideosSearchResult],
+        ['news', NewsSearchResult]
     ]),
     'elasticsearch': new Map([
         ['text', TextSearchResult],
     ]),
     'indri': new Map([
         ['COVID19', CovidSearchResult]
+    ]),
+    'covidex' : new Map([
+        ['cord19', CovidexSearchResult]
     ])
 };
 

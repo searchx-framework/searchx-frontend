@@ -3,7 +3,6 @@ import SyncForm from "../components/form/SyncForm";
 import constants from "./constants";
 import {log} from "../../../utils/Logger";
 import {LoggerEventTypes} from "../../../utils/LoggerEventTypes";
-import Helpers from "../../../utils/Helpers";
 import AccountStore from "../../../stores/AccountStore";
 import SyncStore from "../../../stores/SyncStore";
 import FormContainer from "../components/form/FormContainer";
@@ -74,9 +73,6 @@ class PreTest extends React.Component {
         localStorage.setItem("session-num", sess)
 
         localStorage.setItem("question-data", JSON.stringify(data))
-        
-        let answers = JSON.parse(localStorage.getItem("question-data"));
-        const values = Object.values(answers);
         
 
         localStorage.setItem("timer-start", Date.now());

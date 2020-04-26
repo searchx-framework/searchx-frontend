@@ -61,7 +61,7 @@ class Timer extends React.PureComponent {
     ////
 
     tick(){
-        let sessionNum = localStorage.getItem("session-num")
+        let sessionNum = localStorage.getItem("session-num") //eslint-disable-line
         
         
         // const flag = localStorage.getItem("full-KG-flag");

@@ -3,7 +3,6 @@ import {Link} from "react-router-dom";
 import SyncStore from "../../../stores/SyncStore";
 import TaskedSession from "../components/session/TaskedSession";
 import Collapsible from "react-collapsible";
-import Timer from "../components/Timer";
 import constants from "./constants";
 import {log} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../utils/LoggerEventTypes';
@@ -24,7 +23,6 @@ class Session extends React.PureComponent {
     }
 
     componentDidMount() {
-        const taskdata = JSON.parse(localStorage.getItem("task-data") === undefined ? "{}" : localStorage.getItem("task-data")) || '';
         let td = '<h3> Your task </h3><p> We require to find information regarding an information need pertaining to COVID19. It will be shown on the right side of your screen. Read it carefully and then you can use our search engine to observe which queries gives the best set of documents. </p>';
 
         // td += `Remember: there will be three intermittent tests. After searching for at least 20 minutes you can move on to the final test by clicking on the "To Final Test" button. 

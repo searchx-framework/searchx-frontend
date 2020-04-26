@@ -10,7 +10,6 @@ import SyncStore from "../../../stores/SyncStore";
 import SearchStore from "../../search/SearchStore";
 import SearchResultsContainer from "../../search/results/SearchResultsContainer";
 import SearchActions from '../../../actions/SearchActions';
-import BookmarkContainer from "../../search/features/bookmark/BookmarkContainer";
 
 
 class PostTest extends React.Component {

@@ -1,5 +1,3 @@
-'use strict';
-
 /*
  *  Simple snippet fragment generator
  *  Loosely based on the code available at https://github.com/dargaCode/ApartmentDescriptionHighlights/blob/master/snippet/snippet.js
@@ -514,7 +512,7 @@ function applyQueryBiasedTermHighlighting(searchTerms, phraseMatches) {
         for (let searchTerm of searchTerms) {
             let indexPosition = matchedPhraseLower.indexOf(searchTerm);
             
-            if (indexPosition != -1) {
+            if (indexPosition !== -1) {
                 let endPosition = indexPosition + searchTerm.length;
                 positions.push({'start': indexPosition, 'end': endPosition});
             }
@@ -551,8 +549,8 @@ function splitDocumentIntoPhrases(docText) {
 
     let matchInfo = [];
 
-    docText = docText.replace(/\(|\)|\'|\"|\`\$/g, '');
-    docText = docText.replace(/\:|\t|\/|\&|\,|\-|\+|\+|\<|\>|\%|\@|\\|\*/g, ' ');
+    docText = docText.replace(/\(|\)|\'|\"|\`\$/g, ''); //eslint-disable-line
+    docText = docText.replace(/\:|\t|\/|\&|\,|\-|\+|\+|\<|\>|\%|\@|\\|\*/g, ' '); //eslint-disable-line
 
     while ((matchInfo = phraseRegex.exec(docText)) != null) {
         const match = matchInfo[0].trim();
@@ -568,11 +566,11 @@ function splitDocumentIntoPhrases(docText) {
   * @return array[string] - The array representation of the user's query, sans stopwords. One term per object.
 */
 function splitQuery(queryTerms) {
-    const regex = new RegExp('([^\\w\\s-\_]|_)', 'g');
+    const regex = new RegExp('([^\\w\\s-\_]|_)', 'g'); //eslint-disable-line
     let cleanedText = queryTerms.replace(regex, '');
 
-    cleanedText = cleanedText.replace(/\(|\)|\'|\"|\`\$/g, '');
-    cleanedText = cleanedText.replace(/\.|\:|\t|\/|\&|\,|\-|\?|\+|\+|\;|\<|\>|\%|\@|\\|\*/g, ' ');
+    cleanedText = cleanedText.replace(/\(|\)|\'|\"|\`\$/g, ''); //eslint-disable-line
+    cleanedText = cleanedText.replace(/\.|\:|\t|\/|\&|\,|\-|\?|\+|\+|\;|\<|\>|\%|\@|\\|\*/g, ' '); //eslint-disable-line
 
     const splitQuery = cleanedText.trim().toLowerCase().split(' ');
     
@@ -590,7 +588,7 @@ function splitQuery(queryTerms) {
   * @return boolean - True iif the term appears in STOPWORDS; false otherwise
 */
 function isStopword(term) {
-    if (STOPWORDS.indexOf(term.toLowerCase()) == -1) {
+    if (STOPWORDS.indexOf(term.toLowerCase()) === -1) {
         return true;
     }
 

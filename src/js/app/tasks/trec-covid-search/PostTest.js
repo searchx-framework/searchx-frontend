@@ -1,7 +1,6 @@
 import React from "react";
 import Form from "../components/form/Form";
 import constants from "./constants";
-import Helpers from "../../../utils/Helpers";
 import {log} from "../../../utils/Logger";
 import {LoggerEventTypes} from "../../../utils/LoggerEventTypes";
 import Alert from "react-s-alert";
@@ -11,7 +10,6 @@ import SearchStore from "../../search/SearchStore";
 import SearchResultsContainer from "../../search/results/SearchResultsContainer";
 import SearchActions from '../../../actions/SearchActions';
 import QueryHistoryContainer from "../../search/features/queryhistory/QueryHistoryContainer";
-import BookmarkContainer from "../../search/features/bookmark/BookmarkContainer";
 
 
 class PostTest extends React.Component {
