@@ -28,7 +28,7 @@ class Search extends React.Component {
             console.log("I am here");
             // return (<div/>)
             Alert.warning('This application is optimized for desktop!', {
-                position: 'top-right',
+                position: 'top',
                 effect: 'scale',
                 beep: true,
                 timeout: "none"
