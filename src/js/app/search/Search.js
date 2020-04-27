@@ -27,7 +27,7 @@ class Search extends React.Component {
             
             console.log("I am here");
             // return (<div/>)
-            Alert.warning('This application is optimized for desktop!', {
+            Alert.warning('SearchX is optimized for desktop browsing.', {
                 position: 'top',
                 effect: 'scale',
                 beep: true,
@@ -84,7 +84,7 @@ class Search extends React.Component {
                 <Chat/>
                 <div className="text-center">
                     <p className="Footer">
-                        SearchX is optimized for desktop. Read more about <a href="/about" target="_blank">SearchX</a>.
+                        SearchX is optimized for desktop browsing. Read more about <a href="/about" target="_blank">SearchX</a>.
                     </p>
                 </div>
             </div>
