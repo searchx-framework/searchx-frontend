@@ -52,7 +52,7 @@ export class App extends React.Component {
         const md = new MobileDetect(window.navigator.userAgent);
         // console.log("mobile", md.mobile());
         if (md.mobile() !== null) {
-            return (<div/>)
+            // return (<div/>)
 
         }
 
