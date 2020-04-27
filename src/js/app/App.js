@@ -3,7 +3,6 @@ import {Route, Router} from 'react-router-dom'
 import MobileDetect from 'mobile-detect';
 import Bowser from "bowser"
 import history from './History';
-
 import About from './pages/About';
 import Search from './search/Search';
 
@@ -46,12 +45,17 @@ import RoleBasedPostTest from './tasks/role-based/PostTest';
 import Chat from './search/features/chat/Chat';
 
 export class App extends React.Component {
-
+    
+    
     render() {
+
         const md = new MobileDetect(window.navigator.userAgent);
-	if (md.mobile() !== null) {
-           // return (<div/>)
+        // console.log("mobile", md.mobile());
+        if (md.mobile() !== null) {
+            return (<div/>)
+
         }
+
         const browser = Bowser.getParser(window.navigator.userAgent);
         const isValidBrowser = browser.satisfies({
         // or in general
@@ -73,7 +77,7 @@ export class App extends React.Component {
                 <h3>You have been disqualified from the study.</h3>
             </div>)
         }
-
+        
 
 
         return (

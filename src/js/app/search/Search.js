@@ -10,6 +10,8 @@ import QueryHistoryContainer from "./features/queryhistory/QueryHistoryContainer
 import BookmarkContainer from "./features/bookmark/BookmarkContainer";
 import Chat from "./features/chat/Chat";
 import config from "../../config";
+import MobileDetect from 'mobile-detect';
+import Alert from "react-s-alert";
 
 class Search extends React.Component {
     constructor(props) {
@@ -17,7 +19,22 @@ class Search extends React.Component {
 
 
         this.handleVisibilityChange = this.handleVisibilityChange.bind(this);
+        this.checkDevice = this.checkDevice.bind(this);
     }
+    checkDevice()  {
+        const md = new MobileDetect(window.navigator.userAgent);
+        if (md.mobile() !== null) {
+            
+            console.log("I am here");
+            // return (<div/>)
+            Alert.warning('This application is optimized for desktop!', {
+                position: 'top-right',
+                effect: 'scale',
+                beep: true,
+                timeout: "none"
+            });
+        }
+    };
     componentDidMount() {
         // if (this.props.firstSession && config.interface.chat && this.props.collaborative) {
         //     sessionStorage.clear();
@@ -36,13 +53,14 @@ class Search extends React.Component {
             const element = document.querySelector("#conversejs");
             element.parentElement.removeChild(element);
         };
-        document.removeEventListener('visibilitychange', this.handleVisibilityChange);
+        document.removeEventListener('visibilitychange', this.handleVisibilityChange, this.checkDevice);
     }
-    
+
     render() {
        
         return (
             <div className="Search">
+                {this.checkDevice()}
                 <SearchHeaderContainer timer={this.props.timer} statusbar={this.props.statusbar} showAccountInfo={this.props.showAccountInfo}/>
 
                 <div className="Content">
