@@ -91,7 +91,6 @@ export default class SearchHeaderContainer extends React.Component {
     }
 
     verticalChangeHandler(vertical) {
-        vertical = vertical.toLowerCase();
 
         log(LoggerEventTypes.SEARCH_CHANGE_VERTICAL, {
             query: this.state.searchState.query,
