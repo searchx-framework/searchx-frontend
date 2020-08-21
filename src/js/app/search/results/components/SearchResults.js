@@ -6,17 +6,21 @@ import Loader from 'react-loader';
 
 import SearchResultContainer from "../SearchResultContainer";
 import SearchResultsPagination from "./SearchResultsPagination";
+import SearchFilters from "./filters/SearchFilters";
 import CollapsedResultsButton from "./CollapsedSearchResults";
 import {Button} from "react-bootstrap";
 import $ from 'jquery';
 import CenteredMessage from "../../../common/CenteredMessage";
 import Helpers from "../../../../utils/Helpers";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row"
+import Col from "react-bootstrap/Col";
 
 const SearchResults = function ({
                                     searchState, progress, serpId, results, matches, elapsedTime, activeUrl, provider,
                                     distributionOfLabour, activeDoctext, tutorial, collapsed, autoHide,
                                     pageChangeHandler, isCollapsible, showCollapsedResults, hideCollapsedResults,
-                                    showAllCollapsedResults, hideAllCollapsedResults
+                                    showAllCollapsedResults, hideAllCollapsedResults, filterChangeHandler, filterHandler
                                 }) {
     const getCollapsibleResultsLength = function () {
         return results.filter(result => isCollapsible(result)).length;
@@ -68,6 +72,7 @@ const SearchResults = function ({
         changeHandler={pageChangeHandler}
     />;
 
+    const filters = <SearchFilters searchState={searchState} provider={provider} filterChangeHandler={filterChangeHandler} filterHandler={filterHandler}/>
     const prefix = (matches < config.aboutPrefixAt) ? "" : "About ";
     const timeIndicator = prefix + Helpers.numberWithCommas(matches) + " results (" + elapsedTime + " seconds)";
     let visitedUrls = JSON.parse(localStorage.getItem('visited-urls'));
@@ -133,8 +138,11 @@ const SearchResults = function ({
 
 
     return (
-        <div>
-            <div className="SearchResults" id="intro-search-results">
+        <Container>
+            <Row>
+            {filters}
+            <Col className="SearchResults"sm={9} id="intro-search-results">
+
                 {config.interface.timeIndicator && results.length > 0 &&
                 <div className="time"> {timeIndicator}</div>
                 }
@@ -150,13 +158,15 @@ const SearchResults = function ({
                     </Button>
                 </div>
                 }
-                <div className="list">
+                <Row>
                     {list}
-                </div>
-            </div>
+                </Row>
+                {pagination}
+            </Col>
+            </Row>
 
-            {pagination}
-        </div>
+            
+        </Container>
     )
 };
 

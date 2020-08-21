@@ -52,7 +52,6 @@ const SearchResult = function ({
     };
     const ResultType = config.providerVerticals[provider].get(searchState.vertical);
     const view = <ResultType {...props}/>;
-
     return (
         <Collapse in={!collapsed}>
             <div>

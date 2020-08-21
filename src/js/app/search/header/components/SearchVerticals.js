@@ -8,7 +8,6 @@ const SearchVerticals = function({activeVertical, changeHandler, provider}) {
 
 
     let verticals = "";
-
     if (!config.interface.verticals) {
          verticals = "";
     } else {
