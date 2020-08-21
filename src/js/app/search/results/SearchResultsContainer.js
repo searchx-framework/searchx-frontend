@@ -5,7 +5,6 @@ import SearchStore from "../SearchStore";
 
 import SearchResults from "./components/SearchResults";
 import DocumentViewer from "./components/viewer/Viewer";
-
 import {log} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../utils/LoggerEventTypes';
 import Helpers from "../../../utils/Helpers";
@@ -35,6 +34,8 @@ export default class SearchResultsContainer extends React.Component {
 
         this._onChange = this._onChange.bind(this);
         this.pageChangeHandler = this.pageChangeHandler.bind(this);
+        this.filterChangeHandler = this.filterChangeHandler.bind(this);
+        this.filterHandler = this.filterHandler.bind(this);
         this.showAllCollapsedResults = this.showAllCollapsedResults.bind(this);
         this.hideAllCollapsedResults = this.hideAllCollapsedResults.bind(this);
         this.showCollapsedResults = this.showCollapsedResults.bind(this);
@@ -101,6 +102,35 @@ export default class SearchResultsContainer extends React.Component {
         });
     }
 
+    filterChangeHandler(data, filterType){
+        let filters = SearchStore.getFilters();
+        let filterName = data.target.name;
+        if (filterType === "single") {
+            filters[filterName] = data.target.value;
+        } 
+        else {
+            if (!filters[filterName]){
+                filters[filterName] = [];
+            }
+            if ( filters[filterName].includes(data.target.value)) {
+                filters[filterName] = filters[filterName].filter((x) => data.target.value !== x);
+            } else {
+                filters[filterName].push(data.target.value)
+        }
+        }
+        SearchStore.setFilters(filters);
+    }
+
+    filterHandler(action){
+        if (action === "reset") {
+            SearchStore.clearFilters();
+            SearchActions.search(this.state.query, this.state.searchState.vertical, 1);
+
+        } else {
+            SearchActions.search(this.state.query, this.state.searchState.vertical, 1);
+        }
+    }
+
     showCollapsedResults(ids) {
         const collapsed = this.state.collapsed;
 
@@ -157,7 +187,9 @@ export default class SearchResultsContainer extends React.Component {
             && (result.metadata.bookmark || result.metadata.exclude);
     }
 
+
     render() {
+
         let postflag =localStorage.getItem("post-test") || 0;
         return <div>
             {postflag === 0 &&
@@ -165,8 +197,9 @@ export default class SearchResultsContainer extends React.Component {
                            isCollapsible={this.isCollapsible} showCollapsedResults={this.showCollapsedResults}
                            hideCollapsedResults={this.hideCollapsedResults}
                            showAllCollapsedResults={this.showAllCollapsedResults}
-                           hideAllCollapsedResults={this.hideAllCollapsedResults}/>}
-
+                           hideAllCollapsedResults={this.hideAllCollapsedResults}
+                           filterChangeHandler={this.filterChangeHandler}
+                           filterHandler={this.filterHandler}/>}
             <DocumentViewer searchState={this.state.searchState} key="viewer"
                             serpId={this.state.serpId}
                             url={this.state.activeUrl}

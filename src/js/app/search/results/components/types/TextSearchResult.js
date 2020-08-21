@@ -1,6 +1,6 @@
 import React from 'react';
 import VisibilitySensor from 'react-visibility-sensor';
-
+import TextViewer from '../viewer/TextViewer';
 import {log} from '../../../../../utils/Logger';
 import {LoggerEventTypes} from '../../../../../utils/LoggerEventTypes';
 
@@ -21,12 +21,7 @@ const TextSearchResult = function ({
 
     let clickUrl = () => {
 
-        var doctext = result.text.split('\n').map((item, key) => {
-            return <span key={key}>{item}<br/></span>
-        })
-
-        doctext.unshift(<h4> {result.source} <br/></h4>);
-        doctext.unshift(<h3> {result.name} <br/></h3>);
+        var doctext = TextViewer(result);
 
         urlClickHandler(result.id, doctext);
         log(LoggerEventTypes.SEARCHRESULT_CLICK_URL, metaInfo);

@@ -30,6 +30,7 @@
     "react-router-dom": "^5.1.2",
     "react-s-alert": "^1.4.1",
     "react-snake-game": "^1.0.9",
+    "react-stars": "^2.2.5",
     "react-tetris": "github:felipemoraes/react-tetris",
     "react-visibility-sensor": "^5.1.1",
     "searchx-chat": "0.0.4",

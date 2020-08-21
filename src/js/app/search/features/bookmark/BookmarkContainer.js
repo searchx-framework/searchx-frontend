@@ -7,6 +7,8 @@ import SessionStore from "../../../../stores/SessionStore";
 import BookmarkStore from "./BookmarkStore";
 import SearchActions from "../../../../actions/SearchActions";
 import AccountStore from "../../../../stores/AccountStore";
+import Helpers from "../../../../utils/Helpers";
+
 
 function removeHandler(url) {
     SessionActions.removeBookmark(url);
@@ -20,7 +22,7 @@ function starHandler(url) {
 }
 
 function clickHandler(url) {
-    if (isNaN(url)){
+    if (isNaN(url) & Helpers.validURL(url)){
         SearchActions.openUrl(url);
     } else {
         SearchActions.getDocumentById(url);
