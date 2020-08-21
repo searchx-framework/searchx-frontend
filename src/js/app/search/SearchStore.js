@@ -16,10 +16,11 @@ import history from "../History";
 import BookmarkStore from "./features/bookmark/BookmarkStore";
 import AnnotationStore from "./features/annotation/AnnotationStore";
 import RatingStore from "./features/rating/RatingStore";
-import React from 'react';
+
 const CHANGE_EVENT = 'change_search';
 
 ////
+
 
 const provider = Helpers.getURLParameter('provider') || config.defaultProvider;
 
@@ -54,10 +55,11 @@ const _setState = function () {
         resultsNotFound: false,
 
         results: [],
+        facets: [],
         matches: 0,
         elapsedTime: 0,
         serpId: '',
-
+        filters: {},
         tutorial: false,
         activeUrl: "",
         activeDoctext: "",
@@ -124,6 +126,25 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
         return state.tutorial;
     },
 
+    getFacets() {
+        if (state.facets) {
+            return state.facets;
+        }
+    },
+
+    getFilters() {
+        return state.filters;
+    },
+    
+    setFilters(filters) {
+        state.filters = filters;
+    },
+
+
+    clearFilters() {
+        state.filters = {};
+    },
+
     getSearchResults() {
         if (state.tutorial) {
             return [
@@ -182,7 +203,9 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
             query: state.query,
             vertical: state.vertical,
             page: state.page || 1,
-            provider: state.provider
+            provider: state.provider,
+            facets: state.facets,
+            filters: state.filters
         };
     },
     getSearchProgress() {
@@ -265,10 +288,8 @@ const _search = (query, vertical, page) => {
     state.page = page || state.page || 1;
     state.finished = false;
     state.resultsNotFound = false;
-
     _updateUrl(state.query, state.vertical, state.page, state.provider, state.variant);
     SyncStore.emitSearchState(SearchStore.getSearchState());
-    SearchStore.emitChange();
 
     ////
 
@@ -277,15 +298,18 @@ const _search = (query, vertical, page) => {
     }
 
     request
-        .get(process.env.REACT_APP_SERVER_URL + '/v1/search/' + state.vertical
+        .post(process.env.REACT_APP_SERVER_URL + '/v1/search/' + state.vertical
             + '/?query=' + state.query
             + '&page=' + state.page
-            + '&userId=' + AccountStore.getUserId()
-            + '&sessionId=' + AccountStore.getSessionId()
             + '&providerName=' + state.provider
             + '&relevanceFeedback=' + state.relevanceFeedback
             + '&distributionOfLabour=' + state.distributionOfLabour
         )
+        .send({
+            filters : state.filters ,
+            userId : AccountStore.getUserId(),
+            sessionId : AccountStore.getSessionId()
+        })
         .end((err, res) => {
             if (err || !res.body || res.body.error) {
                 state.results = [];
@@ -294,16 +318,16 @@ const _search = (query, vertical, page) => {
                 for (let i = 0; i < results.length; i++) {
                     results[i].position = i;
                 }
-
                 state.results = results;
                 state.matches = res.body.matches;
                 state.serpId = res.body.id;
+                if ('facets' in res.body){
+                    state.facets = res.body.facets;
+                }
             }
-
             if (state.results.length === 0) {
                 state.resultsNotFound = true;
             }
-
             state.elapsedTime = (new Date().getTime()) - startTime;
             state.finished = true;
 
@@ -316,11 +340,14 @@ const _search = (query, vertical, page) => {
                 elapsedTime: state.elapsedTime,
                 session: localStorage.getItem("session-num")
             });
-
+            SearchStore.clearFilters();
             SearchStore.emitChange();
             SessionActions.getQueryHistory();
         });
 };
+
+
+
 
 const _getById = function (id) {
     request
@@ -337,14 +364,8 @@ const _getById = function (id) {
                     state.activeUrl = result.id;
                 }
 
-                var doctext = result.text.split('\n').map((item, key) => {
-                    return <span key={key}>{item}<br/></span>
-                })
-
-                doctext.unshift(<h4> {result.source} <br/></h4>);
-                doctext.unshift(<h3> {result.name} <br/></h3>);
-
-                state.activeDoctext = doctext;
+                const viewer = config.providerViewers[provider];
+                state.activeDoctext = viewer(result);
             }
 
             SyncStore.emitViewState(id);
