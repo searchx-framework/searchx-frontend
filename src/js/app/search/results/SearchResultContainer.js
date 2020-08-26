@@ -19,14 +19,6 @@ export default class SearchResultContainer extends React.Component {
         this.excludeClickHandler = this.excludeClickHandler.bind(this);
     }
 
-    componentWillReceiveProps(nextProps) {
-        if('metadata' in nextProps.result) {
-            if (nextProps.result.metadata.bookmark) {
-                nextProps.result.metadata.bookmark.userColor = AccountStore.getMemberColor(nextProps.result.metadata.bookmark.userId);
-            }
-        }
-    }
-
     ////
 
     urlClickHandler(url, doctext) {

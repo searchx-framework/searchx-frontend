@@ -9,11 +9,12 @@ export default class ViewerPage extends React.Component {
         }
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.doctext && nextProps.url !== this.props.url) {
-            nextProps.loadHandler();
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.doctext && prevProps.url !== this.props.url) {
+            prevProps.loadHandler();
         }
     }
+
     
     createHTML(text) {
         return {__html: text};

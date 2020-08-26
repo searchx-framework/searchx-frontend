@@ -44,7 +44,7 @@ const ShoppingSearchResult = function ({searchState, serpId, index, result, meta
     ////
 
     
-
+    let brand = result.brand ? <p>{result.brand}</p> : <br/>
     return (
         <div className="card result-shopping">
             <VisibilitySensor onChange={viewUrl}
@@ -55,12 +55,15 @@ const ShoppingSearchResult = function ({searchState, serpId, index, result, meta
             />
             <img className="image card-img-top" src={result.image} alt={result.name} onMouseEnter={hoverEnter} onMouseLeave={hoverLeave} ></img>
             <div className="info card-body container">
-                <h6 className="row">
+                <div className=" row productTitle">
                         <a title={result.name} href="#/" onClick={clickUrl} onContextMenu={contextUrl}>
                             {result.name}
                         </a>
-                    </h6>
-                <div className="row" > 
+                    </div>
+                    <div className="row" >
+                        {brand}
+                    </div>
+                <div className="row" >
                 <ReactStars
                      count={5} value={result.rating} edit={false} half={true}
 

@@ -20,7 +20,7 @@ export default class AnnotationContainer extends React.Component {
         this.removeHandler = this.removeHandler.bind(this);
     }
 
-    componentWillMount() {AnnotationStore.addChangeListener(this._onChange);}
+    componentDidMount() {AnnotationStore.addChangeListener(this._onChange);}
     componentWillUnmount() {AnnotationStore.removeChangeListener(this._onChange);}
     _onChange() {
         if (SearchStore.getActiveUrl()) {

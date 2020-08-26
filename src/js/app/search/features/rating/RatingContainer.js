@@ -14,7 +14,7 @@ export default class RatingContainer extends React.Component {
         this.submitHandler = this.submitHandler.bind(this);
     }
 
-    componentWillMount() {RatingStore.addChangeListener(this._onChange);}
+    componentDidMount() {RatingStore.addChangeListener(this._onChange);}
     componentWillUnmount() {RatingStore.removeChangeListener(this._onChange);}
     _onChange() {
         if (this.props.url) {

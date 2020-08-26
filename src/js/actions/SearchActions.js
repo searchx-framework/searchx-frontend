@@ -77,5 +77,17 @@ export default {
             type: ActionTypes.CHANGE_VARIANT,
             payload: {}
         })
+    },
+
+    getSearchFacets(query, vertical, page, provider){
+        dispatch({
+            type: ActionTypes.SEARCH_FACETS,
+            payload: {
+                query: query,
+                vertical: vertical,
+                page: page,
+                provider: provider
+            },
+        })
     }
 }

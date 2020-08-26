@@ -16,6 +16,7 @@ import history from "../History";
 import BookmarkStore from "./features/bookmark/BookmarkStore";
 import AnnotationStore from "./features/annotation/AnnotationStore";
 import RatingStore from "./features/rating/RatingStore";
+import SearchActions from '../../actions/SearchActions';
 
 const CHANGE_EVENT = 'change_search';
 
@@ -55,7 +56,6 @@ const _setState = function () {
         resultsNotFound: false,
 
         results: [],
-        facets: [],
         matches: 0,
         elapsedTime: 0,
         serpId: '',
@@ -282,6 +282,9 @@ const _search = (query, vertical, page) => {
     if (!(query === state.query && vertical === state.vertical && page === state.page)) {
         state.results = [];
     }
+    if (query && (state.query !== query)) {
+        state.filters = {}
+    }
 
     state.query = query || state.query;
     state.vertical = vertical || state.vertical;
@@ -340,14 +343,11 @@ const _search = (query, vertical, page) => {
                 elapsedTime: state.elapsedTime,
                 session: localStorage.getItem("session-num")
             });
-            SearchStore.clearFilters();
             SearchStore.emitChange();
+            SearchActions.getSearchFacets(state.query, state.vertical, state.page, state.provider);
             SessionActions.getQueryHistory();
         });
 };
-
-
-
 
 const _getById = function (id) {
     request

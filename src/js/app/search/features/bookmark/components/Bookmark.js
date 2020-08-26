@@ -17,7 +17,7 @@ const Bookmarks = function({bookmarks, popup, removeHandler, starHandler, clickH
     return (
         <div className="Bookmarks">
             <h3 className="banner" onClick={popupHandler}>
-                <i className="fa fa-bookmark medium"/> Saved documents
+                <i className="fa fa-heart medium"/> Saved items
             </h3>
 
             <div className="list">

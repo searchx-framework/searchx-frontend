@@ -18,9 +18,9 @@ const SearchResult = function ({
         initialBookmark = result.metadata.bookmark ? 1 : 0;
         initialExclude = result.metadata.exclude ? 1 : 0;
     }
-
+    const bookmarkIcon = config.bookmarkIcon ||  "fa-bookmark"
     const bookmarkButton = <Rating
-        className="rating" emptySymbol="fa fa-bookmark-o" fullSymbol="fa fa-bookmark"
+        className="rating" emptySymbol={"fa " + bookmarkIcon +"-o"} fullSymbol={"fa " + bookmarkIcon}
         onClick={bookmarkClickHandler}
         stop={1} initialRating={initialBookmark}
         title="Save result"

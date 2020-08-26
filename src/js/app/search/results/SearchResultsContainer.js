@@ -43,7 +43,7 @@ export default class SearchResultsContainer extends React.Component {
         this.isCollapsible = this.isCollapsible.bind(this);
     }
 
-    componentWillMount() {
+    componentDidMount() {
         SearchStore.addChangeListener(this._onChange);
     }
 
@@ -105,28 +105,49 @@ export default class SearchResultsContainer extends React.Component {
     filterChangeHandler(data, filterType){
         let filters = SearchStore.getFilters();
         let filterName = data.target.name;
+        let metadata = {
+            query : this.state.query,
+            vertical: this.state.vertical,
+            filter: filterName
+        }
         if (filterType === "single") {
+            if (filterName[filterName] && (filterName[filterName]!== data.target.value)){
+                metadata.action = "changed";
+            } else {
+                metadata.action = "selected";
+            }
             filters[filterName] = data.target.value;
         } 
         else {
             if (!filters[filterName]){
                 filters[filterName] = [];
+                metadata.action = "selected";
             }
             if ( filters[filterName].includes(data.target.value)) {
                 filters[filterName] = filters[filterName].filter((x) => data.target.value !== x);
+                metadata.action = "unselected";
             } else {
                 filters[filterName].push(data.target.value)
+                metadata.action = "selected";
+            }
         }
-        }
+        log(LoggerEventTypes.FILTER_SELECTED, metadata);
         SearchStore.setFilters(filters);
+        SearchActions.search(this.state.query, this.state.searchState.vertical, 1);
     }
 
     filterHandler(action){
+        let metadata = {
+            query : this.state.query,
+            vertical: this.state.vertical
+        }
         if (action === "reset") {
             SearchStore.clearFilters();
+            log(LoggerEventTypes.FILTER_RESET, metadata);
             SearchActions.search(this.state.query, this.state.searchState.vertical, 1);
 
         } else {
+            log(LoggerEventTypes.FILTER_FILTER, metadata);
             SearchActions.search(this.state.query, this.state.searchState.vertical, 1);
         }
     }
@@ -198,6 +219,7 @@ export default class SearchResultsContainer extends React.Component {
                            hideCollapsedResults={this.hideCollapsedResults}
                            showAllCollapsedResults={this.showAllCollapsedResults}
                            hideAllCollapsedResults={this.hideAllCollapsedResults}
+                           selectedFilters={SearchStore.getFilters()}
                            filterChangeHandler={this.filterChangeHandler}
                            filterHandler={this.filterHandler}/>}
             <DocumentViewer searchState={this.state.searchState} key="viewer"

@@ -46,6 +46,7 @@ var config = {
     logTimeInterval: 5000,
     defaultProvider: 'elasticsearch',
     defaultVariant: 'S0',
+    bookmarkIcon: "fa-heart",
     variantQueryParameter: false, /* allow the variant to be modified by a query parameter, or fix it to the default or variant set by the task */
     fallbackToS0ForGroupSize1: false, /* always make group sizes of size 1 use variant S0 */
     providerVerticals: providerVerticals,

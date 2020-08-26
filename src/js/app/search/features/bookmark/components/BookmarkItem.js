@@ -6,6 +6,7 @@ import {LoggerEventTypes} from '../../../../../utils/LoggerEventTypes';
 import Identicon from "identicon.js";
 import md5 from 'md5';
 import config from '../../../../../config';
+import Helpers from '../../../../../utils/Helpers';
 
 const BookmarkItem = function({data, removeHandler, starHandler, clickHandler}) {
     let metaInfo = {
@@ -59,7 +60,7 @@ const BookmarkItem = function({data, removeHandler, starHandler, clickHandler}) 
             </div>
             
             <span>
-                {isNaN(data.url) ? data.url : (config.interface.star && <br/>)}
+                {isNaN(data.url) && Helpers.validURL(data.url) ? data.url : (config.interface.star && <br/>)}
             </span>
 
             

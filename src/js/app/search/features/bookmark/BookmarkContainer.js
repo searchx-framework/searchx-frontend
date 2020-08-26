@@ -42,7 +42,7 @@ export default class BookmarkContainer extends React.Component {
         this.popupHandler = this.popupHandler.bind(this);
     }
 
-    componentWillMount() {BookmarkStore.addChangeListener(this.changeHandler);}
+    componentDidMount() {BookmarkStore.addChangeListener(this.changeHandler);}
     componentWillUnmount() {BookmarkStore.removeChangeListener(this.changeHandler);}
 
     render() {

@@ -105,6 +105,18 @@
                 color: #cccccc;
             }
 
+            .fa-heart {
+                font-size: 18px;
+                color: #ffd700;
+            }
+
+            .fa-heart-o {
+                font-size: 18px;
+                color: #cccccc;
+            }
+
+            
+
             .fa-ban {
                 font-size: 18px;
                 color: #cccccc;
@@ -173,7 +185,6 @@
                 width: 275px;
                 background-position: center;
                 background-size: cover;
-
                 margin-bottom: 5px;
                 display: block;
             }
@@ -199,12 +210,16 @@
                 max-height: 200px;
                 max-width: 200px;
                 object-fit: contain; 
-                margin: 5px;
+                margin-left: auto;
+                margin-right: auto;
+                margin-top: 10px;
+                margin-bottom: 5px;
                 display: block;
             }
 
             .info {
                 margin: 5px;
+                max-height: 20px;
                 p {
                     max-width: 275px;
                 }
@@ -217,6 +232,13 @@
                 }
                 .bookmark {
                     float: left;
+                }
+                .productTitle {
+                       overflow: hidden;
+                    text-overflow: ellipsis;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 2; /* number of lines to show */
+                    -webkit-box-orient: vertical;
                 }
             }
         }

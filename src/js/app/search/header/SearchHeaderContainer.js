@@ -27,7 +27,7 @@ export default class SearchHeaderContainer extends React.Component {
         this.clickSuggestionHandler = this.clickSuggestionHandler.bind(this);
     }
 
-    componentWillMount() {SearchStore.addChangeListener(this.changeHandler);}
+    componentDidMount() {SearchStore.addChangeListener(this.changeHandler);}
     componentWillUnmount() {SearchStore.removeChangeListener(this.changeHandler);}
 
     render() {

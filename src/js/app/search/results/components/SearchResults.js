@@ -20,7 +20,7 @@ const SearchResults = function ({
                                     searchState, progress, serpId, results, matches, elapsedTime, activeUrl, provider,
                                     distributionOfLabour, activeDoctext, tutorial, collapsed, autoHide,
                                     pageChangeHandler, isCollapsible, showCollapsedResults, hideCollapsedResults,
-                                    showAllCollapsedResults, hideAllCollapsedResults, filterChangeHandler, filterHandler
+                                    showAllCollapsedResults, hideAllCollapsedResults, selectedFilters, filterChangeHandler, filterHandler
                                 }) {
     const getCollapsibleResultsLength = function () {
         return results.filter(result => isCollapsible(result)).length;
@@ -72,7 +72,7 @@ const SearchResults = function ({
         changeHandler={pageChangeHandler}
     />;
 
-    const filters = <SearchFilters searchState={searchState} provider={provider} filterChangeHandler={filterChangeHandler} filterHandler={filterHandler}/>
+    const filters = <SearchFilters provider={provider} selectedFilters={selectedFilters} filterChangeHandler={filterChangeHandler} filterHandler={filterHandler}/>
     const prefix = (matches < config.aboutPrefixAt) ? "" : "About ";
     const timeIndicator = prefix + Helpers.numberWithCommas(matches) + " results (" + elapsedTime + " seconds)";
     let visitedUrls = JSON.parse(localStorage.getItem('visited-urls'));
