@@ -24,7 +24,7 @@ class Form extends React.PureComponent {
 
     render() {
         Survey.Survey.cssType = "bootstrap";
-        Survey.defaultBootstrapCss.navigationButton = "btn btn-green";
+        //Survey.defaultBootstrapCss.navigationButton = "btn btn-green";
         
 
         let survey = new Survey.Model(this.props.formData);

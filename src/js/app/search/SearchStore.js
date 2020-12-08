@@ -286,6 +286,7 @@ const _search = (query, vertical, page) => {
         state.filters = {}
     }
 
+
     state.query = query || state.query;
     state.vertical = vertical || state.vertical;
     state.page = page || state.page || 1;
@@ -295,11 +296,9 @@ const _search = (query, vertical, page) => {
     SyncStore.emitSearchState(SearchStore.getSearchState());
 
     ////
-
     if (query === '') {
         return;
     }
-
     request
         .post(process.env.REACT_APP_SERVER_URL + '/v1/search/' + state.vertical
             + '/?query=' + state.query

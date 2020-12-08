@@ -38,6 +38,15 @@ import RoleBasedDescription from './tasks/role-based/TaskDescription';
 import RoleBasedDescriptionShort from './tasks/role-based/TaskDescriptionShort';
 import RoleBasedPostTest from './tasks/role-based/PostTest';
 import Chat from './search/features/chat/Chat';
+
+import EcommRegister from './tasks/ecomm/Register';
+import EcommReRegister from './tasks/ecomm/ReRegister';
+import EcommWait from './tasks/ecomm/Wait';
+import EcommSession from './tasks/ecomm/Session';
+import EcommDescriptionShort from './tasks/ecomm/TaskDescriptionShort';
+import EcommPostTest from './tasks/ecomm/PostTest';
+
+
 export class App extends React.Component {
 
     render() {
@@ -109,6 +118,13 @@ export class App extends React.Component {
                     <Route path="/role-based/description" component={RoleBasedDescription}/>
                     <Route path="/role-based/description_short" component={RoleBasedDescriptionShort}/>
                     <Route exact path="/role-based/posttest" component={RoleBasedPostTest}/>
+
+                    <Route exact path="/ecomm" component={EcommRegister}/>
+                    <Route exact path="/ecomm/register" component={EcommReRegister}/>
+                    <Route exact path="/ecomm/wait" component={EcommWait}/>
+                    <Route path="/ecomm/session" component={EcommSession}/>
+                    <Route path="/ecomm/description_short" component={EcommDescriptionShort}/>
+                    <Route exact path="/ecomm/posttest" component={EcommPostTest}/>
 
                 </div>
             </Router>

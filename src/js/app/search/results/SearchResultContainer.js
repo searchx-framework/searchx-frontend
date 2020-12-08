@@ -67,7 +67,6 @@ export default class SearchResultContainer extends React.Component {
                 this.props.hideCollapsedResultsHandler([id]);
             }
         }
-
         log(LoggerEventTypes.BOOKMARK_ACTION, {
             url: id,
             action: action,
@@ -106,6 +105,7 @@ export default class SearchResultContainer extends React.Component {
                 this.props.hideCollapsedResultsHandler([id]);
             }
         }
+        
 
         log(LoggerEventTypes.EXCLUDE_ACTION, {
             url: id,

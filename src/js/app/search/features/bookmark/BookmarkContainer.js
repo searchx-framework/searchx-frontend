@@ -8,9 +8,14 @@ import BookmarkStore from "./BookmarkStore";
 import SearchActions from "../../../../actions/SearchActions";
 import AccountStore from "../../../../stores/AccountStore";
 import Helpers from "../../../../utils/Helpers";
-
+import {log} from "../../../../utils/Logger";
+import {LoggerEventTypes} from "../../../../utils/LoggerEventTypes";
 
 function removeHandler(url) {
+    log(LoggerEventTypes.BOOKMARK_ACTION, {
+        url: url,
+        action: "remove"
+    });
     SessionActions.removeBookmark(url);
     SearchStore.modifyMetadata(url, {
         bookmark: null
@@ -18,6 +23,10 @@ function removeHandler(url) {
 }
 
 function starHandler(url) {
+    log(LoggerEventTypes.BOOKMARK_ACTION, {
+        url: url,
+        action: "star"
+    });
     SessionActions.starBookmark(url);
 }
 

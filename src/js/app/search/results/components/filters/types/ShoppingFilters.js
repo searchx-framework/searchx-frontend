@@ -86,11 +86,11 @@ const getRatings  = function (ratings, selectedFilters, filterChangeHandler) {
         let divInput = 
         selectedFilters && (selectedFilters === rating[0].toString()) ?
         (<div>
-            <input type="radio" className="form-check-input" name="rating"  checked  onChange={filterChangeHandler} value={rating[0]} />
+            <input type="radio" className="form-check-input" name="avgRating"  checked  onChange={filterChangeHandler} value={rating[0]} />
         </div>)
         :
         (<div>
-        <input type="radio" className="form-check-input" name="rating"   onChange={filterChangeHandler} value={rating[0]} />
+        <input type="radio" className="form-check-input" name="avgRating"   onChange={filterChangeHandler} value={rating[0]} />
         </div>)
         return (<div className="form-check">
         <label className="form-check-label">
@@ -205,7 +205,7 @@ const ShoppingFilters= function ({facets, selectedFilters, filterChangeHandler, 
     }
 
     if ('Rating Facet' in facets) {
-        rating = getRatings(facets["Rating Facet"], selectedFilters.rating, categoryFilterChange);
+        rating = getRatings(facets["Rating Facet"], selectedFilters.avgRating, categoryFilterChange);
     }
 
     let resetButtonHandler = function(){
