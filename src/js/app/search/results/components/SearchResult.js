@@ -4,6 +4,8 @@ import Rating from 'react-rating';
 import {Collapse} from "react-bootstrap";
 
 import config from "../../../../config";
+import Identicon from "identicon.js";
+import md5 from 'md5';
 
 const SearchResult = function ({
                                    searchState, serpId, result, bookmarkClickHandler, urlClickHandler, provider,
@@ -18,18 +20,18 @@ const SearchResult = function ({
     }
 
     const bookmarkButton = <Rating
-        className="rating" empty="fa fa-bookmark-o" full="fa fa-bookmark"
+        className="rating" emptySymbol="fa fa-bookmark-o" fullSymbol="fa fa-bookmark"
         onClick={bookmarkClickHandler}
-        stop={1} initialRate={initialBookmark}
+        stop={1} initialRating={initialBookmark}
         title="Save result"
     />;
 
     // TODO: use variant from SearchStore instead of defaultVariant
     const excludeButton = <div>
         {config.defaultVariant === 'S0' ? <div/> : <Rating
-            className="rating" empty="fa fa-ban" full="fa fa-ban red"
+            className="rating" emptySymbol="fa fa-ban" fullSymbol="fa fa-ban red"
             onClick={excludeClickHandler}
-            stop={1} initialRate={initialExclude}
+            stop={1} initialRating={initialExclude}
             title="Exclude result from future queries"
         />}
     </div>;
@@ -39,6 +41,7 @@ const SearchResult = function ({
         searchState: searchState,
         serpId: serpId,
         result: result,
+        index: index,
         metadata: formatMetadata(result.metadata),
         bookmarkButton: bookmarkButton,
         excludeButton: excludeButton,
@@ -67,6 +70,9 @@ function formatMetadata(metadata) {
         return <div/>;
     }
 
+    
+
+  
     if (config.interface.views && 'views' in metadata) {
         elements.push(<span><i className="fa fa-eye"/> {metadata.views}</span>);
     }
@@ -82,13 +88,17 @@ function formatMetadata(metadata) {
     if (config.interface.saveTimestamp && metadata.bookmark) {
         const date = new Date(metadata.bookmark.date);
         const now = new Date().toLocaleDateString();
-
+        let options = {
+            size : 20
+        }
+        let icon = new Identicon(md5(metadata.bookmark.userId), options).toString();
+        let iconUrl = "data:image/png;base64," + icon 
         let formattedTime = date.toLocaleDateString();
         if (formattedTime === now) formattedTime = date.toLocaleTimeString();
 
         elements.push(
-            <span style={{color: metadata.bookmark.userColor}}>
-                <i className="fa fa-bookmark"/> {formattedTime}
+            <span>
+                <i className="fa fa-bookmark"/> <img src={iconUrl} alt={"User " + md5(metadata.bookmark.userId)}/>  {formattedTime}
             </span>
         );
     }

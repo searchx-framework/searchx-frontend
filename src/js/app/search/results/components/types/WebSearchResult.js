@@ -6,12 +6,13 @@ import {LoggerEventTypes} from '../../../../../utils/LoggerEventTypes';
 
 ////
 
-const WebSearchResult = function ({searchState, serpId, result, metadata, bookmarkButton, excludeButton, urlClickHandler}) {
+const WebSearchResult = function ({searchState, serpId, index, result, metadata, bookmarkButton, excludeButton, urlClickHandler}) {
     let metaInfo = {
         url: result.url,
         query: searchState.query,
         page: searchState.page,
         serpId: serpId,
+        index: index,
         session: localStorage.getItem("session-num") || 0, 
     };
 
@@ -54,7 +55,7 @@ const WebSearchResult = function ({searchState, serpId, result, metadata, bookma
 
             <div onMouseEnter={hoverEnterSummary} onMouseLeave={hoverLeaveSummary}>
                 <h2>
-                    <a title={result.name} href={result.name} onClick={clickUrl} onContextMenu={contextUrl}>
+                    <a title={result.name} href="#/" onClick={clickUrl} onContextMenu={contextUrl}>
                         {result.name}
                     </a>
                 </h2>

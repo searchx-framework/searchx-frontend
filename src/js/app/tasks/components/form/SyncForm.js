@@ -42,7 +42,6 @@ class SyncForm extends React.PureComponent {
     }
 
     handleUnload() {
-        console.log("handle unload", this.state.isReady)
         if (!this.state.isReady) {
             this.props.onLeave();
         }

@@ -41,11 +41,12 @@ function formatInfo(publisher, views, creator) {
 
 ////
 
-const VideosSearchResult = function ({searchState, serpId, result, metadata, bookmarkButton, excludeButton, urlClickHandler}) {
+const VideosSearchResult = function ({searchState, serpId, index, result, metadata, bookmarkButton, excludeButton, urlClickHandler}) {
     const metaInfo = {
         url: result.url,
         query: searchState.query,
         page: searchState.page,
+        index: index,
         serpId: serpId,
         session: localStorage.getItem("session-num") || 0,
     };
@@ -131,7 +132,7 @@ const VideosSearchResult = function ({searchState, serpId, result, metadata, boo
                     {excludeButton}
 
                     <h2>
-                        <a  href={result.name} onClick={clickUrl} onContextMenu={contextUrl}>
+                        <a  href="#/" onClick={clickUrl} onContextMenu={contextUrl}>
                             {getTitle(result.name)}
                         </a>
                     </h2>

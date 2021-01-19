@@ -14,9 +14,6 @@ const SessionStore = Object.assign(EventEmitter.prototype, {
     initializeTask(id, params, callback) {
         let res = null;
         _getUserTask(AccountStore.getUserId(), id, params, (data) => {
-            // console.log("id", id)
-            console.log("params", params)
-            // console.log("data", data)
             if (data) {
                 AccountStore.setGroup(data._id, data.members);
                 AccountStore.setTask(data.taskId, data.taskData);
@@ -29,12 +26,7 @@ const SessionStore = Object.assign(EventEmitter.prototype, {
     updateTask(id, qdata, callback) {
         let res = null;
         _postUserTask(AccountStore.getUserId(), id, qdata, (data) => {
-            // console.log("id", id)
-            // // console.log("params", params)
-            // console.log("question ", qdata)
-            // console.log("data", data)
             if (data) {
-                console.log("update task set task")
                 AccountStore.setGroup(data._id, data.members);
                 AccountStore.setTask(data.taskId, data.taskData);
                 res = data;
@@ -74,6 +66,15 @@ const SessionStore = Object.assign(EventEmitter.prototype, {
 
     ////
 
+    getMemberRole(userId) {
+
+        if (userId in state.group.members) {
+            return state.group.members[userId].role;
+        }
+
+        return 'none';
+    },
+
     setGroup(groupId, groupMembers) {
         let members = {};
         groupMembers.forEach(member => members[member.userId] = member);
@@ -83,6 +84,10 @@ const SessionStore = Object.assign(EventEmitter.prototype, {
         AccountStore.setGroupId(groupId);
         // initially sessionId === groupId, when task includes multiple topics sessionId may change later
         AccountStore.setSessionId(groupId);
+    },
+
+    getGroupMembers(){
+        return JSON.parse(localStorage.getItem("group-members"));
     },
 
     setNewGroupMember(userData) {

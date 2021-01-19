@@ -1,51 +1,106 @@
-import "./Chat.pcss";
+import React, {Component} from 'react'
+import {Launcher} from 'searchx-chat'
+
+import SessionActions from "../../../../actions/SessionActions";
+import ChatStore from "./ChatStore";
 import AccountStore from "../../../../stores/AccountStore";
+import {log} from '../../../../utils/Logger';
+import {LoggerEventTypes} from '../../../../utils/LoggerEventTypes';
+import config from '../../../../config';
 
-const Chat = function() {
-    const chatRoom = 'searchx-' + AccountStore.getSessionId() + '@conference.nomnom.im';
+export default class Chat extends Component {
 
-    /* global converse */
-    converse.initialize({
-        authentication: 'anonymous',
-        auto_login: true,
-        auto_reconnect: true,
+  constructor() {
+    super();
 
-        allow_logout: false,
-        allow_muc_invitations: false,
-        allow_contact_requests: false,
-        allow_bookmarks: false,
-        allow_registration: false,
-        allow_muc: false,
+    this.state = {
+      messageList: [
+      ],
+      isOpen: false,
+      newMessagesCount:  0
+    };
+    SessionActions.getChatMessageList();
+    this.changeHandler = this.changeHandler.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+  }
 
-        auto_join_rooms: [chatRoom],
-        notify_all_room_messages: [chatRoom],
-        bosh_service_url: 'https://conversejs.org/http-bind/', //TODO: change to own server
-        jid: 'nomnom.im',
 
-        use_emojione: false,
-        keepalive: true,
-        hide_muc_server: true,
-        play_sounds: true,
-        synchronize_availability: false,
-        show_controlbox_by_default: false,
-        show_desktop_notifications: false,
-        strict_plugin_dependencies: false,
+  
 
-        visible_toolbar_buttons: {
-            call: false,
-            clear: false,
-            toggle_occupants: false,
-            emoji: false
-        },
+  componentWillMount() {ChatStore.addChangeListener(this.changeHandler);}
+  componentWillUnmount() {ChatStore.removeChangeListener(this.changeHandler);
+    }
 
-        blacklisted_plugins: [
-            'converse-dragresize',
-            'converse-vcard',
-            'converse-notification',
-            'converse-register',
-            'converse-bookmarks'
-        ]
+
+    handleClick() {
+
+      if (this.state.isOpen) {
+        ChatStore.setNewMessagesCount();
+      }
+      let metaInfo = {
+        isOpen: this.state.isOpen
+      }
+      log(LoggerEventTypes.CHAT_CLICK, metaInfo);
+
+      if (this.props.handleClick !== undefined) {
+        this.props.handleClick();
+      } else {
+        this.setState({
+          isOpen: !this.state.isOpen,
+          newMessagesCount: ChatStore.getNewMessagesCount()
+        });
+      }
+    }
+
+  
+
+  _onMessageWasSent(message) {
+    message.sender = AccountStore.getUserId();
+    message.data.date = new Date();
+    let metaInfo = {
+      userId: message.sender,
+      message: message
+    };
+    log(LoggerEventTypes.CHAT_MESSAGE, metaInfo);
+    SessionActions.addChatMessage(message);
+  }
+
+
+  changeHandler() {
+    let messageList = ChatStore.getChatMessageList();
+    let newMessagesCount;
+    if (this.state.isOpen) {
+      newMessagesCount = 0;
+    } else {
+      newMessagesCount = ChatStore.getNewMessagesCount();
+    }
+    this.setState({
+      messageList: messageList,
+      newMessagesCount: newMessagesCount
     });
-};
+  }
 
-export default Chat;
+
+  render() {
+    if (config.interface.chat === false ) {
+      return <div/>
+    }
+    return (<div className="Chat">
+      
+       <Launcher
+        agentProfile={{
+          teamName: '',
+          imageUrl: '/img/searchx_chat_logo.png'
+        }}
+        onMessageWasSent={this._onMessageWasSent.bind(this)}
+        messageList={this.state.messageList}
+        newMessagesCount={this.state.newMessagesCount}
+        showEmoji
+        showFile={false}
+        isOpen={this.state.isOpen}
+        handleClick={this.handleClick}
+        onClick={()=> console.log("click")}
+      /> 
+    </div>)
+  }
+}

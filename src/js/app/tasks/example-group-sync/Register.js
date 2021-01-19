@@ -42,7 +42,6 @@ class Register extends React.Component {
             if (res) {
                 
                 if ('topic' in res.taskData) {
-                    // console.log("register", res);
                     this.props.history.push('/sync/session');
                 } else {
                     this.props.history.push('/sync/pretest');
@@ -59,7 +58,7 @@ const formData = function() {
     elements.push({
         type: "html",
         name: "topic",
-        html: "<h2 class='text-center'>STUDY DESCRIPTION</h2>"
+        html: "<h2>STUDY DESCRIPTION</h2>"
     });
 
     elements.push({

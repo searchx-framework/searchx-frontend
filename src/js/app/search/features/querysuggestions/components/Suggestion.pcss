@@ -1,0 +1,63 @@
+@import '../../../../Variables.pcss';
+
+.Suggestions {
+    position: absolute;
+    z-index: 5;
+    top: 44px;
+    left: 0;
+    right: 0;
+    border: 1px solid #BDC3C7;
+    border-radius: 3px;
+    width: 500px;
+    background-color: white;
+    .SuggestionItem {
+        z-index: 3;
+        border: none;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        background-color: white;
+    }
+    .SuggestionItem :hover, a:focus {
+        background-color: white;
+    }
+}
+
+
+
+.ClickLayer {
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.ColorBar {
+    position: absolute;
+    height: 22px;
+}
+
+.ColorBarSingleExplored {
+    background-color: #CCFFCC;
+    z-index: -2;
+}
+
+.ColorBarUnexplored {
+    background-color: #FFCCCC;
+    z-index: -1;
+}
+
+.ColorBarTotal {
+    background-color: #AAFFAA;
+    z-index: -3;
+}
+
+.SuggestionItem {
+    padding: 0;
+}
+
+.TextArea {
+    margin: 2px 12px 2px 12px;
+}

@@ -7,11 +7,12 @@ import {LoggerEventTypes} from '../../../../../utils/LoggerEventTypes';
 ////
 
 const TextSearchResult = function ({
-                                       searchState, serpId, result, metadata, bookmarkButton, excludeButton,
+                                       searchState, serpId, index, result, metadata, bookmarkButton, excludeButton,
                                        urlClickHandler, hideCollapsedResultsHandler, isCollapsible, visited
                                    }) {
     let metaInfo = {
         url: result.id,
+        index: index,
         query: searchState.query,
         page: searchState.page,
         serpId: serpId,
@@ -26,7 +27,6 @@ const TextSearchResult = function ({
 
         doctext.unshift(<h4> {result.source} <br/></h4>);
         doctext.unshift(<h3> {result.name} <br/></h3>);
-
 
         urlClickHandler(result.id, doctext);
         log(LoggerEventTypes.SEARCHRESULT_CLICK_URL, metaInfo);
@@ -65,8 +65,20 @@ const TextSearchResult = function ({
         hideCollapsedResultsHandler([id]);
     };
 
-    ////
+    const toTitleCase = function(str) {
+        return str.replace(
+            /\w\S*/g,
+            function(txt) {
+                return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+            }
+        );
+    }
 
+    if (result.name === result.name.toUpperCase()) {
+        result.name = toTitleCase(result.name);
+    }
+
+    ////
     return (
         <div className="result-text">
             <VisibilitySensor
@@ -82,21 +94,22 @@ const TextSearchResult = function ({
 
             <div onMouseEnter={hoverEnterSummary} onMouseLeave={hoverLeaveSummary}>
                 <h2>
-                    <a className={visited ? "visited" : ""} href={result.name} title={result.name} onClick={clickUrl}
+                    <a className={visited ? "visited" : ""} href="#/"  title={result.name} onClick={clickUrl}
                        onContextMenu={contextUrl}>
                         {result.name}
                     </a>
                 </h2>
 
                 {isCollapsible ? (
-                    <div className="textArea" role="button" onClick={hideCollapsedResults}>
-                        <p dangerouslySetInnerHTML={createSnippet()}>
+                    <div className="textArea" draggable="true" role="button" onClick={hideCollapsedResults}>
+                        <p dangerouslySetInnerHTML={createSnippet()} >
                         </p>
 
                         {metadata}
                     </div>
                 ) : (
                     <div className="textArea">
+                        <div className="fakeSpace"></div>
                         <p dangerouslySetInnerHTML={createSnippet()}>
                         </p>
 

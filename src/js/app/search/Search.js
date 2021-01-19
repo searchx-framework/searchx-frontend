@@ -19,10 +19,10 @@ class Search extends React.Component {
         this.handleVisibilityChange = this.handleVisibilityChange.bind(this);
     }
     componentDidMount() {
-        if (this.props.firstSession && config.interface.chat && this.props.collaborative) {
-            sessionStorage.clear();
-            Chat();
-        };
+        // if (this.props.firstSession && config.interface.chat && this.props.collaborative) {
+        //     sessionStorage.clear();
+        //     Chat();
+        // };
         document.addEventListener('visibilitychange', this.handleVisibilityChange);
     }
 
@@ -42,7 +42,7 @@ class Search extends React.Component {
     render() {
         return (
             <div className="Search">
-                <SearchHeaderContainer timer={this.props.timer} showAccountInfo={this.props.showAccountInfo}/>
+                <SearchHeaderContainer timer={this.props.timer} statusbar={this.props.statusbar} showAccountInfo={this.props.showAccountInfo}/>
 
                 <div className="Content">
                     <div className="Main">
@@ -62,7 +62,7 @@ class Search extends React.Component {
                         </div>
                     )}
                 </div>
-
+                <Chat/>
                 <div className="text-center">
                     <p className="Footer">
                         About <a href="/about" target="_blank">SearchX</a>.

@@ -1,4 +1,3 @@
-import React from 'react';
 import request from 'superagent';
 import EventEmitter from 'events';
 import config from "../../config"
@@ -17,7 +16,7 @@ import history from "../History";
 import BookmarkStore from "./features/bookmark/BookmarkStore";
 import AnnotationStore from "./features/annotation/AnnotationStore";
 import RatingStore from "./features/rating/RatingStore";
-
+import React from 'react';
 const CHANGE_EVENT = 'change_search';
 
 ////
@@ -51,7 +50,6 @@ const _setState = function () {
         page: parseInt(Helpers.getURLParameter('p')) || 1,
         provider: provider,
 
-        submittedQuery: false,
         finished: false,
         resultsNotFound: false,
 

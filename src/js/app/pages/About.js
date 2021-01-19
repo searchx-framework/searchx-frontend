@@ -5,7 +5,7 @@ const About = function() {
     return (
         <div className="About">
             <div className="text-center">
-                <h1>About <img className="Logo" src='/img/searchx_logo_bing.png' alt="SearchX Logo"/> </h1>
+                <h1>About <img className="Logo" src='/img/searchx_logo.png' alt="SearchX Logo"/> </h1>
                 <div className="Info" >
                     <p>
                         SearchX is a search interface developed by <a href="http://www.wis.ewi.tudelft.nl"> TU Delft's Web Information Systems group</a>.

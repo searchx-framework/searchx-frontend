@@ -49,6 +49,7 @@ export default class SearchResultContainer extends React.Component {
     bookmarkClickHandler() {
         let action = "";
         const id = this.props.result.url ? this.props.result.url : this.props.result.id;
+        const index = this.props.index;
         if (this.props.result.metadata.bookmark) {
             action = "remove";
             SessionActions.removeBookmark(id);
@@ -78,6 +79,7 @@ export default class SearchResultContainer extends React.Component {
         log(LoggerEventTypes.BOOKMARK_ACTION, {
             url: id,
             action: action,
+            index: index,
             session: localStorage.getItem("session-num") || 0,
         });
     };
@@ -85,6 +87,7 @@ export default class SearchResultContainer extends React.Component {
     excludeClickHandler() {
         let action = "";
         const id = this.props.result.url ? this.props.result.url : this.props.result.id;
+        const index = this.props.index;
         if (this.props.result.metadata.exclude) {
             action = "remove";
             SessionActions.removeExclude(id);
@@ -115,6 +118,7 @@ export default class SearchResultContainer extends React.Component {
         log(LoggerEventTypes.EXCLUDE_ACTION, {
             url: id,
             action: action,
+            index: index,
             session: localStorage.getItem("session-num") || 0,
         });
     }
@@ -125,6 +129,7 @@ export default class SearchResultContainer extends React.Component {
         return <SearchResult
             searchState={this.props.searchState}
             serpId={this.props.serpId}
+            index={this.props.index}
             result={this.props.result}
             urlClickHandler={this.urlClickHandler}
             bookmarkClickHandler={this.bookmarkClickHandler}
@@ -134,7 +139,6 @@ export default class SearchResultContainer extends React.Component {
             hideCollapsedResultsHandler={this.props.hideCollapsedResultsHandler}
             isCollapsible={this.props.isCollapsible}
             visited={this.props.visited}
-            index={this.props.index}
         />
     }
 }

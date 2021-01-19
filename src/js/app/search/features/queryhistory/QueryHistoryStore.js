@@ -42,9 +42,9 @@ const QueryHistoryStore = Object.assign(EventEmitter.prototype, {
     getQueryHistory() {
         if (state.tutorial) {
             return [
-                {query: "first query", created: new Date() - 20000},
-                {query: "second query", created: new Date() - 10000},
-                {query: "third query", created: new Date()},
+                {userId: 1, query: "first query", created: new Date() - 20000},
+                {userId: 2, query: "second query", created: new Date() - 10000},
+                {userId: 3, query: "third query", created: new Date()},
             ];
         }
 

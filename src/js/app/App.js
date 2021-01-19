@@ -29,6 +29,15 @@ import PilotSession3 from './tasks/algorithmic-mediation-pilot/Session3';
 import PilotDescription3 from './tasks/algorithmic-mediation-pilot/TaskDescription3';
 import PilotPostTest from './tasks/algorithmic-mediation-pilot/PostTest';
 
+
+import RoleBasedRegister from './tasks/role-based/Register';
+import RoleBasedReRegister from './tasks/role-based/ReRegister';
+import RoleBasedWait from './tasks/role-based/Wait';
+import RoleBasedSession from './tasks/role-based/Session';
+import RoleBasedDescription from './tasks/role-based/TaskDescription';
+import RoleBasedDescriptionShort from './tasks/role-based/TaskDescriptionShort';
+import RoleBasedPostTest from './tasks/role-based/PostTest';
+import Chat from './search/features/chat/Chat';
 export class App extends React.Component {
 
     render() {
@@ -49,11 +58,8 @@ export class App extends React.Component {
                     Google Chrome version 47 (or higher) and Mozilla Firefox version 50 (or higher).
                     Please upgrade your browser to take part in our study</h3>
             </div>)
-        } else{
-            console.log(browser.getBrowser());
-        }
+        } 
 
-        // console.log(setInterval(function(){}, 2000));
         let invalid = localStorage.getItem("invalid-user") || 0;
         if(invalid === 1 ){
             return (<div>
@@ -69,6 +75,7 @@ export class App extends React.Component {
                     <Route exact path="/" component={About}/>
                     <Route exact path="/about" component={About}/>
                     <Route path="/search" component={Search}/>
+                    <Route path="/chat" component={Chat}/>
 
                     <Route exact path="/simple" component={SimpleRegister}/>
                     <Route exact path="/simple/submit" component={SimpleSubmit}/>
@@ -94,6 +101,15 @@ export class App extends React.Component {
                     <Route path="/pilot/session3" component={PilotSession3}/>
                     <Route path="/pilot/description3" component={PilotDescription3}/>
                     <Route exact path="/pilot/posttest" component={PilotPostTest}/>
+
+                    <Route exact path="/role-based" component={RoleBasedRegister}/>
+                    <Route exact path="/role-based/register" component={RoleBasedReRegister}/>
+                    <Route exact path="/role-based/wait" component={RoleBasedWait}/>
+                    <Route path="/role-based/session" component={RoleBasedSession}/>
+                    <Route path="/role-based/description" component={RoleBasedDescription}/>
+                    <Route path="/role-based/description_short" component={RoleBasedDescriptionShort}/>
+                    <Route exact path="/role-based/posttest" component={RoleBasedPostTest}/>
+
                 </div>
             </Router>
         );

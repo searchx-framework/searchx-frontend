@@ -49,7 +49,7 @@ const SearchResults = function ({
         </CenteredMessage>
     }
 
-    if (progress.querySubmitted && !progress.finished) {
+    if (!tutorial && !progress.finished) {
         return <CenteredMessage height="800px">
             <Loader/>
         </CenteredMessage>
@@ -92,11 +92,11 @@ const SearchResults = function ({
             isCollapsible: isCollapsible(result),
             visited: visitedUrls[Helpers.getId(result)] === true
         };
-
+        
         if (distributionOfLabour === 'unbookmarkedSoft') {
             if (collapsed[Helpers.getId(result)]) {
                 lastCollapsedResults.push(result);
-                lastCollapsedResultsComponents.push(<SearchResultContainer {...resultProps} key={Helpers.getId(result)}
+                lastCollapsedResultsComponents.push(<SearchResultContainer {...resultProps} key={index}
                                                                            index={index}/>);
             } else {
                 if (lastCollapsedResults.length > 0) {
@@ -135,10 +135,6 @@ const SearchResults = function ({
     return (
         <div>
             <div className="SearchResults" id="intro-search-results">
-                {progress.querySubmitted &&
-                <Loader
-                    loaded={results.length > 0 || progress.isRefreshing() || progress.isFinished()}/>
-                }
                 {config.interface.timeIndicator && results.length > 0 &&
                 <div className="time"> {timeIndicator}</div>
                 }
@@ -148,7 +144,7 @@ const SearchResults = function ({
                             disabled={allBookmarkedResultsShown}>
                         Show all hidden results
                     </Button> */}
-                    <Button className="allCollapsedResultsButton" onClick={hideAllCollapsedResults}
+                    <Button variant="light" className="allCollapsedResultsButton" onClick={hideAllCollapsedResults}
                             disabled={allBookmarkedResultsHidden}>
                         Hide all saved results
                     </Button>

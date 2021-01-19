@@ -41,8 +41,14 @@ const IntroStore = Object.assign(EventEmitter.prototype, {
 
         intro.setOption('steps', steps);
         const oncomplete = () => {
+            let elapsed = new Date() - localStorage.getItem("timer-start");
+            if (elapsed > (3 * 60 * 1000)) {
+                localStorage.setItem("invalid-user", true.toString());
+            }
             localStorage.setItem("intro-done", true.toString());
-
+            log(LoggerEventTypes.SURVEY_INTRO_END, {
+                end: Date.now()
+            });
             SearchStore.removeSearchTutorialData();
             QueryHistoryStore.removeQueryHistoryTutorialData();
             BookmarkStore.removeBookmarksTutorialData();

@@ -26,13 +26,7 @@
     }
 
     .SearchResult {
-        .visited {
-            color: #609;
-        }
 
-        .visited:hover {
-            color: #609;
-        }
 
         .lineContainer {
             display: flex;
@@ -42,9 +36,9 @@
             width: 100%;
         }
 
-        a {
-            cursor: pointer;
-        }
+                  .visited {
+                    color: $visited-blue;
+                }
 
         h2 {
             flex: 1 0 auto;
@@ -65,10 +59,7 @@
                 text-decoration: none;
             }
 
-            a:visited {
-                color: $visited-blue;
-                text-decoration: none;
-            }
+
         }
 
         p {
@@ -104,7 +95,7 @@
         .rating {
             float : left;
             margin-right: 5px;
-
+            height: 5px;
             .fa-bookmark {
                 font-size: 18px;
                 color: #ffd700;
@@ -226,12 +217,17 @@
     .collapsedResultsButton {
         width: 100%;
         box-shadow: 0.5px 0.5px 0.5px 0.5px #BFBFBF;
+    background-color: white;
+        color: $description-grey;
+        border: 1px solid #BDC3C7;
     }
 
     .allCollapsedResultsButton {
         margin-right: 15px;
         box-shadow: 0.5px 0.5px 0.5px 0.5px #BFBFBF;
-        
+        background-color: white;
+        color: $description-grey;
+        border: 1px solid #BDC3C7;
     }
 
     .result-collapsed {
@@ -244,4 +240,20 @@
             color: #cccccc;
         }
     }
+}
+
+
+
+.text-center {
+    margin-left: 30px;
+    color: $primary-color;
+}
+.page-item.active .page-link {
+    background-color: $primary-color;
+    border: 1px solid $primary-color;
+}
+
+.page-item .page-link {
+    color: $primary-color;
+
 }

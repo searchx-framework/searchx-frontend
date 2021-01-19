@@ -2,6 +2,25 @@ import ActionTypes from "./ActionTypes";
 import {dispatch} from "../utils/Dispatcher";
 
 export default {
+
+    //// Chat
+
+    getChatMessageList(){
+        dispatch({
+            type: ActionTypes.GET_CHAT_MESSAGE_LIST,
+            payload: {}
+        })
+    },
+
+    addChatMessage(message){
+        dispatch({
+            type: ActionTypes.ADD_CHAT_MESSAGE,
+            payload: {
+                message: message
+            }
+        })
+    },
+
     //// Query History
 
     getQueryHistory() {
@@ -118,4 +137,21 @@ export default {
             }
         })
     },
+
+    getSuggestions(query) {
+        dispatch({
+            type: ActionTypes.GET_SUGGESTIONS,
+            payload: {
+                query: query
+            }
+        })
+    },
+
+    clearSuggestions() {
+        dispatch({
+            type: ActionTypes.CLEAR_SUGGESTIONS,
+            payload: {
+            }
+        })
+    }
 }
