@@ -118,7 +118,6 @@ class Session extends React.PureComponent {
     ////
 
     onFinish() {
-        const task = AccountStore.getTask();
         log(LoggerEventTypes.SESSION_END, {});
         if (this.state.currentTopic === 0) {
             localStorage.setItem("current-topic", this.state.currentTopic+1);

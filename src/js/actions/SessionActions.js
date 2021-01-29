@@ -21,6 +21,15 @@ export default {
         })
     },
 
+    //// Search State
+
+    getSearchState() {
+        dispatch({
+            type: ActionTypes.GET_SEARCHSTATE,
+            payload: {}
+        })
+    },
+
     //// Query History
 
     getQueryHistory() {

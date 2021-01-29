@@ -126,10 +126,8 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
         return state.tutorial;
     },
 
-    getFacets() {
-        if (state.facets) {
-            return state.facets;
-        }
+    getQuery() {
+        return state.query;
     },
 
     getFilters() {
@@ -204,7 +202,6 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
             vertical: state.vertical,
             page: state.page || 1,
             provider: state.provider,
-            facets: state.facets,
             filters: state.filters
         };
     },
@@ -236,13 +233,13 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
     dispatcherIndex: register(action => {
         switch (action.type) {
             case ActionTypes.SEARCH:
-                _search(action.payload.query, action.payload.vertical, action.payload.page);
+                _search(action.payload.query, action.payload.vertical, action.payload.page, true);
                 break;
             case ActionTypes.CHANGE_VERTICAL:
-                _search(state.query, action.payload.vertical, 1);
+                _search(state.query, action.payload.vertical, 1, true);
                 break;
             case ActionTypes.CHANGE_PAGE:
-                _search(state.query, state.vertical, action.payload.page);
+                _search(state.query, state.vertical, action.payload.page, true);
                 break;
             case ActionTypes.UPDATE_METADATA:
                 _update_metadata();
@@ -264,7 +261,10 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
                 _setState();
                 break;
             case ActionTypes.CHANGE_VARIANT:
-                _setVariant()
+                _setVariant();
+                break;
+            case ActionTypes.GET_SEARCHSTATE:
+                _searchState();
                 break;
             default:
                 break;
@@ -276,7 +276,7 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
 
 ////
 
-const _search = (query, vertical, page) => {
+const _search = (query, vertical, page, sync) => {
     const startTime = new Date().getTime();
 
     if (!(query === state.query && vertical === state.vertical && page === state.page)) {
@@ -293,7 +293,9 @@ const _search = (query, vertical, page) => {
     state.finished = false;
     state.resultsNotFound = false;
     _updateUrl(state.query, state.vertical, state.page, state.provider, state.variant);
-    SyncStore.emitSearchState(SearchStore.getSearchState());
+    if (sync) {
+        SyncStore.emitSearchState(SearchStore.getSearchState());
+    }
 
     ////
     if (query === '') {
@@ -369,6 +371,23 @@ const _getById = function (id) {
 
             SyncStore.emitViewState(id);
             SearchStore.emitChange();
+        });
+};
+
+let _searchState = () => {
+    request
+        .get(`${process.env.REACT_APP_SERVER_URL}/v1/session/${AccountStore.getSessionId()}/searchstate`)
+        .end((err, res) => {
+            if (err || !res.body || res.body.error) {
+            } else {
+                let newState = JSON.parse(res.body.results.state);
+                state.query = newState.query;
+                state.vertical = newState.vertical;
+                state.page = newState.page;
+                state.provider = newState.provider;
+                state.filters = newState.filters;
+            }
+            _search(state.query, state.vertical, state.page, false);
         });
 };
 

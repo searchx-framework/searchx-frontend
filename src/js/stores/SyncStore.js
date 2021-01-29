@@ -123,9 +123,9 @@ const SyncStore = Object.assign(EventEmitter.prototype, {
 SyncStore.emitUserJoin();
 
 socket.on('searchState', (data) => {
-
     Helpers.sleep(1000).then(() => {
         SessionActions.getQueryHistory();
+        SessionActions.getSearchState();
     });
 
    
