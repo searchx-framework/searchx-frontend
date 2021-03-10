@@ -40,6 +40,7 @@ const _setVariant = function () {
     state.variant = variant;
     state.relevanceFeedback = variant === 'S2' ? 'individual' : variant === 'S3' ? 'shared' : false;
     state.distributionOfLabour = variant === 'S0' ? false : variant === 'S1-Hard' ? 'unbookmarkedOnly' : 'unbookmarkedSoft';
+    state.navigation = config.navigation;
 };
 
 /*
@@ -375,6 +376,9 @@ const _getById = function (id) {
 };
 
 let _searchState = () => {
+    if (state.navigation === "separate"){
+        return;
+    }
     request
         .get(`${process.env.REACT_APP_SERVER_URL}/v1/session/${AccountStore.getSessionId()}/searchstate`)
         .end((err, res) => {
