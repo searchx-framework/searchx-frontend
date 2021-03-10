@@ -42,7 +42,7 @@ export default class SearchResultsContainer extends React.Component {
         this.isCollapsible = this.isCollapsible.bind(this);
     }
 
-    componentWillMount() {
+    componentDidMount() {
         SearchStore.addChangeListener(this._onChange);
     }
 
