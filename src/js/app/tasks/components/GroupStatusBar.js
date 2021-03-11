@@ -3,6 +3,8 @@ import Identicon from "identicon.js";
 import md5 from 'md5';
 
 import SessionStore from '../../../stores/SessionStore';
+import ReactTooltip from 'react-tooltip';
+import config from "../../../config";
 
 class GroupStatusBar extends React.PureComponent {
     render () {
@@ -14,13 +16,14 @@ class GroupStatusBar extends React.PureComponent {
             }
             let icon = new Identicon(md5(data.userId), options).toString();
             let iconUrl = "data:image/png;base64," + icon 
-
-            return <img src={iconUrl} className="user" style={{marginRight: 5 + 'px'}} title={"Anonymous User  " + md5(data.userId)} alt={"Anonymous User " + md5(data.userId)}/> 
+            let title = config.groupMembersAnonymous ? "Anonymous User  " + md5(data.userId) : "User " +  data.userId 
+            return <img src={iconUrl} className="user" style={{marginRight: 5 + 'px'}} title={title} data-tip={title} alt={iconUrl}/> 
         });
 
         return (
             <div className="StatusBar" >
                 {list}
+                <ReactTooltip  place="bottom" type="info" />
             </div>
         )
     }

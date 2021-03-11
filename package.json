@@ -33,6 +33,7 @@
     "react-snake-game": "^1.0.9",
     "react-stars": "^2.2.5",
     "react-tetris": "github:felipemoraes/react-tetris",
+    "react-tooltip": "^4.2.15",
     "react-visibility-sensor": "^5.1.1",
     "searchx-chat": "0.0.4",
     "socket.io-client": "^2.3.0",
