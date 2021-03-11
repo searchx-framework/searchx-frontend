@@ -70,7 +70,7 @@ class Session extends React.PureComponent {
         const task = AccountStore.getTask();
         
         const t = this.state.currentTopic;
-        let duration = t === 0 ? constants.taskDuration + 2 : constants.taskDuration;
+        let duration = task.data.topics[t].taskType === "practice" ? 15: constants.taskDuration;
         const timer = (
             <div style={{marginTop: '10px', textAlign: 'center'}}>
                 <Timer start={this.state.start} duration={duration} onFinish={this.onFinish} style={{fontSize: '2em'}} showRemaining={true}/>
