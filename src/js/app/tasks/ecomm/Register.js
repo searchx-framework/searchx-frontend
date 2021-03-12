@@ -8,7 +8,6 @@ import SyncStore from "../../../stores/SyncStore";
 import {LoggerEventTypes} from "../../../utils/LoggerEventTypes";
 import {log} from "../../../utils/Logger";
 import bigFiveTest from "./bigFiveTest";
-import conflictTest from "./conflictTest";
 
 class Register extends React.Component {
     constructor(props) {
@@ -98,6 +97,7 @@ const formData = function() {
             <li>This is a collaborative study: this means you will be interacting with other participants during the experiment. </li>
             <li>You will use a chat tool to communicate with the other participants, do not use external resources (e.g., WhatsApp, iMesseger, SMS). If you use another resource, it will affect our experiment.</li>
             <li>Do not share private information with other participants (e.g., your residential address, full name, e-mail address, etc). </li>
+            <li>You must not be in the same room with other participants.</li>
             </ol>
         <img src='/img/noun_users_64757.png' width="150" style="margin-left: auto;margin-right:auto;display: block;"alt='participants'/>
         <hr/>
@@ -129,13 +129,12 @@ const formData = function() {
                 </p>
             </li>
             <li>
-            <p>You will search a collection of online products. These are not the most online products. </p>
+            <p>You will search a collection of online products. These are not the most recent online products or the entire catalog of products you will find on an E-Commerce website. </p>
             </li>
             <li> 
                 <p>
                 Keep your queries in line with the information need. 
-                For example, please do not issue queries for a prior task once you have begun the search process for a new task. Keep the queries you issue (and subsequently select) on point, and relevant to the topic outline provided on the right of the search interface.
-                If you begin issuing queries that are totally off the task (e.g. queries on US Election, Brexit, or anything else you can think of), we will cancel your participation.
+                For example, please do not issue queries for non product queries (e.g., queries on US Election, Brexit, or anything else you can think of).
                 </p>
             </li>
 
@@ -152,11 +151,23 @@ const formData = function() {
         </li>
         </ol>
 
+        <p>
+        If you decide to take in part in this experiment, you agree with the consent form available <a href=http://bit.ly/3l4kIxQ> here </a>
+        </p>
 
         <hr/>
-        <h3>Thank you for your contribution and time!</h3>
         `
     });
+    elements.push({
+        title: " ",
+        name: "consent form ",
+        type: "radiogroup",
+        isRequired: true,
+        choices: [
+            {value: 0, text: "I read the instructions and consent form, and agree with them."}
+        ]
+    });
+
     pages.push({elements:  elements});
 
     elements = [];
@@ -171,15 +182,6 @@ const formData = function() {
     elements.push({
         title: "Insert your participation ID here sent to you by e-mail",
         name : "userId",
-        type : "text",
-        inputType: "text",
-        width: 300,
-        isRequired: true
-    });
-
-    elements.push({
-        title: "Insert the user name you want to use ",
-        name : "userName",
         type : "text",
         inputType: "text",
         width: 300,
@@ -513,7 +515,6 @@ const formData = function() {
 
        pages.push({elements:  elements});
        pages.push({elements: bigFiveTest});
-       pages.push({elements: conflictTest});
 
     return {
         pages: pages,
