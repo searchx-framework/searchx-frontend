@@ -8,6 +8,7 @@ import SearchHeaderContainer from './header/SearchHeaderContainer';
 import SearchResultsContainer from "./results/SearchResultsContainer";
 import QueryHistoryContainer from "./features/queryhistory/QueryHistoryContainer";
 import BookmarkContainer from "./features/bookmark/BookmarkContainer";
+import NotepadContainer from "./features/notepad/NotepadContainer";
 import Chat from "./features/chat/Chat";
 import config from "../../config";
 
@@ -55,6 +56,11 @@ class Search extends React.Component {
                         <QueryHistoryContainer collaborative={this.props.collaborative}/>
                         <BookmarkContainer collaborative={this.props.collaborative}/>
                     </div>
+                    {config.interface.notepad && (                    
+                    <div>
+                        <NotepadContainer collaborative={this.props.collaborative} />
+                    </div>
+                    ) }
 
                     {this.props.taskDescription && (
                         <div className="Side">

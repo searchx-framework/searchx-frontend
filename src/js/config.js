@@ -38,7 +38,8 @@ var config = {
         timeIndicator: false, /* show the time it took to return results */
         star: true, /* allow users to star bookmarks */
         saveTimestamp: true, /* show the time and date at which a document was saved */
-        verticals: false /* show the vertical selection menu */
+        verticals: false, /* show the vertical selection menu */
+        notepad: true
     }
 };
 
