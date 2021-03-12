@@ -151,12 +151,17 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
                     name: "You can view the first result here",
                     id: "1",
                     snippet: "This is the first result...",
+                    image: "https://lallahoriye.com.tirzee.com/wp-content/uploads/2019/04/Product_Lg_Type.jpg",
+                    rating : 4.5,
+                    price: 1.0,
                     metadata: {}
                 },
                 {
                     name: "You can view the second result here",
                     id: "2",
                     snippet: "This is the second result...",
+                    image: "https://lallahoriye.com.tirzee.com/wp-content/uploads/2019/04/Product_Lg_Type.jpg",
+                    rating : 4.5,
                     metadata: {
                         bookmark: {userId: AccountStore.getUserId(), date: new Date()},
                         views: 10,
@@ -168,17 +173,26 @@ const SearchStore = Object.assign(EventEmitter.prototype, {
                     name: "You can view the third result here",
                     id: "3",
                     snippet: "This is the third result...",
+                    image: "https://lallahoriye.com.tirzee.com/wp-content/uploads/2019/04/Product_Lg_Type.jpg",
+                    rating : 4.5,
+                    price: 1.0,
                     metadata: {bookmark: {userId: 'test', date: new Date() - 2000}}
                 },
                 {
                     name: "You can view the fourth result here",
                     id: "4",
                     snippet: "This is the fourth result...",
+                    image: "https://lallahoriye.com.tirzee.com/wp-content/uploads/2019/04/Product_Lg_Type.jpg",
+                    rating : 4.5,
+                    price: 1.0,
                     metadata: {}
                 },
                 {
                     name: "You can view the fifth result here",
                     id: "5",
+                    image: "https://lallahoriye.com.tirzee.com/wp-content/uploads/2019/04/Product_Lg_Type.jpg",
+                    rating : 4.5,
+                    price: 1.0,
                     snippet: "This is the fifth result...",
                     metadata: {}
                 }
