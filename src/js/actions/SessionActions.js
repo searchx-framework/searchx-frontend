@@ -67,6 +67,32 @@ export default {
         })
     },
 
+    getBasketItems() {
+        dispatch({
+            type: ActionTypes.GET_BASKET_ITEMS,
+            payload: {}
+        })
+    },
+
+    addBasketItem(url, title) {
+        dispatch({
+            type: ActionTypes.ADD_BASKET_ITEM,
+            payload: {
+                url: url,
+                title: title
+            }
+        })
+    },
+
+    removeBasketItem(url) {
+        dispatch({
+            type: ActionTypes.REMOVE_BASKET_ITEM,
+            payload: {
+                url: url
+            }
+        })
+    },
+
     addExclude(url, title) {
         dispatch({
             type: ActionTypes.ADD_EXCLUDE,

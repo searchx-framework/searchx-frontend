@@ -1,7 +1,7 @@
 import React from 'react';
 import Modal from "../../../../common/Modal";
 
-const BookmarkWindow = function({active, list, closeHandler}) {
+const BasketWindow = function({active, list, closeHandler}) {
     if (!active) {
         return <div/>;
     }
@@ -10,7 +10,7 @@ const BookmarkWindow = function({active, list, closeHandler}) {
         <Modal width="600px" height="90%">
             <div className="popup">
                 <div className="header">
-                    <span className="title"><i className="fa fa-bookmark medium"/> Saved items</span>
+                    <span className="title"><i className="fa fa-shopping-cart medium"/> Shopping basket</span>
                     <div className="pull-right">
                         <span className="close" onClick={closeHandler}><i className="fa fa-times"/></span>
                     </div>
@@ -26,4 +26,4 @@ const BookmarkWindow = function({active, list, closeHandler}) {
     )
 };
 
-export default BookmarkWindow;
+export default BasketWindow;

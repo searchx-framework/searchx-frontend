@@ -103,6 +103,13 @@ const SyncStore = Object.assign(EventEmitter.prototype, {
         });
     },
 
+    emitBasketUpdate(searchState) {
+        socket.emit('pushBasketUpdate', {
+            searchState: searchState,
+            groupId: AccountStore.getGroupId()
+        });
+    },
+
     emitPageMetadataUpdate(activeUrl) {
         socket.emit('pushPageMetadataUpdate', {
             url: activeUrl,
@@ -143,6 +150,10 @@ socket.on('viewState', (data) => {
 
 socket.on('bookmarkUpdate', (data) => {
     SessionActions.getBookmarksAndExcludes();
+});
+
+socket.on('basketUpdate', (data) => {
+    SessionActions.getBasketItems();
 });
 
 socket.on('pageMetadataUpdate', (data) => {

@@ -8,15 +8,18 @@ import Identicon from "identicon.js";
 import md5 from 'md5';
 
 const SearchResult = function ({
-                                   searchState, serpId, result, bookmarkClickHandler, urlClickHandler, provider,
+                                   searchState, serpId, result, bookmarkClickHandler, urlClickHandler, basketClickHandler, 
+                                   provider,
                                    collapsed, excludeClickHandler, hideCollapsedResultsHandler, isCollapsible, visited,
                                    index
                                }) {
     let initialBookmark = 0;
     let initialExclude = 0;
+    let initialBasket = 0;
     if ('metadata' in result) {
         initialBookmark = result.metadata.bookmark ? 1 : 0;
         initialExclude = result.metadata.exclude ? 1 : 0;
+        initialBasket = result.metadata.basket ? 1 : 0;
     }
     const bookmarkIcon = config.bookmarkIcon ||  "fa-bookmark"
     const bookmarkButton = <Rating
@@ -25,6 +28,13 @@ const SearchResult = function ({
         stop={1} initialRating={initialBookmark}
         title="Save result"
     />;
+
+    const basketButton = <Rating
+    className="rating" emptySymbol={"fas fa-shopping-cart"} fullSymbol={"fas fa-cart-plus"}
+    onClick={basketClickHandler}
+    stop={1} initialRating={initialBasket}
+    title="Save basket"
+/>;
 
     // TODO: use variant from SearchStore instead of defaultVariant
     const excludeButton = <div>
@@ -35,8 +45,6 @@ const SearchResult = function ({
             title="Exclude result from future queries"
         />}
     </div>;
-
-
     const props = {
         searchState: searchState,
         serpId: serpId,
@@ -45,6 +53,7 @@ const SearchResult = function ({
         metadata: formatMetadata(result.metadata),
         bookmarkButton: bookmarkButton,
         excludeButton: excludeButton,
+        basketButton : basketButton,
         urlClickHandler: urlClickHandler,
         hideCollapsedResultsHandler: hideCollapsedResultsHandler,
         isCollapsible: isCollapsible,

@@ -3,7 +3,7 @@ import React from 'react';
 import BookmarkItem from './BookmarkItem';
 import BookmarkWindow from "./BookmarkWindow";
 
-const Bookmarks = function({bookmarks, popup, removeHandler, starHandler, clickHandler, popupHandler}) {
+const Bookmarks = function({bookmarks, popup, removeHandler, starHandler, clickHandler, popupHandler, basketHandler}) {
     const list = bookmarks.map((data, index) => {
         return <BookmarkItem
             key={index}
@@ -11,6 +11,7 @@ const Bookmarks = function({bookmarks, popup, removeHandler, starHandler, clickH
             removeHandler={removeHandler}
             starHandler={starHandler}
             clickHandler={clickHandler}
+            basketHandler={basketHandler}
         />
     });
 

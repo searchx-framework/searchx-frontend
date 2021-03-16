@@ -17,6 +17,7 @@ export default class SearchResultContainer extends React.Component {
         this.urlClickHandler = this.urlClickHandler.bind(this);
         this.bookmarkClickHandler = this.bookmarkClickHandler.bind(this);
         this.excludeClickHandler = this.excludeClickHandler.bind(this);
+        this.basketClickHandler = this.basketClickHandler.bind(this);
     }
 
     ////
@@ -68,6 +69,35 @@ export default class SearchResultContainer extends React.Component {
             }
         }
         log(LoggerEventTypes.BOOKMARK_ACTION, {
+            url: id,
+            action: action,
+            index: index,
+            session: localStorage.getItem("session-num") || 0,
+        });
+    };
+
+    basketClickHandler() {
+        let action = "";
+        const id = this.props.result.url ? this.props.result.url : this.props.result.id;
+        const index = this.props.index;
+        if (this.props.result.metadata.basket) {
+            action = "remove";
+            SessionActions.removeBasketItem(id);
+            SearchStore.modifyMetadata(id, {
+                basket: null
+            });
+        } else {
+            action = "add";
+            SessionActions.addBasketItem(id, this.props.result.name);
+
+            SearchStore.modifyMetadata(id, {
+                basket: {
+                    userId: AccountStore.getUserId(),
+                    date: new Date()
+                }
+            });
+        }
+        log(LoggerEventTypes.BASKET_ACTION, {
             url: id,
             action: action,
             index: index,
@@ -128,6 +158,7 @@ export default class SearchResultContainer extends React.Component {
             provider={this.props.provider}
             collapsed={this.props.collapsed}
             excludeClickHandler={this.excludeClickHandler}
+            basketClickHandler={this.basketClickHandler}
             hideCollapsedResultsHandler={this.props.hideCollapsedResultsHandler}
             isCollapsible={this.props.isCollapsible}
             visited={this.props.visited}

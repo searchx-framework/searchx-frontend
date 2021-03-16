@@ -157,7 +157,7 @@ const formData = function(returnCode) {
 
 
     elements.push({
-        title: "Were you satisfied with the decisions that you grup have made?",
+        title: "Were you satisfied with the decisions that you group have made?",
         name: "decision-satisfaction",
         type: "rating",
         isRequired: true,
@@ -190,7 +190,7 @@ const formData = function(returnCode) {
     });
 
     elements.push({
-        title: "Did you expresss your opinions well enough in the discussion?",
+        title: "Did you express your opinions well enough in the discussion?",
         name: "opinion-epression",
         type: "rating",
         isRequired: true,
@@ -302,7 +302,7 @@ const formData = function(returnCode) {
     });
 
     elements.push({
-        title: "Do you have any additional comments regarding SearchX?",
+        title: "Do you have any additional comments regarding the study?",
         name: "additional-comment",
         type: "comment",
         inputType: "text",

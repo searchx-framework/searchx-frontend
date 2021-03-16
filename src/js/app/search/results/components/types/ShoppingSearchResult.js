@@ -6,7 +6,7 @@ import {LoggerEventTypes} from '../../../../../utils/LoggerEventTypes';
 import ReactStars from 'react-stars'
 ////
 
-const ShoppingSearchResult = function ({searchState, serpId, index, result, metadata, bookmarkButton, excludeButton, urlClickHandler}) {
+const ShoppingSearchResult = function ({searchState, serpId, index, result, metadata, bookmarkButton, excludeButton, basketButton, urlClickHandler}) {
     let metaInfo = {
         url: result.url || result.id,
         query: searchState.query,
@@ -73,7 +73,14 @@ const ShoppingSearchResult = function ({searchState, serpId, index, result, meta
                 <div className="row">
                 <span className="price">${result.price}</span>
                 </div>
-                <div className="row bookmark" >{bookmarkButton} </div>
+                <div className="row" >
+                    <div className="col- bookmark"> 
+                    {bookmarkButton} 
+                    </div>
+                    <div className="col- bookmark"> 
+                    {basketButton} 
+                    </div>
+                </div>
                 
             </div>
            

@@ -16,6 +16,7 @@ import history from "../History";
 import BookmarkStore from "./features/bookmark/BookmarkStore";
 import AnnotationStore from "./features/annotation/AnnotationStore";
 import RatingStore from "./features/rating/RatingStore";
+import BasketStore from "./features/basket/BasketStore";
 import SearchActions from '../../actions/SearchActions';
 
 const CHANGE_EVENT = 'change_search';
@@ -430,13 +431,18 @@ const _updateUrl = function (query, vertical, page, provider, variant) {
 const _update_metadata = function () {
     const bookmarks = BookmarkStore.getBookmarks();
     const excludes = BookmarkStore.getExcludes();
+    const basketItems = BasketStore.getBasketItems();
     const bookmarkMap = {};
     const excludeMap = {};
+    const basketMap = {}
     bookmarks.forEach(bookmark => {
         bookmarkMap[bookmark.url] = bookmark;
     });
     excludes.forEach(exclude => {
         excludeMap[exclude.url] = exclude;
+    });
+    basketItems.forEach(item => {
+        basketMap[item.url] = item;
     });
     const annotationsMap = AnnotationStore.getAnnotations();
     const ratingsMap = RatingStore.getRatings();
@@ -446,7 +452,7 @@ const _update_metadata = function () {
         const resultId = result.url ? result.url : result.id;
         newresult.metadata.bookmark = bookmarkMap[resultId];
         newresult.metadata.exclude = excludeMap[resultId];
-
+        newresult.metadata.basket = basketMap[resultId];
         if (annotationsMap.hasOwnProperty(resultId)) {
             newresult.metadata.annotations = annotationsMap[resultId];
         }

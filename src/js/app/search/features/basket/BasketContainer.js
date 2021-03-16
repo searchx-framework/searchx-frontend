@@ -1,10 +1,10 @@
 import React from 'react';
-import Bookmark from "./components/Bookmark";
+import Basket from "./components/Basket";
 
 import SessionActions from "../../../../actions/SessionActions";
 import SearchStore from "../../SearchStore";
 import SessionStore from "../../../../stores/SessionStore";
-import BookmarkStore from "./BookmarkStore";
+import BasketStore from "./BasketStore";
 import SearchActions from "../../../../actions/SearchActions";
 import AccountStore from "../../../../stores/AccountStore";
 import Helpers from "../../../../utils/Helpers";
@@ -12,23 +12,16 @@ import {log} from "../../../../utils/Logger";
 import {LoggerEventTypes} from "../../../../utils/LoggerEventTypes";
 
 function removeHandler(url) {
-    log(LoggerEventTypes.BOOKMARK_ACTION, {
+    log(LoggerEventTypes.BASKET_ACTION, {
         url: url,
         action: "remove"
     });
-    SessionActions.removeBookmark(url);
+    SessionActions.removeBasketItem(url);
     SearchStore.modifyMetadata(url, {
-        bookmark: null
+        basket: null
     });
 }
 
-function starHandler(url) {
-    log(LoggerEventTypes.BOOKMARK_ACTION, {
-        url: url,
-        action: "star"
-    });
-    SessionActions.starBookmark(url);
-}
 
 function clickHandler(url) {
     if (isNaN(url) & Helpers.validURL(url)){
@@ -38,70 +31,48 @@ function clickHandler(url) {
     }
 }
 
-function basketHandler(item) {
-    let action = "";
-    const id = item.url;
-    action = "add";
-    SessionActions.addBasketItem(id, item.title);
-
-    SearchStore.modifyMetadata(id, {
-        basket: {
-            userId: AccountStore.getUserId(),
-            date: new Date()
-        }
-    });
-
-    log(LoggerEventTypes.BASKET_ACTION, {
-        url: id,
-        action: action,
-        session: localStorage.getItem("session-num") || 0,
-    });
-};
-
-export default class BookmarkContainer extends React.Component {
+export default class BasketContainer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            bookmarks: [],
+            items: [],
             popup: false
         };
 
-        SessionActions.getBookmarksAndExcludes();
+        SessionActions.getBasketItems();
         this.changeHandler = this.changeHandler.bind(this);
         this.popupHandler = this.popupHandler.bind(this);
     }
 
-    componentDidMount() {BookmarkStore.addChangeListener(this.changeHandler);}
-    componentWillUnmount() {BookmarkStore.removeChangeListener(this.changeHandler);}
+    componentDidMount() {BasketStore.addChangeListener(this.changeHandler);}
+    componentWillUnmount() {BasketStore.removeChangeListener(this.changeHandler);}
 
     render() {
 
-        return <Bookmark
-            bookmarks={this.state.bookmarks}
+        return <Basket
+            items={this.state.items}
             popup={this.state.popup}
             removeHandler={removeHandler}
-            starHandler={starHandler}
             clickHandler={clickHandler}
             popupHandler={this.popupHandler}
-            basketHandler={basketHandler}
         />
     }
 
     ////
 
     changeHandler() {
-        let bookmarks = BookmarkStore.getBookmarks();
+        let items = BasketStore.getBasketItems();
         if (!this.props.collaborative) {
-            bookmarks = bookmarks.filter((data) => {
+            items = items.filter((data) => {
                 return data.userId === AccountStore.getUserId();
             })
         }
-        bookmarks = bookmarks.map((data) => {
+        items = items.map((data) => {
             data.userColor = SessionStore.getMemberColor(data.userId);
             return data;
         });
         this.setState({
-            bookmarks: bookmarks
+            items: items
         });
     }
 

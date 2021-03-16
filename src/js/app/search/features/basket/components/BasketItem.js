@@ -8,19 +8,19 @@ import md5 from 'md5';
 import config from '../../../../../config';
 import Helpers from '../../../../../utils/Helpers';
 
-const BookmarkItem = function({data, removeHandler, starHandler, clickHandler, basketHandler}) {
+const BasketItem = function({data, removeHandler, clickHandler}) {
     let metaInfo = {
         url: data.url,
         userId: data.userId,
         session: localStorage.getItem("session-num") || 0,
     };
 
-    let hoverEnterSummary = () => log(LoggerEventTypes.BOOKMARK_HOVERENTER, metaInfo);
-    let hoverLeaveSummary = () => log(LoggerEventTypes.BOOKMARK_HOVERLEAVE,metaInfo);
-    let contextUrl = () => log(LoggerEventTypes.BOOKMARK_CONTEXT_URL,metaInfo);
+    let hoverEnterSummary = () => log(LoggerEventTypes.BASKET_HOVERENTER, metaInfo);
+    let hoverLeaveSummary = () => log(LoggerEventTypes.BASKET_HOVERLEAVE,metaInfo);
+    let contextUrl = () => log(LoggerEventTypes.BASKET_CONTEXT_URL,metaInfo);
     let clickUrl = () => {
         clickHandler(data.url);
-        log(LoggerEventTypes.BOOKMARK_CLICK_URL, metaInfo);
+        log(LoggerEventTypes.BASKET_CLICK_URL, metaInfo);
     };
 
     ////
@@ -33,7 +33,7 @@ const BookmarkItem = function({data, removeHandler, starHandler, clickHandler, b
     let icon = new Identicon(md5(data.userId), options).toString();
     let iconUrl = "data:image/png;base64," + icon 
 
-    // todo: put id vs url in bookmark model instead of isNaN hack
+    // todo: put id vs url in basket model instead of isNaN hack
     return  (
         <div className="item" style={{borderColor: color}} onMouseEnter={hoverEnterSummary} onMouseLeave={hoverLeaveSummary}>
 
@@ -47,12 +47,6 @@ const BookmarkItem = function({data, removeHandler, starHandler, clickHandler, b
             
 
             <div className="buttons">
-                {config.interface.star && (
-                    <Rating className="topicon" emptySymbol="fa fa-shopping-cart" fullSymbol="fas fa-cart-plus"
-                            onClick={() => basketHandler(data)}
-                            stop={1} initialRating={data.starred ? 1 : 0}
-                    />
-                )}
                 <Rating className={(config.interface.star ? "bottomicon " : "topicon ") + "remove"} emptySymbol="fa fa-trash-o" fullSymbol="fa fa-trash"
                         onClick={() => removeHandler(data.url)}
                         stop={1} initialRating={0}
@@ -68,4 +62,4 @@ const BookmarkItem = function({data, removeHandler, starHandler, clickHandler, b
     )
 };
 
-export default BookmarkItem;
+export default BasketItem;

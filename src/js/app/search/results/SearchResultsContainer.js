@@ -71,6 +71,7 @@ export default class SearchResultsContainer extends React.Component {
     getMetaInfo() {
         return {
             bookmarkedIds: this.state.results.filter(result => result.metadata.bookmark).map(result => Helpers.getId(result)),
+            basketIds: this.state.results.filter(result => result.metadata.basket).map(result => Helpers.getId(result)),
             excludedIds: this.state.results.filter(result => result.metadata.exclude).map(result => Helpers.getId(result)),
             query: this.state.searchState.query,
             page: this.state.searchState.page,

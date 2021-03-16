@@ -216,7 +216,7 @@ const formData = function() {
     });
 
     elements.push({
-        title: "What is your academic degree and for which subject areas do you have the degree ?",
+        title: "What is your academic degree and for which subject areas do you have the degree?",
         visibleIf: "{degree} == 7",
         name : "background",
         type :"text",
