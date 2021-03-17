@@ -4,6 +4,7 @@ import constants from "./constants";
 
 import {log} from "../../../utils/Logger";
 import {LoggerEventTypes} from "../../../utils/LoggerEventTypes";
+import config from "../../../config";
 
 class PostTest extends React.Component {
     constructor(props) {
@@ -140,8 +141,8 @@ const formData = function(returnCode) {
         isRequired: true,
         rateMin: 1,
         rateMax: 7,
-        minRateDescription: "Very easy",
-        maxRateDescription: "Very difficult"
+        minRateDescription: "Easy",
+        maxRateDescription: "Difficult"
     });
     pages.push({elements:  elements});
 
@@ -163,8 +164,8 @@ const formData = function(returnCode) {
         isRequired: true,
         rateMin: 1,
         rateMax: 7,
-        minRateDescription: "Very unsatisfied",
-        maxRateDescription: "Very satisfied"
+        minRateDescription: "Not satisfied",
+        maxRateDescription: "Satisfied"
     });
 
     elements.push({
@@ -174,8 +175,8 @@ const formData = function(returnCode) {
         isRequired: true,
         rateMin: 1,
         rateMax: 7,
-        minRateDescription: "Very insufficient",
-        maxRateDescription: "Very sufficient"
+        minRateDescription: "Not sufficient",
+        maxRateDescription: "Sufficient"
     });
 
     elements.push({
@@ -185,8 +186,8 @@ const formData = function(returnCode) {
         isRequired: true,
         rateMin: 1,
         rateMax: 7,
-        minRateDescription: "Very insufficient",
-        maxRateDescription: "Very sufficient"
+        minRateDescription: "Not sufficient",
+        maxRateDescription: "Sufficient"
     });
 
     elements.push({
@@ -196,8 +197,8 @@ const formData = function(returnCode) {
         isRequired: true,
         rateMin: 1,
         rateMax: 7,
-        minRateDescription: "Very insufficient",
-        maxRateDescription: "Very sufficient"
+        minRateDescription: "Not sufficient",
+        maxRateDescription: "Sufficient"
     });
 
     elements.push({
@@ -207,8 +208,8 @@ const formData = function(returnCode) {
         isRequired: true,
         rateMin: 1,
         rateMax: 7,
-        minRateDescription: "Tottally disagree",
-        maxRateDescription: "Totally agreee"
+        minRateDescription: "Disagree",
+        maxRateDescription: "Agreee"
     });
 
 
@@ -250,6 +251,52 @@ const formData = function(returnCode) {
         maxRateDescription: "Agree"
     });
 
+    elements.push({
+        title: "How easy was it to synchronise what your search partner was looking at?",
+        name: "synchronise",
+        type: "rating",
+        rateMin: 1,
+        rateMax: 7,
+        isRequired: true,
+        minRateDescription: "Easy",
+        maxRateDescription: "Difficult"
+    });
+
+    if (config.interface.navigation === "shared") {
+        elements.push({
+            title: "How useful was seeing the search results of other group members when they search for something?",
+            name: "shared-useful",
+            type: "rating",
+            rateMin: 1,
+            rateMax: 7,
+            isRequired: true,
+            minRateDescription: "Not useful",
+            maxRateDescription: "Useful"
+        });
+
+        elements.push({
+            title: "Did you get confused by a sudden and unannounced search initiated by one of your group members?",
+            name: "shared-confused",
+            type: "rating",
+            rateMin: 1,
+            rateMax: 7,
+            isRequired: true,
+            minRateDescription: "Not confused",
+            maxRateDescription: "Confused"
+        });
+
+        elements.push({
+            title: "How often a sudden and unannounced search initiated by one of your group members interfered with your examination of the search results?",
+            name: "shared-frequency",
+            type: "rating",
+            rateMin: 1,
+            rateMax: 7,
+            isRequired: true,
+            minRateDescription: "Never",
+            maxRateDescription: "Always"
+        });
+
+    }
     elements.push({
         title: "Did you find the collaborative features useful? From 1 being not useful and 7 very useful.",
         name: "collab-rating",

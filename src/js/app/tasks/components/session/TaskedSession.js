@@ -4,8 +4,7 @@ import Alert from "react-s-alert";
 import PropTypes from "prop-types";
 import Search from "../../../search/Search";
 
-
-const TaskedSession = function({disableCopy, collaborative, style, children, timer, statusbar, taskDescription, firstSession, lastSession, onSwitchPage}) {
+const TaskedSession = function({disableCopy, collaborative, style, children, timer, statusbar, taskDescription, taskbar, firstSession, lastSession, onSwitchPage}) {
     function handleCutCopyPaste(e) {
         if (disableCopy) {
             Alert.warning('You cannot copy and paste during the session.', {
@@ -22,7 +21,7 @@ const TaskedSession = function({disableCopy, collaborative, style, children, tim
     return(
         <div className="Session" onPaste={handleCutCopyPaste} onCut={handleCutCopyPaste} onCopy={handleCutCopyPaste}>
             <div className="Medium">
-                <Search collaborative={collaborative} timer={timer} statusbar={statusbar} taskDescription={taskDescription} firstSession={firstSession} lastSession={lastSession} showAccountInfo={false} onSwitchPage ={onSwitchPage}/>
+                <Search collaborative={collaborative} timer={timer} statusbar={statusbar} taskDescription={taskDescription} taskbar={taskbar} firstSession={firstSession} lastSession={lastSession} showAccountInfo={false} onSwitchPage ={onSwitchPage}/>
             </div>
         </div>
     )

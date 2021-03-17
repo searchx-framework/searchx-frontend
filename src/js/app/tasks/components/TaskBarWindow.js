@@ -1,7 +1,7 @@
 import React from 'react';
-import Modal from "../../../../common/Modal";
+import Modal from "../../common/Modal";
 
-const QueryHistoryWindow = function({active, list, closeHandler}) {
+const TaskBarWindow = function({active, taskDescription, closeHandler}) {
     if (!active) {
         return <div/>;
     }
@@ -10,20 +10,19 @@ const QueryHistoryWindow = function({active, list, closeHandler}) {
         <Modal width="600px" height="90%">
             <div className="popup">
                 <div className="header">
-                    <span className="title"><i className="fa fa-history medium"/> Recent queries</span>
+                    <span className="title"><i className="fa fas fa-tasks medium"/> Task description
                     <div className="float-right">
                         <span className="close" onClick={closeHandler}><i className="fa fa-times"/></span>
                     </div>
+                    </span>
                 </div>
 
                 <div className="body">
-                    <div className="list">
-                        {list}
-                    </div>
+                    {taskDescription}
                 </div>
             </div>
         </Modal>
     )
 };
 
-export default QueryHistoryWindow;
+export default TaskBarWindow;

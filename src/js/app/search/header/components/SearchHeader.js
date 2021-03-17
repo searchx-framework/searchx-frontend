@@ -7,8 +7,7 @@ import SearchVerticals from './SearchVerticals';
 import AccountInfo from "./AccountInfo";
 import SuggestionsContainer from "../../features/querysuggestions/SuggestionsContainer";
 
-
-const Header = function ({query, vertical, provider, searchHandler, queryChangeHandler, verticalChangeHandler, timer, statusbar, userId, groupId, showAccountInfo, hideSuggestionsHandler, showSuggestionsHandler, clickSuggestionHandler, showSuggestions}) {
+const Header = function ({query, vertical, provider, searchHandler, queryChangeHandler, verticalChangeHandler, timer, statusbar, taskbar, userId, groupId, showAccountInfo, hideSuggestionsHandler, showSuggestionsHandler, clickSuggestionHandler, showSuggestions}) {
     return (
         <div className="SearchHeader">
             <Logo/>
@@ -21,6 +20,9 @@ const Header = function ({query, vertical, provider, searchHandler, queryChangeH
                 <SearchVerticals query={query} activeVertical={vertical} changeHandler={verticalChangeHandler}
                                  provider={provider}/>
             </form>
+            <div className="TaskBarDiv">
+                {taskbar}
+            </div>
             {showAccountInfo && <AccountInfo userId={userId} groupId={groupId}/>}
             <div className="StatusBarDiv">
                 {statusbar}

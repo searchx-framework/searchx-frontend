@@ -54,13 +54,13 @@ export default class Viewer extends React.Component  {
 
     
         return (
-            <Modal width="95%" height="90%">
+            <Modal width="65%" height="90%">
                 <div className="viewer" onMouseEnter={hoverEnterDocument} onMouseLeave={hoverLeaveDocument}
                      onScroll={scrollDocument}>
                     <div className="header">
     
     
-                        <div className="pull-right">
+                        <div className="float-right">
                             {!this.props.doctext && [
                                 <span className="forward" onClick={openInBrowser}>open in browser</span>,
                                 <span className="divider"/>

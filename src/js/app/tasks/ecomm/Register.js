@@ -235,7 +235,7 @@ const formData = function() {
     });
 
     elements.push({
-        title: "What is your gender? ",
+        title: "What is your gender?",
         name : "gender",
         type: "radiogroup",
         isRequired: true,
@@ -258,9 +258,18 @@ const formData = function() {
         isRequired: true
     });
 
+    elements.push({
+        title: "What is your nationality?",
+        name: "nationality",
+        type :"text",
+        inputType:"text",
+        width: 500,
+        isRequired: true
+    });
+
 
     elements.push({
-        title: "Are you an English native speaker?",
+        title: "Are you a native English speaker?",
         name: "english",
         type: "radiogroup",
         isRequired: true,

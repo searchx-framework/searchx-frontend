@@ -1,7 +1,7 @@
 {
     "taskId": "ecomm",
     "groupSize": 2,
-    "taskDuration": 15,
+    "taskDuration": 200,
     "taskDescriptionWait" : 1,
     "waitDuration": 10,
     "switchPageLimit": 3,

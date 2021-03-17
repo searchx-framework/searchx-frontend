@@ -1,0 +1,53 @@
+@import '../../Variables.pcss';
+
+.TaskBarDiv {
+   
+
+    .popup {
+        display: flex;
+        flex-flow: column;
+        height: 100%;
+
+        .header {
+            height: 40px;
+            padding: 10px;
+            border-bottom: 1px solid $border-color;
+            box-shadow: 0 0 15px 0 rgba(50, 50, 50, 0.04);
+
+            .close {
+                float: none;
+                color: red;
+                font-size: 16px;
+                font-weight: bold;
+                text-align: right;
+
+
+                &:hover,
+                &:focus {
+                    color: #000;
+                    text-decoration: none;
+                    cursor: pointer;
+                }
+            }
+        }
+
+        .body {
+            flex: 1;
+            padding: 15px;
+            overflow: auto;
+        }
+    }
+}
+
+.taskDescriptionButton {
+    margin-left:5px;
+    box-shadow: 0.5px 0.5px 0.5px 0.5px #BFBFBF;
+    background-color: white;
+    color: $description-grey;
+    border: 1px solid #BDC3C7;
+    font-size: 15px;
+    height: 40px;
+    .hover {
+        background-color: $description-grey;
+    }
+}

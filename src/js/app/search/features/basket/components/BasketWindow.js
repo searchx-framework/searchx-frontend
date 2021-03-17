@@ -11,7 +11,7 @@ const BasketWindow = function({active, list, closeHandler}) {
             <div className="popup">
                 <div className="header">
                     <span className="title"><i className="fa fa-shopping-cart medium"/> Shopping basket</span>
-                    <div className="pull-right">
+                    <div className="float-right">
                         <span className="close" onClick={closeHandler}><i className="fa fa-times"/></span>
                     </div>
                 </div>
