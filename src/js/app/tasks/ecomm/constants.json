@@ -1,8 +1,8 @@
 {
     "taskId": "ecomm",
     "groupSize": 2,
-    "taskDuration": 200,
-    "taskDescriptionWait" : 1,
+    "taskDuration": 30,
+    "taskDescriptionWait" : 2,
     "waitDuration": 10,
     "switchPageLimit": 3,
     "completionURL": "https://www.prolific.ac/submissions/complete?cc=DT3Q2IVP"
