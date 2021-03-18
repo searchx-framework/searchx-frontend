@@ -369,7 +369,7 @@ const formData = function() {
     });
 
     elements.push({
-        title: "Which information about the product you find helpful during your online shopping?",
+        title: "Which information about the product you find useful during your online shopping?",
         name: "product-content",
         type: "matrix",
         isRequired: true,
@@ -378,27 +378,27 @@ const formData = function() {
         columns: [
             {
                 value: 1,
-                text: "Very unhelpful"
+                text: "Very unuseful"
             }, {
                 value: 2,
-                text: "Unhelpful"
+                text: "Unuseful"
             }, {
                 value: 3,
-                text: "Somewhat unhelpful"
+                text: "Somewhat unuseful"
             }, {
                 value: 4,
-                text: "Neither unhelpful or helpful"
+                text: "Neither unuseful or useful"
             }, {
                 value: 5,
-                text: "Somewhat helpful"
+                text: "Somewhat useful"
             }, 
             
             {
                 value: 6,
-                text: "Helpful"
+                text: "Useful"
             }, {
                 value: 7,
-                text: "Very Helpful"
+                text: "Very useful"
             }
         ],
         rows: [
@@ -415,6 +415,10 @@ const formData = function() {
             {
                 value: "reviews",
                 text: "Product reviews"
+            },
+            {
+                value: "images",
+                text: "Product images"
             },
             {
                 value: "rating",
