@@ -56,15 +56,9 @@ class TaskDescription extends React.Component {
         const start = Date.now();
         localStorage.setItem("timer-start", start);
 
-        if (localStorage.getItem("current-path") !== '/ecomm/description_short') {
+        if (localStorage.getItem("current-path") !== '/ecomm/description') {
             this.props.history.replace({
                 pathname: localStorage.getItem("current-path")
-            });
-        }
-
-        if (localStorage.getItem("invalid-user") === "true") {
-            this.props.history.replace({
-                pathname: '/disq'
             });
         }
 

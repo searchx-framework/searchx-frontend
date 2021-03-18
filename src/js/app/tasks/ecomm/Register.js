@@ -26,13 +26,6 @@ class Register extends React.Component {
             });
         }
 
-
-        if (localStorage.getItem("invalid-user") === "true") {
-            this.props.history.replace({
-                pathname: '/disq'
-            });
-        }
-
         return <Form
             formData={formData()}
             onComplete={this.onComplete}

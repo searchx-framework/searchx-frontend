@@ -43,7 +43,7 @@ import EcommRegister from './tasks/ecomm/Register';
 import EcommReRegister from './tasks/ecomm/ReRegister';
 import EcommWait from './tasks/ecomm/Wait';
 import EcommSession from './tasks/ecomm/Session';
-import EcommDescriptionShort from './tasks/ecomm/TaskDescriptionShort';
+import EcommDescription from './tasks/ecomm/TaskDescription';
 import EcommPostTest from './tasks/ecomm/PostTest';
 
 
@@ -123,7 +123,7 @@ export class App extends React.Component {
                     <Route exact path="/ecomm/register" component={EcommReRegister}/>
                     <Route exact path="/ecomm/wait" component={EcommWait}/>
                     <Route path="/ecomm/session" component={EcommSession}/>
-                    <Route path="/ecomm/description_short" component={EcommDescriptionShort}/>
+                    <Route path="/ecomm/description" component={EcommDescription}/>
                     <Route exact path="/ecomm/posttest" component={EcommPostTest}/>
 
                 </div>

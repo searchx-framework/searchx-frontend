@@ -60,12 +60,6 @@ class Session extends React.PureComponent {
                 pathname: localStorage.getItem("current-path")
             });
         }
-
-        if (localStorage.getItem("invalid-user") === "true") {
-            this.props.history.replace({
-                pathname: '/disq'
-            });
-        }
         
         const task = AccountStore.getTask();
         
@@ -91,9 +85,9 @@ class Session extends React.PureComponent {
         log(LoggerEventTypes.SESSION_END, {});
         if (this.state.currentTopic === 0) {
             localStorage.setItem("current-topic", this.state.currentTopic+1);
-            localStorage.setItem("current-path", '/ecomm/description_short');
+            localStorage.setItem("current-path", '/ecomm/description');
             this.props.history.replace({
-                pathname: '/ecomm/description_short'
+                pathname: '/ecomm/description'
             });
         } else {
             localStorage.setItem("current-path", '/ecomm/posttest');
