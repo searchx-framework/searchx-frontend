@@ -40,7 +40,6 @@ import RoleBasedPostTest from './tasks/role-based/PostTest';
 import Chat from './search/features/chat/Chat';
 
 import EcommRegister from './tasks/ecomm/Register';
-import EcommReRegister from './tasks/ecomm/ReRegister';
 import EcommWait from './tasks/ecomm/Wait';
 import EcommSession from './tasks/ecomm/Session';
 import EcommDescription from './tasks/ecomm/TaskDescription';
@@ -120,7 +119,6 @@ export class App extends React.Component {
                     <Route exact path="/role-based/posttest" component={RoleBasedPostTest}/>
 
                     <Route exact path="/ecomm" component={EcommRegister}/>
-                    <Route exact path="/ecomm/register" component={EcommReRegister}/>
                     <Route exact path="/ecomm/wait" component={EcommWait}/>
                     <Route path="/ecomm/session" component={EcommSession}/>
                     <Route path="/ecomm/description" component={EcommDescription}/>
