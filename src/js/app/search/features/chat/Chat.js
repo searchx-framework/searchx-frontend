@@ -7,7 +7,7 @@ import AccountStore from "../../../../stores/AccountStore";
 import {log} from '../../../../utils/Logger';
 import {LoggerEventTypes} from '../../../../utils/LoggerEventTypes';
 import config from '../../../../config';
-
+import "./Chat.pcss";
 export default class Chat extends Component {
 
   constructor() {

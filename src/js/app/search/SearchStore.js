@@ -18,7 +18,7 @@ import AnnotationStore from "./features/annotation/AnnotationStore";
 import RatingStore from "./features/rating/RatingStore";
 import BasketStore from "./features/basket/BasketStore";
 import SearchActions from '../../actions/SearchActions';
-
+import Alert from "react-s-alert";
 const CHANGE_EVENT = 'change_search';
 
 ////
@@ -404,13 +404,43 @@ let _searchState = () => {
             if (err || !res.body || res.body.error) {
             } else {
                 let newState = JSON.parse(res.body.results.state);
+                if (state.query !== newState.query) {
+                    Alert.warning('You partner has searched for ' + newState.query + ". You will see now the new results.", {
+                        position: 'bottom',
+                        effect: 'scale',
+                        beep: true,
+                        timeout: 5000
+                    });
+                } else if (state.page !== newState.page) {
+                    Alert.warning('You partner has changed page for ' + newState.query + ". You will see now the new results.", {
+                        position: 'bottom',
+                        effect: 'scale',
+                        beep: true,
+                        timeout: 5000
+                    });
+                } else if (state.vertical !== newState.vertical) {
+                    Alert.warning('You partner has changed department for ' + newState.query + ". You will see now the new results.", {
+                        position: 'bottom',
+                        effect: 'scale',
+                        beep: true,
+                        timeout: 5000
+                    });
+                } else {
+                    Alert.warning('You partner has filtered the results for ' + newState.query+ ". You will see now the new results.", {
+                        position: 'bottom',
+                        effect: 'scale',
+                        beep: true,
+                        timeout: 5000
+                    });
+                }
                 state.query = newState.query;
                 state.vertical = newState.vertical;
                 state.page = newState.page;
                 state.provider = newState.provider;
                 state.filters = newState.filters;
+                
             }
-            _search(state.query, state.vertical, state.page, false);
+            setTimeout ( () => (_search(state.query, state.vertical, state.page, false)), 3000)
         });
 };
 
