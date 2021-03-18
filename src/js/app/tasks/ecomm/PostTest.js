@@ -319,27 +319,27 @@ const formData = function(returnCode) {
         columns: [
             {
                 value: 1,
-                text: "1"
+                text: "Very unuseful"
             }, {
                 value: 2,
-                text: "2"
+                text: "Unuseful"
             }, {
                 value: 3,
-                text: "3"
+                text: "Somewhat unuseful"
             }, {
                 value: 4,
-                text: "4"
+                text: "Neither unuseful or useful"
             }, {
                 value: 5,
-                text: "5"
-            },
+                text: "Somewhat useful"
+            }, 
+            
             {
                 value: 6,
-                text: "6"
-            },
-            {
+                text: "Useful"
+            }, {
                 value: 7,
-                text: "7"
+                text: "Very useful"
             }
         ],
         rows: [
@@ -366,7 +366,7 @@ const formData = function(returnCode) {
         type: "comment",
         inputType: "text",
         rows: 4,
-        isRequired: true
+        isRequired: false
     });
 
 

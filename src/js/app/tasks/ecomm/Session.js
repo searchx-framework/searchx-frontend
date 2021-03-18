@@ -136,19 +136,14 @@ function getIntroSteps() {
                 position: 'left'
             },
             {
-                element: '.Side',
-                intro: 'The recent queries and saved documents are with color-coded icons to show which collaborator initiated the action.',
-                position: 'left'
-            },
-            {
                 element: '.Basket',
                 intro: 'The products you and your group put in the shopping cart will appear here.',
                 position: 'left'
             },
             {
-                element: '.sc-launcher',
+                
                 intro: 'Use the chat to discuss with your group about the task at hand. Do not use it for daily conversations.',
-                position: 'top'
+                position: 'bottom'
             },
 
             {
