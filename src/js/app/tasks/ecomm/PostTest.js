@@ -1,6 +1,5 @@
 import React from "react";
 import Form from "../components/form/Form";
-import constants from "./constants";
 
 import {log} from "../../../utils/Logger";
 import {LoggerEventTypes} from "../../../utils/LoggerEventTypes";
@@ -15,6 +14,7 @@ class PostTest extends React.Component {
         };
 
         this.onComplete = this.onComplete.bind(this);
+        this.onPageChanged = this.onPageChanged.bind(this);
         this.handleBeforeUnload = this.handleBeforeUnload.bind(this);
         this.handlePopstate = this.handlePopstate.bind(this);
     }
@@ -60,6 +60,7 @@ class PostTest extends React.Component {
         return <Form
             formData={formData(this.state.returnCode)}
             onComplete={this.onComplete}
+            onPageChanged={this.onPageChanged}
             disableCopy={false}
         />
     }
@@ -70,6 +71,17 @@ class PostTest extends React.Component {
         log(LoggerEventTypes.SURVEY_POST_TEST_RESULTS, {
             data: data,
             returnCode: this.state.returnCode
+        });
+
+        localStorage.setItem('posttest-finish', true.toString());
+
+        this.setState( { finished : true});
+    }
+
+    onPageChanged(pageNumber, data) {
+        log(LoggerEventTypes.SURVEY_POST_TEST_PAGE_CHANGED, {
+            data: data,
+            pageNumber: pageNumber
         });
 
         localStorage.setItem('posttest-finish', true.toString());
@@ -367,7 +379,7 @@ const formData = function(returnCode) {
         requiredText: "",
         showProgressBar: "top",
         showQuestionNumbers: "off",
-        completedHtml: "<h2>Thank you for taking part in our study.</h2> <h3>Follow this <a href=" + constants.completionURL + "> link</a> back to Prolific Academic to confirm your participation.</h3>",
+        completedHtml: "<h2>Thank you for taking part in our study.</h2> <h3>We will contact you soon to confirm the study completion and the details for the gift card.</h3>",
     }
 };
 

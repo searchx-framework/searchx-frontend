@@ -12,6 +12,7 @@ class Form extends React.PureComponent {
         this.handleComplete = this.handleComplete.bind(this);
         this.handleCutCopyPaste = this.handleCutCopyPaste.bind(this);
         this.handleVisibilityChange = this.handleVisibilityChange.bind(this);
+        this.handlePageChanged = this.handlePageChanged.bind(this);
     }
 
     componentDidMount() {
@@ -33,7 +34,7 @@ class Form extends React.PureComponent {
         return (
             <FormContainer>
                 <div onPaste={this.handleCutCopyPaste} onCut={this.handleCutCopyPaste} onCopy={this.handleCutCopyPaste}>
-                    <Survey.Survey model={survey} onComplete={this.handleComplete} onValidateQuestion={this.props.formValidation}/>
+                    <Survey.Survey model={survey} onComplete={this.handleComplete} onCurrentPageChanged={this.handlePageChanged} onValidateQuestion={this.props.formValidation}/>
                 </div>
             </FormContainer>
         );
@@ -45,6 +46,11 @@ class Form extends React.PureComponent {
         this.props.onComplete(res.data);
         
         document.removeEventListener("visibilitychange", this.handleVisibilityChange);
+    }
+
+    handlePageChanged(res) {
+
+        this.props.onPageChanged(res.currentPageNo, res.data);
     }
 
     handleCutCopyPaste(e) {

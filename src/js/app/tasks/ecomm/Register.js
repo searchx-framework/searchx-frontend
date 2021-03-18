@@ -14,6 +14,7 @@ class Register extends React.Component {
         super(props);
 
         this.onComplete = this.onComplete.bind(this);
+        this.onPageChanged = this.onPageChanged.bind(this);
     }
 
     render() {
@@ -29,19 +30,21 @@ class Register extends React.Component {
         return <Form
             formData={formData()}
             onComplete={this.onComplete}
+            onPageChanged={this.onPageChanged}
         />
     }
 
     ////
 
     onComplete(data) {
-        log(LoggerEventTypes.SURVEY_REGISTER_RESULTS, {
-            data: data
-        });
+
 
         const userId = data['userId'].trim();
         AccountStore.clearUserData();
         AccountStore.setUserId(userId);
+        log(LoggerEventTypes.SURVEY_REGISTER_RESULTS, {
+            data: data
+        });
         const taskParams = {
             groupSize: constants.groupSize,
         };
@@ -61,6 +64,18 @@ class Register extends React.Component {
                 }
             }
         });
+    }
+
+    onPageChanged(pageNumber, data) {
+        if (data['userId']) {
+            const userId = data['userId'].trim();
+            AccountStore.clearUserData();
+            AccountStore.setUserId(userId);
+            log(LoggerEventTypes.SURVEY_PRE_TEST_PAGE_CHANGED, {
+                data: data,
+                pageNumber : pageNumber
+            });
+        }
     }
 }
 
@@ -161,6 +176,15 @@ const formData = function() {
         ]
     });
 
+    elements.push({
+        title: "Insert your e-mail you used to sign up for the experiment.",
+        name : "userId",
+        type : "text",
+        inputType: "text",
+        width: 300,
+        isRequired: true
+    });
+
     pages.push({elements:  elements});
 
     elements = [];
@@ -170,15 +194,6 @@ const formData = function() {
         name: "topic",
         html: "<h2>Registration</h2>" +
         "<h3>First fill out this basic information about you.</h3>"
-    });
-
-    elements.push({
-        title: "Insert your participation ID here sent to you by e-mail",
-        name : "userId",
-        type : "text",
-        inputType: "text",
-        width: 300,
-        isRequired: true
     });
 
     elements.push({
