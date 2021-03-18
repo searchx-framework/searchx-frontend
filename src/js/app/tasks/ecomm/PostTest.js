@@ -4,6 +4,7 @@ import Form from "../components/form/Form";
 import {log} from "../../../utils/Logger";
 import {LoggerEventTypes} from "../../../utils/LoggerEventTypes";
 import config from "../../../config";
+import AccountStore from "../../../stores/AccountStore";
 
 class PostTest extends React.Component {
     constructor(props) {
@@ -273,8 +274,12 @@ const formData = function(returnCode) {
         minRateDescription: "Easy",
         maxRateDescription: "Difficult"
     });
+    let navigation =  config.interface.navigation;
+    if (AccountStore.getTaskData().interface) {
+        navigation = AccountStore.getTaskData().interface.navigation;
+    } 
 
-    if (config.interface.navigation === "shared") {
+    if (navigation === "shared") {
         elements.push({
             title: "How useful was seeing the search results of other group members when they search for something?",
             name: "shared-useful",

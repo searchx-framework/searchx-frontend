@@ -41,7 +41,11 @@ const _setVariant = function () {
     state.variant = variant;
     state.relevanceFeedback = variant === 'S2' ? 'individual' : variant === 'S3' ? 'shared' : false;
     state.distributionOfLabour = variant === 'S0' ? false : variant === 'S1-Hard' ? 'unbookmarkedOnly' : 'unbookmarkedSoft';
-    state.navigation = config.navigation;
+    if (AccountStore.getTaskData().interface) {
+        state.navigation = AccountStore.getTaskData().interface.navigation;
+    } else {
+        state.navigation = config.interface.navigation;
+    }
 };
 
 /*

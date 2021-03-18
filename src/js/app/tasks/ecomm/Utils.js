@@ -1,7 +1,14 @@
 import React from 'react'
 import config from "../../../config";
+import AccountStore from "../../../stores/AccountStore";
 
-let sharedMessage = config.interface.navigation === "shared" ? "For each search that you or any of your group members search, our system will automatically load the search results to everyone." : "";
+let navigation =  config.interface.navigation;
+if (AccountStore.getTaskData().interface) {
+    navigation = AccountStore.getTaskData().interface.navigation;
+} 
+
+
+let sharedMessage = navigation === "shared" ? "For each search that you or any of your group members search, our system will automatically load the search results to everyone." : "";
 
 const practiceTaskDescription = () => (
     <div>
