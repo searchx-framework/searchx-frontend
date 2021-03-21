@@ -77,6 +77,7 @@ const SyncStore = Object.assign(EventEmitter.prototype, {
     ////
 
     emitSearchState(searchState) {
+        console.log('pushSearchState');
         socket.emit('pushSearchState', {
             sessionId: AccountStore.getSessionId(),
             groupId: AccountStore.getGroupId(),
@@ -97,6 +98,7 @@ const SyncStore = Object.assign(EventEmitter.prototype, {
     },
 
     emitBookmarkUpdate(searchState) {
+        console.log('pushBookmarkUpdate');
         socket.emit('pushBookmarkUpdate', {
             searchState: searchState,
             groupId: AccountStore.getGroupId()
@@ -104,6 +106,7 @@ const SyncStore = Object.assign(EventEmitter.prototype, {
     },
 
     emitBasketUpdate(searchState) {
+        console.log('pushBasketUpdate')
         socket.emit('pushBasketUpdate', {
             searchState: searchState,
             groupId: AccountStore.getGroupId()
@@ -118,6 +121,7 @@ const SyncStore = Object.assign(EventEmitter.prototype, {
     },
 
     emitChatUpdate() {
+        console.log('pushChatUpdate')
         socket.emit('pushChatUpdate', {
             groupId: AccountStore.getGroupId()
         });
@@ -130,6 +134,7 @@ const SyncStore = Object.assign(EventEmitter.prototype, {
 SyncStore.emitUserJoin();
 
 socket.on('searchState', (data) => {
+    console.log('searchState');
     Helpers.sleep(1000).then(() => {
         SessionActions.getQueryHistory();
         SessionActions.getSearchState();
@@ -149,10 +154,12 @@ socket.on('viewState', (data) => {
 });
 
 socket.on('bookmarkUpdate', (data) => {
+    console.log('bookmarkUpdate');
     SessionActions.getBookmarksAndExcludes();
 });
 
 socket.on('basketUpdate', (data) => {
+    console.log('basketUpdate');
     SessionActions.getBasketItems();
 });
 
@@ -162,6 +169,7 @@ socket.on('pageMetadataUpdate', (data) => {
 });
 
 socket.on('chatUpdate', (data) => {
+    console.log('chatUpdate');
     SessionActions.getChatMessageList();
 });
 

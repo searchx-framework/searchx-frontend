@@ -406,28 +406,28 @@ let _searchState = () => {
                 let newState = JSON.parse(res.body.results.state);
                 if (state.query !== newState.query) {
                     Alert.warning('You partner has searched for ' + newState.query + ". You will see now the new results.", {
-                        position: 'bottom',
+                        position: 'bottom-left',
                         effect: 'scale',
                         beep: true,
                         timeout: 5000
                     });
                 } else if (state.page !== newState.page) {
                     Alert.warning('You partner has changed page for ' + newState.query + ". You will see now the new results.", {
-                        position: 'bottom',
+                        position: 'bottom-left',
                         effect: 'scale',
                         beep: true,
                         timeout: 5000
                     });
                 } else if (state.vertical !== newState.vertical) {
                     Alert.warning('You partner has changed department for ' + newState.query + ". You will see now the new results.", {
-                        position: 'bottom',
+                        position: 'bottom-left',
                         effect: 'scale',
                         beep: true,
                         timeout: 5000
                     });
                 } else {
                     Alert.warning('You partner has filtered the results for ' + newState.query+ ". You will see now the new results.", {
-                        position: 'bottom',
+                        position: 'bottom-left',
                         effect: 'scale',
                         beep: true,
                         timeout: 5000

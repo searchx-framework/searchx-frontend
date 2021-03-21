@@ -243,15 +243,15 @@ const formData = function() {
     });
 
     elements.push({
-        title: "What is your gender?",
+        title: "To which gender identity do you most identify?",
         name : "gender",
         type: "radiogroup",
         isRequired: true,
         choices: [
-            {value: 0, text: "Woman"},
-            {value: 1, text: "Man"},
+            {value: 0, text: "Male"},
+            {value: 1, text: "Female"},
             {value: 2, text: "Non-binary"},
-            {value: 3, text: "Prefer not to disclose"},
+            {value: 3, text: "Prefer not to say"},
             {value: 4, text: "Prefer to self-describe"}
         ]
     });
