@@ -13,6 +13,7 @@ import {LoggerEventTypes} from '../../../utils/LoggerEventTypes';
 import StatusBar from "../components/GroupStatusBar";
 import {getTaskDescription} from "./Utils";
 import SearchActions from "../../../actions/SearchActions";
+import SessionActions from "../../../actions/SessionActions";
 import config from "../../../config";
 
 class Session extends React.PureComponent {
@@ -24,11 +25,12 @@ class Session extends React.PureComponent {
         };
         this.onFinish = this.onFinish.bind(this);
         this.handleBeforeUnload = this.handleBeforeUnload.bind(this);
+        this.syncSearchState = this.syncSearchState.bind(this);
     }
 
     componentDidMount() {
         window.addEventListener('beforeunload', this.handleBeforeUnload);
-
+        this.intervalId = setInterval(this.syncSearchState, 5000);
         IntroStore.startIntro(getIntroSteps(), () => {
             const start = localStorage.getItem("timer-start") || Date.now();
             localStorage.setItem("timer-start", start);
@@ -45,6 +47,15 @@ class Session extends React.PureComponent {
     componentWillUnmount() {
         window.removeEventListener('beforeunload', this.handleBeforeUnload);
         window.removeEventListener('popstate', this.handleBeforeUnload);
+        clearInterval(this.intervalId); 
+    }
+
+    syncSearchState() {
+        console.log("Syncing Data");
+        SessionActions.getBasketItems();
+        SessionActions.getBookmarksAndExcludes();
+        SessionActions.getQueryHistory();
+        SessionActions.getChatMessageList();
     }
 
     handleBeforeUnload(e) {
