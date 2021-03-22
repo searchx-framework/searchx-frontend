@@ -401,9 +401,10 @@ let _searchState = () => {
     request
         .get(`${process.env.REACT_APP_SERVER_URL}/v1/session/${AccountStore.getSessionId()}/searchstate`)
         .end((err, res) => {
-            if (err || !res.body || res.body.error) {
+            if (err || !res.body || res.body.error || !res.body.results || !res.body.results.state) {
             } else {
                 let newState = JSON.parse(res.body.results.state);
+                
                 if (state.query !== newState.query) {
                     Alert.warning('You partner has searched for ' + newState.query + ". You will see now the new results.", {
                         position: 'bottom-left',
