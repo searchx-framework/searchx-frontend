@@ -160,7 +160,7 @@ const formData = function() {
         </ol>
 
         <p>
-        If you decide to take in part in this experiment, you agree with the consent form available <a href=http://bit.ly/3l4kIxQ> here </a>
+        If you decide to take in part in this experiment, you agree with the consent form available <a href=http://bit.ly/3l4kIxQ target="_blank"> here </a>
         </p>
 
         <hr/>
@@ -309,7 +309,7 @@ const formData = function() {
         ]
     });
 
-    pages.push({elements:  elements});
+    // pages.push({elements:  elements});
 
     elements = [];
 
@@ -435,9 +435,10 @@ const formData = function() {
         ]
     });
 
-    pages.push({elements:  elements});
+    // pages.push({elements:  elements});
 
     elements = [];
+
 
     elements.push({
             type: "html",
@@ -448,9 +449,9 @@ const formData = function() {
         two people searching together on a single machine, several people searching towards a common goal on separate machines either in the same location or in different locations. 
         <br/><br/>
         <div align="center">
-            <div style="height: 220px; width: 220px; display: inline-block; background-image: url('img/collab_1.jpg'); background-size: cover; background-position: center center;"></div>
-            <div style="height: 220px; width: 220px; display: inline-block; background-image: url('img/collab_2.jpg'); background-size: cover; background-position: center center;"></div>
-            <div style="height: 220px; width: 220px; display: inline-block; background-image: url('img/collab_3.jpg'); background-size: cover; background-position: center center;"></div>
+            <div style="height: 220px; width: 220px; display: inline-block; background-image: url('https://i.ibb.co/Wc9qCnP/collab-1.jpg'); background-size: cover; background-position: center center;"></div>
+            <div style="height: 220px; width: 220px; display: inline-block; background-image: url('https://i.ibb.co/Z2nY54y/collab-2.jpg'); background-size: cover; background-position: center center;"></div>
+            <div style="height: 220px; width: 220px; display: inline-block; background-image: url('https://i.ibb.co/rbZDp66/collab-3.jpg'); background-size: cover; background-position: center center;"></div>
         </div>
                 `
         });
