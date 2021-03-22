@@ -197,6 +197,15 @@ const formData = function() {
     });
 
     elements.push({
+        title: "What is your first and last name?",
+        name : "name",
+        type : "text",
+        inputType: "text",
+        width: 300,
+        isRequired: true
+    });
+
+    elements.push({
         title: "What is your highest academic degree so far?",
         name: "degree",
         type: "radiogroup",
@@ -309,7 +318,7 @@ const formData = function() {
         ]
     });
 
-    // pages.push({elements:  elements});
+    pages.push({elements:  elements});
 
     elements = [];
 
@@ -435,7 +444,7 @@ const formData = function() {
         ]
     });
 
-    // pages.push({elements:  elements});
+    pages.push({elements:  elements});
 
     elements = [];
 
