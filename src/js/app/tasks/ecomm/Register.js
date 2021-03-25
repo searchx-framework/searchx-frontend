@@ -39,7 +39,8 @@ class Register extends React.Component {
     onComplete(data) {
 
 
-        const userId = data['userId'].trim();
+        let userId = data['userId'].trim();
+        serId = userId.toLowerCase();
         AccountStore.clearUserData();
         AccountStore.setUserId(userId);
         log(LoggerEventTypes.SURVEY_REGISTER_RESULTS, {
@@ -68,7 +69,8 @@ class Register extends React.Component {
 
     onPageChanged(pageNumber, data) {
         if (data['userId']) {
-            const userId = data['userId'].trim();
+            let userId = data['userId'].trim();
+            userId = userId.toLowerCase();
             AccountStore.clearUserData();
             AccountStore.setUserId(userId);
             log(LoggerEventTypes.SURVEY_PRE_TEST_PAGE_CHANGED, {
@@ -104,6 +106,7 @@ const formData = function() {
             <li>We require you to be active in our study in order to receive payment.</li>
             <li>This is a collaborative study: this means you will be interacting with other participants during the experiment. </li>
             <li>You will use a chat tool to communicate with the other participants, do not use external resources (e.g., WhatsApp, iMesseger, SMS). If you use another resource, it will affect our experiment.</li>
+            <li>This experiment is in English. That means all your answers and communication must be in English.</li>
             <li>Do not share private information with other participants (e.g., your residential address, full name, e-mail address, etc). </li>
             <li>You must not be in the same room with other participants.</li>
             </ol>

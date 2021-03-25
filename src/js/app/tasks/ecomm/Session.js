@@ -30,7 +30,7 @@ class Session extends React.PureComponent {
 
     componentDidMount() {
         window.addEventListener('beforeunload', this.handleBeforeUnload);
-        this.intervalId = setInterval(this.syncSearchState, 5000);
+        this.intervalId = setInterval(this.syncSearchState, 3000);
         IntroStore.startIntro(getIntroSteps(), () => {
             const start = localStorage.getItem("timer-start") || Date.now();
             localStorage.setItem("timer-start", start);
