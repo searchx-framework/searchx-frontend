@@ -40,7 +40,7 @@ class Register extends React.Component {
 
 
         let userId = data['userId'].trim();
-        serId = userId.toLowerCase();
+        userId = userId.toLowerCase();
         AccountStore.clearUserData();
         AccountStore.setUserId(userId);
         log(LoggerEventTypes.SURVEY_REGISTER_RESULTS, {
