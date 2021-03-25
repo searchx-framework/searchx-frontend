@@ -133,6 +133,18 @@ const SyncStore = Object.assign(EventEmitter.prototype, {
 
 SyncStore.emitUserJoin();
 
+
+socket.on("disconnect", function() {
+    console.log("Disconnected");
+  });
+  
+  socket.on("reconnect", function() {
+    // do not rejoin from here, since the socket.id token and/or rooms are still
+    // not available.
+    console.log("Reconnecting");
+    SyncStore.emitUserJoin();
+  });
+
 socket.on('searchState', (data) => {
     console.log('searchState');
     Helpers.sleep(1000).then(() => {
