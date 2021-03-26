@@ -52,6 +52,9 @@ const ChatStore = Object.assign(EventEmitter.prototype, {
             case ActionTypes.GET_CHAT_MESSAGE_LIST:
                 _get_chat_message_list();
                 break;
+            case ActionTypes.UPDATE_CHAT_MESSAGE_LIST:
+                _update_chat_message_list(action.payload.messageList);
+                break;
             case ActionTypes.ADD_CHAT_MESSAGE:
                 _add_message_list(action.payload.message);
                 break;
@@ -75,6 +78,12 @@ const _get_chat_message_list = () => {
         });
 };
 
+const _update_chat_message_list = (messageList) => {
+    state.messageList = messageList.map((message) => _set_author(message));
+    state.messageCount = state.messageList.length;
+    ChatStore.emitChange();
+};
+
 const _set_author = (message) => {
 
     if (message.sender === AccountStore.getUserId()) {
@@ -87,22 +96,9 @@ const _set_author = (message) => {
 
 
 const _add_message_list = function(message) {
-    request
-        .post(`${process.env.REACT_APP_SERVER_URL}/v1/session/${AccountStore.getGroupId()}/chat`)
-        .send({
-            message: message
-        })
-        .end(() => {
-            _broadcast_change();
-        });
-
     state.messageList.push(message);
+    SyncStore.emitChatUpdate(message);
     ChatStore.emitChange();
 };
-
-const _broadcast_change = function() {
-    SyncStore.emitChatUpdate(ChatStore.getChatMessageList());
-};
-
 
 export default ChatStore;

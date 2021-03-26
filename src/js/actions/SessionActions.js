@@ -13,11 +13,19 @@ export default {
     },
 
     addChatMessage(message){
+        console.log(ActionTypes.ADD_CHAT_MESSAGE, message);
         dispatch({
             type: ActionTypes.ADD_CHAT_MESSAGE,
             payload: {
                 message: message
             }
+        })
+    },
+
+    updateChatMessageList(messageList){
+        dispatch({
+            type: ActionTypes.UPDATE_CHAT_MESSAGE_LIST,
+            payload: {messageList}
         })
     },
 

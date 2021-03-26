@@ -77,13 +77,14 @@ const SyncStore = Object.assign(EventEmitter.prototype, {
     ////
 
     emitSearchState(searchState) {
-        console.log('pushSearchState');
-        socket.emit('pushSearchState', {
-            sessionId: AccountStore.getSessionId(),
-            groupId: AccountStore.getGroupId(),
-            userId: AccountStore.getUserId(),
-            state: searchState,
-        });
+        if (socket.connected) {
+            socket.emit('pushSearchState', {
+                sessionId: AccountStore.getSessionId(),
+                groupId: AccountStore.getGroupId(),
+                userId: AccountStore.getUserId(),
+                state: searchState,
+            });
+        }
     },
 
     emitViewState(url) {
@@ -120,10 +121,12 @@ const SyncStore = Object.assign(EventEmitter.prototype, {
         });
     },
 
-    emitChatUpdate() {
-        console.log('pushChatUpdate')
+    emitChatUpdate(message) {
+        console.log('pushChatUpdate', message);
         socket.emit('pushChatUpdate', {
-            groupId: AccountStore.getGroupId()
+            groupId: AccountStore.getGroupId(),
+            sessionId: AccountStore.getSessionId(),
+            message
         });
     }
 
@@ -131,19 +134,14 @@ const SyncStore = Object.assign(EventEmitter.prototype, {
 
 ////
 
-SyncStore.emitUserJoin();
-
+socket.on("connect", function() {
+    SyncStore.emitUserJoin();
+});
 
 socket.on("disconnect", function() {
     console.log("Disconnected");
-  });
-  
-  socket.on("reconnect", function() {
-    // do not rejoin from here, since the socket.id token and/or rooms are still
-    // not available.
-    console.log("Reconnecting");
-    SyncStore.emitUserJoin();
-  });
+});
+
 
 socket.on('searchState', (data) => {
     console.log('searchState');
@@ -181,8 +179,8 @@ socket.on('pageMetadataUpdate', (data) => {
 });
 
 socket.on('chatUpdate', (data) => {
-    console.log('chatUpdate');
-    SessionActions.getChatMessageList();
+    console.log('chatUpdate', data);
+    SessionActions.updateChatMessageList(data);
 });
 
 export default SyncStore;
