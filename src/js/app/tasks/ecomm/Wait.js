@@ -29,12 +29,14 @@ class Wait extends React.Component {
         this.onTimeout = this.onTimeout.bind(this);
         this.handleBeforeUnload = this.handleBeforeUnload.bind(this);
         this.handleUnload = this.handleUnload.bind(this);
+        this.onPushSync = this.onPushSync.bind(this);
 
         Helpers.sleep(constants.waitDuration * 60 * 1000).then(() => {
             this.setState({timedOut: true}, () => {
                 this.onTimeout();
             });
         });
+
     }
 
     componentDidMount() {
@@ -45,6 +47,8 @@ class Wait extends React.Component {
             this.setState({isReady: true});
             this.onSync(data);
         });
+
+        this.intervalId = setInterval(this.onPushSync, 3000);
 
         const start = Date.now();
         this.setState({
@@ -131,6 +135,37 @@ class Wait extends React.Component {
 
     onSwitchPage() {
         // Do nothing, since we allow switching tabs during the wait period
+    }
+
+    onPushSync(){
+
+        const taskParams = {
+            groupSize: constants.groupSize,
+        };
+        
+        SessionStore.initializeTask(constants.taskId, taskParams, (res) => {
+            if (res) {
+                localStorage.setItem("current-topic", 0);
+                if ('topics' in res.taskData) {
+                    localStorage.setItem("timer-start", Date.now());
+                    localStorage.setItem("current-path", '/ecomm/session');
+
+                    SearchActions.reset();
+                    IntroStore.clearIntro();
+                    SyncStore.stopListenToSyncData();
+        
+                    log(LoggerEventTypes.SURVEY_GROUP_WAIT_FINISH, {
+                        step : "wait",
+                        state : this.state
+                    });
+                    this.props.history.replace({
+                        pathname: '/ecomm/session',
+                        state: { waited: true }
+                    });
+
+                }
+            }
+        });
     }
 }
 
