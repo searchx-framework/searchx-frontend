@@ -6,7 +6,10 @@ import SessionActions from "../actions/SessionActions";
 import SearchStore from "../app/search/SearchStore";
 import Helpers from "../utils/Helpers";
 
-const socket = io(process.env.REACT_APP_SERVER_URL + '/session');
+const socket = io(process.env.REACT_APP_SERVER_URL + '/session', {
+            withCredentials: true
+        }
+        );
 
 ////
 
