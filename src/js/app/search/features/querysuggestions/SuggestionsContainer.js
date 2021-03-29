@@ -12,7 +12,7 @@ export default class SuggestionsContainer extends React.Component {
         this.changeHandler = this.changeHandler.bind(this);
     }
 
-    componentWillMount() {SuggestionsStore.addChangeListener(this.changeHandler);}
+    componentDidMount() {SuggestionsStore.addChangeListener(this.changeHandler);}
     componentWillUnmount() {SuggestionsStore.removeChangeListener(this.changeHandler);}
 
     render() {

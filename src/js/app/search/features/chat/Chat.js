@@ -27,7 +27,7 @@ export default class Chat extends Component {
 
   
 
-  componentWillMount() {ChatStore.addChangeListener(this.changeHandler);}
+  componentDidMount() {ChatStore.addChangeListener(this.changeHandler);}
   componentWillUnmount() {ChatStore.removeChangeListener(this.changeHandler);
     }
 

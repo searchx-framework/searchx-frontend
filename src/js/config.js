@@ -25,7 +25,7 @@ const providerVerticals = {
 var config = {
     aboutPrefixAt: 1000, /* at how many search results do we start saying 'About X results' vs. 'X results' */
     logTimeInterval: 5000,
-    defaultProvider: 'indri',
+    defaultProvider: 'bing',
     defaultVariant: 'S1',
     variantQueryParameter: false, /* allow the variant to be modified by a query parameter, or fix it to the default or variant set by the task */
     fallbackToS0ForGroupSize1: false, /* always make group sizes of size 1 use variant S0 */
@@ -38,7 +38,8 @@ var config = {
         timeIndicator: false, /* show the time it took to return results */
         star: true, /* allow users to star bookmarks */
         saveTimestamp: true, /* show the time and date at which a document was saved */
-        verticals: false /* show the vertical selection menu */
+        verticals: false, /* show the vertical selection menu */
+        notepad: true
     }
 };
 
