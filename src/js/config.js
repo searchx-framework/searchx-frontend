@@ -62,7 +62,7 @@ var config = {
         saveTimestamp: true, /* show the time and date at which a document was saved */
         verticals: true, /* show the vertical selection menu */
         filters : true, /* show filters on search results */
-        navigation: 'shared', /* set type of navigation */
+        navigation: 'separate', /* set type of navigation */
         groupMembersAnonymous: false /* show group bar with anonymous userId */
     }
 };

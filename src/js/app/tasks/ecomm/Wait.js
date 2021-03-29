@@ -48,7 +48,7 @@ class Wait extends React.Component {
             this.onSync(data);
         });
 
-        this.intervalId = setInterval(this.onPushSync, 3000);
+       this.intervalId = setInterval(this.onPushSync, 3000);
 
         const start = Date.now();
         this.setState({
@@ -60,6 +60,7 @@ class Wait extends React.Component {
         window.removeEventListener('beforeunload', this.handleBeforeUnload);
         window.removeEventListener('popstate', this.handleUnload);
         this.handleUnload();
+        clearInterval(this.intervalId); 
     }
 
     handleBeforeUnload(e) {
@@ -147,9 +148,8 @@ class Wait extends React.Component {
             if (res) {
                 localStorage.setItem("current-topic", 0);
                 if ('topics' in res.taskData) {
-                    localStorage.setItem("timer-start", Date.now());
-                    localStorage.setItem("current-path", '/ecomm/session');
-
+                    SessionStore.setGroup(data._id, data.members);
+                    AccountStore.setTask(data.taskId, data.taskData);
                     SearchActions.reset();
                     IntroStore.clearIntro();
                     SyncStore.stopListenToSyncData();
@@ -158,6 +158,10 @@ class Wait extends React.Component {
                         step : "wait",
                         state : this.state
                     });
+
+                    localStorage.setItem("timer-start", Date.now());
+                    localStorage.setItem("current-path", '/ecomm/session');
+
                     this.props.history.replace({
                         pathname: '/ecomm/session',
                         state: { waited: true }
