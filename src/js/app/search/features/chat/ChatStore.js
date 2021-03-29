@@ -69,7 +69,6 @@ const _get_chat_message_list = () => {
         .get(`${process.env.REACT_APP_SERVER_URL}/v1/session/${AccountStore.getGroupId()}/chat`)
         .end((err, res) => {
             if (err || !res.body || res.body.error) {
-                state.messageList = [];
             } else {
                 state.messageList = res.body.results.messageList.map((message) => _set_author(message))
                 state.messageCount = state.messageList.length;
