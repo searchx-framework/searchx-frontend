@@ -148,8 +148,6 @@ class Wait extends React.Component {
             if (res) {
                 localStorage.setItem("current-topic", 0);
                 if ('topics' in res.taskData) {
-                    SessionStore.setGroup(data._id, data.members);
-                    AccountStore.setTask(data.taskId, data.taskData);
                     SearchActions.reset();
                     IntroStore.clearIntro();
                     SyncStore.stopListenToSyncData();
