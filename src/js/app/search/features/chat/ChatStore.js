@@ -66,7 +66,7 @@ const ChatStore = Object.assign(EventEmitter.prototype, {
 
 const _get_chat_message_list = () => {
     request
-        .get(`${process.env.REACT_APP_SERVER_URL}/v1/session/${AccountStore.getGroupId()}/chat`)
+        .get(`${process.env.REACT_APP_SERVER_URL}/v1/session/${AccountStore.getSessionId()}/chat`)
         .end((err, res) => {
             if (err || !res.body || res.body.error) {
             } else {
