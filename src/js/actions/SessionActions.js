@@ -13,7 +13,6 @@ export default {
     },
 
     addChatMessage(message){
-        console.log(ActionTypes.ADD_CHAT_MESSAGE, message);
         dispatch({
             type: ActionTypes.ADD_CHAT_MESSAGE,
             payload: {

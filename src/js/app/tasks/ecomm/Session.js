@@ -51,7 +51,6 @@ class Session extends React.PureComponent {
     }
 
     syncSearchState() {
-        console.log("Syncing Data");
         SessionActions.getBasketItems();
         SessionActions.getBookmarksAndExcludes();
         SessionActions.getQueryHistory();

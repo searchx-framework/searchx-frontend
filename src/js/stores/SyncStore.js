@@ -5,6 +5,8 @@ import AccountStore from "./AccountStore";
 import SessionActions from "../actions/SessionActions";
 import SearchStore from "../app/search/SearchStore";
 import Helpers from "../utils/Helpers";
+import {log} from "../utils/Logger";
+import {LoggerEventTypes} from "../utils/LoggerEventTypes";
 
 const socket = io(process.env.REACT_APP_SERVER_URL + '/session', {
             withCredentials: true
@@ -139,10 +141,15 @@ const SyncStore = Object.assign(EventEmitter.prototype, {
 
 socket.on("connect", function() {
     SyncStore.emitUserJoin();
+    let metaInfo = {
+    }
+    log(LoggerEventTypes.USER_CONNECTED, metaInfo);
 });
 
-socket.on("disconnect", function() {
-    console.log("Disconnected");
+socket.on("reconnect", function() {
+    let metaInfo = {
+    }
+    log(LoggerEventTypes.USER_RECONNECTED, metaInfo);
 });
 
 
@@ -182,7 +189,6 @@ socket.on('pageMetadataUpdate', (data) => {
 });
 
 socket.on('chatUpdate', (data) => {
-    console.log('chatUpdate', data);
     SessionActions.updateChatMessageList(data);
 });
 
