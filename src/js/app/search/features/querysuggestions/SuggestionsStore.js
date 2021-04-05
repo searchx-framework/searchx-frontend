@@ -6,7 +6,7 @@ import ActionTypes from '../../../../actions/ActionTypes';
 import AccountStore from "../../../../stores/AccountStore";
 import {LoggerEventTypes} from "../../../../utils/LoggerEventTypes";
 import {log} from "../../../../utils/Logger";
-
+import config from "../../../../config";
 const CHANGE_EVENT = 'change_suggestions';
 
 const state = {
@@ -48,6 +48,9 @@ const _clear = function(){
 
 ////
 const _get = function(query) {
+    if (!config.interface.suggestions) {
+        return;
+    }
     request
         .get(`${process.env.REACT_APP_SERVER_URL}/v1/suggestions?query=${query}&userId=${AccountStore.getUserId()}&sessionId=${AccountStore.getSessionId()}`)
         .end((err, res) => {

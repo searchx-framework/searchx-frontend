@@ -63,7 +63,8 @@ var config = {
         verticals: true, /* show the vertical selection menu */
         filters : true, /* show filters on search results */
         navigation: 'shared', /* set type of navigation */
-        groupMembersAnonymous: false /* show group bar with anonymous userId */
+        groupMembersAnonymous: false, /* show group bar with anonymous userId */
+        suggestions: false  /* show query suggestions */
     }
 };
 
