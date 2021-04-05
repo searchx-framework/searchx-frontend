@@ -114,7 +114,7 @@ function getIntroSteps() {
     if (AccountStore.getTaskData().interface) {
         navigation = AccountStore.getTaskData().interface.navigation;
     } 
-
+    console.log("navigation ", navigation);
 
     let sharedMessage = navigation === "shared" ? "For each search that you or any of your group members search, our system will automatically load the search results to everyone." : "";
 

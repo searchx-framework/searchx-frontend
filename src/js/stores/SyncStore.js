@@ -83,6 +83,7 @@ const SyncStore = Object.assign(EventEmitter.prototype, {
 
     emitSearchState(searchState) {
         if (socket.connected) {
+            console.log('pushSearchState');
             socket.emit('pushSearchState', {
                 sessionId: AccountStore.getSessionId(),
                 groupId: AccountStore.getGroupId(),
