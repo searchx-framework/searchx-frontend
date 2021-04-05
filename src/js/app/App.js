@@ -57,7 +57,8 @@ export class App extends React.Component {
         const isValidBrowser = browser.satisfies({
         // or in general
         chrome: ">=47",
-        firefox: ">=50"
+        firefox: ">=50",
+        safari:  ">=14"
         });
 
         if(!isValidBrowser){

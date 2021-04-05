@@ -46,6 +46,11 @@ class Register extends React.Component {
         log(LoggerEventTypes.SURVEY_REGISTER_RESULTS, {
             data: data
         });
+
+        log(LoggerEventTypes.USER_AGENT), {
+            data: window.navigator.userAgent
+        }
+        
         const taskParams = {
             groupSize: constants.groupSize,
         };
