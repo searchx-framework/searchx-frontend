@@ -17,6 +17,7 @@ import BookmarkStore from "./features/bookmark/BookmarkStore";
 import AnnotationStore from "./features/annotation/AnnotationStore";
 import RatingStore from "./features/rating/RatingStore";
 import BasketStore from "./features/basket/BasketStore";
+import IntroStore from "../../stores/IntroStore";
 import SearchActions from '../../actions/SearchActions';
 import Alert from "react-s-alert";
 const CHANGE_EVENT = 'change_search';
@@ -395,7 +396,7 @@ const _getById = function (id) {
 };
 
 let _searchState = () => {
-    if (state.navigation === "separate"){
+    if (state.navigation === "separate" || !IntroStore.isIntroDone()){
         return;
     }
     request
