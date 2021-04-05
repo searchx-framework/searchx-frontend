@@ -15,6 +15,7 @@ import Helpers from "../../../../utils/Helpers";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col";
+import { Offline, Online } from "react-detect-offline";
 
 const SearchResults = function ({
                                     searchState, progress, serpId, results, matches, elapsedTime, activeUrl, provider,
@@ -54,8 +55,10 @@ const SearchResults = function ({
     }
 
     if (!tutorial && !progress.finished) {
+
         return <CenteredMessage height="800px">
-            <Loader/>
+            <Online polling={{enabled : true, url: "https://ipv4.icanhazip.com"}}><Loader/></Online>
+            <Offline polling={{enabled : true, url: "https://ipv4.icanhazip.com"}} >You are offline. Please verify your internet connection.</Offline>
         </CenteredMessage>
     }
 
