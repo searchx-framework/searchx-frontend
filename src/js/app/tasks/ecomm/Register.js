@@ -47,10 +47,10 @@ class Register extends React.Component {
             data: data
         });
 
-        log(LoggerEventTypes.USER_AGENT), {
+        log(LoggerEventTypes.USER_AGENT, {
             data: window.navigator.userAgent
-        }
-        
+        });
+
         const taskParams = {
             groupSize: constants.groupSize,
         };
