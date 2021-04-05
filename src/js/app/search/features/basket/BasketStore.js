@@ -73,7 +73,6 @@ const _get = function(type) {
         .get(`${process.env.REACT_APP_SERVER_URL}/v1/session/${AccountStore.getSessionId()}/${type}`)
         .end((err, res) => {
             if (err || !res.body || res.body.error) {
-                state[type] = [];
             } else {
                 state[type] = res.body.results;
                 res.body.results.forEach(result => {

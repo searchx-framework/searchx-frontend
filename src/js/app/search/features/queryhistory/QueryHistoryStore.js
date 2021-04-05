@@ -19,7 +19,6 @@ let _get_query_history = () => {
         .get(`${process.env.REACT_APP_SERVER_URL}/v1/session/${AccountStore.getSessionId()}/query`)
         .end((err, res) => {
             if (err || !res.body || res.body.error) {
-                state.queries = [];
             } else {
                 state.queries = res.body.results;
             }
