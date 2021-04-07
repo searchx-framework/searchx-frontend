@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {LoggerEventTypes} from "../../../utils/LoggerEventTypes";
+import {log} from "../../../utils/Logger";
 
 function padZero(num) {
     if (num < 10 && num >= 0) {
@@ -18,10 +20,12 @@ class Timer extends React.PureComponent {
         };
 
         this.tick = this.tick.bind(this);
+        this.logtick = this.logtick.bind(this);
     }
 
     componentDidMount() {
         this.timer = setInterval(this.tick, 1000);
+        this.loger = setInterval(this.logtick, 20000);
     }
 
     componentWillUnmount () {
@@ -91,6 +95,12 @@ class Timer extends React.PureComponent {
                 elapsed: new Date() - this.props.start
             });
         }
+    }
+
+    logtick() {
+        log(LoggerEventTypes.USER_TIMER, {
+            data: {elapsed: this.state.elapsed}
+        });
     }
 }
 

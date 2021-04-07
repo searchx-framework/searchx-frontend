@@ -87,6 +87,7 @@ export const LoggerEventTypes = {
     // USER
     USER_CONNECTED : 'USER_CONNECTED',
     USER_RECONNECTED: 'USER_RECONNECTED',
-    USER_AGENT : 'USER_AGENT'
+    USER_AGENT : 'USER_AGENT',
+    USER_TIMER : 'USER_TIMER'
 
 };
