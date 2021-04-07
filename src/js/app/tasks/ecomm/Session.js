@@ -96,6 +96,7 @@ class Session extends React.PureComponent {
         if (this.state.currentTopic === 0) {
             localStorage.setItem("current-topic", this.state.currentTopic+1);
             localStorage.setItem("current-path", '/ecomm/description');
+            localStorage.setItem("timer-start", Date.now());
             this.props.history.replace({
                 pathname: '/ecomm/description'
             });
@@ -116,7 +117,7 @@ function getIntroSteps() {
     } 
     console.log("navigation ", navigation);
 
-    let sharedMessage = navigation === "shared" ? "For each search that you or any of your group members search, our system will automatically load the search results to everyone." : "";
+    let sharedMessage = navigation === "shared" ? " For each search that you or any of your group members search, our system will automatically load the search results to everyone. " : "";
 
     return [
             {
@@ -177,7 +178,7 @@ function getIntroSteps() {
 
             {
                 title: "Your task description",
-                intro:  "<p>This task should be completed within 15 minutes. Here it is:</p> <p>Imagine that your university wants you and your group members to find a product that can help you study from home. " + 
+                intro:  "<p>This task should be completed within 15 minutes. You must complete it now as there is a time out that will move to the next task. Here it is:</p> <p>Imagine that your university wants you and your group members to find a product that can help you study from home. " + 
                 "You and your group members need to find one product that the university will send to all of the students at the university. " + 
                 "You should make sure that this product should be useful to all of the students at the university. " + 
                 "For instance, a purple chair is not a good choice, as this colour could annoy some students. " + 

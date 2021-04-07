@@ -20,6 +20,10 @@ class TaskDescription extends React.Component {
         super(props);
         this.onFinish = this.onFinish.bind(this);
         this.handleBeforeUnload = this.handleBeforeUnload.bind(this);
+        this.state = {
+           start : localStorage.getItem("timer-start") || Date.now()
+        }
+        localStorage.setItem("timer-start", this.state.start);
     }
 
     handleBeforeUnload(e) {
@@ -53,8 +57,7 @@ class TaskDescription extends React.Component {
 
 
     render() {
-        const start = Date.now();
-        localStorage.setItem("timer-start", start);
+
 
         if (localStorage.getItem("current-path") !== '/ecomm/description') {
             this.props.history.replace({
@@ -75,7 +78,7 @@ class TaskDescription extends React.Component {
             <p>Now that you have done the training task. Here is the main task of this study</p>
             {taskDescription}
             <p> You will be redirected once the time is up! <b>DO NOT PRESS THE BROWSER BACK BUTTON!</b> This will invalidate your participation!</p>
-            <Timer start={start} duration={constants.taskDescriptionWait} onFinish={this.onFinish} style={{fontSize: '2em'}} showRemaining={true}/>
+            <Timer start={this.state.start} duration={constants.taskDescriptionWait} onFinish={this.onFinish} style={{fontSize: '2em'}} showRemaining={true}/>
         </div>
         )
     }
