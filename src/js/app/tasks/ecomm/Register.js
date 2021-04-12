@@ -125,7 +125,7 @@ const formData = function() {
             <ol type="-">
             <li><strong>Pre-questionnaire</strong>: we will ask about your experience searching the Web with other users before.</li>
             <li><strong>Waiting phase</strong>: you will wait for your fellow users that you signed up the experiment together with.</li>
-            <li><strong>Collaborative product search phase</strong>: you and your fellow participants will be given two tasks work together on, and each takes about 15 minutes to complete. </li>
+            <li><strong>Collaborative product search phase</strong>: you and your fellow participants will be given two tasks work together on. </li>
             <img src='/img/noun_user group_326172.png' width="100" style="margin-left: 30px;margin-bottom: 20px;" alt='participants'/>
             <img src='/img/noun_Web Search_1173263.png' width="120" style="margin-left: 30px;margin-bottom: 20px;" alt='participants'/>
             <li><strong>Post-questionnaire</strong>: we will ask about how was your overall experience with our experiment.
